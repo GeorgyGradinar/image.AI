@@ -92,7 +92,7 @@ footer {
 
 .item button {
   display: flex;
-  font-size: 14px;
+  font-size: 15px;
   color: #807a7a;
   font-weight: 600;
 }
