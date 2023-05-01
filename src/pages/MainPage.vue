@@ -50,7 +50,7 @@
             большие произведения искусства на холсте бесконечного размера. Здесь буквально нет ограничений.</p>
         </article>
 
-        <video class="pre-show" src="" autoplay loop playsinline></video>
+        <video class="pre-show" src="https://getimg.ai/videos/ai-generator-2.mp4" autoplay loop playsinline muted></video>
       </div>
 
       <div class="wrapper-description-block">
@@ -62,7 +62,7 @@
             сотрите часть изображения и скажите AI, что рендерить в пустом пространстве.</p>
         </article>
 
-        <video class="pre-show" src="" autoplay loop playsinline></video>
+        <video class="pre-show" src="https://getimg.ai/guides/outpainting-simple-photo.mp4" autoplay loop playsinline muted></video>
       </div>
 
       <div class="wrapper-description-block">
@@ -75,7 +75,7 @@
             уникальный стиль своим творениям, или обучайте собственную модель на основе собственного рисунка.</p>
         </article>
 
-          <video class="pre-show" src="" autoplay loop playsinline></video>
+          <video class="pre-show" src="https://getimg.ai/videos/inpainting.mp4" autoplay loop playsinline muted></video>
       </div>
 
       <div class="wrapper-description-block">
@@ -89,7 +89,7 @@
             доступна для использования в считанные секунды.</p>
         </article>
 
-        <video class="pre-show" src="../../src/assets/main-page/ai-generator-2.mp4" autoplay loop playsinline muted></video>
+        <video class="pre-show" src="https://getimg.ai/videos/dreambooth-2.mp4" autoplay loop playsinline muted></video>
       </div>
     </section>
     <FrequentlyAsked></FrequentlyAsked>
@@ -100,7 +100,6 @@
 <script setup>
 import FrequentlyAsked from "@/components/main-page/FrequentlyAsked";
 import ReadyToGet from "@/components/main-page/ReadyToGet";
-
 
 </script>
 
