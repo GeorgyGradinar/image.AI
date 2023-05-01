@@ -1,12 +1,15 @@
 <template>
   <section class="main-page">
     <section class="first-block">
-      <div class="wrapper-description">
-        <h1>Создавайте потрясающие произведения искусства с помощью искусственного интеллекта.</h1>
-        <span>Получить img.AI — это набор волшебных инструментов искусственного интеллекта. Создавайте исходные изображения в масштабе, изменяйте фотографии, расширяйте изображения за их первоначальные границы или создавайте собственные модели AI.</span>
-        <v-btn class="create-project">Начать проект
-          <v-icon end icon="mdi-arrow-right"></v-icon>
-        </v-btn>
+      <div class="block-wrapper">
+        <div class="wrapper-description">
+          <h1>Создавайте потрясающие произведения искусства с помощью AI.</h1>
+          <span>Получить img.AI — это набор волшебных инструментов искусственного интеллекта. Создавайте исходные изображения в масштабе, изменяйте фотографии, расширяйте изображения за их первоначальные границы или создавайте собственные модели AI.</span>
+          <v-btn class="create-project">Начать проект
+            <v-icon end icon="mdi-arrow-right"></v-icon>
+          </v-btn>
+        </div>
+        <ImagesGrid></ImagesGrid>
       </div>
     </section>
 
@@ -100,24 +103,38 @@
 <script setup>
 import FrequentlyAsked from "@/components/main-page/FrequentlyAsked";
 import ReadyToGet from "@/components/main-page/ReadyToGet";
+import ImagesGrid from "@/components/main-page/ImagesGrid";
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 .first-block {
-  background: rgb(33, 21, 77);
-  background: linear-gradient(90deg, rgba(33, 21, 77, 1) 42%, rgba(37, 17, 109, 1) 72%, rgba(42, 11, 156, 1) 100%);
+  background: rgb(33,21,77);
+  background: linear-gradient(115deg, rgba(33,21,77,1) 0%, rgba(33,21,77,1) 49%, rgba(35,0,170,1) 100%);
+  display: flex;
+  justify-content: center;
+  padding: 120px 40px 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  .block-wrapper {
+    width: 100%;
+    max-width: 1440px;
+    display: flex;
+  }
 }
 
 .wrapper-description {
   height: 800px;
   width: 50%;
+  min-width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 50px;
-  margin: 0 10%;
+  margin-right: 50px;
 }
 
 .wrapper-description h1 {
@@ -141,13 +158,11 @@ import ReadyToGet from "@/components/main-page/ReadyToGet";
   width: 300px;
   display: flex;
   justify-content: center;
-  border: 1px solid black;
   border-radius: 30px;
   padding: 10px 20px;
   font-weight: 700;
   color: var(--main-light-color);
-  background: rgb(74, 211, 251);
-  background: linear-gradient(125deg, rgba(74, 211, 251, 1) 0%, rgba(148, 165, 251, 1) 9%, rgba(247, 105, 250, 1) 56%, rgba(255, 100, 250, 1) 100%);
+  background: linear-gradient(to left, var(--light-blue), var(--light-pink));
   transition: all 0.3s;
 }
 
@@ -163,7 +178,7 @@ import ReadyToGet from "@/components/main-page/ReadyToGet";
   gap: 70px;
   color: var(--main-light-color);
   background-color: #1f2023;
-  padding: 50px 0;
+  padding: 100px 0;
 }
 
 .features-block h1 {
@@ -182,7 +197,7 @@ import ReadyToGet from "@/components/main-page/ReadyToGet";
   display: flex;
   flex-direction: column;
   gap: 25px;
-  box-shadow: 5px -5px 9px #131315,
+  box-shadow: 5px -5px 9px #1b1b1d,
   -2px 2px 9px #2b2d31;
   background: rgb(31, 32, 35);
   background: linear-gradient(223deg, rgba(31, 32, 35, 1) 0%, rgba(34, 36, 39, 1) 71%, rgba(43, 45, 49, 1) 100%);
@@ -219,7 +234,7 @@ import ReadyToGet from "@/components/main-page/ReadyToGet";
   display: flex;
   justify-content: space-between;
   max-width: 1440px;
-  padding: 25px;
+  padding: 100px 25px;
   color: var(--main-light-color);
 }
 

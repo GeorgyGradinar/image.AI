@@ -18,7 +18,7 @@
         </v-expansion-panel>
 
         <v-expansion-panel class="frequently">
-          <v-expansion-panel-title >
+          <v-expansion-panel-title>
             Как создавать красивые изображения?
             <template v-slot:actions="{ expanded }">
               <v-icon :color="'#38e2ff'" :icon="expanded ? 'mdi-minus' : 'mdi-plus'"></v-icon>
@@ -65,7 +65,7 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 
 .wrapper-frequently {
   width: 100%;
@@ -75,13 +75,18 @@
   padding: 50px 0;
 
   .frequently-asked {
-    width: 600px;
+    width: 100%;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
+    .v-expansion-panel-title {
+      line-height: 1.5;
+    }
+
     .v-expansion-panel__shadow {
-      box-shadow: none;
+      display: none;
     }
 
     h2 {

@@ -21,7 +21,7 @@
   display: flex;
   justify-content: center;
   background-color: #1f2023;
-  padding: 50px 0;
+  padding: 100px 0;
 
   section {
     width: 100%;
@@ -34,10 +34,6 @@
     padding: 50px 0;
     border-radius: 50px;
     color: var(--main-light-color);
-    box-shadow: 5px -5px 9px #131315,
-    -2px 2px 9px #2b2d31;
-    background: rgb(31, 32, 35);
-    background: linear-gradient(223deg, rgba(31, 32, 35, 1) 0%, rgba(34, 36, 39, 1) 71%, rgba(43, 45, 49, 1) 100%);
 
     h1 {
       font-size: 35px;
@@ -53,13 +49,11 @@
       width: 270px;
       display: flex;
       justify-content: center;
-      border: 1px solid black;
       border-radius: 30px;
       padding: 10px 20px;
       font-weight: 700;
       color: var(--main-light-color);
-      background: rgb(74, 211, 251);
-      background: linear-gradient(125deg, rgba(74, 211, 251, 1) 0%, rgba(148, 165, 251, 1) 9%, rgba(247, 105, 250, 1) 56%, rgba(255, 100, 250, 1) 100%);
+      background: linear-gradient(to left, var(--light-blue), var(--light-pink));
       transition: all 0.3s;
     }
   }
