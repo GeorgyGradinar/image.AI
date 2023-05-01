@@ -50,8 +50,7 @@
             большие произведения искусства на холсте бесконечного размера. Здесь буквально нет ограничений.</p>
         </article>
 
-        <div class="pre-show">
-        </div>
+        <video class="pre-show" src="" autoplay loop playsinline></video>
       </div>
 
       <div class="wrapper-description-block">
@@ -63,8 +62,7 @@
             сотрите часть изображения и скажите AI, что рендерить в пустом пространстве.</p>
         </article>
 
-        <div class="pre-show">
-        </div>
+        <video class="pre-show" src="" autoplay loop playsinline></video>
       </div>
 
       <div class="wrapper-description-block">
@@ -77,8 +75,7 @@
             уникальный стиль своим творениям, или обучайте собственную модель на основе собственного рисунка.</p>
         </article>
 
-        <div class="pre-show">
-        </div>
+          <video class="pre-show" src="" autoplay loop playsinline></video>
       </div>
 
       <div class="wrapper-description-block">
@@ -92,16 +89,18 @@
             доступна для использования в считанные секунды.</p>
         </article>
 
-        <div class="pre-show">
-        </div>
+        <video class="pre-show" src="../../src/assets/main-page/ai-generator-2.mp4" autoplay loop playsinline muted></video>
       </div>
     </section>
     <FrequentlyAsked></FrequentlyAsked>
+    <ReadyToGet></ReadyToGet>
   </section>
 </template>
 
 <script setup>
 import FrequentlyAsked from "@/components/main-page/FrequentlyAsked";
+import ReadyToGet from "@/components/main-page/ReadyToGet";
+
 
 </script>
 
@@ -220,13 +219,13 @@ import FrequentlyAsked from "@/components/main-page/FrequentlyAsked";
 .wrapper-description-block {
   display: flex;
   justify-content: space-between;
-  width: 1440px;
+  max-width: 1440px;
   padding: 25px;
   color: var(--main-light-color);
 }
 
 .wrapper-description-block article {
-  width: 50%;
+  width: 45%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -250,10 +249,8 @@ import FrequentlyAsked from "@/components/main-page/FrequentlyAsked";
 }
 
 .pre-show {
-  width: 650px;
-  height: 450px;
-  background-color: red;
-  border-radius: 30px;
+  width: 45%;
+  border-radius: 50px;
 }
 
 .wrapper-description-block:nth-child(even) {

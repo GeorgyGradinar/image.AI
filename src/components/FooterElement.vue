@@ -11,35 +11,35 @@
       </div>
 
       <section class="item">
-        <h3>Product</h3>
-        <button>Art Generator</button>
-        <button>AI Editor</button>
-        <button>ControlNet</button>
-        <button>DreamBooth</button>
-        <button>Pricing</button>
+        <h3>Продукт</h3>
+        <button>Арт генератор</button>
+        <button>AI редактор</button>
+        <button>Сеть управления</button>
+        <button>ФотоМечты</button>
+        <button>Цены</button>
       </section>
 
       <section class="item">
-        <h3>Models</h3>
-        <button>Analog Diffusion</button>
-        <button>Anime Diffusion</button>
-        <button>Disney Diffusion</button>
-        <button>Ghibli Diffusion</button>
-        <button>Inkpunk Diffusion</button>
-        <button>Van Gogh Diffusion</button>
+        <h3>Виды</h3>
+        <button>Аналоговая Диффузия</button>
+        <button>Аниме Диффузия</button>
+        <button>Дисней Диффузия</button>
+        <button>Гибли Диффузия</button>
+        <button>Inkpunk Диффузия</button>
+        <button>ван Гог Диффузия</button>
+      </section>
+
+      <section class="item resources">
+        <h3>Ресурсы</h3>
+        <button>Политика конфиденциальности</button>
+        <button>Условия использования</button>
+        <button>Ограничения</button>
+        <button>Партнерская программа</button>
       </section>
 
       <section class="item">
-        <h3>Resources</h3>
-        <button>Privacy Policy</button>
-        <button>Terms of Service</button>
-        <button>Restrictions</button>
-        <button>Affiliate Program</button>
-      </section>
-
-      <section class="item">
-        <h3>About</h3>
-        <button>Guides</button>
+        <h3>О нас</h3>
+        <button>Инфо</button>
         <button>FAQ</button>
         <button>Email</button>
       </section>
@@ -113,6 +113,10 @@ footer {
 
 .item button:hover {
   color: #f9f6e0;
+}
+
+.resources button {
+  width: 275px;
 }
 
 </style>
