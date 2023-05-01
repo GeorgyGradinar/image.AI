@@ -96,11 +96,12 @@
         </div>
       </div>
     </section>
-
+    <FrequentlyAsked></FrequentlyAsked>
   </section>
 </template>
 
 <script setup>
+import FrequentlyAsked from "@/components/main-page/FrequentlyAsked";
 
 </script>
 
@@ -253,5 +254,9 @@
   height: 450px;
   background-color: red;
   border-radius: 30px;
+}
+
+.wrapper-description-block:nth-child(even) {
+  flex-direction: row-reverse;
 }
 </style>
