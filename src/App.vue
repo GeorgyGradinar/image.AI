@@ -1,7 +1,9 @@
 <template>
   <section class="pages">
     <Header></Header>
-    <router-view></router-view>
+    <main>
+      <router-view></router-view>
+    </main>
     <Footer></Footer>
   </section>
 </template>
@@ -29,5 +31,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   background-color: #150d46;
+}
+
+main {
+  min-height: calc(100vh - 70px);
 }
 </style>

@@ -4,7 +4,7 @@ const routes = [
     {
         path: '/',
         name: 'main',
-        component: () => import('../pages/Main')
+        component: () => import('../pages/MainPage')
     },
     {
         path: '/editor',
