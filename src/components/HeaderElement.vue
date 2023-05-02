@@ -44,7 +44,7 @@
 import router from "@/router";
 import {ref} from "vue";
 
-let hasHiddenDrawer = ref(false);
+let hasHiddenDrawer = ref(true);
 
 function routeTo(path) {
   hasHiddenDrawer.value = true;
@@ -81,6 +81,7 @@ header {
   .logo {
     font-size: 20px;
     color: var(--main-light-color);
+    cursor: pointer;
   }
 
   .main-header {
@@ -139,6 +140,7 @@ header {
     border-radius: 30px;
     padding: 10px 15px;
     background: linear-gradient(to left, var(--light-blue), var(--light-pink));
+    transition: all 0.3s;
 
     span {
       display: flex;
@@ -147,7 +149,7 @@ header {
     }
 
     &:hover {
-      opacity: 0.9;
+      box-shadow: 0 0 15px rgba(54, 226, 255, 0.7);
     }
   }
 
@@ -171,7 +173,7 @@ header {
 
   .navigation-drawer {
     position: absolute;
-    display: flex;
+    display: none;
     flex-direction: column;
     top: 70px;
     left: 0;
@@ -212,6 +214,10 @@ header {
     }
 
     .mini-header {
+      display: flex;
+    }
+
+    .navigation-drawer {
       display: flex;
     }
   }
