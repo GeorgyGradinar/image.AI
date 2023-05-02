@@ -122,12 +122,12 @@ footer {
       gap: 35px;
 
       .logo {
-        align-items: center;
         gap: 10px;
       }
 
-      .item {
-        align-items: center;
+      .item,
+      .logo {
+        padding: 0 25px;
       }
     }
   }

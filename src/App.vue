@@ -1,5 +1,5 @@
 <template>
-  <section class="pages">
+  <section class="pages" >
     <Header></Header>
     <main>
       <router-view></router-view>

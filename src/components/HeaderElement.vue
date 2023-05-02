@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header >
     <div class="logo" @click="routeTo('/')">Лого</div>
     <nav class="main-header">
       <button @click="routeTo('/editor')">Редактор</button>
@@ -32,13 +32,13 @@
     </nav>
 
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
-      <v-btn class="button" @click="routeTo('/editor')" variant="plain">Редактор</v-btn>
-      <v-btn class="button" @click="routeTo('/text-to-image')" variant="plain">Изображение по описанию</v-btn>
-      <v-btn class="button" @click="routeTo('/dream-booth')" variant="plain">ФотоМечты</v-btn>
-      <v-btn class="button" @click="routeTo('/guides')" variant="plain">Инфо</v-btn>
-      <v-btn class="button" @click="routeTo('/pricing')" variant="plain">
+      <button class="button" @click="routeTo('/editor')">Редактор</button>
+      <button class="button" @click="routeTo('/text-to-image')">Изображение по описанию</button>
+      <button class="button" @click="routeTo('/dream-booth')">ФотоМечты</button>
+      <button class="button" @click="routeTo('/guides')">Инфо</button>
+      <button class="button" @click="routeTo('/pricing')">
         Цены
-      </v-btn>
+      </button>
     </section>
 
 
@@ -49,6 +49,7 @@
 import router from "@/router";
 import {ref} from "vue";
 
+let shoeImg = ref(false)
 let hasHiddenDrawer = ref(false);
 
 function routeTo(path) {
@@ -57,6 +58,7 @@ function routeTo(path) {
 
 function hiddenDrawer() {
   hasHiddenDrawer.value = !hasHiddenDrawer.value;
+
 }
 </script>
 
@@ -184,14 +186,19 @@ header {
     transition: all 0.3s;
 
     .button {
+      height: 80px;
       color: var(--main-light-color);
       border-bottom: 1px solid rgba(249, 246, 224, 0.1);
     }
   }
 
   .drawer-hidden {
-    left: -100%;
+    left: -100vw;
   }
+
+}
+
+.header-open {
 
 }
 

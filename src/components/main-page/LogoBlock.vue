@@ -2,8 +2,7 @@
   <section class="first-block">
     <div class="block-wrapper">
       <div class="wrapper-description">
-        <h1>Создавайте потрясающие <span class="gradient">произведения искусства</span> с помощью <span
-            class="gradient">AI</span>.</h1>
+        <HeroTitle></HeroTitle>
         <span>Получить img.AI — это набор волшебных инструментов искусственного интеллекта. Создавайте исходные изображения в масштабе, изменяйте фотографии, расширяйте изображения за их первоначальные границы или создавайте собственные модели AI.</span>
         <v-btn class="create-project">Начать проект
           <v-icon end icon="mdi-arrow-right"></v-icon>
@@ -16,6 +15,7 @@
 
 <script setup>
 import ImagesGrid from "./ImagesGrid";
+import HeroTitle from "./HeroTitle";
 </script>
 
 <style scoped lang="scss">
@@ -36,12 +36,6 @@ import ImagesGrid from "./ImagesGrid";
     display: flex;
   }
 
-  .gradient {
-    background: linear-gradient(to right, var(--light-pink), var(--light-blue));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
   .wrapper-description {
     height: 800px;
     width: 50%;
@@ -51,14 +45,6 @@ import ImagesGrid from "./ImagesGrid";
     justify-content: center;
     gap: 50px;
     margin-right: 50px;
-
-    h1,
-    h1 .gradient {
-      color: var(--main-light-color);
-      font-size: 40px;
-      font-weight: 700;
-      line-height: 140%;
-    }
 
     span {
       width: 75%;
@@ -90,7 +76,7 @@ import ImagesGrid from "./ImagesGrid";
     padding: 100px 30px 0;
 
     .wrapper-description {
-      min-width: 500px;
+      min-width: 550px;
       margin-right: 30px;
 
       span {
@@ -107,11 +93,6 @@ import ImagesGrid from "./ImagesGrid";
     .wrapper-description {
       min-width: 100%;
       margin-right: 30px;
-
-      h1,
-      h1 .gradient {
-        font-size: 28px;
-      }
 
       span {
         font-size: 15px;

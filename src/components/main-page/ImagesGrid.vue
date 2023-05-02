@@ -73,17 +73,42 @@ const images = [
     img {
       width: 100%;
       border-radius: 20px;
+      transition: all 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 25px rgba(54, 226, 255, 0.7);
+      }
     }
   }
 }
 
 @media screen and (max-width: 1200px) {
-
   .photo-grid .grid-column {
     width: 33%;
 
     &:last-child {
       display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .photo-grid .grid-column {
+    width: 50%;
+
+    &:nth-child(3) {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .photo-grid .grid-column {
+    width: 33%;
+
+    &:nth-child(3) {
+      display: block;
     }
   }
 }
