@@ -44,7 +44,7 @@
   gap: 70px;
   color: var(--main-light-color);
   background-color: #1f2023;
-  padding: 100px 0;
+  padding: 100px 0 50px;
 
   h1 {
     font-size: 24px;
@@ -54,12 +54,12 @@
     width: 100%;
     max-width: 1440px;
     display: flex;
-    gap: 50px;
+    justify-content: space-between;
     padding: 0 25px;
     flex-wrap: wrap;
 
     .features {
-      width: 20%;
+      width: 22%;
       display: flex;
       flex-direction: column;
       gap: 25px;
