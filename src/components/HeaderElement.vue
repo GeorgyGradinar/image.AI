@@ -1,5 +1,5 @@
 <template>
-  <header >
+  <header :class="{'header-open': !hasHiddenDrawer}">
     <div class="logo" @click="routeTo('/')">Лого</div>
     <nav class="main-header">
       <button @click="routeTo('/editor')">Редактор</button>
@@ -12,19 +12,14 @@
       <button @click="routeTo('/pricing')">Цены</button>
       <button>Войти</button>
       <button class="create-account no-hover"><span>Регистрация</span></button>
-      <div class="person" v-if="shoeImg">
-        <img src="" alt="">
-      </div>
-      <div class="person" v-if="!shoeImg">
+      <div class="person">
         <span>Г</span>
       </div>
     </nav>
 
     <nav class="mini-header">
-      <div class="person" v-if="shoeImg">
-        <img src="" alt="">
-      </div>
-      <div class="person" v-if="!shoeImg">
+
+      <div class="person">
         <span>Г</span>
       </div>
 
@@ -32,13 +27,13 @@
     </nav>
 
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
-      <button class="button" @click="routeTo('/editor')">Редактор</button>
-      <button class="button" @click="routeTo('/text-to-image')">Изображение по описанию</button>
-      <button class="button" @click="routeTo('/dream-booth')">ФотоМечты</button>
-      <button class="button" @click="routeTo('/guides')">Инфо</button>
-      <button class="button" @click="routeTo('/pricing')">
-        Цены
-      </button>
+      <button @click="routeTo('/editor')">Редактор</button>
+      <button @click="routeTo('/text-to-image')">Изображение по описанию</button>
+      <button @click="routeTo('/dream-booth')">ФотоМечты</button>
+      <button @click="routeTo('/guides')">Инфо</button>
+      <button @click="routeTo('/pricing')">Цены</button>
+      <button>Войти</button>
+      <button class="create-account mini"><span>Регистрация</span></button>
     </section>
 
 
@@ -49,10 +44,10 @@
 import router from "@/router";
 import {ref} from "vue";
 
-let shoeImg = ref(false)
 let hasHiddenDrawer = ref(false);
 
 function routeTo(path) {
+  hasHiddenDrawer.value = true;
   router.push({path: path})
 }
 
@@ -133,6 +128,8 @@ header {
       font-size: 14px;
       position: relative;
     }
+
+
   }
 
   .create-account {
@@ -185,10 +182,16 @@ header {
     background-color: #21154D;
     transition: all 0.3s;
 
-    .button {
+    button {
+      display: flex;
+      align-items: center;
       height: 80px;
       color: var(--main-light-color);
       border-bottom: 1px solid rgba(249, 246, 224, 0.1);
+    }
+
+    .mini {
+      margin: 40px;
     }
   }
 
@@ -199,13 +202,11 @@ header {
 }
 
 .header-open {
-
+  background-color: #21154D;
 }
 
 @media screen and (max-width: 900px) {
   header {
-    padding: 0;
-
     .main-header {
       display: none;
     }
