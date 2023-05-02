@@ -3,7 +3,7 @@
     <section class="first-block">
       <div class="block-wrapper">
         <div class="wrapper-description">
-          <h1>Создавайте потрясающие произведения искусства с помощью AI.</h1>
+          <h1>Создавайте потрясающие <span class="gradient">произведения искусства</span> с помощью <span class="gradient">AI</span>.</h1>
           <span>Получить img.AI — это набор волшебных инструментов искусственного интеллекта. Создавайте исходные изображения в масштабе, изменяйте фотографии, расширяйте изображения за их первоначальные границы или создавайте собственные модели AI.</span>
           <v-btn class="create-project">Начать проект
             <v-icon end icon="mdi-arrow-right"></v-icon>
@@ -109,6 +109,12 @@ import ImagesGrid from "@/components/main-page/ImagesGrid";
 
 <style scoped lang="scss">
 
+.gradient {
+  background: linear-gradient(to right, var(--light-pink), var(--light-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .first-block {
   background: rgb(33,21,77);
   background: linear-gradient(115deg, rgba(33,21,77,1) 0%, rgba(33,21,77,1) 49%, rgba(35,0,170,1) 100%);
@@ -137,7 +143,8 @@ import ImagesGrid from "@/components/main-page/ImagesGrid";
   margin-right: 50px;
 }
 
-.wrapper-description h1 {
+.wrapper-description h1,
+.wrapper-description h1 .gradient {
   color: var(--main-light-color);
   font-size: 40px;
   font-weight: 700;
@@ -234,7 +241,7 @@ import ImagesGrid from "@/components/main-page/ImagesGrid";
   display: flex;
   justify-content: space-between;
   max-width: 1440px;
-  padding: 100px 25px;
+  padding: 80px 25px;
   color: var(--main-light-color);
 }
 

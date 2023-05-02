@@ -72,7 +72,7 @@
   display: flex;
   justify-content: center;
   background-color: #1f2023;
-  padding: 50px 0;
+  padding: 30px 0;
 
   .frequently-asked {
     width: 100%;
