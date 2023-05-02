@@ -108,7 +108,7 @@ const images = [
     width: 33%;
 
     &:nth-child(3) {
-      display: block;
+      display: flex;
     }
   }
 }
