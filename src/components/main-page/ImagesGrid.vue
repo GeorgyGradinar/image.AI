@@ -76,4 +76,15 @@ const images = [
     }
   }
 }
+
+@media screen and (max-width: 1200px) {
+
+  .photo-grid .grid-column {
+    width: 33%;
+
+    &:last-child {
+      display: none;
+    }
+  }
+}
 </style>

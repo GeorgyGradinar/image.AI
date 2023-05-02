@@ -107,4 +107,14 @@
     }
   }
 }
+
+@media screen and (max-width: 400px) {
+  .wrapper-frequently {
+    .frequently-asked {
+      h2 {
+        font-size: 20px;
+      }
+    }
+  }
+}
 </style>

@@ -42,6 +42,7 @@
 
     p {
       font-size: 13px;
+      text-align: center;
     }
 
     .create-project {
@@ -55,6 +56,20 @@
       color: var(--main-light-color);
       background: linear-gradient(to left, var(--light-blue), var(--light-pink));
       transition: all 0.3s;
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .wrapper {
+    section {
+      h1 {
+        font-size: 25px;
+      }
+
+      p {
+        font-size: 13px;
+      }
     }
   }
 }
