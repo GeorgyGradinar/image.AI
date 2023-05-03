@@ -1,2 +1,2 @@
 "use strict";(self["webpackChunkimager_front"]=self["webpackChunkimager_front"]||[]).push([[368],{8368:function(n,r,e){e.r(r),e.d(r,{default:function(){return f}});var i=e(3396);function t(n,r,e,t,u,a){return(0,i.wg)(),(0,i.iD)("p",null,"Pricing")}var u={name:"Pricing"},a=e(89);const c=(0,a.Z)(u,[["render",t]]);var f=c}}]);
-//# sourceMappingURL=368.14e15226.js.map
+//# sourceMappingURL=368.a9b5f2f2.js.map
