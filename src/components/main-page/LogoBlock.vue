@@ -4,9 +4,9 @@
       <div class="wrapper-description">
         <HeroTitle></HeroTitle>
         <span>Получить img.AI — это набор волшебных инструментов искусственного интеллекта. Создавайте исходные изображения в масштабе, изменяйте фотографии, расширяйте изображения за их первоначальные границы или создавайте собственные модели AI.</span>
-        <v-btn class="create-project">Начать проект
+        <button class="create-project">Начать проект
           <v-icon end icon="mdi-arrow-right"></v-icon>
-        </v-btn>
+        </button>
       </div>
       <ImagesGrid></ImagesGrid>
     </div>
@@ -19,13 +19,14 @@ import HeroTitle from "./HeroTitle";
 </script>
 
 <style scoped lang="scss">
+@import "@/style/buttons.css";
 
 .first-block {
   background: rgb(33, 21, 77);
   background: linear-gradient(115deg, rgba(33, 21, 77, 1) 0%, rgba(33, 21, 77, 1) 49%, rgba(35, 0, 170, 1) 100%);
   display: flex;
   justify-content: center;
-  padding: 120px 40px 0;
+  padding: 40px;
   width: 100%;
   height: 100vh;
   overflow: hidden;
@@ -59,21 +60,13 @@ import HeroTitle from "./HeroTitle";
       height: 60px;
       width: 100%;
       max-width: 300px;
-      display: flex;
-      justify-content: center;
-      border-radius: 30px;
-      padding: 10px 20px;
-      font-weight: 700;
-      color: var(--main-light-color);
-      background: linear-gradient(to left, var(--light-blue), var(--light-pink));
-      transition: all 0.3s;
     }
   }
 }
 
 @media screen and (max-width: 1200px) {
   .first-block {
-    padding: 100px 30px 0;
+    padding: 30px 30px 0;
 
     .wrapper-description {
       min-width: 550px;
@@ -88,7 +81,8 @@ import HeroTitle from "./HeroTitle";
 
 @media screen and (max-width: 800px) {
   .first-block {
-    height: 1500px;
+    height: 150vh;
+    padding: 100px 30px 0;
 
     .wrapper-description {
       min-width: 100%;

@@ -18,7 +18,12 @@ const images = [
     'img-YkfgHICXA8YFGEzbWC36kS.jpeg',
     'img-WIBwVTR1rF74J3tVc8C2dE.jpeg',
     'img-q9tOtcskhqYjxvpFdvE5c2.jpeg',
-    'img-kWY1RGIowDFHObYWrqKEuX.jpeg'
+    'img-kWY1RGIowDFHObYWrqKEuX.jpeg',
+    'img-9jjtCkXWwKjZe9wElBEly2.jpeg',
+    'img-Azk6WKhpgaMAoMweR2HkUy.jpeg',
+    'img-DjVseuFs8N2CikjWGgXM0T.jpeg',
+    'img-hoT72XlOTiNoUcWPamhr9v.jpeg',
+    'img-jYjnraZM46IaWERJsWQEw5.jpeg',
   ],
   [
     'img-9jjtCkXWwKjZe9wElBEly2.jpeg',
@@ -29,7 +34,11 @@ const images = [
     'img-nCU8xt4kkugIc6gMvDqWVF.jpeg',
     'img-pflMQRap58h9aCuMEEekHf.jpeg',
     'img-WcykmlaekkgasgzP70JQTD.jpeg',
-    'img-Xcw19IKMv7yPiqDyASeju1.jpeg'
+    'img-Xcw19IKMv7yPiqDyASeju1.jpeg',
+    'img-i77g0LU68dD7As1cNlm7gR.jpeg',
+    'img-aHbNRGbgmNutEKIOHdTQ2t.jpeg',
+    'img-56NIBOvrjSaKS45vxomR6n.jpeg',
+    'img-5lxSExuwWStJCuwd4OjIn6.jpeg',
   ],
   [
     'img-D6bW4s9IlEg71b6mtMz6pn.jpeg',
@@ -40,7 +49,11 @@ const images = [
     'img-mz3jpmlQzO8enprS6Z5IUk.jpeg',
     'img-RpLjpqFAgmJCIqPTuH004k.jpeg',
     'img-uiSqi31mkxo5PabcADdlXX.jpeg',
-    'img-XfKva6OJ994qNrzifh58vo.jpeg'
+    'img-XfKva6OJ994qNrzifh58vo.jpeg',
+    'img-5lxSExuwWStJCuwd4OjIn6.jpeg',
+    'img-YkfgHICXA8YFGEzbWC36kS.jpeg',
+    'img-WIBwVTR1rF74J3tVc8C2dE.jpeg',
+    'img-q9tOtcskhqYjxvpFdvE5c2.jpeg'
   ],
   [
     'img-9Sdzb5s1Fgx92yjH8emmS9.jpeg',
@@ -50,7 +63,12 @@ const images = [
     'img-gMNOEgET3EwFuQuPUCpw4G.jpeg',
     'img-RgNQfTcfAo4fhUlgdkV2pC.jpeg',
     'img-TdRuGZy3YmIBXvPmqU6lpz.jpeg',
-    'img-UWssaEWdUjqK1DXwJywwKe.jpeg'
+    'img-UWssaEWdUjqK1DXwJywwKe.jpeg',
+    'img-D6bW4s9IlEg71b6mtMz6pn.jpeg',
+    'img-iZLVCR0qAlWXNVmAPGlKrT.jpeg',
+    'img-KrV9CmArl69eDiCteWECiq.jpeg',
+    'img-M30VWmdBvEYfVrdNmp5RFW.jpeg',
+    'img-MX8g0VKpK3LZUEulhywQE7.jpeg'
   ]
 ]
 </script>
@@ -65,9 +83,10 @@ const images = [
     flex-direction: column;
     gap: 15px;
     width: 25%;
+    animation: autoscroll 100s linear 0s infinite forwards;
 
     &:nth-child(even) {
-      margin-top: 50px;
+      animation: autoscrollReverse 100s linear 0s infinite forwards;
     }
 
     img {
@@ -81,11 +100,62 @@ const images = [
       }
     }
   }
+
+  @mixin transformY($value) {
+    -moz-transform: translateY($value);
+    -webkit-transform: translateY($value);
+    transform: translateY($value);
+  }
+
+  @keyframes autoscroll {
+    0%, 100% {
+      @include transformY(-10%);
+    }
+
+    50% {
+      @include transformY(-80%);
+    }
+  }
+
+  @keyframes autoscrollReverse {
+    0%, 100% {
+      @include transformY(-80%);
+    }
+
+    50% {
+      @include transformY(-10%);
+    }
+  }
+
+  @keyframes autoscrollSmallScreen {
+    0%, 100% {
+      @include transformY(-10%);
+    }
+
+    50% {
+      @include transformY(-60%);
+    }
+  }
+
+  @keyframes autoscrollReverseSmallScreen {
+    0%, 100% {
+      @include transformY(-60%);
+    }
+
+    50% {
+      @include transformY(-10%);
+    }
+  }
 }
 
 @media screen and (max-width: 1200px) {
   .photo-grid .grid-column {
     width: 33%;
+    animation: autoscrollSmallScreen 100s linear 0s infinite forwards;
+
+    &:nth-child(even) {
+      animation: autoscrollReverseSmallScreen 100s linear 0s infinite forwards;
+    }
 
     &:last-child {
       display: none;
@@ -106,6 +176,13 @@ const images = [
 @media screen and (max-width: 800px) {
   .photo-grid .grid-column {
     width: 33%;
+
+    animation: none;
+
+    &:nth-child(even) {
+      margin-top: 50px;
+      animation: none;
+    }
 
     &:nth-child(3) {
       display: flex;

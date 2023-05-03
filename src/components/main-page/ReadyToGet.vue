@@ -3,9 +3,9 @@
     <section>
       <h1>Готовы начать?</h1>
       <p>Изучите наши инструменты или создайте учетную запись.</p>
-      <v-btn class="create-project">Начать проект
+      <button class="create-project">Начать проект
         <v-icon end icon="mdi-arrow-right"></v-icon>
-      </v-btn>
+      </button>
     </section>
   </div>
 </template>
@@ -15,6 +15,7 @@
 </script>
 
 <style scoped lang="scss">
+@import "@/style/buttons.css";
 
 .wrapper {
   width: 100%;
@@ -48,14 +49,6 @@
     .create-project {
       height: 60px;
       width: 270px;
-      display: flex;
-      justify-content: center;
-      border-radius: 30px;
-      padding: 10px 20px;
-      font-weight: 700;
-      color: var(--main-light-color);
-      background: linear-gradient(to left, var(--light-blue), var(--light-pink));
-      transition: all 0.3s;
     }
   }
 }

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap');
 @import "variables.css";
 @import "custom-scrollbar.css";
+@import "buttons.css";
 
 * {
     margin: 0;

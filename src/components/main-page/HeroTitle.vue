@@ -61,22 +61,13 @@ h1,
   from {
     @include transformY(56px);
   }
-  5% {
+  5%, 25% {
     @include transformY(0);
   }
-  25% {
-    @include transformY(0);
-  }
-  30% {
+  30%, 55% {
     @include transformY(-56px);
   }
-  55% {
-    @include transformY(-56px);
-  }
-  60% {
-    @include transformY(-112px);
-  }
-  95% {
+  60%, 95% {
     @include transformY(-112px);
   }
   to {
@@ -88,22 +79,13 @@ h1,
   from {
     @include transformY(35px);
   }
-  5% {
+  5%, 25% {
     @include transformY(0);
   }
-  25% {
-    @include transformY(0);
-  }
-  30% {
+  30%, 55% {
     @include transformY(-40px);
   }
-  55% {
-    @include transformY(-40px);
-  }
-  60% {
-    @include transformY(-80px);
-  }
-  95% {
+  60%, 95% {
     @include transformY(-80px);
   }
   to {

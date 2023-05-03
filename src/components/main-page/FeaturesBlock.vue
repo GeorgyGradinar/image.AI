@@ -1,37 +1,39 @@
 <template>
   <section class="features-block">
     <h1>Набор инструментов для создания изображений</h1>
-
     <div class="wrapper-features">
-      <div class="features">
-        <v-icon end color="#38e2ff" icon="mdi-lightning-bolt"></v-icon>
-        <h2>Скорость</h2>
-        <p>Генерируйте до 10 изображений за секунду</p>
-      </div>
-
-      <div class="features">
-        <v-icon end color="#38e2ff" icon="mdi-memory"></v-icon>
-        <h2>20+ AI моделей</h2>
-        <p>От стабильной диффузии до пользовательских стилей.</p>
-      </div>
-
-      <div class="features">
-        <v-icon end color="#38e2ff" icon="mdi-cloud-outline"></v-icon>
-        <h2>Не требует загрузки</h2>
-        <p>Инструменты AI прямо в вашем браузере</p>
-      </div>
-
-      <div class="features">
-        <v-icon end color="#38e2ff" icon="mdi-infinity"></v-icon>
-        <h2>Работа с любым видом изображения</h2>
-        <p>Арт, фото, дизайнерские решения и т.д.</p>
+      <div class="features" v-for="feature in features" :key="feature.id">
+        <v-icon end color="#38e2ff" >{{ feature.icon }}</v-icon>
+        <h2>{{ feature.title }}</h2>
+        <p>{{ feature.text }}</p>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-
+const features = [
+  {
+    icon: "mdi-lightning-bolt",
+    title: "Скорость",
+    text: "Генерируйте до 10 изображений за секунду"
+  },
+  {
+    icon: "mdi-memory",
+    title: "20+ AI моделей",
+    text: "От стабильной диффузии до пользовательских стилей."
+  },
+  {
+    icon: "mdi-cloud-outline",
+    title: "Не требует загрузки",
+    text: "Инструменты AI прямо в вашем браузере"
+  },
+  {
+    icon: "mdi-infinity",
+    title: "Работа с любым видом изображения",
+    text: "Арт, фото, дизайнерские решения и т.д."
+  },
+]
 </script>
 
 <style scoped lang="scss">
@@ -91,6 +93,7 @@
 
     .wrapper-features {
       padding: 0 40px;
+      gap: 30px;
 
       .features {
         width: 100%;
@@ -114,16 +117,13 @@
     }
 
     .wrapper-features {
-
       .features {
-
         h2 {
           font-size: 17px;
         }
 
         p {
           font-size: 12px;
-
         }
       }
     }

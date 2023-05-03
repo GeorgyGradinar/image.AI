@@ -1,0 +1,17 @@
+.create-account,
+.create-project {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    padding: 10px 15px;
+    font-weight: 700;
+    color: var(--main-light-color);
+    background: linear-gradient(to left, var(--light-blue), var(--light-pink));
+    transition: all 0.3s;
+}
+
+.create-account:hover,
+.create-project:hover {
+    box-shadow: 0 0 15px rgba(54, 226, 255, 0.7);
+}

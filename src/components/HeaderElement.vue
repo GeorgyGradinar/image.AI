@@ -10,19 +10,17 @@
         <img src="../assets/vk.svg" alt="vk icon">
       </button>
       <button @click="routeTo('/pricing')">Цены</button>
-      <button>Войти</button>
-      <button class="create-account no-hover"><span>Регистрация</span></button>
+      <LoginInDialog></LoginInDialog>
+      <RegistrationDialog @openAcceptDialog="openAcceptDialog"></RegistrationDialog>
+      <AcceptEmailDialog v-if="isOpenAcceptDialog"></AcceptEmailDialog>
       <div class="person">
         <span>Г</span>
       </div>
+
     </nav>
 
     <nav class="mini-header">
-
-      <div class="person">
-        <span>Г</span>
-      </div>
-
+      <div class="person"><span>Г</span></div>
       <v-app-bar-nav-icon variant="text" @click.stop="hiddenDrawer"></v-app-bar-nav-icon>
     </nav>
 
@@ -35,16 +33,18 @@
       <button>Войти</button>
       <button class="create-account mini"><span>Регистрация</span></button>
     </section>
-
-
   </header>
 </template>
 
 <script setup>
 import router from "@/router";
 import {ref} from "vue";
+import RegistrationDialog from "@/components/dialogs/RegistrationDialog";
+import AcceptEmailDialog from "@/components/dialogs/AcceptEmailDialog";
+import LoginInDialog from "@/components/dialogs/LoginInDialog";
 
 let hasHiddenDrawer = ref(true);
+let isOpenAcceptDialog = ref(true);
 
 function routeTo(path) {
   hasHiddenDrawer.value = true;
@@ -53,11 +53,16 @@ function routeTo(path) {
 
 function hiddenDrawer() {
   hasHiddenDrawer.value = !hasHiddenDrawer.value;
+}
 
+function openAcceptDialog() {
+  console.log('jnhfkjh')
+  isOpenAcceptDialog.value = true;
 }
 </script>
 
 <style lang="scss">
+@import "@/style/buttons.css";
 
 .layout {
   display: block;
@@ -129,28 +134,6 @@ header {
       font-size: 14px;
       position: relative;
     }
-
-
-  }
-
-  .create-account {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 30px;
-    padding: 10px 15px;
-    background: linear-gradient(to left, var(--light-blue), var(--light-pink));
-    transition: all 0.3s;
-
-    span {
-      display: flex;
-      align-items: center;
-      font-weight: 700;
-    }
-
-    &:hover {
-      box-shadow: 0 0 15px rgba(54, 226, 255, 0.7);
-    }
   }
 
   .person {
@@ -200,7 +183,6 @@ header {
   .drawer-hidden {
     left: -100vw;
   }
-
 }
 
 .header-open {
