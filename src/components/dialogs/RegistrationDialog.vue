@@ -141,8 +141,6 @@ function submit() {
       &-buttons {
         width: 100%;
         display: flex;
-
-
       }
     }
   }
