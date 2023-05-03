@@ -9,3 +9,7 @@
     box-sizing: border-box;
     font-family: 'Comfortaa', cursive;
 }
+
+.v-overlay__scrim {
+    opacity: 0.6 !important;
+}

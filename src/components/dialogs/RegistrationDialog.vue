@@ -11,7 +11,7 @@
       <form>
         <v-text-field
             v-model="initialState.email"
-            :error-messages="v$.email.$errors.map(e => 'Неверный E-mail')"
+            :error-messages="v$.email.$errors.map(e => 'Некорректный E-mail')"
             label="E-mail"
             @input="v$.email.$touch"
             @blur="v$.email.$touch"
@@ -19,8 +19,9 @@
 
         <v-text-field
             v-model="initialState.password"
-            :error-messages="v$.password.$errors.map(e => 'Неверный пароль')"
+            :error-messages="v$.password.$errors.map(e => 'Некорректный пароль')"
             label="Пароль"
+            type="password"
             @input="v$.password.$touch"
             @blur="v$.password.$touch"
         ></v-text-field>
@@ -106,12 +107,15 @@ function submit() {
       }
 
       form {
+        .v-input {
+          margin-bottom: 10px;
+        }
 
         .socials {
           width: 100%;
           border-top: 1px solid rgba(249, 246, 224, 0.1);
           margin-top: 10px;
-          padding-top: 5px;
+          padding-top: 15px;
 
           .wrapper-socials {
             display: flex;

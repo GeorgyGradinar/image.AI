@@ -2,12 +2,12 @@
   <v-dialog class="dialog" v-model="dialog" width="600" persistent>
     <v-card class="card">
       <div v-if="!hasLoader && !hasShowAcceptMessage && !hasShowRejectMessage">
-        <span class="text-h5">Подтверждение почты</span>
+        <span class="title">Подтверждение почты</span>
         <form>
           <v-text-field
               v-model="verificationCode.code"
               label="Код подтверждения"
-              :error-messages="v$.code.$errors.map(e => 'Не корректный код')"
+              :error-messages="v$.code.$errors.map(e => 'Некорректный код')"
           ></v-text-field>
           <div class="card-buttons">
             <button @click.prevent="$emit('closeDialog')">Закрыть</button>
@@ -57,6 +57,8 @@ const v$ = useVuelidate(rules, verificationCode);
 let hasLoader = ref(false);
 let hasShowAcceptMessage = ref(false);
 let hasShowRejectMessage = ref(false);
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['closeDialog'])
 
 function checkVerificationCode() {``
   v$.value.$validate();
@@ -74,7 +76,7 @@ function showMessage(typeMessage){
     hasShowAcceptMessage.value = true;
     setTimeout(()=>{
       hasShowAcceptMessage.value = false;
-
+      emit('closeDialog');
     },1000)
   }else {
     hasShowRejectMessage.value = true;
@@ -101,8 +103,9 @@ function showMessage(typeMessage){
       -webkit-backdrop-filter: blur(10px);
       color: var(--main-light-color);
 
-      .text-h5 {
-        margin-bottom: 25px;
+      .title {
+        font-size: 20px;
+        margin-bottom: 10px;
       }
 
       form {
