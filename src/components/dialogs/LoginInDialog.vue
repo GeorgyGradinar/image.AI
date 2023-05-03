@@ -1,17 +1,17 @@
 <template>
-  <v-dialog class="dialog" v-model="dialog" width="400">
+  <v-dialog class="dialog" v-model="dialog" width="600">
 
     <template v-slot:activator="{ props }">
       <button v-bind="props">Войти</button>
     </template>
     <v-card class="card">
 
-      <span class="text-h5">Вход</span>
+      <span class="title">Вход</span>
 
       <form>
         <v-text-field
             v-model="initialState.email"
-            :error-messages="v$.email.$errors.map(e => 'Не верная почта')"
+            :error-messages="v$.email.$errors.map(e => 'Неверный E-mail')"
             label="E-mail"
             @input="v$.email.$touch"
             @blur="v$.email.$touch"
@@ -37,7 +37,7 @@
 
         <div class="card-buttons">
           <button @click.prevent="dialog = false">Отмена</button>
-          <button class="create-account no-hover" @click.prevent="submit">Регистрация</button>
+          <button class="create-account no-hover" @click.prevent="submit">Войти</button>
         </div>
       </form>
 
@@ -91,10 +91,17 @@ function submit() {
       -webkit-backdrop-filter: blur(10px);
       color: var(--main-light-color);
 
-      form {
+      .title {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
 
+      form {
         .socials {
           width: 100%;
+          border-top: 1px solid rgba(249, 246, 224, 0.1);
+          margin-top: 10px;
+          padding-top: 5px;
 
           .wrapper-socials {
             display: flex;

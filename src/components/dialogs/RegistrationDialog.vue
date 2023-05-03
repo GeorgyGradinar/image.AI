@@ -1,17 +1,17 @@
 <template>
-  <v-dialog class="dialog" v-model="dialog" width="400">
+  <v-dialog class="dialog" v-model="dialog" width="600">
 
     <template v-slot:activator="{ props }">
       <button class="create-account no-hover" v-bind="props">Регистрация</button>
     </template>
     <v-card class="card">
 
-      <span class="text-h5">Регистрация</span>
+      <span class="title">Регистрация</span>
 
       <form>
         <v-text-field
             v-model="initialState.email"
-            :error-messages="v$.email.$errors.map(e => 'Не верная почта')"
+            :error-messages="v$.email.$errors.map(e => 'Неверный E-mail')"
             label="E-mail"
             @input="v$.email.$touch"
             @blur="v$.email.$touch"
@@ -19,7 +19,7 @@
 
         <v-text-field
             v-model="initialState.password"
-            :error-messages="v$.password.$errors.map(e => 'Не верный пароль')"
+            :error-messages="v$.password.$errors.map(e => 'Неверный пароль')"
             label="Пароль"
             @input="v$.password.$touch"
             @blur="v$.password.$touch"
@@ -85,54 +85,62 @@ function submit() {
 .v-row {
   margin: 0;
 
-.create-account {
-  height: 50px;
-}
+  .create-account {
+    height: 50px;
+  }
 }
 
 .dialog {
-.v-overlay__content {
-.card {
-  border-radius: 50px;
-  padding: 50px;
-  background-color: rgba(33, 21, 77, 0.7);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--main-light-color);
+  .v-overlay__content {
+    .card {
+      border-radius: 50px;
+      padding: 50px 30px;
+      background-color: rgba(33, 21, 77, 0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(10px);
+      color: var(--main-light-color);
 
-form {
+      .title {
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
 
-.socials {
-  width: 100%;
+      form {
 
-.wrapper-socials {
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-  gap: 20px;
-  padding: 20px 0 0;
+        .socials {
+          width: 100%;
+          border-top: 1px solid rgba(249, 246, 224, 0.1);
+          margin-top: 10px;
+          padding-top: 5px;
 
-& img {
-    cursor: pointer;
+          .wrapper-socials {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+            gap: 20px;
+            padding: 20px 0 0;
+
+            & img {
+              cursor: pointer;
+            }
+          }
+        }
+
+        .card-buttons {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          padding: 30px 0 0;
+        }
+      }
+
+      &-buttons {
+        width: 100%;
+        display: flex;
+
+
+      }
+    }
   }
-}
-}
-
-.card-buttons {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 30px 0 0;
-}
-}
-
-&-buttons {
-   width: 100%;
-   display: flex;
-
-
- }
-}
-}
 }
 </style>

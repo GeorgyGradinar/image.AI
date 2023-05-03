@@ -12,7 +12,7 @@
       <button @click="routeTo('/pricing')">Цены</button>
       <LoginInDialog></LoginInDialog>
       <RegistrationDialog @openAcceptDialog="openAcceptDialog"></RegistrationDialog>
-      <AcceptEmailDialog v-if="isOpenAcceptDialog"></AcceptEmailDialog>
+      <AcceptEmailDialog v-if="isOpenAcceptDialog" @closeDialog="closeAcceptDialog"></AcceptEmailDialog>
       <div class="person">
         <span>Г</span>
       </div>
@@ -44,7 +44,7 @@ import AcceptEmailDialog from "@/components/dialogs/AcceptEmailDialog";
 import LoginInDialog from "@/components/dialogs/LoginInDialog";
 
 let hasHiddenDrawer = ref(true);
-let isOpenAcceptDialog = ref(true);
+let isOpenAcceptDialog = ref(false);
 
 function routeTo(path) {
   hasHiddenDrawer.value = true;
@@ -56,8 +56,11 @@ function hiddenDrawer() {
 }
 
 function openAcceptDialog() {
-  console.log('jnhfkjh')
   isOpenAcceptDialog.value = true;
+}
+
+function closeAcceptDialog(){
+  isOpenAcceptDialog.value = false;
 }
 </script>
 
