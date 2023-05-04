@@ -11,7 +11,7 @@
       <form>
         <v-text-field
             v-model="initialState.email"
-            :error-messages="v$.email.$errors.map(e => 'Некорректный E-mail')"
+            :error-messages="mapErrors(v$.email.$errors)"
             label="E-mail"
             @input="v$.email.$touch"
             @blur="v$.email.$touch"
@@ -19,9 +19,11 @@
 
         <v-text-field
             v-model="initialState.password"
-            :error-messages="v$.password.$errors.map(e => 'Некорректный пароль')"
+            :error-messages="mapErrors(v$.password.$errors)"
             label="Пароль"
-            type="password"
+            :type="showPassword ? 'text' : 'password'"
+            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="showPassword = !showPassword"
             @input="v$.password.$touch"
             @blur="v$.password.$touch"
         ></v-text-field>
@@ -46,10 +48,12 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import {useVuelidate} from '@vuelidate/core'
 import {email, required} from '@vuelidate/validators'
 import requests from '@/mixins/requests'
+import validation from "@/mixins/validation";
+const { mapErrors } = validation();
 
 const {registration} = requests();
 const initialState = ref({
@@ -61,10 +65,23 @@ const rules = {
   password: {required}
 }
 const v$ = useVuelidate(rules, initialState)
-let dialog = ref(false);
+
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['openAcceptDialog'])
+
+let dialog = ref(false);
+let showPassword = ref(false);
+
+watch(dialog, (newValue)=>{
+  if (!newValue) {
+    v$.value.$reset();
+    initialState.value = {
+      email: '',
+      password: '',
+    };
+  }
+})
 
 function submit() {
   v$.value.$validate();

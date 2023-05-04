@@ -5,7 +5,7 @@
       <form v-if="isFirstStep">
         <v-text-field
             v-model="initialState.email"
-            :error-messages="mapErrors()"
+            :error-messages="mapErrors(v$.email.$errors)"
             label="E-mail"
             @input="v$.email.$touch"
             @blur="v$.email.$touch"
@@ -31,6 +31,8 @@
 import {ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
+import validation from "@/mixins/validation";
+const { mapErrors } = validation();
 
 let isOpen = ref(true);
 let isFirstStep = ref(true);
@@ -44,19 +46,6 @@ const rules = {
 }
 
 const v$ = useVuelidate(rules, initialState);
-
-function mapErrors() {
-  return v$.value.email.$errors.map(e => {
-    switch (e.$validator) {
-      case 'required':
-        return 'Обязательное поле';
-      case 'email':
-        return 'Некорректный E-mail';
-      default:
-        return 'Что-то не так';
-    }
-  });
-}
 
 function sendNewPassword() {
   if (!v$.value.$error) {

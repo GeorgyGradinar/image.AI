@@ -1,0 +1,160 @@
+<template>
+  <div class="person" :class="{'opened': hasOpenDetail}" v-if="person.name" @click="hasOpenDetail = !hasOpenDetail">
+    <div class="info-person">
+      <span :title="person.name">{{ person.name }}</span>
+      <span>кредит: {{ person.credits }}</span>
+    </div>
+    <div class="wrapper-name-person">
+      <span class="name-person">{{ person.name[firstLater] }}</span>
+    </div>
+
+    <section class="details-person" :class="{'hidden-drop-down': !hasOpenDetail}">
+      <p><img src="../assets/details-person/gallery.svg" alt="gallery">Моя галерея</p>
+      <p @click.prevent="routeTo('/settings')"><img src="../assets/details-person/settings.svg" alt="settings">Настройки</p>
+      <p><img src="../assets/details-person/security.svg" alt="privacy">Конфиденциальность</p>
+      <p><img src="../assets/details-person/terms.svg" alt="terms">Условия использования</p>
+      <p @click.prevent="logout"><img class="rotate" src="../assets/details-person/logOut.svg" alt="log out">Выйти</p>
+      <p><img src="../assets/details-person/invite.svg" alt="invite">Пригласить другей</p>
+    </section>
+  </div>
+</template>
+
+<script setup>
+import {personStore} from "@/store/personStore";
+import {storeToRefs} from "pinia/dist/pinia";
+import {ref} from "vue";
+import router from "@/router";
+import requests from "@/mixins/requests";
+const { logout } = requests();
+
+const store = personStore();
+const {person} = storeToRefs(store);
+const firstLater = 0;
+let hasOpenDetail = ref(false);
+
+function routeTo(path) {
+  hasOpenDetail.value = true;
+  router.push({path: path});
+}
+
+</script>
+
+<style scoped lang="scss">
+.person {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: rgba(33, 21, 77, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 0 0 0 15px;
+  border-radius: 50px;
+  border: 2px solid var(--light-blue);
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &.opened,
+  &.opened .wrapper-name-person,
+  &.opened {
+    border-radius: 50px 50px 10px 50px;
+  }
+
+  .info-person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--light-blue);
+
+    span {
+      white-space: nowrap;
+    }
+
+    span:first-child {
+      font-size: 13px;
+      width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    span:last-child {
+      font-size: 10px;
+    }
+  }
+
+
+  .wrapper-name-person {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-left: 2px solid var(--light-blue);
+    box-shadow: 0 0 15px rgba(54, 226, 255, 0.5);
+    color: var(--light-blue);
+    padding: 12px;
+    border-radius: 50%;
+
+    .name-person {
+      display: flex;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.details-person {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 55px;
+  right: 0;
+  width: 250px;
+  padding: 15px;
+  border-radius: 30px 5px 30px 30px;
+  color: var(--main-light-color);
+  background-color: rgba(64, 64, 64, 0.9);
+  z-index: -10;
+  transition: right 0.5s;
+
+  & p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 12px;
+    cursor: pointer;
+    padding: 10px 5px 10px 10px;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: var(--main-backgground-color);
+    }
+  }
+
+  .rotate {
+    transform: rotate(180deg);
+  }
+}
+
+.hidden-drop-down {
+  right: -400px;
+}
+
+@media screen and (max-width: 500px){
+  .person {
+    &.opened,
+    &.opened .wrapper-name-person,
+    &.opened {
+      border-radius: 50px;
+    }
+  }
+
+  .details-person {
+    border-radius: 30px;
+    right: -30px;
+  }
+}
+</style>

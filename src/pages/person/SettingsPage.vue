@@ -20,59 +20,92 @@
         <h3>Аккаунт</h3>
         <form>
           <v-text-field
-              v-model="person.name"
+              v-model="user.name"
               label="Имя"
-              :error-messages="v$.name.$errors.map(e => 'Обязательное поле')"
+              :error-messages="mapErrors(v$.name.$errors)"
               @input="v$.name.$touch"
               @blur="v$.name.$touch"
           ></v-text-field>
           <v-text-field
               readonly
-              v-model="person.email"
+              v-model="user.email"
               label="Почта"
           ></v-text-field>
           <v-text-field
-              v-model="person.password"
+              v-model="user.password"
               label="Пароль"
-              :error-messages="v$.password.$errors.map(e => 'Некорректный код')"
+              :error-messages="mapErrors(v$.password.$errors)"
               :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              :rules="[rules.required, rules.min]"
               hint="Не менее 8 символов"
               :type="showPassword ? 'text' : 'password'"
               @click:append-inner="showPassword = !showPassword"
+              @input="v$.password.$touch"
+              @blur="v$.password.$touch"
           ></v-text-field>
 
           <div class="wrapper-account-button">
-            <button>Отменить</button>
-            <button class="create-account no-hover">Обновить данные</button>
+            <button class="cancel" @click.prevent="reset">Отменить</button>
+            <button class="create-account no-hover" @click.prevent="updateUserData">Обновить данные</button>
           </div>
         </form>
       </div>
-    </section>
 
+      <div class="change-password">
+        <h3>Измените свой пароль</h3>
+        <span>Сбросьте пароль, перейдя по этой <a>ссылке</a></span>
+      </div>
+
+      <div class="delete-account">
+        <h3>Удалить свой аккаунт</h3>
+        <span>Удалив свою учетную запись, вы не сможете создавать новые изображения,
+          ваши подписки будут отменены, а все данные, связанные с вашей учетной записью,
+          будут безвозвратно утеряны. Это действие необратимо!
+        </span>
+        <div class="button-delete-account">
+          <button>Удалить аккаунт...</button>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-
-
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
-import {required} from "@vuelidate/validators";
+import {minLength, required} from "@vuelidate/validators";
+import {personStore} from "@/store/personStore";
+import {storeToRefs} from "pinia/dist/pinia";
+import validation from "@/mixins/validation";
 
+const { mapErrors } = validation();
+const store = personStore();
+const {person} = storeToRefs(store)
 let showPassword = ref(false);
 
-const person = ref({
+const user = ref({
   name: '',
-  email: '',
+  email:  '',
   password: '',
 })
 
+onMounted(() => {
+  user.value.name = person.value.name
+  user.value.email = person.value.email
+  user.value.password = person.value.password
+});
+
 const rules = {
   name: {required},
-  password: {},
+  password: {required, minLength: minLength(8)},
 };
-const v$ = useVuelidate(rules, person);
+
+const v$ = useVuelidate(rules, user);
+
+function reset() {
+}
+
+function updateUserData() {
+}
 </script>
 
 <style scoped lang="scss">
@@ -93,9 +126,16 @@ const v$ = useVuelidate(rules, person);
 
     .title,
     .billing,
-    .account{
+    .account,
+    .change-password,
+    .delete-account {
       padding: 50px 0;
       border-bottom: 1px solid rgba(255, 255, 225, 0.4);
+
+      h1,
+      h3 {
+        margin-bottom: 5px;
+      }
 
       span {
         color: hsla(180, 7%, 97%, .6);
@@ -114,7 +154,47 @@ const v$ = useVuelidate(rules, person);
     }
 
     .account {
+      h3 {
+        margin-bottom: 15px;
+      }
 
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .wrapper-account-button {
+          display: flex;
+          justify-content: flex-end;
+          gap: 20px;
+
+          button {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+
+    .delete-account {
+      border-bottom: none;
+
+      .button-delete-account {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 30px;
+
+        button {
+          background-color: #eb5757;
+          border-radius: 30px;
+          padding: 10px;
+          font-size: 13px;
+          transition: all 0.3s;
+
+          &:hover {
+            background-color: #E17676FF;
+          }
+        }
+      }
     }
   }
 }

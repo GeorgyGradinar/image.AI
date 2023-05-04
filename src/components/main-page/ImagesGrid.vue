@@ -174,18 +174,29 @@ const images = [
 }
 
 @media screen and (max-width: 800px) {
-  .photo-grid .grid-column {
-    width: 33%;
+  .photo-grid {
+    overflow: hidden;
+    position: relative;
 
-    animation: none;
-
-    &:nth-child(even) {
-      margin-top: 50px;
-      animation: none;
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      height: 200px;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: red;
+      z-index: 2;
+      background: linear-gradient(180deg, rgba(33,21,77,1) 0%, rgba(33,21,77,0.65) 60%, rgba(33,21,77,0) 100%);
     }
 
-    &:nth-child(3) {
-      display: flex;
+    .grid-column {
+      width: 33%;
+
+      &:nth-child(3) {
+        display: flex;
+      }
     }
   }
 }

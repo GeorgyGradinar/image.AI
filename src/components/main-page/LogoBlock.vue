@@ -83,6 +83,7 @@ import HeroTitle from "./HeroTitle";
   .first-block {
     height: 150vh;
     padding: 100px 30px 0;
+    background: rgb(33, 21, 77);
 
     .wrapper-description {
       min-width: 100%;

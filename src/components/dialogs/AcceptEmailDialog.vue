@@ -7,7 +7,7 @@
           <v-text-field
               v-model="verificationCode.code"
               label="Код подтверждения"
-              :error-messages="v$.code.$errors.map(e => 'Некорректный код')"
+              :error-messages="mapErrors(v$.code.$errors)"
           ></v-text-field>
           <div class="card-buttons">
             <button @click.prevent="$emit('closeDialog')">Закрыть</button>
@@ -45,6 +45,8 @@
 import {ref} from "vue";
 import {useVuelidate} from "@vuelidate/core";
 import {required} from "@vuelidate/validators";
+import validation from "@/mixins/validation";
+const { mapErrors } = validation();
 
 let dialog = ref(true);
 const verificationCode = ref({
@@ -104,6 +106,7 @@ function showMessage(typeMessage){
       color: var(--main-light-color);
 
       .title {
+        display: block;
         font-size: 20px;
         margin-bottom: 10px;
       }

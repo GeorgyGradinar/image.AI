@@ -1,8 +1,10 @@
 import {defineStore} from "pinia/dist/pinia";
 import {ref} from "vue";
+import {ACCOUNT_STORAGE_KEY} from "@/constants";
 
 export const personStore = defineStore('store', () => {
-   let person = ref({id: 3245})
+    const savedPerson = localStorage.getItem(ACCOUNT_STORAGE_KEY);
+   let person = ref(savedPerson ? JSON.parse(savedPerson) : {id: 3245})
 
     return { person }
 })

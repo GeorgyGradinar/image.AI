@@ -11,28 +11,11 @@
       <LoginInDialog v-if="!person.name"></LoginInDialog>
       <RegistrationDialog @openAcceptDialog="openAcceptDialog" v-if="!person.name"></RegistrationDialog>
       <AcceptEmailDialog v-if="isOpenAcceptDialog" @closeDialog="closeAcceptDialog"></AcceptEmailDialog>
-
-      <div class="person" v-if="person.name" @click="hasOpenDetail = !hasOpenDetail">
-        <div class="info-person">
-          <span>{{ person.name }}</span>
-          <span>кредит: {{ person.credits }}</span>
-        </div>
-        <div class="wrapper-name-person">
-          <span class="name-person">{{ person.name[firstLater] }}</span>
-        </div>
-      </div>
+      <AccountCard></AccountCard>
     </nav>
-    <section class="details-person" :class="{'hidden-drop-down': !hasOpenDetail}">
-      <p><img src="../assets/details-person/gallery.svg" alt="gallery">Моя галерея</p>
-      <p @click="routeTo('/settings')"><img src="../assets/details-person/settings.svg" alt="settings">Настройки</p>
-      <p><img src="../assets/details-person/security.svg" alt="privacy">Конфиденциальность</p>
-      <p><img src="../assets/details-person/terms.svg" alt="terms">Условия использования</p>
-      <p><img src="../assets/details-person/logOut.svg" alt="log out">Выйти</p>
-      <p><img src="../assets/details-person/invite.svg" alt="invite">Пригласить другей</p>
-    </section>
 
     <nav class="mini-header">
-      <div class="person"><span>Г</span></div>
+      <AccountCard></AccountCard>
       <v-app-bar-nav-icon variant="text" @click.stop="hiddenDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
@@ -55,17 +38,15 @@ import AcceptEmailDialog from "@/components/dialogs/AcceptEmailDialog";
 import LoginInDialog from "@/components/dialogs/LoginInDialog";
 import {personStore} from "@/store/personStore";
 import {storeToRefs} from "pinia/dist/pinia";
+import AccountCard from "@/components/AccountCard";
 
-const firstLater = 0;
 const store = personStore();
-const {person} = storeToRefs(store)
+const {person} = storeToRefs(store);
 let hasHiddenDrawer = ref(true);
 let isOpenAcceptDialog = ref(false);
-let hasOpenDetail = ref(false);
 
 function routeTo(path) {
   hasHiddenDrawer.value = true;
-  hasOpenDetail.value = false;
   router.push({path: path});
 }
 
@@ -109,6 +90,7 @@ header {
     font-size: 20px;
     color: var(--main-light-color);
     cursor: pointer;
+    margin-right: 10px;
   }
 
   .main-header {
@@ -158,91 +140,6 @@ header {
     }
   }
 
-  .person {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background-color: rgba(33, 21, 77, 0.4);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    padding: 0 0 0 15px;
-    border-radius: 50px;
-    border: 2px solid var(--light-blue);
-    cursor: pointer;
-
-
-    .info-person {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--light-blue);
-
-
-      span:first-child {
-        font-size: 13px;
-      }
-
-      span:last-child {
-        font-size: 10px;
-      }
-    }
-
-
-    .wrapper-name-person {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      border-left: 2px solid var(--light-blue);
-      box-shadow: 0 0 15px rgba(54, 226, 255, 0.5);
-      color: var(--light-blue);
-      padding: 12px;
-      border-radius: 50%;
-
-      .name-person {
-        display: flex;
-        justify-content: center;
-        width: 20px;
-        height: 20px;
-      }
-    }
-  }
-
-  .details-person {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    top: 70px;
-    right: 0;
-    width: 250px;
-    padding: 20px;
-    border-radius: 50px;
-    color: var(--main-light-color);
-    background-color: rgba(33, 21, 77, 0.95);
-    z-index: -10;
-    transition: right 0.5s;
-
-    & p {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      cursor: pointer;
-      padding: 10px 5px 10px 10px;
-      border-radius: 20px;
-
-      &:hover {
-        background-color: #5232c4f2;
-      }
-    }
-  }
-
-  .hidden-drop-down {
-    right: -400px;
-  }
-
   .navigation-drawer {
     position: absolute;
     display: none;
@@ -290,6 +187,14 @@ header {
 
     .navigation-drawer {
       display: flex;
+    }
+  }
+}
+
+@media screen and (max-width: 500px) {
+  header {
+    .mini-header {
+      gap: 5px;
     }
   }
 }

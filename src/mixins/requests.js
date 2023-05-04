@@ -1,4 +1,5 @@
 import {personStore} from "@/store/personStore";
+import {ACCOUNT_STORAGE_KEY} from "@/constants";
 
 export default function requests() {
     const store =  personStore();
@@ -12,15 +13,24 @@ export default function requests() {
     }
 
     function loginIn() {
-        console.log('kjdhsjfk')
-        store.person = {
+        const person = {
             id: 26516,
-            name: 'Georgy Gradinar',
+            name: 'Евгений Кондратьев',
             email: 'test-email@mail.ru',
             password: 'frej4324f43',
             credits: 25,
         }
+
+        store.person = person;
+        localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(person));
     }
 
-    return {registration, checkVerificationEmail, loginIn}
+    function logout() {
+        const person = {};
+
+        store.person = person;
+        localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(person));
+    }
+
+    return {registration, checkVerificationEmail, loginIn, logout};
 }
