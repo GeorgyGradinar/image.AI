@@ -31,6 +31,11 @@ const routes = [
         name: 'Pricing',
         component: () => import('../pages/Pricing')
     },
+    {
+        path: '/settings',
+        name: 'Settings',
+        component: () => import('../pages/person/SettingsPage')
+    },
 ];
 
 const router = createRouter({

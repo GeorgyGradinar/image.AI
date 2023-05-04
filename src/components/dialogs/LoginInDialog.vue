@@ -55,7 +55,9 @@ import {ref} from "vue";
 import {useVuelidate} from '@vuelidate/core';
 import {email, required} from '@vuelidate/validators';
 import ForgotPassword from "@/components/dialogs/ForgotPassword";
+import requests from "@/mixins/requests";
 
+const { loginIn } = requests();
 const initialState = ref({
   email: '',
   password: '',
@@ -72,6 +74,7 @@ function submit() {
   v$.value.$validate();
 
   if (!v$.value.$error) {
+    loginIn();
     dialog.value = false;
   }
 }
