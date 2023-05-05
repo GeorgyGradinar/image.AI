@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style>
-@import "style/index.css";
+@import "@/style/index.scss";
 
 .pages {
   width: 100vw;

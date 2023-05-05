@@ -59,31 +59,36 @@ import {email, required} from '@vuelidate/validators';
 import ForgotPassword from "@/components/dialogs/ForgotPassword";
 import requests from "@/mixins/requests";
 import validation from "@/mixins/validation";
-const { mapErrors } = validation();
 
-const { loginIn } = requests();
+const {mapErrors} = validation();
+
+const {loginIn} = requests();
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['openRegistrationDialog']);
 const initialState = ref({
   email: '',
   password: '',
-})
+});
 const rules = {
   email: {required, email},
   password: {required}
-}
-const v$ = useVuelidate(rules, initialState)
+};
+const v$ = useVuelidate(rules, initialState);
 let dialog = ref(false);
 let forgotPasswordDialog = ref(false);
 let showPassword = ref(false);
 
-watch(dialog, (newValue)=>{
+watch(dialog, (newValue) => {
   if (!newValue) {
     v$.value.$reset();
     initialState.value = {
       email: '',
       password: '',
     };
+  } else {
+    emit('openRegistrationDialog');
   }
-})
+});
 
 function submit() {
   v$.value.$validate();
@@ -102,6 +107,8 @@ function openForgotPasswordDialog() {
 </script>
 
 <style scoped lang="scss">
+@import "@/style/dialogs.scss";
+
 .wrapper {
   display: flex;
   justify-content: center;
@@ -114,72 +121,5 @@ function openForgotPasswordDialog() {
     height: 50px;
   }
 }
-
-.dialog {
-  .v-overlay__content {
-    .card {
-      border-radius: 50px;
-      padding: 50px;
-      background-color: rgba(33, 21, 77, 0.7);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(10px);
-      color: var(--main-light-color);
-
-      .title {
-        font-size: 20px;
-        margin-bottom: 10px;
-      }
-
-      form {
-        .v-input {
-          margin-bottom: 10px;
-        }
-
-        .socials {
-          width: 100%;
-          border-top: 1px solid rgba(249, 246, 224, 0.1);
-          margin-top: 10px;
-          padding-top: 15px;
-
-          .wrapper-socials {
-            display: flex;
-            width: 100%;
-            justify-content: flex-start;
-            gap: 20px;
-            padding: 20px 0 0;
-
-            & img {
-              cursor: pointer;
-            }
-          }
-        }
-
-        .card-buttons {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          padding: 30px 0 0;
-        }
-      }
-
-      .forgot-password {
-        font-size: 14px;
-        margin: 10px 0 25px;
-
-        a {
-          color: var(--light-blue);
-          text-decoration: underline;
-          cursor: pointer;
-        }
-      }
-
-      &-buttons {
-        width: 100%;
-        display: flex;
-      }
-    }
-  }
-}
-
 
 </style>

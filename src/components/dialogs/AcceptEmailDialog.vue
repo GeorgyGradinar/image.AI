@@ -86,40 +86,18 @@ function showMessage(typeMessage){
       hasShowRejectMessage.value = false;
     },1000)
   }
-
-
 }
 </script>
 
 <style scoped lang="scss">
+@import "@/style/dialogs.scss";
+
 .dialog {
   .v-overlay__content {
     .card {
       display: flex;
       justify-content: center;
       min-height: 260px;
-      border-radius: 50px;
-      padding: 50px;
-      background-color: rgba(33, 21, 77, 0.7);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(10px);
-      color: var(--main-light-color);
-
-      .title {
-        display: block;
-        font-size: 20px;
-        margin-bottom: 10px;
-      }
-
-      form {
-
-        .card-buttons {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          padding: 10px 0 0;
-        }
-      }
     }
   }
 }

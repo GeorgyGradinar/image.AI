@@ -15,7 +15,7 @@
 </script>
 
 <style scoped lang="scss">
-@import "@/style/buttons.css";
+@import "@/style/buttons";
 
 .wrapper {
   width: 100%;

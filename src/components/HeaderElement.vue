@@ -15,8 +15,8 @@
     </nav>
 
     <nav class="mini-header">
-      <AccountCard></AccountCard>
-      <v-app-bar-nav-icon variant="text" @click.stop="hiddenDrawer"></v-app-bar-nav-icon>
+      <AccountCard @closeMainDialog="closeDrawer" :hasCloseDrawer="hasHiddenDrawer"></AccountCard>
+      <v-app-bar-nav-icon variant="text" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
       <button @click="routeTo('/editor')">Редактор</button>
@@ -24,8 +24,9 @@
       <button @click="routeTo('/dream-booth')">ФотоМечты</button>
       <button @click="routeTo('/guides')">Инфо</button>
       <button @click="routeTo('/pricing')">Цены</button>
-      <button>Войти</button>
-      <button class="create-account mini"><span>Регистрация</span></button>
+      <LoginInDialog v-if="!person.name" @openRegistrationDialog="toggleDrawer"></LoginInDialog>
+      <RegistrationDialog @openAcceptDialog="openAcceptDialog" @openRegistrationDialog="toggleDrawer" v-if="!person.name"></RegistrationDialog>
+      <AcceptEmailDialog v-if="isOpenAcceptDialog" @closeDialog="closeAcceptDialog"></AcceptEmailDialog>
     </section>
   </header>
 </template>
@@ -50,8 +51,12 @@ function routeTo(path) {
   router.push({path: path});
 }
 
-function hiddenDrawer() {
+function toggleDrawer() {
   hasHiddenDrawer.value = !hasHiddenDrawer.value;
+}
+
+function closeDrawer() {
+  hasHiddenDrawer.value = true;
 }
 
 function openAcceptDialog() {
@@ -65,7 +70,7 @@ function closeAcceptDialog() {
 </script>
 
 <style lang="scss">
-@import "@/style/buttons.css";
+@import "@/style/buttons";
 
 .layout {
   display: block;
@@ -156,13 +161,14 @@ header {
     button {
       display: flex;
       align-items: center;
+      width: 100%;
       height: 80px;
       color: var(--main-light-color);
       border-bottom: 1px solid rgba(249, 246, 224, 0.1);
     }
 
     .mini {
-      margin: 40px;
+      margin-top: 40px;
     }
   }
 

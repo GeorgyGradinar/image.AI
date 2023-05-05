@@ -53,7 +53,8 @@ import {useVuelidate} from '@vuelidate/core'
 import {email, required} from '@vuelidate/validators'
 import requests from '@/mixins/requests'
 import validation from "@/mixins/validation";
-const { mapErrors } = validation();
+
+const {mapErrors} = validation();
 
 const {registration} = requests();
 const initialState = ref({
@@ -68,18 +69,20 @@ const v$ = useVuelidate(rules, initialState)
 
 
 // eslint-disable-next-line no-undef
-const emit = defineEmits(['openAcceptDialog'])
+const emit = defineEmits(['openAcceptDialog', 'openRegistrationDialog'])
 
 let dialog = ref(false);
 let showPassword = ref(false);
 
-watch(dialog, (newValue)=>{
+watch(dialog, (newValue) => {
   if (!newValue) {
     v$.value.$reset();
     initialState.value = {
       email: '',
       password: '',
     };
+  } else {
+    emit('openRegistrationDialog');
   }
 })
 
@@ -100,66 +103,11 @@ function submit() {
 </script>
 
 <style scoped lang="scss">
-.v-row {
-  margin: 0;
+@import "@/style/dialogs.scss";
 
-  .create-account {
-    height: 50px;
-  }
+.create-account {
+  height: 50px;
 }
 
-.dialog {
-  .v-overlay__content {
-    .card {
-      border-radius: 50px;
-      padding: 50px 30px;
-      background-color: rgba(33, 21, 77, 0.7);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(10px);
-      color: var(--main-light-color);
 
-      .title {
-        font-size: 20px;
-        margin-bottom: 10px;
-      }
-
-      form {
-        .v-input {
-          margin-bottom: 10px;
-        }
-
-        .socials {
-          width: 100%;
-          border-top: 1px solid rgba(249, 246, 224, 0.1);
-          margin-top: 10px;
-          padding-top: 15px;
-
-          .wrapper-socials {
-            display: flex;
-            width: 100%;
-            justify-content: flex-start;
-            gap: 20px;
-            padding: 20px 0 0;
-
-            & img {
-              cursor: pointer;
-            }
-          }
-        }
-
-        .card-buttons {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          padding: 30px 0 0;
-        }
-      }
-
-      &-buttons {
-        width: 100%;
-        display: flex;
-      }
-    }
-  }
-}
 </style>

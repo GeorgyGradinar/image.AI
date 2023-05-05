@@ -10,7 +10,8 @@
 
     <section class="details-person" :class="{'hidden-drop-down': !hasOpenDetail}">
       <p><img src="../assets/details-person/gallery.svg" alt="gallery">Моя галерея</p>
-      <p @click.prevent="routeTo('/settings')"><img src="../assets/details-person/settings.svg" alt="settings">Настройки</p>
+      <p @click.prevent="routeTo('/settings')"><img src="../assets/details-person/settings.svg" alt="settings">Настройки
+      </p>
       <p><img src="../assets/details-person/security.svg" alt="privacy">Конфиденциальность</p>
       <p><img src="../assets/details-person/terms.svg" alt="terms">Условия использования</p>
       <p @click.prevent="logout"><img class="rotate" src="../assets/details-person/logOut.svg" alt="log out">Выйти</p>
@@ -22,15 +23,34 @@
 <script setup>
 import {personStore} from "@/store/personStore";
 import {storeToRefs} from "pinia/dist/pinia";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import router from "@/router";
 import requests from "@/mixins/requests";
-const { logout } = requests();
 
+const {logout} = requests();
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['closeMainDialog']);
 const store = personStore();
 const {person} = storeToRefs(store);
 const firstLater = 0;
 let hasOpenDetail = ref(false);
+
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  hasCloseDrawer: Boolean,
+});
+
+watch(hasOpenDetail, (newValue) => {
+  if (newValue) {
+    emit('closeMainDialog');
+  }
+});
+
+watch(props, (newValue) => {
+  if (!newValue.hasCloseDrawer) {
+    hasOpenDetail.value = false;
+  }
+});
 
 function routeTo(path) {
   hasOpenDetail.value = true;
@@ -143,7 +163,7 @@ function routeTo(path) {
   right: -400px;
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 500px) {
   .person {
     &.opened,
     &.opened .wrapper-name-person,
@@ -154,7 +174,10 @@ function routeTo(path) {
 
   .details-person {
     border-radius: 30px;
-    right: -30px;
+
+    &:not(.hidden-drop-down) {
+      right: -30px;
+    }
   }
 }
 </style>

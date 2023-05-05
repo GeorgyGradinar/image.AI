@@ -77,14 +77,14 @@ import {personStore} from "@/store/personStore";
 import {storeToRefs} from "pinia/dist/pinia";
 import validation from "@/mixins/validation";
 
-const { mapErrors } = validation();
+const {mapErrors} = validation();
 const store = personStore();
 const {person} = storeToRefs(store)
 let showPassword = ref(false);
 
 const user = ref({
   name: '',
-  email:  '',
+  email: '',
   password: '',
 })
 
@@ -197,6 +197,20 @@ function updateUserData() {
         }
       }
     }
+  }
+}
+
+@media screen and(max-width: 700px) {
+  .wrapper-settings {
+    .settings {
+      padding: 0 20px
+    }
+  }
+}
+
+@media screen and(max-width: 900px) {
+  .create-account {
+    margin-top: 0;
   }
 }
 </style>

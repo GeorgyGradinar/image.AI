@@ -200,4 +200,7 @@ const images = [
     }
   }
 }
+
+@media screen and (max-width: 400px) {
+}
 </style>

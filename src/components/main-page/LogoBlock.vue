@@ -19,7 +19,7 @@ import HeroTitle from "./HeroTitle";
 </script>
 
 <style scoped lang="scss">
-@import "@/style/buttons.css";
+@import "@/style/buttons";
 
 .first-block {
   background: rgb(33, 21, 77);
@@ -96,7 +96,7 @@ import HeroTitle from "./HeroTitle";
 
     .block-wrapper {
       flex-direction: column;
-      gap: 50px;
+      gap: 20px;
     }
   }
 }

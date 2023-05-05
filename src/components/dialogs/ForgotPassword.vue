@@ -55,53 +55,7 @@ function sendNewPassword() {
 </script>
 
 <style scoped lang="scss">
-.dialog {
-  .title {
-    font-size: 20px;
-    margin-bottom: 30px;
-  }
-  .v-overlay__content {
-    .card {
-      border-radius: 50px;
-      padding: 50px;
-      background-color: rgba(33, 21, 77, 0.7);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(10px);
-      color: var(--main-light-color);
-
-      form {
-
-        .socials {
-          width: 100%;
-
-          .wrapper-socials {
-            display: flex;
-            width: 100%;
-            justify-content: flex-start;
-            gap: 20px;
-            padding: 20px 0 0;
-
-            & img {
-              cursor: pointer;
-            }
-          }
-        }
-
-        .card-buttons {
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          padding: 30px 0 0;
-        }
-      }
-
-      &-buttons {
-        width: 100%;
-        display: flex;
-      }
-    }
-  }
-}
+@import "@/style/dialogs.scss";
 
 .success {
   .card-buttons {
