@@ -193,14 +193,16 @@ const images = [
 
     .grid-column {
       width: 33%;
+      animation: autoscrollSmallScreen 50s linear 0s infinite forwards;
+
+      &:nth-child(even) {
+        animation: autoscrollReverseSmallScreen 50s linear 0s infinite forwards;
+      }
 
       &:nth-child(3) {
         display: flex;
       }
     }
   }
-}
-
-@media screen and (max-width: 400px) {
 }
 </style>

@@ -65,9 +65,8 @@ function routeTo(path) {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  position: relative;
   background-color: rgba(33, 21, 77, 0.4);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
   padding: 0 0 0 15px;
   border-radius: 50px;
   border: 2px solid var(--light-blue);
@@ -126,10 +125,10 @@ function routeTo(path) {
 }
 
 .details-person {
-  position: fixed;
   display: flex;
   flex-direction: column;
-  top: 55px;
+  position: absolute;
+  top: 50px;
   right: 0;
   width: 250px;
   padding: 15px;
