@@ -55,7 +55,6 @@ onMounted(()=>{
   initStore();
 })
 
-
 let isOpenLoginDialog = ref(false);
 let isOpenRegistrationDialog = ref(false);
 
