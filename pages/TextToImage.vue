@@ -1,0 +1,34 @@
+<template>
+  <client-only>
+    <div class="wrapper__text-to-image">
+      <GenerateParameters></GenerateParameters>
+      <GenerationImages></GenerationImages>
+    </div>
+  </client-only>
+</template>
+<script setup>
+import GenerateParameters from "~/components/text-to-image/GenerateParameters"
+import GenerationImages from "~/components/text-to-image/GenerationImages";
+</script>
+
+<style scoped lang="scss">
+.wrapper__text-to-image {
+  display: flex;
+  align-items: flex-start;
+  height: 100vh;
+  background-color: #1f2023;
+  overflow: hidden;
+  position: relative;
+}
+
+@media screen and (max-width: 650px) {
+  .wrapper__text-to-image {
+    flex-direction: column;
+    overflow: auto;
+    overflow-y: unset;
+    scrollbar-gutter: stable;
+    height: unset;
+    min-height: 100vh;
+  }
+}
+</style>
