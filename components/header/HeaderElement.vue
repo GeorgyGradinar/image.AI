@@ -58,7 +58,6 @@ onMounted(()=>{
 let isOpenLoginDialog = ref(false);
 let isOpenRegistrationDialog = ref(false);
 
-
 function toggleDrawer() {
   hasHiddenDrawer.value = !hasHiddenDrawer.value;
 }
