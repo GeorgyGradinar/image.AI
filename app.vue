@@ -6,7 +6,6 @@
         <main>
           <NuxtPage></NuxtPage>
         </main>
-        <!--    <Footer v-if="isFooterVisible"></Footer>-->
         <Footer v-if="isFooterVisible"></Footer>
       </section>
     </NuxtLayout>
