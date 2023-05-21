@@ -43,11 +43,11 @@ let images = ref();
 
 onMounted(() => {
   images.value = imagesData._value.images;
-})
 
-if (person._value.id && !imagesData._value.images.length) {
-  getImages();
-}
+  if (person._value.id && !imagesData._value.images.length) {
+    getImages();
+  }
+})
 
 watch(person, (newDataPerson) => {
   if (newDataPerson.id && !images.value?.length) {
