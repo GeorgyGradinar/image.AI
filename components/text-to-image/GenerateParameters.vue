@@ -81,7 +81,9 @@ let loadingMore = ref(false);
 let coastGeneration = ref('');
 let loginIn = ref(false);
 let textForCredit = ref('');
+
 const tour = ref(null);
+const wasGuideShowed = ref(process.client && localStorage.getItem('vjt-tour'))
 
 let tourSteps = ref();
 
@@ -114,7 +116,7 @@ if ( process.client && window.innerWidth <= 650) {
 }
 
 function setNext() {
-  if (!person._value.id) {
+  if (!person._value.id && !wasGuideShowed.value) {
     tour.value.nextStep();
   }
 }
@@ -140,6 +142,7 @@ watch(filters, (newData) => {
 watch(person, (newDataPerson) => {
   if (newDataPerson.id) {
     loginIn.value = true;
+    wasGuideShowed.value = process.client && localStorage.getItem('vjt-tour');
   } else {
     loginIn.value = false;
     if (window.innerWidth <= 650) {

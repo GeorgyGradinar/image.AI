@@ -3,7 +3,7 @@
     <section class="frequently-asked">
       <h2>Часто задаваемые вопросы</h2>
 
-      <v-expansion-panels flat multiple>
+      <v-expansion-panels flat multiple variant="accordion">
 
         <v-expansion-panel class="frequently first" v-for="ask of asks" :key="ask.id">
           <v-expansion-panel-title>
@@ -64,8 +64,8 @@ let asks = props.frequentlyAsks
 
     .frequently {
       padding: 10px 0;
-      background-color: #1f2023;
-      color: var(--main-light-color);
+      background-color: #1f2023!important;
+      color: var(--main-light-color)!important;
       border-bottom: 1px solid rgba(249, 246, 224, 0.1);
 
     }

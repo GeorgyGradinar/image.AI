@@ -1,12 +1,12 @@
 <template>
   <section class="description-block">
     <div class="wrapper-description-block" v-for="description in descriptions" :key="description.id">
-      <article>
+      <section>
         <span>{{ description.part }}</span>
-        <h1>{{ description.title }}</h1>
+        <h2>{{ description.title }}</h2>
         <p>{{ description.description}}</p>
-      </article>
-      <video class="pre-show" :src="description.url" autoplay loop playsinline muted></video>
+      </section>
+      <video class="pre-show" :src="useAsset(description.url)" autoplay loop playsinline muted></video>
     </div>
   </section>
 </template>
@@ -19,7 +19,7 @@ const descriptions = [
     description:"Ускорьте процесс создания художественных работ благодаря искусственному интеллекту. С помощью нашего\n" +
         "          расширенного редактора вы можете генерировать недостающие части любой фотографии или создавать потрясающие\n" +
         "          большие произведения искусства на холсте бесконечного размера. Здесь буквально нет ограничений.",
-    url:"https://getimg.ai/videos/ai-generator-2.mp4"
+    url:"ai-generator-2.mp4"
   },
   {
     part:"Редактор AI Раскрашивание",
@@ -27,7 +27,7 @@ const descriptions = [
     description:"Легко изменяйте мелкие детали или изменяйте целые визуальные характеристики любого изображения. Используйте\n" +
         "          рисование, чтобы удалить ненужные объекты с изображений или изменить любые другие элементы. Просто\n" +
         "          сотрите часть изображения и скажите AI, что рендерить в пустом пространстве.",
-    url:"https://getimg.ai/guides/outpainting-simple-photo.mp4"
+    url:"outpainting-simple-photo.mp4"
   },
   {
     part:"Изображение по описанию",
@@ -36,7 +36,7 @@ const descriptions = [
         "          чтобы смешивать разные художественные стили, или просто опишите, что вы хотите увидеть, и наблюдайте, как AI\n" +
         "          воплощает ваши идеи в жизнь. Используйте одну из более чем 20 моделей, обученных сообществом, чтобы придать\n" +
         "          уникальный стиль своим творениям, или обучайте собственную модель на основе собственного рисунка.",
-    url:"https://getimg.ai/videos/inpainting.mp4"
+    url:"inpainting.mp4"
   },
   {
     part:"ФотоМечты",
@@ -46,9 +46,18 @@ const descriptions = [
         "          изображения вашего продукта в различных сценариях, или вы просто хотите иметь свою собственную модель\n" +
         "          искусственного интеллекта для генерации идей в своем стиле. Мы вас прикрыли. Каждая модель размещена и\n" +
         "          доступна для использования в считанные секунды.",
-    url:"https://getimg.ai/videos/dreambooth-2.mp4"
+    url:"dreambooth-2.mp4"
   },
-]
+];
+
+function useAsset(path) {
+  const assets = import.meta.glob('~/assets/**/*', {
+    eager: true,
+    import: 'default',
+  })
+  // @ts-expect-error: wrong type info
+  return assets['/assets/main-videos/' + path]
+}
 </script>
 
 <style scoped lang="scss">
@@ -69,28 +78,28 @@ const descriptions = [
     padding: 80px 25px;
     color: var(--main-light-color);
 
-    article {
+    section {
       width: 47%;
       display: flex;
       flex-direction: column;
       justify-content: center;
-    }
 
-    article span {
-      color: #38e2ff;
-      font-size: 14px;
-    }
+      span {
+        color: #38e2ff;
+        font-size: 14px;
+      }
 
-    article h1 {
-      font-size: 35px;
-      line-height: 120%;
-    }
+      h2 {
+        font-size: 35px;
+        line-height: 120%;
+      }
 
-    article p {
-      color: #f7f8f899;
-      font-size: 17px;
-      line-height: 160%;
-      padding-top: 12px;
+      p {
+        color: #f7f8f899;
+        font-size: 17px;
+        line-height: 160%;
+        padding-top: 12px;
+      }
     }
 
     .pre-show {
@@ -112,7 +121,7 @@ const descriptions = [
       gap: 50px;
       padding: 50px 25px;
 
-      article {
+      section {
         width: 100%;
       }
 

@@ -2,7 +2,7 @@
   <footer>
     <div class="wrapper-footer">
       <div class="logo">
-        <p>Logo</p>
+        <h3>Logo</h3>
         <div class="social">
           <img src="~/assets/images/footer/instagram.svg" alt="">
           <img src="~/assets/images/footer/twitter.svg" alt="">

@@ -12,7 +12,7 @@
         </svg>
         Изображения
       </v-expansion-panel-title>
-      <v-expansion-panel-text>
+      <v-expansion-panel-text class="expansion-panel-wrapper">
         <div class="wrapper-image">
           <section class="image">
             <label v-if="!images" class="upload">

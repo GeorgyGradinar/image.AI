@@ -9,6 +9,11 @@
 <script setup>
 import GenerateParameters from "~/components/text-to-image/GenerateParameters"
 import GenerationImages from "~/components/text-to-image/GenerationImages";
+import seo from "~/mixins/seo";
+
+const {setProperty} = seo();
+setProperty('AI Images-Генерация по описанию', '');
+
 </script>
 
 <style scoped lang="scss">

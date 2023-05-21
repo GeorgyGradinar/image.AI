@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <section>
-      <h1>Готовы начать?</h1>
+      <h2>Готовы начать?</h2>
       <p>Изучите наши инструменты или создайте учетную запись.</p>
       <button class="create-project">Начать проект
         <v-icon end icon="mdi-arrow-right"></v-icon>
@@ -15,7 +15,6 @@
 </script>
 
 <style scoped lang="scss">
-//@import "@/style/buttons";
 
 .wrapper {
   width: 100%;
@@ -36,7 +35,7 @@
     border-radius: 50px;
     color: var(--main-light-color);
 
-    h1 {
+    h2 {
       font-size: 35px;
       line-height: 50%
     }
@@ -56,7 +55,7 @@
 @media screen and (max-width: 450px) {
   .wrapper {
     section {
-      h1 {
+      h2 {
         font-size: 25px;
       }
 

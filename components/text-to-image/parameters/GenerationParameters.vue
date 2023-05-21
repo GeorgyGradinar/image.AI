@@ -14,7 +14,7 @@
       </svg>
       Параметры
     </v-expansion-panel-title>
-    <v-expansion-panel-text>
+    <v-expansion-panel-text class="expansion-panel-wrapper">
       <v-app>
         <div class="wrapper-block">
           <section class="number-images">

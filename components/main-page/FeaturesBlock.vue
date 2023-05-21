@@ -1,10 +1,10 @@
 <template>
   <section class="features-block">
-    <h1>Набор инструментов для создания изображений</h1>
+    <h2>Набор инструментов для создания изображений</h2>
     <div class="wrapper-features">
       <div class="features" v-for="feature in features" :key="feature.id">
         <v-icon end color="#38e2ff" >{{ feature.icon }}</v-icon>
-        <h2>{{ feature.title }}</h2>
+        <h3>{{ feature.title }}</h3>
         <p>{{ feature.text }}</p>
       </div>
     </div>

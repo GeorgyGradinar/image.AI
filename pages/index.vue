@@ -4,7 +4,7 @@
     <FeaturesBlock></FeaturesBlock>
     <DescriptionBlock></DescriptionBlock>
     <FrequentlyAsked :frequently-asks="frequentlyAsked"></FrequentlyAsked>
-<!--    <ReadyToGet></ReadyToGet>-->
+    <ReadyToGet></ReadyToGet>
   </section>
 </template>
 
@@ -14,8 +14,10 @@ import FeaturesBlock from "~/components/main-page/FeaturesBlock";
 import DescriptionBlock from "~/components/main-page/DescriptionBlock";
 import FrequentlyAsked from "~/components/main-page/FrequentlyAsked";
 import ReadyToGet from "~/components/main-page/ReadyToGet";
+import seo from "~/mixins/seo";
 
-
+const {setProperty} = seo();
+setProperty('AI Images', 'Генерация изображения с помощью искусственного интелекта');
 
 
 const frequentlyAsked = [
@@ -38,6 +40,7 @@ const frequentlyAsked = [
         '            международные законы или правила, будет запрещено и сообщено!'
   },
 ]
+
 </script>
 
 <style scoped lang="scss">

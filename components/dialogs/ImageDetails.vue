@@ -135,7 +135,7 @@ function reuseFilterParameters() {
 }
 
 function reuseImageParameter() {
-  changeFilters('image', {name: 'fsd', url: require(`@/assets/main-page/${imageSrc._object.imageSrc.img}`)});
+  changeFilters('image', {name: 'fsd', url: useAsset(imageSrc._object.imageSrc.img)});
   emit('close', "Изображение установлено");
 }
 </script>

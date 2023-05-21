@@ -6,6 +6,10 @@
 
 <script setup>
 import PricingBlock from "~/components/pricing/PricingBlock";
+import seo from "~/mixins/seo";
+
+const {setProperty} = seo();
+setProperty('AI Images-Цены', 'Стоимость кредитов для генерации')
 
 </script>
 

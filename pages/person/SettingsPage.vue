@@ -76,6 +76,10 @@ import {minLength, required} from "@vuelidate/validators";
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
 import validation from "~/mixins/validation";
+import seo from "~/mixins/seo";
+
+const {setProperty} = seo();
+setProperty('Аккаунт-настройки');
 
 const {mapErrors} = validation();
 const store = personStore();
@@ -170,6 +174,7 @@ function updateUserData() {
           gap: 20px;
 
           button {
+            max-width: 250px;
             font-size: 13px;
           }
         }

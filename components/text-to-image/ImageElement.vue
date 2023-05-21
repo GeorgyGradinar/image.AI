@@ -141,7 +141,8 @@ function reuseFilterParameters() {
 }
 
 function reuseImage() {
-  changeFilters('image', {name: 'fsd', url: require(`@/assets/main-page/${image._object.image.img}`)});
+  changeFilters('image', {name: 'fsd', url: useAsset(image._object.image.img)});
+  // changeFilters('image', {name: 'fsd', url: require(`@/assets/main-page/${image._object.image.img}`)});
   openSnackBar("Изображение установлено");
 }
 

@@ -11,7 +11,7 @@
         </svg>
         Описание
       </v-expansion-panel-title>
-      <v-expansion-panel-text>
+      <v-expansion-panel-text class="expansion-panel-wrapper">
         <div class="wrapper-description" id="v-step-0">
           <section class="description">
             <div>

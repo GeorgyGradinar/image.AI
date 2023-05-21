@@ -134,6 +134,8 @@ header {
 
     .create-account {
       width: 140px;
+      color: #21154d;
+      font-weight: bold;
     }
   }
 
@@ -178,6 +180,7 @@ header {
     .create-account {
       margin-top: 20px;
       height: 60px;
+
     }
   }
 

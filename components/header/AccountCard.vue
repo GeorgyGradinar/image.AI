@@ -11,7 +11,7 @@
     <section class="details-person" :class="{'hidden-drop-down': !hasOpenDetail}">
       <div>
         <p><img src="~/assets/images/details-person/gallery.svg" alt="gallery">Моя галерея</p>
-        <p ><img src="~/assets/images/details-person/settings.svg" alt="settings">Настройки
+        <p @click="routeTo('/person/SettingsPage')"><img src="~/assets/images/details-person/settings.svg" alt="settings">Настройки
         </p>
         <p><img src="~/assets/images/details-person/security.svg" alt="privacy">Конфиденциальность</p>
         <p><img src="~/assets/images/details-person/terms.svg" alt="terms">Условия использования</p>
@@ -28,7 +28,9 @@ import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
 import {ref, watch} from "vue";
 import requests from "~/mixins/requests";
+import {useRouter} from "nuxt/app";
 
+const router = useRouter();
 const {logout} = requests();
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['closeMainDialog']);
@@ -54,6 +56,9 @@ watch(props, (newValue) => {
   }
 });
 
+function routeTo(route) {
+  router.push({path: route})
+}
 </script>
 
 <style scoped lang="scss">
