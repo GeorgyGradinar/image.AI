@@ -134,7 +134,7 @@ header {
 
     .create-account {
       width: 140px;
-      color: var(--main-backgground-color);
+      color: black;
       font-weight: bold;
     }
   }
