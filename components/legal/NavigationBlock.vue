@@ -27,7 +27,6 @@ const router = useRouter();
 function routeTo(route) {
   router.push({path: route})
 }
-
 </script>
 
 <style scoped lang="scss">
