@@ -43,9 +43,14 @@ nav {
 
   button {
     font-size: 14px;
+    transition: all 0.3s;
 
     &:hover {
       color: var(--light-blue);
+    }
+
+    &:active {
+      transform: scale(0.9);
     }
   }
 
