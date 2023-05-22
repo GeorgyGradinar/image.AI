@@ -17,7 +17,6 @@
       </div>
     </div>
 
-
     <button class="secondary" v-if="images?.length" @click.prevent="getNextImages">
       <div v-if="loadingMore" class="wrapper-loader">
         <span>Загрузка...</span>
@@ -42,7 +41,7 @@ import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import ImageElement from "~/components/text-to-image/ImageElement";
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import requests from "~/mixins/requests";
 
 const {getImages} = requests();
@@ -98,9 +97,6 @@ function closeSnackBars() {
   isOpenSnackBarDone.value = false;
 }
 
-onUnmounted(() => {
-  // images.value = null;
-})
 </script>
 
 <style scoped lang="scss">

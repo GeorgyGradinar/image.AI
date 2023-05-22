@@ -44,9 +44,10 @@ import {personStore} from "~/store/personStore";
 import AccountCard from "~/components/header/AccountCard";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
-import {useRouter} from "nuxt/app";
+import {useRoute, useRouter} from "nuxt/app";
 
 const router = useRouter();
+const route = useRoute();
 const {initStore} = requests();
 
 const store = personStore();
@@ -60,6 +61,11 @@ onMounted(() => {
 
 let isOpenLoginDialog = ref(false);
 let isOpenRegistrationDialog = ref(false);
+
+watch( route, (to) => {
+  console.log(to);
+})
+
 
 function toggleDrawer() {
   hasHiddenDrawer.value = !hasHiddenDrawer.value;

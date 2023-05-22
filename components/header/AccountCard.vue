@@ -10,13 +10,12 @@
 
     <section class="details-person" :class="{'hidden-drop-down': !hasOpenDetail}">
       <div>
-        <p><img src="~/assets/images/details-person/gallery.svg" alt="gallery">Моя галерея</p>
+        <p @click="routeTo('/gallery')"><img src="~/assets/images/details-person/gallery.svg" alt="gallery">Моя галерея</p>
         <p @click="routeTo('/person/settings')"><img src="~/assets/images/details-person/settings.svg" alt="settings">Настройки</p>
         <p @click="routeTo('/legal/privacy-policy')"><img src="~/assets/images/details-person/security.svg" alt="privacy">Конфиденциальность</p>
         <p @click="routeTo('/legal/terms-of-service')"><img src="~/assets/images/details-person/terms.svg" alt="terms">Условия использования</p>
         <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти</p>
-        <p><img src="~/assets/images/details-person/invite.svg" alt="invite">Пригласить другей</p>
-
+        <p @click="routeTo('/referrals')"><img src="~/assets/images/details-person/invite.svg" alt="invite">Пригласить другей</p>
       </div>
     </section>
   </div>

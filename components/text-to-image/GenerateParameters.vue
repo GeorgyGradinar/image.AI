@@ -90,7 +90,6 @@ setTimeout(() => {
 
 let tourSteps = ref();
 
-
 if (process.client && window.innerWidth <= 650) {
   tourSteps.value = [
     {
@@ -118,7 +117,6 @@ if (process.client && window.innerWidth <= 650) {
     }
   ]
 }
-
 
 function setNext() {
   if (!person._value.id && !wasGuideShowed.value) {
