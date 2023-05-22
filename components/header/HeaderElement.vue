@@ -205,14 +205,12 @@ header {
       border-bottom: 1px solid rgba(249, 246, 224, 0.1);
     }
 
-
     .create-account {
       margin-top: 20px;
       height: 60px;
 
     }
   }
-
 
   .drawer-hidden {
     left: -100vw;
