@@ -68,6 +68,8 @@ import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
 const {generateImage} = requests();
 const store = personStore();
 const {person, filters} = storeToRefs(store);
+const tour = ref(null);
+const wasGuideShowed = ref();
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarDone = ref('');
@@ -81,9 +83,6 @@ let loadingMore = ref(false);
 let coastGeneration = ref('');
 let loginIn = ref(false);
 let textForCredit = ref('');
-
-const tour = ref(null);
-const wasGuideShowed = ref();
 
 setTimeout(() => {
   wasGuideShowed.value = process.client && localStorage.getItem('vjt-tour');
