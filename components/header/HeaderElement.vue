@@ -2,12 +2,14 @@
   <header :class="{'header-open': !hasHiddenDrawer}">
     <div class="logo" @click="routeTo('/')">Лого</div>
     <nav class="main-header">
-      <button @click="routeTo('/Editor')">Редактор</button>
-      <button @click="routeTo('/TextToImage')">Изображение по описанию</button>
+      <button @click="routeTo('/Editor')" :class="{'select-page': currentRout === '/Editor'}">Редактор</button>
+      <button @click="routeTo('/TextToImage')" :class="{'select-page': currentRout === '/TextToImage'}">Изображение по
+        описанию
+      </button>
       <button>ФотоМечты</button>
       <button>Инфо</button>
       <button class="no-hover"><img src="~/assets/images/vk.svg" alt="vk icon"></button>
-      <button @click="routeTo('/Pricing')">Цены</button>
+      <button @click="routeTo('/Pricing')" :class="{'select-page': currentRout === '/Pricing'}">Цены</button>
       <button v-if="!person.name" @click="isOpenLoginDialog = true">Войти</button>
       <button class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
       </button>
@@ -35,7 +37,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {personStore} from "~/store/personStore";
@@ -50,8 +52,9 @@ const {initStore} = requests();
 const store = personStore();
 const {person} = storeToRefs(store);
 let hasHiddenDrawer = ref(true);
+let currentRout = ref('');
 
-onMounted(()=>{
+onMounted(() => {
   initStore();
 })
 
@@ -67,12 +70,12 @@ function closeDrawer() {
 }
 
 function routeTo(route) {
-  router.push({path: route})
+  router.push({path: route});
+  currentRout.value = route;
 }
 </script>
 
 <style lang="scss">
-//@import "~/style/buttons";
 
 .layout {
   display: block;
@@ -111,6 +114,7 @@ header {
       font-weight: 600;
       font-size: 14px;
       position: relative;
+      transition: all 0.2s;
 
       &:not(.no-hover)::after {
         content: '';
@@ -130,11 +134,32 @@ header {
         transform: scaleX(1);
         transform-origin: bottom left;
       }
+
+      &:active {
+        transform: scale(0.95);
+      }
     }
 
     .create-account {
       width: 140px;
       font-weight: bold;
+    }
+
+    .select-page {;
+
+      &:not(.no-hover)::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 8px;
+        left: 0;
+        background: linear-gradient(to left, var(--light-blue), var(--light-pink));
+        transition: transform 0.25s ease-out;
+        border-radius: 50%;
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
     }
   }
 
@@ -150,7 +175,6 @@ header {
       font-size: 14px;
       position: relative;
     }
-
   }
 
   .navigation-drawer {

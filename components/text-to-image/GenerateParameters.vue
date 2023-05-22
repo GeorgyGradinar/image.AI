@@ -83,11 +83,16 @@ let loginIn = ref(false);
 let textForCredit = ref('');
 
 const tour = ref(null);
-const wasGuideShowed = ref(process.client && localStorage.getItem('vjt-tour'))
+const wasGuideShowed = ref();
+
+setTimeout(() => {
+  wasGuideShowed.value = process.client && localStorage.getItem('vjt-tour');
+})
 
 let tourSteps = ref();
 
-if ( process.client && window.innerWidth <= 650) {
+
+if (process.client && window.innerWidth <= 650) {
   tourSteps.value = [
     {
       target: '#v-step-0',
@@ -115,6 +120,7 @@ if ( process.client && window.innerWidth <= 650) {
   ]
 }
 
+
 function setNext() {
   if (!person._value.id && !wasGuideShowed.value) {
     tour.value.nextStep();
@@ -132,9 +138,9 @@ watch(filters, (newData) => {
 
   coastGeneration.value = newData.parameters.countImages * 2;
 
-  if (coastGeneration.value < 5){
+  if (coastGeneration.value < 5) {
     textForCredit.value = 'кредита';
-  }else {
+  } else {
     textForCredit.value = 'кредитов';
   }
 })

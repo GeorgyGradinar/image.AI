@@ -1,13 +1,24 @@
 <template>
   <div class="images-section">
-    <span class="info-message" v-if="!images?.length">У вас пока нет сгенерированных изображений, установите параметры и попробуйте создать свое первое изображение.</span>
+    <span class="info-message" v-if="!images?.length && !isActiveLoader">У вас пока нет сгенерированных изображений, установите параметры и попробуйте создать свое первое изображение.</span>
     <div class="wrapper-images" id="images" v-if="images?.length">
       <ImageElement v-for="image in images" :key="image.id"
                     :image="image" @delete="deleteImage">
       </ImageElement>
     </div>
+    <div class="wrapper-loader" v-if="isActiveLoader">
+      <div class="loader">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+        <div class="shadow"></div>
+      </div>
+    </div>
 
-    <button class="secondary" v-if="imagesData.images.length" @click.prevent="getNextImages">
+
+    <button class="secondary" v-if="images?.length" @click.prevent="getNextImages">
       <div v-if="loadingMore" class="wrapper-loader">
         <span>Загрузка...</span>
         <svg viewBox="25 25 50 50">
@@ -18,6 +29,7 @@
       <span v-else>Загрузить больше</span>
     </button>
   </div>
+
   <DoneSnackBar
       :openSnackBar="isOpenSnackBarDone"
       :text-snack-bar="textSnackBarForGeneration"
@@ -30,7 +42,7 @@ import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import ImageElement from "~/components/text-to-image/ImageElement";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 import requests from "~/mixins/requests";
 
 const {getImages} = requests();
@@ -39,15 +51,23 @@ const {person, imagesData} = storeToRefs(store);
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
 let loadingMore = ref(false);
-let images = ref();
+let images = ref(null);
+let isActiveLoader = ref(false);
 
 onMounted(() => {
-  images.value = imagesData._value.images;
-
   if (person._value.id && !imagesData._value.images.length) {
-    getImages();
+    isActiveLoader.value = true;
+    setTimeout(() => {
+      getImages();
+      isActiveLoader.value = false;
+    }, 2000)
   }
+
+  setTimeout(() => {
+    images.value = imagesData._value.images;
+  })
 })
+
 
 watch(person, (newDataPerson) => {
   if (newDataPerson.id && !images.value?.length) {
@@ -77,6 +97,10 @@ function deleteImage() {
 function closeSnackBars() {
   isOpenSnackBarDone.value = false;
 }
+
+onUnmounted(() => {
+  // images.value = null;
+})
 </script>
 
 <style scoped lang="scss">
@@ -159,6 +183,101 @@ function closeSnackBars() {
       stroke-dashoffset: -125px;
     }
   }
+}
+
+//loader
+.wrapper-loader {
+  height: 100vh;
+
+  .loader {
+    width: 200px;
+    height: 60px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #fff;
+    left: 15%;
+    transform-origin: 50%;
+    animation: circle7124 .5s alternate infinite ease;
+  }
+
+  @keyframes circle7124 {
+    0% {
+      top: 60px;
+      height: 5px;
+      border-radius: 50px 50px 25px 25px;
+      transform: scaleX(1.7);
+    }
+
+    40% {
+      height: 20px;
+      border-radius: 50%;
+      transform: scaleX(1);
+    }
+
+    100% {
+      top: 0%;
+    }
+  }
+
+  .circle:nth-child(2) {
+    left: 45%;
+    animation-delay: .2s;
+  }
+
+  .circle:nth-child(3) {
+    left: auto;
+    right: 15%;
+    animation-delay: .3s;
+  }
+
+  .shadow {
+    width: 20px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.9);
+    position: absolute;
+    top: 62px;
+    transform-origin: 50%;
+    z-index: -1;
+    left: 15%;
+    filter: blur(1px);
+    animation: shadow046 .5s alternate infinite ease;
+  }
+
+  @keyframes shadow046 {
+    0% {
+      transform: scaleX(1.5);
+    }
+
+    40% {
+      transform: scaleX(1);
+      opacity: .7;
+    }
+
+    100% {
+      transform: scaleX(.2);
+      opacity: .4;
+    }
+  }
+
+  .shadow:nth-child(4) {
+    left: 45%;
+    animation-delay: .2s
+  }
+
+  .shadow:nth-child(5) {
+    left: auto;
+    right: 15%;
+    animation-delay: .3s;
+  }
+
 }
 
 
