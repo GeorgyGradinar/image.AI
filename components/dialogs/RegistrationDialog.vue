@@ -59,7 +59,11 @@ import requests from '~/mixins/requests'
 import validation from "~/mixins/validation";
 import AcceptEmailDialog from "~/components/dialogs/AcceptEmailDialog";
 import LoginInDialog from "~/components/dialogs/LoginInDialog";
+import {storeToRefs} from "pinia";
+import {personStore} from "~/store/personStore";
 
+const store = personStore();
+const {referralId} = storeToRefs(store);
 const {mapErrors} = validation();
 
 const {registration} = requests();
@@ -102,7 +106,8 @@ function submit() {
   if (!v$.value.$error) {
     registration({
       email: initialState.value.email,
-      name: initialState.value.password
+      name: initialState.value.password,
+      referralId: referralId._value
     })
     initialState.value.password = '';
     initialState.value.email = '';
