@@ -11,7 +11,7 @@
           :class="'rounded-lg'"
       ></v-select>
       <v-text-field
-          v-model="search"
+          v-model.trim="search"
           density="compact"
           variant="solo"
           label="Поиск"
@@ -110,7 +110,7 @@ watch(search, (newData) => {
   }
 })
 
-function debounceSearch(data) {
+function debounceSearch() {
   if (debounceTimeout) {
     clearTimeout(debounceTimeout);
   }
@@ -293,7 +293,7 @@ function deleteImage() {
         }
 
         100% {
-          top: 0%;
+          top: 0;
         }
       }
 
