@@ -2,10 +2,8 @@
 <p>DreamBooth</p>
 </template>
 
-<script>
-export default {
-  name: "DreamBooth"
-}
+<script setup>
+
 </script>
 
 <style scoped>
