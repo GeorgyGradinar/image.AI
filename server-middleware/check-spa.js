@@ -1,6 +1,5 @@
 export default function(req, res, next) {
     const paths = ['/TextToImage']
-    console.log(req.originalUrl);
     if (paths.includes(req.originalUrl)) {
         // Will trigger the "traditional SPA mode"
         res.spa = true

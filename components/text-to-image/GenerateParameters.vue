@@ -24,7 +24,7 @@
         <v-icon end icon="mdi-arrow-right"></v-icon>
       </button>
       <button v-else class="create-project no-hover">
-        <div class="wrapper-loader">
+        <div class="wrapper-button-loader">
           <span>Генерация...</span>
           <svg viewBox="25 25 50 50">
             <circle r="20" cy="50" cx="50"></circle>
@@ -319,7 +319,7 @@ function openSnackBarReject(text) {
   }
 }
 
-.wrapper-loader {
+.wrapper-button-loader {
   display: flex;
   align-items: center;
   gap: 30px;

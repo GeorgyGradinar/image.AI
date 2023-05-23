@@ -31,7 +31,7 @@ watch(route, (to) => {
 })
 
 function checkRoute(to) {
-  const urls = ['TextToImage'];
+  const urls = ['text-to-image'];
   isFooterVisible.value = !urls.some((url) => to.path.includes(url));
 }
 

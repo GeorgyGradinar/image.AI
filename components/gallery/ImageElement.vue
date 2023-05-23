@@ -3,13 +3,9 @@
     <div class="photo-wrapper" v-if="image.img">
       <img class="main-image" :src="useAsset(image.img)"
            alt="image example" @click.prevent="openImageDetails(image)">
-      <div class="wrapper-reuse" @click="reuseFilterParameters">
-        <img src="~/assets/images/text-to-image/block-images/refresh.svg" alt="cover">
-        <v-tooltip activator="parent" location="bottom">Переиспользовать параметры</v-tooltip>
-      </div>
-      <div class="wrapper-add-image" @click="reuseImage">
-        <img src="~/assets/images/text-to-image/block-images/add-image.svg" alt="">
-        <v-tooltip activator="parent" location="bottom">Переиспользовать изображение</v-tooltip>
+      <div class="wrapper-download">
+        <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
+        <v-tooltip activator="parent" location="bottom">Скачать</v-tooltip>
       </div>
       <div class="wrapper-arrows">
         <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">
@@ -56,7 +52,7 @@
 import ImageDetails from "~/components/dialogs/ImageDetails";
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {personStore} from "~/store/personStore";
-import {defineEmits, onMounted, ref, toRefs} from "vue";
+import {defineEmits, ref, toRefs} from "vue";
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -107,30 +103,6 @@ function closeSnackBars() {
   isOpenSnackBarDone.value = false;
 }
 
-function reuseFilterParameters() {
-  let changeFilters = {
-    description: image._object.image.filters.description,
-    exception: image._object.image.filters.exception,
-    size: {
-      width: image._object.image.filters.size.width,
-      height: image._object.image.filters.size.height
-    },
-    parameters: {
-      countImages: image._object.image.filters.parameters.countImages,
-      step: image._object.image.filters.parameters.step,
-      navigation: image._object.image.filters.parameters.navigation,
-      seed: image._object.image.filters.parameters.seed
-    },
-  }
-  reuseParameters(changeFilters);
-  openSnackBar("Параметры установлены");
-}
-
-function reuseImage() {
-  changeFilters('image', {name: 'fsd', url: useAsset(image._object.image.img)});
-  openSnackBar("Изображение установлено");
-}
-
 function closeDetailImage(text) {
   imageDetailsDialog.value = false;
   if (text) {
@@ -171,10 +143,9 @@ function openSnackBar(text) {
 
   .wrapper-like,
   .wrapper-bin,
-  .wrapper-reuse,
   .wrapper-smile,
-  .wrapper-add-image,
-  .wrapper-arrows {
+  .wrapper-arrows,
+  .wrapper-download {
     position: absolute;
     display: flex;
     opacity: 0;
@@ -191,14 +162,13 @@ function openSnackBar(text) {
     }
   }
 
-  .wrapper-reuse {
+  .wrapper-download {
     top: 20px;
     left: 20px;
-  }
 
-  .wrapper-add-image {
-    top: 20px;
-    left: 60px;
+    img {
+      width: 14px;
+    }
   }
 
   .wrapper-arrows {
@@ -244,10 +214,9 @@ function openSnackBar(text) {
   &:hover {
     .wrapper-like,
     .wrapper-bin,
-    .wrapper-reuse,
     .wrapper-smile,
-    .wrapper-add-image,
-    .wrapper-arrows {
+    .wrapper-arrows,
+    .wrapper-download {
       opacity: 1;
     }
   }
@@ -363,9 +332,7 @@ function openSnackBar(text) {
     & {
       .wrapper-like,
       .wrapper-bin,
-      .wrapper-reuse,
       .wrapper-smile,
-      .wrapper-add-image,
       .wrapper-arrows {
         opacity: 1;
       }
@@ -385,5 +352,8 @@ function openSnackBar(text) {
     width: calc(100% - 4px);
   }
 }
+
+
+
 
 </style>

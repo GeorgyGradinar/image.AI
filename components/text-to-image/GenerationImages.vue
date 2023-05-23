@@ -1,7 +1,7 @@
 <template>
   <div class="images-section">
     <span class="info-message" v-if="!images?.length && !isActiveLoader">У вас пока нет сгенерированных изображений, установите параметры и попробуйте создать свое первое изображение.</span>
-    <div class="wrapper-images" id="images" v-if="images?.length">
+    <div class="wrapper-images" id="images" v-show="images?.length">
       <ImageElement v-for="image in images" :key="image.id"
                     :image="image" @delete="deleteImage">
       </ImageElement>
@@ -51,20 +51,24 @@ let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
 let loadingMore = ref(false);
 let images = ref(null);
-let isActiveLoader = ref(false);
+let isActiveLoader = ref(true);
 
 onMounted(() => {
-  if (person._value.id && !imagesData._value.images.length) {
-    isActiveLoader.value = true;
-    setTimeout(() => {
-      getImages();
-      isActiveLoader.value = false;
-    }, 2000)
+  if (person._value.id) {
+    if (!imagesData._value.images.length){
+      setTimeout(() => {
+        getImages();
+        isActiveLoader.value = false;
+      }, 2000)
+    }else {
+      setTimeout(() => {
+        isActiveLoader.value = false;
+        images.value = imagesData._value.images;
+      })
+    }
+  }else {
+    isActiveLoader.value = false;
   }
-
-  setTimeout(() => {
-    images.value = imagesData._value.images;
-  })
 })
 
 
@@ -117,7 +121,8 @@ function closeSnackBars() {
   align-items: center;
   gap: 60px;
   width: calc(100vw - 356px);
-  height: 100vh;
+  height: 100%;
+  //min-height: calc(100vh - 70px);
   scrollbar-gutter: stable;
   padding: 70px 0 30px 15px;
   overflow: auto;

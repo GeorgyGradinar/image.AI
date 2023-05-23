@@ -1,18 +1,18 @@
 <template>
   <header :class="{'header-open': !hasHiddenDrawer}">
-    <div class="logo" @click="routeTo('/')">Лого</div>
+    <NuxtLink to="/" class="logo">Лого</NuxtLink>
     <nav class="main-header">
-      <button @click="routeTo('/Editor')" :class="{'select-page': currentRout === '/Editor'}">Редактор</button>
-      <button @click="routeTo('/TextToImage')" :class="{'select-page': currentRout === '/TextToImage'}">Изображение по
+      <NuxtLink to="editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>
+      <NuxtLink to="text-to-image" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
         описанию
-      </button>
-      <button>ФотоМечты</button>
-      <button>Инфо</button>
-      <button class="no-hover"><img src="~/assets/images/vk.svg" alt="vk icon"></button>
-      <button @click="routeTo('/Pricing')" :class="{'select-page': currentRout === '/Pricing'}">Цены</button>
-      <button v-if="!person.name" @click="isOpenLoginDialog = true">Войти</button>
-      <button class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
-      </button>
+      </NuxtLink>
+      <NuxtLink to="dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>
+      <NuxtLink to="guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>
+      <NuxtLink class="no-hover"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
+      <NuxtLink to="pricing" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
+      <a v-if="!person.name" @click="isOpenLoginDialog = true">Войти</a>
+      <a class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
+      </a>
       <AccountCard></AccountCard>
     </nav>
 
@@ -21,11 +21,11 @@
       <v-app-bar-nav-icon variant="text" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
-      <button @click="routeTo('/Editor')">Редактор</button>
-      <button>Изображение по описанию</button>
-      <button>ФотоМечты</button>
-      <button>Инфо</button>
-      <button>Цены</button>
+      <NuxtLink to="editor">Редактор</NuxtLink>
+      <NuxtLink to="text-to-image">Изображение по описанию</NuxtLink>
+      <NuxtLink>ФотоМечты</NuxtLink>
+      <NuxtLink>Инфо</NuxtLink>
+      <NuxtLink>Цены</NuxtLink>
       <button v-if="!person.name" @click="isOpenLoginDialog = true">Войти</button>
       <button class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
       </button>
@@ -44,28 +44,25 @@ import {personStore} from "~/store/personStore";
 import AccountCard from "~/components/header/AccountCard";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
-import {useRoute, useRouter} from "nuxt/app";
+import {useRoute} from "nuxt/app";
 
-const router = useRouter();
+const store = personStore();
+const {person, referralId} = storeToRefs(store);
 const route = useRoute();
 const {initStore} = requests();
 
-const store = personStore();
-const {person} = storeToRefs(store);
 let hasHiddenDrawer = ref(true);
-let currentRout = ref('');
-
-onMounted(() => {
-  initStore();
-})
-
 let isOpenLoginDialog = ref(false);
 let isOpenRegistrationDialog = ref(false);
 
-watch( route, (to) => {
-  console.log(to);
+onMounted(() => {
+  if (route.query.ref) {
+    referralId._value = route.query.ref;
+    isOpenRegistrationDialog.value = true;
+  }else {
+    initStore();
+  }
 })
-
 
 function toggleDrawer() {
   hasHiddenDrawer.value = !hasHiddenDrawer.value;
@@ -75,10 +72,6 @@ function closeDrawer() {
   hasHiddenDrawer.value = true;
 }
 
-function routeTo(route) {
-  router.push({path: route});
-  currentRout.value = route;
-}
 </script>
 
 <style lang="scss">
@@ -107,13 +100,17 @@ header {
     color: var(--main-light-color);
     cursor: pointer;
     margin-right: 10px;
+
+    &:link {
+      text-decoration: none;
+    }
   }
 
   .main-header {
     display: flex;
     gap: 20px;
 
-    button {
+    a {
       display: flex;
       align-items: center;
       color: var(--main-light-color);
@@ -121,6 +118,10 @@ header {
       font-size: 14px;
       position: relative;
       transition: all 0.2s;
+
+      &:link {
+        text-decoration: none;
+      }
 
       &:not(.no-hover)::after {
         content: '';
@@ -208,7 +209,6 @@ header {
     .create-account {
       margin-top: 20px;
       height: 60px;
-
     }
   }
 

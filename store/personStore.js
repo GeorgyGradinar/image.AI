@@ -21,6 +21,7 @@ export const personStore = defineStore('store', () => {
             seed: null
         },
     });
+    let referralId = ref('');
 
     function toggleFavorite(id) {
         let image = imagesData.value.images.find((image) => image.id === id);
@@ -53,5 +54,5 @@ export const personStore = defineStore('store', () => {
         }
     }
 
-    return {person, toggleFavorite, deleteImage, changeFilters, filters, reuseParameters, imagesData, changeCredits}
+    return {person, filters, imagesData, referralId, toggleFavorite, deleteImage, changeFilters,  reuseParameters, changeCredits}
 })

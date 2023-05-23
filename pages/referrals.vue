@@ -42,7 +42,7 @@ setProperty('Пригласить друзей | getImage');
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
-let referralLink = ref('https://getimg.ai/ref/tc2IFXeH0');
+let referralLink = ref('https://image-ai-git-master-heorhiig.vercel.app/?ref=1521');
 const referral = ref(null);
 
 function copyLink(text) {
