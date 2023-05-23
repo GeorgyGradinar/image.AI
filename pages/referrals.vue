@@ -37,15 +37,16 @@ import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {ref} from "vue";
 import seo from "~/mixins/seo";
 
+const referral = ref(null);
 const {setProperty} = seo();
 setProperty('Пригласить друзей | getImage');
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
 let referralLink = ref('https://image-ai-git-master-heorhiig.vercel.app/?ref=1521');
-const referral = ref(null);
 
-function copyLink(text) {
+
+function copyLink() {
   textSnackBarForGeneration.value = "Ссылка скопирована";
   isOpenSnackBarDone.value = true;
   referral.value.select();
