@@ -1,10 +1,10 @@
 <template>
-  <client-only>
+
     <div class="wrapper__text-to-image">
       <GenerateParameters></GenerateParameters>
       <GenerationImages></GenerationImages>
     </div>
-  </client-only>
+
 </template>
 <script setup>
 import GenerateParameters from "~/components/text-to-image/GenerateParameters"

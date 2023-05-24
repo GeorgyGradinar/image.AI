@@ -1,21 +1,28 @@
 <template>
   <section class="filters">
-    <div class="wrapper-filters" :class="{'remove-guide': loginIn}">
-      <v-expansion-panels flat multiple variant="accordion">
-        <Models></Models>
-        <DescriptionBlock @click.prevent="setNext"></DescriptionBlock>
-        <UploadImages></UploadImages>
-        <ResolutionBlock></ResolutionBlock>
-        <GenerationParameters></GenerationParameters>
-        <Settings></Settings>
-      </v-expansion-panels>
-    </div>
-    <VTour :steps="tourSteps" autoStart highlight ref="tour" v-if="!person.id">
-      <template #actions="{}">
-        <div class="vjt-actions">
+    <div>
+      <h1 class="filters-header">Настройки для генерации</h1>
+      <client-only>
+        <div class="wrapper-filters" :class="{'remove-guide': loginIn}">
+          <v-expansion-panels flat multiple variant="accordion">
+            <Models></Models>
+            <DescriptionBlock @click.prevent="setNext"></DescriptionBlock>
+            <UploadImages></UploadImages>
+            <ResolutionBlock></ResolutionBlock>
+            <GenerationParameters></GenerationParameters>
+            <Settings></Settings>
+          </v-expansion-panels>
         </div>
-      </template>
-    </VTour>
+
+        <VTour :steps="tourSteps" autoStart highlight ref="tour" v-if="!person.id">
+          <template #actions="{}">
+            <div class="vjt-actions">
+            </div>
+          </template>
+        </VTour>
+      </client-only>
+    </div>
+
     <section class="main-buttons" id="v-step-1" @click.prevent="setNext">
       <div class="wrapper-coast">
         <p class="coast-generation">Стоимость генерации: {{ coastGeneration }} {{ textForCredit }}</p>
@@ -267,8 +274,19 @@ function openSnackBarReject(text) {
   justify-content: space-between;
   background-color: #2b2b2be5;
   border-radius: 0 30px 30px 0;
-  padding: 30px 0 0 0;
   margin-top: 70px;
+
+  .filters-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 35px;
+    padding: 0 25px;
+    font-size: 15px;
+    color:  rgba(255, 255, 225, 0.4);
+    background-color: #42423f;
+    border-radius: 0 30px 0 0;
+  }
 
   .wrapper-filters {
     overflow-x: hidden;

@@ -439,6 +439,36 @@ function selectedModel(name) {
   }
 }
 
+@media screen and (min-width: 1925px) {
+  .dialog.models {
+    .v-overlay__content {
+      .card-models {
+        .main-block-models {
+          .wrapper-model {
+            .wrapper-model-description {
+              h3 {
+                font-size: 20px;
+              }
+
+              p {
+                font-size: 15px;
+              }
+            }
+
+            &:hover {
+              .wrapper-model-description {
+                p {
+                  height: 15%;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1100px) {
   .dialog.models {
     .v-overlay__content {
