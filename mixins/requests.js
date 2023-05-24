@@ -1,6 +1,5 @@
 import {personStore} from "~/store/personStore";
 import {ACCOUNT_STORAGE_KEY} from "~/constants";
-import {ref} from "vue";
 
 export default function requests() {
     let store = personStore();
@@ -49,6 +48,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: ' качество, ',
                     exception: '',
                     image: null,
@@ -71,6 +71,7 @@ export default function requests() {
                 like: false,
                 date: '23.11.2022',
                 filters: {
+                    model: 'Реалистичное',
                     description: 'резк sdsd ssd',
                     exception: '',
                     image: null,
@@ -92,6 +93,7 @@ export default function requests() {
                 like: false,
                 date: '10.06.2022',
                 filters: {
+                    model: 'Бесконечная мечта',
                     description: ' качество, резк',
                     exception: '',
                     image: null,
@@ -113,6 +115,7 @@ export default function requests() {
                 like: false,
                 date: '12.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'изображения  изображения ',
                     exception: '',
                     image: null,
@@ -134,6 +137,7 @@ export default function requests() {
                 like: false,
                 date: '12.03.2022',
                 filters: {
+                    model: 'Опенджорни',
                     description: 'тренде  тренде ',
                     exception: '',
                     image: null,
@@ -155,6 +159,7 @@ export default function requests() {
                 like: false,
                 date: '12.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'Подедворна Подедворна',
                     exception: '',
                     image: null,
@@ -176,6 +181,7 @@ export default function requests() {
                 like: false,
                 date: '12.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лепить Подедворна',
                     exception: '',
                     image: null,
@@ -197,6 +203,7 @@ export default function requests() {
                 like: false,
                 date: '07.07.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лепить лепить',
                     exception: '',
                     image: null,
@@ -218,6 +225,7 @@ export default function requests() {
                 like: false,
                 date: '12.12.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'тренде тренде ',
                     exception: '',
                     image: null,
@@ -239,6 +247,7 @@ export default function requests() {
                 like: false,
                 date: '26.12.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'аллея аллея аллея',
                     exception: '',
                     image: null,
@@ -260,6 +269,7 @@ export default function requests() {
                 like: false,
                 date: '30.06.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'еоновая  на ',
                     exception: '',
                     image: null,
@@ -281,6 +291,7 @@ export default function requests() {
                 like: false,
                 date: '10.10.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'еоновая аллея на ',
                     exception: '',
                     image: null,
@@ -302,6 +313,7 @@ export default function requests() {
                 like: false,
                 date: '20.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'катаной катаной катаной',
                     exception: '',
                     image: null,
@@ -323,6 +335,7 @@ export default function requests() {
                 like: false,
                 date: '11.11.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лазерной катаной, поза г',
                     exception: '',
                     image: null,
@@ -344,6 +357,7 @@ export default function requests() {
                 like: false,
                 date: '09.08.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лазерной , поза г',
                     exception: '',
                     image: null,
@@ -365,6 +379,7 @@ export default function requests() {
                 like: false,
                 date: '19.08.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'vvvvvvvvvvvvvvvv',
                     exception: '',
                     image: null,
@@ -386,6 +401,7 @@ export default function requests() {
                 like: false,
                 date: '15.05.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'dfsfsfsvx',
                     exception: '',
                     image: null,
@@ -407,6 +423,7 @@ export default function requests() {
                 like: false,
                 date: '22.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'fffffghjjgfbn',
                     exception: '',
                     image: null,
@@ -437,6 +454,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: ' качество, ',
                     exception: '',
                     image: null,
@@ -459,6 +477,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'резк sdsd ssd',
                     exception: '',
                     image: null,
@@ -480,6 +499,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: ' качество, резк',
                     exception: '',
                     image: null,
@@ -501,6 +521,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'изображения  изображения ',
                     exception: '',
                     image: null,
@@ -522,6 +543,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'тренде  тренде ',
                     exception: '',
                     image: null,
@@ -543,6 +565,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'Подедворна Подедворна',
                     exception: '',
                     image: null,
@@ -564,6 +587,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лепить Подедворна',
                     exception: '',
                     image: null,
@@ -585,6 +609,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лепить лепить',
                     exception: '',
                     image: null,
@@ -606,6 +631,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'тренде тренде ',
                     exception: '',
                     image: null,
@@ -627,6 +653,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'аллея аллея аллея',
                     exception: '',
                     image: null,
@@ -648,6 +675,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'еоновая  на ',
                     exception: '',
                     image: null,
@@ -669,6 +697,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'еоновая аллея на ',
                     exception: '',
                     image: null,
@@ -690,6 +719,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'катаной катаной катаной',
                     exception: '',
                     image: null,
@@ -711,6 +741,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лазерной катаной, поза г',
                     exception: '',
                     image: null,
@@ -732,6 +763,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'лазерной , поза г',
                     exception: '',
                     image: null,
@@ -753,6 +785,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'vvvvvvvvvvvvvvvv',
                     exception: '',
                     image: null,
@@ -774,6 +807,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'dfsfsfsvx',
                     exception: '',
                     image: null,
@@ -795,6 +829,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'fffffghjjgfbn',
                     exception: '',
                     image: null,
@@ -816,6 +851,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'fghfg',
                     exception: '',
                     image: null,
@@ -837,6 +873,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: '',
                     exception: '',
                     image: null,
@@ -858,6 +895,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'ddddddd',
                     exception: 'lllll',
                     image: null,
@@ -879,6 +917,7 @@ export default function requests() {
                 like: false,
                 date: '14.03.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: '',
                     exception: '',
                     image: null,
@@ -900,6 +939,7 @@ export default function requests() {
                 like: false,
                 date: '20.12.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: ' гта, симметрия в',
                     exception: ' гта',
                     image: null,
@@ -921,6 +961,7 @@ export default function requests() {
                 like: false,
                 date: '14.06.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: 'планета с арт в стиле гта, симметрия в объектах',
                     exception: 'gffd',
                     image: null,
@@ -942,6 +983,7 @@ export default function requests() {
                 like: false,
                 date: '02.02.2022',
                 filters: {
+                    model: 'Диффузия v2.1',
                     description: ' dsjfklj sd kdlsjf sd sdklfj sdh',
                     exception: '',
                     image: null,

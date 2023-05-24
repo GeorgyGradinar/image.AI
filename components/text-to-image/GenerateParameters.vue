@@ -2,6 +2,7 @@
   <section class="filters">
     <div class="wrapper-filters" :class="{'remove-guide': loginIn}">
       <v-expansion-panels flat multiple variant="accordion">
+        <Models></Models>
         <DescriptionBlock @click.prevent="setNext"></DescriptionBlock>
         <UploadImages></UploadImages>
         <ResolutionBlock></ResolutionBlock>
@@ -64,6 +65,7 @@ import {storeToRefs} from "pinia";
 import requests from "~/mixins/requests";
 import BuyMoreCredits from "~/components/dialogs/BuyMoreCredits";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
+import Models from "./parameters/Models";
 
 const {generateImage} = requests();
 const store = personStore();

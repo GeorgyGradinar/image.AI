@@ -7,6 +7,7 @@ export const personStore = defineStore('store', () => {
     let person = ref(savedPerson ? JSON.parse(savedPerson) : '')
     let imagesData = ref({images: [], newImages: []});
     let filters = ref({
+        model: 'Диффузия v2.1',
         description: 'sdd',
         exception: '',
         image: null,

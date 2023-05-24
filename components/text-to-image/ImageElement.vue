@@ -75,16 +75,15 @@ import {defineEmits, onMounted, ref, toRefs} from "vue";
 const props = defineProps({
   image: {},
 });
-
 const {image} = toRefs(props);
 const store = personStore();
 const {toggleFavorite, deleteImage, reuseParameters, changeFilters} = store;
 const emit = defineEmits(['delete']);
+
 let imageDetailsDialog = ref(false);
 let currentImage = ref('');
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
-
 
 function useAsset(path) {
   const assets = import.meta.glob('~/assets/**/*', {
@@ -104,7 +103,6 @@ function toggleLike(id) {
     textSnackBarForGeneration.value = "Удалено из избранного";
     isOpenSnackBarDone.value = true;
   }
-
 }
 
 function deleteImg(id) {
@@ -123,26 +121,21 @@ function closeSnackBars() {
 
 function reuseFilterParameters() {
   let changeFilters = {
-    description: image._object.image.filters.description,
-    exception: image._object.image.filters.exception,
+    ...image._object.image.filters,
     size: {
-      width: image._object.image.filters.size.width,
-      height: image._object.image.filters.size.height
+      ...image._object.image.filters.size,
     },
     parameters: {
-      countImages: image._object.image.filters.parameters.countImages,
-      step: image._object.image.filters.parameters.step,
-      navigation: image._object.image.filters.parameters.navigation,
-      seed: image._object.image.filters.parameters.seed
+      ...image._object.image.filters.parameters,
     },
   }
+
   reuseParameters(changeFilters);
   openSnackBar("Параметры установлены");
 }
 
 function reuseImage() {
   changeFilters('image', {name: 'fsd', url: useAsset(image._object.image.img)});
-  // changeFilters('image', {name: 'fsd', url: require(`@/assets/main-page/${image._object.image.img}`)});
   openSnackBar("Изображение установлено");
 }
 

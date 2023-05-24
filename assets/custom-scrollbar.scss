@@ -1,28 +1,16 @@
-body::-webkit-scrollbar,
-.wrapper-parameters::-webkit-scrollbar,
-.images-section::-webkit-scrollbar,
-.wrapper__text-to-image::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 6px;
 }
 
-body::-webkit-scrollbar-track,
-.wrapper-parameters::-webkit-scrollbar-track,
-.images-section::-webkit-scrollbar-track,
-.wrapper__text-to-image::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: #222427;
 }
 
-body::-webkit-scrollbar-thumb,
-.wrapper-parameters::-webkit-scrollbar-thumb,
-.images-section::-webkit-scrollbar-thumb,
-.wrapper__text-to-image::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: var(--light-blue);
   border-radius: 3px;
 }
 
-body::-webkit-scrollbar-thumb:hover,
-.wrapper-parameters::-webkit-scrollbar-thumb:hover,
-.images-section::-webkit-scrollbar-thumb:hover,
-.wrapper__text-to-image::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover{
   background-color: #2bafc7;
 }
