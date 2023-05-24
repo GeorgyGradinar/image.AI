@@ -162,7 +162,6 @@ onMounted(() => {
   startTimer();
 })
 
-
 function startTimer() {
   stopTimer();
   timerInterval = setInterval(function () {
