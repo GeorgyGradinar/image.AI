@@ -183,7 +183,6 @@ function copyLink() {
               background-color: rgba(0, 0, 0, 0.5);
             }
           }
-
         }
 
         .wrapper-input {
@@ -306,6 +305,4 @@ function copyLink() {
     }
   }
 }
-
-
 </style>
