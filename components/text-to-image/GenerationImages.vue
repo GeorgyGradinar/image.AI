@@ -79,7 +79,6 @@ watch(person, (newDataPerson) => {
 })
 
 watch(imagesData, (newDataImages) => {
-  console.log('sdf')
   images.value = newDataImages.images;
 })
 

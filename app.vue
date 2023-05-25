@@ -2,7 +2,7 @@
   <div>
     <NuxtLayout>
       <section class="pages">
-        <Header></Header>
+        <Header v-if="isHeaderVisible"></Header>
         <main>
           <NuxtPage></NuxtPage>
         </main>
@@ -20,19 +20,21 @@ import {onMounted, ref, watch} from "vue";
 
 const route = useRoute();
 let isFooterVisible = ref(true);
+let isHeaderVisible = ref(true);
 
 onMounted(() => {
   checkRoute(route);
 })
-
 
 watch(route, (to) => {
   checkRoute(to);
 })
 
 function checkRoute(to) {
-  const urls = ['text-to-image'];
-  isFooterVisible.value = !urls.some((url) => to.path.includes(url));
+  const urlsForHeader = ['editor/project'];
+  const urlsForFooter = ['text-to-image', 'editor/project'];
+  isFooterVisible.value = !urlsForFooter.some((url) => to.path.includes(url));
+  isHeaderVisible.value = !urlsForHeader.some((url) => to.path.includes(url))
 }
 
 </script>

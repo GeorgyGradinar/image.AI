@@ -1,46 +1,51 @@
 <template>
   <section class="filters">
-    <div>
+    <div class="wrapper-settings-block">
       <h1 class="filters-header">Настройки для генерации</h1>
-      <client-only>
-        <div class="wrapper-filters" :class="{'remove-guide': loginIn}">
-          <v-expansion-panels flat multiple variant="accordion">
-            <Models></Models>
+      <div class="wrapper-filters" :class="{'remove-guide': loginIn}">
+        <v-expansion-panels flat multiple variant="accordion">
+          <Models></Models>
+          <client-only>
             <DescriptionBlock @click.prevent="setNext"></DescriptionBlock>
-            <UploadImages></UploadImages>
-            <ResolutionBlock></ResolutionBlock>
-            <GenerationParameters></GenerationParameters>
-            <Settings></Settings>
-          </v-expansion-panels>
-        </div>
-
-        <VTour :steps="tourSteps" autoStart highlight ref="tour" v-if="!person.id">
-          <template #actions="{}">
-            <div class="vjt-actions">
-            </div>
-          </template>
-        </VTour>
-      </client-only>
+          </client-only>
+          <UploadImages></UploadImages>
+          <ResolutionBlock></ResolutionBlock>
+          <GenerationParameters></GenerationParameters>
+          <Settings></Settings>
+        </v-expansion-panels>
+      </div>
     </div>
 
-    <section class="main-buttons" id="v-step-1" @click.prevent="setNext">
-      <div class="wrapper-coast">
-        <p class="coast-generation">Стоимость генерации: {{ coastGeneration }} {{ textForCredit }}</p>
-      </div>
-      <button v-if="!loadingMore" class="create-project" @click="generate">
-        {{ textMainButton }} {{ counterImage }}
-        <v-icon end icon="mdi-arrow-right"></v-icon>
-      </button>
-      <button v-else class="create-project no-hover">
-        <div class="wrapper-button-loader">
-          <span>Генерация...</span>
-          <svg viewBox="25 25 50 50">
-            <circle r="20" cy="50" cx="50"></circle>
-          </svg>
-        </div>
-      </button>
 
-    </section>
+    <client-only>
+      <VTour :steps="tourSteps" autoStart highlight ref="tour" v-if="!person.id">
+        <template #actions="{}">
+          <div class="vjt-actions">
+          </div>
+        </template>
+      </VTour>
+    </client-only>
+
+    <client-only>
+      <section class="main-buttons" id="v-step-1" @click.prevent="setNext">
+        <div class="wrapper-coast">
+          <p class="coast-generation">Стоимость генерации: {{ coastGeneration }} {{ textForCredit }}</p>
+        </div>
+        <button v-if="!loadingMore" class="create-project" @click="generate">
+          {{ textMainButton }} {{ counterImage }}
+          <v-icon end icon="mdi-arrow-right"></v-icon>
+        </button>
+        <button v-else class="create-project no-hover">
+          <div class="wrapper-button-loader">
+            <span>Генерация...</span>
+            <svg viewBox="25 25 50 50">
+              <circle r="20" cy="50" cx="50"></circle>
+            </svg>
+          </div>
+        </button>
+      </section>
+    </client-only>
+
     <DoneSnackBar
         :openSnackBar="isOpenSnackBarDone"
         :text-snack-bar="textSnackBarDone"
@@ -276,32 +281,41 @@ function openSnackBarReject(text) {
   border-radius: 0 30px 30px 0;
   margin-top: 70px;
 
-  .filters-header {
+  .wrapper-settings-block {
+    height: calc(100vh - 155px);
     display: flex;
-    align-items: center;
-    width: 100%;
-    height: 35px;
-    padding: 0 25px;
-    font-size: 15px;
-    color:  rgba(255, 255, 225, 0.4);
-    background-color: #42423f;
+    flex-direction: column;
     border-radius: 0 30px 0 0;
-  }
+    overflow: hidden;;
 
-  .wrapper-filters {
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-gutter: stable;
+    .filters-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 35px;
+      padding: 0 25px;
+      font-size: 15px;
+      color: rgba(255, 255, 225, 0.4);
+      background-color: #42423f;
 
-    &::-webkit-scrollbar {
-      width: 2px;
-      height: 1000px;
     }
 
-    &::-webkit-scrollbar-track {
-      background: #404040E5;
+    .wrapper-filters {
+      overflow-x: hidden;
+      overflow-y: auto;
+      scrollbar-gutter: stable;
+
+      &::-webkit-scrollbar {
+        width: 2px;
+        height: 1000px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #404040E5;
+      }
     }
   }
+
 
   .main-buttons {
     min-height: 80px;
@@ -424,9 +438,16 @@ function openSnackBarReject(text) {
     border-radius: 0;
     height: auto;
 
-    .wrapper-filters {
+    .wrapper-settings-block{
+      height: auto;
+      border-radius: 0;
 
+      .wrapper-filters {
+
+      }
     }
+
+
 
     .main-buttons {
       border-radius: 0;
