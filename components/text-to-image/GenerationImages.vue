@@ -79,6 +79,7 @@ watch(person, (newDataPerson) => {
 })
 
 watch(imagesData, (newDataImages) => {
+  console.log('sdf')
   images.value = newDataImages.images;
 })
 
@@ -223,7 +224,7 @@ function closeSnackBars() {
     }
 
     100% {
-      top: 0%;
+      top: 0;
     }
   }
 

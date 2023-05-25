@@ -2,14 +2,14 @@
   <header :class="{'header-open': !hasHiddenDrawer}">
     <NuxtLink to="/" class="logo">Лого</NuxtLink>
     <nav class="main-header">
-      <NuxtLink to="editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>
-      <NuxtLink to="text-to-image" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
+      <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>
+      <NuxtLink to="/text-to-image" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
         описанию
       </NuxtLink>
-      <NuxtLink to="dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>
-      <NuxtLink to="guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>
+      <NuxtLink to="/dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>
+      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>
       <NuxtLink class="no-hover"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
-      <NuxtLink to="pricing" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
+      <NuxtLink to="/pricing" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
       <a v-if="!person.name" @click="isOpenLoginDialog = true">Войти</a>
       <a class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
       </a>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch} from "vue";
+import {onMounted, ref} from "vue";
 import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {personStore} from "~/store/personStore";

@@ -1,6 +1,7 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-title @click="openDialog" readonly>
+    <v-tooltip activator="parent" location="right">Изменить</v-tooltip>
+    <v-expansion-panel-title @click="openDialog" readonly expand-icon="mdi-cached" >
       <svg class="icon-model edit-icon" version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg"
            x="0px" y="0px"
            viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
@@ -8,8 +9,9 @@
 	C14.3,21.8,12.4,19.9,9.9,19.8z"/>
         <path class="st0" d="M11.2,20L26.3,6.5c0.7-0.6,1.7-0.6,2.3,0l0,0c0.6,0.6,0.6,1.6,0,2.2L14.4,23.8"/>
 </svg>
-      Модели: {{ currentModel }}
+      Нейросеть: {{ currentModel }}
     </v-expansion-panel-title>
+
   </v-expansion-panel>
   <ModelsDialog v-if="isOpenDialog" @close="getNewData"></ModelsDialog>
 </template>
@@ -48,8 +50,10 @@ function getNewData(model) {
 </script>
 
 <style lang="scss">
-.mdi-chevron-down::before {
-  content: "";
+
+.mdi-cached::before {
+  content: "\F00E8";
+  color: var(--light-blue);
 }
 
 .icon-model {

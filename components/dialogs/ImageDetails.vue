@@ -21,7 +21,7 @@
           </p>
 
           <p class="details-item with-divider">
-            <span  class="title" v-if="imageSrc.filters.exception">Исключение:</span>
+            <span class="title" v-if="imageSrc.filters.exception">Исключение:</span>
             <span class="content"> {{ imageSrc.filters.exception }}</span>
           </p>
 
@@ -42,11 +42,11 @@
               <img src="~/assets/images/text-to-image/block-images/image-details/image.svg" alt="">
               <p>Использовать изображение</p>
             </div>
-            <div class="improve-quality" >
+            <div class="improve-quality">
               <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">
               <p>Повысить разрешение</p>
             </div>
-            <div class="share">
+            <div class="share-button" @click="toggleShowShareDialog">
               <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">
               <strong>Поделиться</strong>
             </div>
@@ -82,11 +82,14 @@
       </section>
     </v-card>
   </v-dialog>
+
+  <ShareImageDialog v-if="isOpenShareDialog" :image-src="useAsset(imageSrc.img)" @close="toggleShowShareDialog"></ShareImageDialog>
 </template>
 
 <script setup>
 import {ref, defineProps, defineEmits, toRefs, onMounted} from "vue";
 import {personStore} from "~/store/personStore";
+import ShareImageDialog from "~/components/dialogs/ShareImageDialog";
 
 const emit = defineEmits(['close']);
 const store = personStore();
@@ -98,13 +101,16 @@ const {imageSrc} = toRefs(props);
 
 onMounted(() => {
   document.addEventListener('click', (event) => {
-    if (Array.from(event.target.classList).includes('v-overlay__scrim')) {
+    if (Array.from(event.target.parentElement.classList).includes('share')) {
+      isOpenShareDialog.value = false;
+    }else if (Array.from(event.target.parentElement.classList).includes('image')){
       emit('close');
     }
   })
 })
 
 let isOpen = ref(true);
+let isOpenShareDialog = ref(false);
 
 function useAsset(path) {
   const assets = import.meta.glob('~/assets/**/*', {
@@ -138,6 +144,11 @@ function reuseImageParameter() {
   changeFilters('image', {name: 'fsd', url: useAsset(imageSrc._object.imageSrc.img)});
   emit('close', "Изображение установлено");
 }
+
+function toggleShowShareDialog() {
+  isOpenShareDialog.value = !isOpenShareDialog.value;
+}
+
 </script>
 
 <style lang="scss">
@@ -247,7 +258,7 @@ function reuseImageParameter() {
 
           .refresh,
           .edit,
-          .share,
+          .share-button,
           .reuse,
           .improve-quality,
           .download {
@@ -270,7 +281,7 @@ function reuseImageParameter() {
             }
           }
 
-          .share {
+          .share-button {
             background-color: var(--light-blue);
             color: var(--main-backgground-color);
 
@@ -325,7 +336,7 @@ function reuseImageParameter() {
           .options {
             .refresh,
             .edit,
-            .share,
+            .share-button,
             .reuse,
             .improve-quality,
             .download {
@@ -373,7 +384,7 @@ function reuseImageParameter() {
           .options {
             .refresh,
             .edit,
-            .share,
+            .share-button,
             .reuse,
             .improve-quality,
             .download {

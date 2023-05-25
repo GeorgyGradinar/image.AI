@@ -3,7 +3,7 @@
     <v-card class="card-models">
       <div class="header">
 
-        <h1>Выберите модель</h1>
+        <h1>Выберите нейросеть</h1>
 
         <v-text-field
             v-model.trim="search"
