@@ -78,7 +78,6 @@ let selectedIncreaseParameters = ref(increaseParameters[0]);
 let selectedIncreasePercent = ref(increasePercent[0]);
 let sizeEraser = ref(1);
 
-
 function selection(nameButton) {
   selectedTool.value = nameButton;
 }
