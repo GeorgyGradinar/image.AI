@@ -1,6 +1,6 @@
 <template>
   <section class="wrapper-projects">
-    <div class="add-project">
+    <div class="add-project" @click="createNewProject">
       <div class="wrapper-image">
         <img src="~/assets/images/editor/plus.svg" alt="">
       </div>
@@ -10,16 +10,16 @@
       </div>
     </div>
 
-    <div class="project" v-for="project of projects" :key="project.id" @click="routeTo(project.id)">
-      <div class="pre-show-project">
+    <div class="project" v-for="project of projects" :key="project.id">
+      <div class="pre-show-project" @click="routeTo(project.id)">
 
       </div>
-      <div class="description-project">
-        <div class="wrapper-text">
+      <div class="description-project" @click.self="routeTo(project.id)">
+        <div class="wrapper-text" @click="routeTo(project.id)">
           <h3>{{ project.name }}</h3>
           <p>{{ project.data }}</p>
         </div>
-        <div class="wrapper-trash">
+        <div class="wrapper-trash" @click="deletedProject(project.id)">
           <img src="~/assets/images/text-to-image/trash.svg" alt="trash">
         </div>
       </div>
@@ -35,9 +35,25 @@ import {useRouter} from "nuxt/app";
 const router = useRouter();
 const project = projectStore();
 const {projects} = storeToRefs(project);
+const {addNewProject, deleteProject} = project;
 
 function routeTo(id) {
-  router.push({path:`/editor/project${id}`});
+  router.push({path: `/editor/project${id}`});
+}
+
+function createNewProject() {
+  const date = new Date();
+  const newProject = {
+    id: `-${Math.floor(Math.random() * 10000)}`,
+    name: 'Untitled',
+    date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+  }
+  addNewProject(newProject);
+  routeTo(newProject.id);
+}
+
+function deletedProject(id) {
+  deleteProject(id);
 }
 
 </script>
@@ -146,7 +162,7 @@ function routeTo(id) {
     &:hover {
       border: 2px solid var(--light-blue);
 
-      .description-project{
+      .description-project {
         .wrapper-trash {
           opacity: 1;
         }

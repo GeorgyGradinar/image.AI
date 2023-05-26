@@ -32,7 +32,11 @@
       </div>
     </div>
 
-    <p>name{{ }}</p>
+    <div class="editor-header-title">
+      <p>AI редактор/</p>
+      <p class="name" v-if="!isShowEditName" @click="isOpenShowName(true)">{{ selectedProject.name }}</p>
+      <input autofocus v-else v-model.lazy="selectedProject.name" checked @focusout="isOpenShowName(false)">
+    </div>
 
     <div class="editor-parameters">
       <v-select
@@ -70,13 +74,47 @@
 
 <script setup>
 
+
+import {onMounted, toRefs, watch} from "vue";
+import {storeToRefs} from "pinia";
+import {projectStore} from "~/store/projects";
+import {personStore} from "~/store/personStore";
+import {useRouter} from "nuxt/app";
+
+
+const router = useRouter();
+const project = projectStore();
+const {projects} = storeToRefs(project);
+const {updateParameters} = project;
+const store = personStore();
+const {person} = storeToRefs(store);
+
 const increaseParameters = ['x1', 'x2', 'x3', 'x4', 'x8'];
 const increasePercent = ['10%', '25%', '50%', '100%', '150%', '200%'];
 
+let selectedProject = ref('');
 let selectedTool = ref('');
 let selectedIncreaseParameters = ref(increaseParameters[0]);
 let selectedIncreasePercent = ref(increasePercent[0]);
 let sizeEraser = ref(1);
+let isShowEditName = ref(false);
+
+onMounted(() => {
+  if (person._value.id && projects.value.length) {
+    const id = router.currentRoute.value.params.id;
+    selectedProject.value = projects._value.find(project => project.id === id);
+  } else {
+    router.push({path: '/'})
+  }
+})
+
+watch(selectedProject, (newData) => {
+  updateParameters({name: selectedProject.name, id: selectedProject.id});
+})
+
+function isOpenShowName(event) {
+  isShowEditName.value = event;
+}
 
 function selection(nameButton) {
   selectedTool.value = nameButton;
@@ -177,6 +215,31 @@ function selection(nameButton) {
       .selected {
         background-color: #2b2b2be5;
         border: 1px solid var(--light-blue);
+      }
+    }
+  }
+
+  .editor-header-title {
+    display: flex;
+
+    p {
+      display: flex;
+    }
+
+    .name {
+      min-width: 200px;
+      color: var(--main-light-color);
+    }
+
+    input {
+      min-width: 200px;
+      display: flex;
+      color: var(--main-light-color);
+      border-bottom: 1px solid rgba(255, 255, 225, 0.2);
+
+
+      &:focus {
+        outline: none;
       }
     }
   }

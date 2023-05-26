@@ -52,7 +52,7 @@ onMounted(() => {
 const store = personStore();
 const {filters} = storeToRefs(store);
 const {changeFilters} = store;
-const panels = ref([0]);
+const panels = ref([]);
 
 const exampleTexts = [
   {
@@ -77,8 +77,11 @@ const exampleTexts = [
 
 let description = ref('');
 let exception = ref('');
-
 let index;
+
+onMounted(() => {
+  panels.value.push(0)
+})
 
 function random() {
   let randomIndex = Math.floor(Math.random() * 5)

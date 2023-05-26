@@ -1,7 +1,7 @@
 <template>
   <v-expansion-panel>
     <v-tooltip activator="parent" location="right">Изменить</v-tooltip>
-    <v-expansion-panel-title @click="openDialog" readonly expand-icon="mdi-cached" >
+    <v-expansion-panel-title @click="openDialog" readonly expand-icon="mdi-cached">
       <svg class="icon-model edit-icon" version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg"
            x="0px" y="0px"
            viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
