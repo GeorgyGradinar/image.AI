@@ -237,7 +237,6 @@ function selection(nameButton) {
       color: var(--main-light-color);
       border-bottom: 1px solid rgba(255, 255, 225, 0.2);
 
-
       &:focus {
         outline: none;
       }
