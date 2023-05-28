@@ -70,7 +70,6 @@ function getNewData(model) {
 </script>
 
 <style lang="scss">
-
 .mdi-cached::before {
   content: "\F00E8";
   color: var(--light-blue);
