@@ -67,7 +67,6 @@
 </template>
 
 <script setup>
-
 import { ref, watch} from "vue"
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
