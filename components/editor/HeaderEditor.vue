@@ -75,7 +75,7 @@
 <script setup>
 
 
-import {onMounted, toRefs, watch} from "vue";
+import {onMounted, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {projectStore} from "~/store/projects";
 import {personStore} from "~/store/personStore";
@@ -183,7 +183,7 @@ function selection(nameButton) {
       }
 
       .v-application .v-application__wrap {
-
+        min-height: 50px;
         background-color: var(--main-backgground-color);
 
         .slider {

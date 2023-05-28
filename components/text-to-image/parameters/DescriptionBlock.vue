@@ -13,6 +13,13 @@
       </v-expansion-panel-title>
       <v-expansion-panel-text class="expansion-panel-wrapper">
         <div class="wrapper-description" id="v-step-0">
+          <section class="find-description" v-if="isShowSearch">
+            <p>Поиск</p>
+            <input placeholder="Напримепр: волосы, элементы декора"
+                   :class="{'is-data-input': exception}"
+                   v-model.lazy="exception">
+            <p>Элементы которые будут заменены</p>
+          </section>
           <section class="description">
             <div>
               <p>Описание</p>
@@ -41,9 +48,14 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch} from "vue";
+import {onMounted, ref, toRefs, watch} from "vue";
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
+
+const props = defineProps({
+  hasShowSearch: Boolean
+});
+const {hasShowSearch} = toRefs(props);
 
 onMounted(() => {
   random();
@@ -78,9 +90,10 @@ const exampleTexts = [
 let description = ref('');
 let exception = ref('');
 let index;
+let isShowSearch = ref(hasShowSearch._object ? hasShowSearch : false);
 
 onMounted(() => {
-  panels.value.push(0)
+  panels.value.push(0);
 })
 
 function random() {
@@ -187,7 +200,8 @@ watch(exception, (newData) => {
 
   }
 
-  .negative-description {
+  .negative-description,
+  .find-description {
 
     p {
       font-size: 12px;

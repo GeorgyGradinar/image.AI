@@ -68,7 +68,7 @@
 
 <script setup>
 
-import {ref, watch} from "vue"
+import { ref, watch} from "vue"
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
 
@@ -184,6 +184,30 @@ function restrictChars($event) {
     /* Firefox */
     input[type=number] {
       -moz-appearance: textfield;
+    }
+  }
+}
+
+.v-application {
+  background-color: #2b2b2be5;
+
+  .v-application__wrap {
+    min-height: 50px;
+
+    .advanced {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 5px;
+
+      span {
+        color: var(--main-light-color);
+        font-size: 12px;
+      }
+
+      .v-input__details {
+        display: none;
+      }
     }
   }
 }

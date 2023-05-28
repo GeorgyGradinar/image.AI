@@ -333,22 +333,6 @@ watch(size.value, () => {
 
   .v-application__wrap {
     min-height: 50px;
-
-    .advanced {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-bottom: 5px;
-
-      span {
-        color: var(--main-light-color);
-        font-size: 12px;
-      }
-
-      .v-input__details {
-        display: none;
-      }
-    }
   }
 }
 </style>

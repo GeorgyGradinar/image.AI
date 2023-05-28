@@ -34,10 +34,10 @@
               <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">
               <p>Открыть в редакторе</p>
             </div>
-            <div class="download">
+            <a class="download" :href="useAsset(imageSrc.img)" download>
               <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
               <p>Скачать</p>
-            </div>
+            </a>
             <div class="reuse" @click="reuseImageParameter">
               <img src="~/assets/images/text-to-image/block-images/image-details/image.svg" alt="">
               <p>Использовать изображение</p>
@@ -83,7 +83,8 @@
     </v-card>
   </v-dialog>
 
-  <ShareImageDialog v-if="isOpenShareDialog" :image-src="useAsset(imageSrc.img)" @close="toggleShowShareDialog"></ShareImageDialog>
+  <ShareImageDialog v-if="isOpenShareDialog" :image-src="useAsset(imageSrc.img)"
+                    @close="toggleShowShareDialog"></ShareImageDialog>
 </template>
 
 <script setup>
@@ -103,7 +104,7 @@ onMounted(() => {
   document.addEventListener('click', (event) => {
     if (Array.from(event.target.parentElement.classList).includes('share')) {
       isOpenShareDialog.value = false;
-    }else if (Array.from(event.target.parentElement.classList).includes('image')){
+    } else if (Array.from(event.target.parentElement.classList).includes('image')) {
       emit('close');
     }
   })
@@ -278,6 +279,14 @@ function toggleShowShareDialog() {
 
             &:hover {
               box-shadow: 0 0 10px rgba(54, 226, 255, 0.5);
+            }
+          }
+
+          .download {
+            color: var(--main-light-color);
+
+            &:link {
+              text-decoration: none;
             }
           }
 

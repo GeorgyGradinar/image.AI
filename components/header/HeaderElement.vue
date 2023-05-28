@@ -21,11 +21,11 @@
       <v-app-bar-nav-icon variant="text" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
-      <NuxtLink to="editor">Редактор</NuxtLink>
-      <NuxtLink to="text-to-image">Изображение по описанию</NuxtLink>
-      <NuxtLink>ФотоМечты</NuxtLink>
-      <NuxtLink>Инфо</NuxtLink>
-      <NuxtLink>Цены</NuxtLink>
+      <NuxtLink to="/editor" @click="closeDrawer">Редактор</NuxtLink>
+      <NuxtLink to="/text-to-image" @click="closeDrawer">Изображение по описанию</NuxtLink>
+      <NuxtLink to="/dream-booth" @click="closeDrawer">ФотоМечты</NuxtLink>
+      <NuxtLink @click="closeDrawer">Инфо</NuxtLink>
+      <NuxtLink to="/pricing" @click="closeDrawer">Цены</NuxtLink>
       <button v-if="!person.name" @click="isOpenLoginDialog = true">Войти</button>
       <button class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
       </button>
@@ -59,7 +59,7 @@ onMounted(() => {
   if (route.query.ref) {
     referralId._value = route.query.ref;
     isOpenRegistrationDialog.value = true;
-  }else {
+  } else {
     initStore();
   }
 })
@@ -71,6 +71,7 @@ function toggleDrawer() {
 function closeDrawer() {
   hasHiddenDrawer.value = true;
 }
+
 
 </script>
 
@@ -174,7 +175,7 @@ header {
     display: none;
     gap: 20px;
 
-    button {
+    a {
       display: flex;
       align-items: center;
       color: var(--main-light-color);
@@ -197,13 +198,17 @@ header {
     background-color: #21154D;
     transition: all 0.3s;
 
-    button {
+    a {
       display: flex;
       align-items: center;
       width: 100%;
       height: 80px;
       color: var(--main-light-color);
       border-bottom: 1px solid rgba(249, 246, 224, 0.1);
+
+      &:link {
+        text-decoration: none;
+      }
     }
 
     .create-account {

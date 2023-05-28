@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel>
+  <v-expansion-panel v-if="!isShowOption">
     <v-tooltip activator="parent" location="right">Изменить</v-tooltip>
     <v-expansion-panel-title @click="openDialog" readonly expand-icon="mdi-cached">
       <svg class="icon-model edit-icon" version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg"
@@ -13,6 +13,18 @@
     </v-expansion-panel-title>
 
   </v-expansion-panel>
+
+  <section class="options" v-else>
+    <span>Вид редактирования</span>
+    <v-select
+        v-model="select"
+        :items="items"
+        variant="outlined"
+        return-object
+        persistent-hint
+    ></v-select>
+  </section>
+
   <ModelsDialog v-if="isOpenDialog" @close="getNewData"></ModelsDialog>
 </template>
 
@@ -20,14 +32,22 @@
 import ModelsDialog from "~/components/dialogs/ModelsDialog";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
-import {onMounted, watch} from "vue";
+import {defineProps, onMounted, toRefs, watch} from "vue";
 
 const store = personStore();
 const {filters} = storeToRefs(store);
 const {changeFilters} = store;
+const props = defineProps({
+  hasShowOption: Boolean
+});
 
+const {hasShowOption} = toRefs(props);
+const items = ['Pix2Pix', 'Найти и заменить', 'Изминение лица']
+
+let select = ref(items[0]);
 let isOpenDialog = ref(false);
 let currentModel = ref('');
+let isShowOption = ref(hasShowOption._object ? hasShowOption : true);
 
 onMounted(() => {
   currentModel.value = filters.model;
@@ -59,6 +79,52 @@ function getNewData(model) {
 .icon-model {
   fill: none;
   stroke: var(--light-blue);
+}
+
+.options {
+  width: 100%;
+  padding: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: var(--main-light-color);
+
+  span {
+    font-size: 12px;
+  }
+
+  .v-field__append-inner {
+    padding-top: 0;
+    height: 20px;
+  }
+
+  .v-select .v-field.v-field {
+    display: flex;
+    align-items: center;
+    height: 30px;
+    border: 1px solid rgba(255, 255, 225, 0.3);
+    color: var(--main-light-color);
+  }
+
+  .v-text-field .v-input__details {
+    display: none;
+  }
+
+  .v-field__input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .v-field {
+    font-size: 13px;
+  }
+
+  .v-select__selection {
+    text-align: center;
+  }
 }
 
 </style>

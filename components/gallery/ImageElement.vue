@@ -3,10 +3,10 @@
     <div class="photo-wrapper" v-if="image.img">
       <img class="main-image" :src="useAsset(image.img)"
            alt="image example" @click.prevent="openImageDetails(image)">
-      <div class="wrapper-download">
+      <a class="wrapper-download" :href="useAsset(image.img)" download>
         <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
         <v-tooltip activator="parent" location="bottom">Скачать</v-tooltip>
-      </div>
+      </a>
       <div class="wrapper-arrows">
         <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">
         <v-tooltip activator="parent" location="bottom">Повысить разрешение</v-tooltip>
@@ -165,6 +165,10 @@ function openSnackBar(text) {
   .wrapper-download {
     top: 20px;
     left: 20px;
+
+    &:link {
+      text-decoration: none;
+    }
 
     img {
       width: 14px;
@@ -352,8 +356,6 @@ function openSnackBar(text) {
     width: calc(100% - 4px);
   }
 }
-
-
 
 
 </style>
