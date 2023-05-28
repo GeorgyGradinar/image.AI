@@ -14,7 +14,7 @@
 
   </v-expansion-panel>
 
-  <section class="options" v-else>
+  <section class="filters-options" v-else>
     <span>Вид редактирования</span>
     <v-select
         v-model="select"
@@ -81,7 +81,7 @@ function getNewData(model) {
   stroke: var(--light-blue);
 }
 
-.options {
+.filters-options {
   width: 100%;
   padding: 10px;
   position: relative;
