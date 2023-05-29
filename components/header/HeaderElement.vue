@@ -18,7 +18,7 @@
 
     <nav class="mini-header">
       <AccountCard @closeMainDialog="closeDrawer" :hasCloseDrawer="hasHiddenDrawer"></AccountCard>
-      <v-app-bar-nav-icon variant="text" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon :color="'rgba(255, 255, 225, 0.91)'" variant="text" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
       <NuxtLink to="/editor" @click="closeDrawer">Редактор</NuxtLink>
@@ -71,12 +71,9 @@ function toggleDrawer() {
 function closeDrawer() {
   hasHiddenDrawer.value = true;
 }
-
-
 </script>
 
 <style lang="scss">
-
 .layout {
   display: block;
   width: 100vw;
@@ -174,6 +171,7 @@ header {
   .mini-header {
     display: none;
     gap: 20px;
+
 
     a {
       display: flex;
