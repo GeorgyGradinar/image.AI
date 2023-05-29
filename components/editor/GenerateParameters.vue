@@ -1,7 +1,7 @@
 <template>
   <section class="filters">
     <div class="wrapper-settings-block">
-      <h1 class="filters-header">Настройки для генерации</h1>
+  <!--      <h1 class="filters-header">Настройки для генерации</h1>-->
       <div class="header-parameters">
         <button @click="toggleParameters(false)" :class="{'selected': !isOpenEdit}">Сгенерировать</button>
         <button @click="toggleParameters(true)" :class="{'selected': isOpenEdit}">Редактировать</button>

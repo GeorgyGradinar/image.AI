@@ -13,7 +13,7 @@
     <v-expansion-panel-text class="expansion-panel-wrapper">
       <div class="wrapper-settings">
         <section class="sempler">
-          <span>Размер кардра</span>
+          <span>Размер кадра</span>
           <v-select
               v-model="select"
               :items="items"

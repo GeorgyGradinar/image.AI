@@ -216,6 +216,7 @@ watch(exception, (newData) => {
       font-size: 12px;
       transition: all 0.2s;
       background-color: #1f2023;
+      margin-bottom: 5px;
     }
 
     input:focus {

@@ -3,22 +3,70 @@
     <div class="wrapper-logo-tools">
       <NuxtLink to="/editor" class="logo">Лого</NuxtLink>
       <div class="tools">
-        <button @click="selection('cursor')" :class="{'selected': selectedTool === 'cursor'}">
-          <img src="~assets/images/editor/cursor.svg" alt="cursor">
+        <button class="cursor" @click="selection('cursor')" :class="{'selected': selectedTool === 'cursor'}">
+          <svg id="Capa_1" x="0px" y="0px" viewBox="0 0 297 297" xml:space="preserve">
+<g>
+	<path d="M128.835,297c-4.015,0-7.646-2.395-9.227-6.092L1.295,13.976C-0.317,10.202,0.531,5.827,3.436,2.93
+		c2.907-2.898,7.285-3.734,11.052-2.112l275.956,118.729c3.715,1.599,6.107,5.271,6.068,9.314c-0.04,4.044-2.504,7.67-6.248,9.194
+		L182.059,182.13l-43.921,108.598c-1.52,3.758-5.15,6.233-9.203,6.273C128.901,297,128.868,297,128.835,297z M29.609,29.17
+		l98.974,231.661l36.462-90.156c1.017-2.513,3.006-4.508,5.517-5.53L260.5,128.51L29.609,29.17z"/>
+</g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+            <g></g>
+</svg>
         </button>
-        <button @click="selection('gap')" :class="{'selected': selectedTool === 'gap'}">
-          <img src="~assets/images/editor/hand.svg" alt="hand">
+        <button class="hand" @click="selection('gap')" :class="{'selected': selectedTool === 'gap'}">
+          <svg id="Icons" x="0px" y="0px"
+               viewBox="0 0 32 32" xml:space="preserve">
+            <path class="st2" d="M15,17V7c0-1.1-0.9-2-2-2h0c-1.1,0-2,0.9-2,2v13l-3-5.2c-0.6-1-1.8-1.3-2.8-0.6l0,0c-0.7,0.5-1.1,1.4-0.7,2.3
+	l0,0c1.6,4.3,4,8.4,7,11.9"/>
+            <path class="st2" d="M15,17V5c0-1.1,0.9-2,2-2h0c1.1,0,2,0.9,2,2v12"/>
+            <path class="st2" d="M19,17V7c0-1.1,0.9-2,2-2h0c1.1,0,2,0.9,2,2v10"/>
+            <path class="st2" d="M23,17V9c0-1.1,0.9-2,2-2h0c1.1,0,2,0.9,2,2v8v0c0,4-0.8,7.9-2.4,11.5"/>
+</svg>
         </button>
-        <button><img src="~assets/images/editor/focus.svg" alt="focus"></button>
+        <button class="focus">
+          <svg id="Icons" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve">
+            <circle class="st0" cx="16" cy="16" r="4"/>
+            <path class="st0" d="M3,11V6c0-1.1,0.9-2,2-2h5"/>
+            <path class="st0" d="M10,28H5c-1.1,0-2-0.9-2-2v-5"/>
+            <path class="st0" d="M29,21v5c0,1.1-0.9,2-2,2h-5"/>
+            <path class="st0" d="M22,4h5c1.1,0,2,0.9,2,2v5"/>
+</svg>
+        </button>
         <label class="upload">
           <input type="file">
-          <img class="label-download" src="~assets/images/editor/image.svg" alt="image">
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <g id="Image">
+              <path
+                  d="M25,2H7A5,5,0,0,0,2,7V25a5,5,0,0,0,5,5H25a5,5,0,0,0,5-5V7A5,5,0,0,0,25,2ZM7,4H25a3,3,0,0,1,3,3v5.59l-1.88-1.88a3,3,0,0,0-4.24,0l-7.95,8-3-2.42a3,3,0,0,0-3.8,0L4,18.86V7A3,3,0,0,1,7,4ZM25,28H7a3,3,0,0,1-3-3V21.47l4.38-3.66a1,1,0,0,1,1.27,0l3.73,3a1,1,0,0,0,1.33-.07l8.58-8.59a1,1,0,0,1,1.42,0L28,15.41V25A3,3,0,0,1,25,28Z"/>
+              <path d="M10,13a3,3,0,1,0-3-3A3,3,0,0,0,10,13Zm0-4a1,1,0,1,1-1,1A1,1,0,0,1,10,9Z"/>
+            </g>
+          </svg>
         </label>
-        <button @click="selection('eraser')" :class="{'selected': selectedTool === 'eraser'}">
-          <img src="~assets/images/editor/eraser.svg" alt="eraser">
+        <button class="eraser" @click="selection('eraser')" :class="{'selected': selectedTool === 'eraser'}">
+          <svg id="Icons" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve">
+            <line class="st0" x1="5" y1="29" x2="27" y2="29"/>
+            <line class="st0" x1="12" y1="10" x2="22" y2="20"/>
+            <path class="st0" d="M9.9,25H17l10.1-10.1c1.6-1.6,1.6-4.1,0-5.7l-4.3-4.3c-1.6-1.6-4.1-1.6-5.7,0L6.3,15.7c-1.6,1.6-1.6,4.1,0,5.7
+	L9.9,25z"/>
+</svg>
         </button>
         <v-app>
-          <div class="slider" :class="{'show-slider': selectedTool === 'eraser'}">
+          <div class="slider" v-if="selectedTool === 'eraser'" :class="{'show-slider': selectedTool === 'eraser'}">
             <v-slider
                 v-model="sizeEraser"
                 color="#36E2FF"
@@ -53,7 +101,7 @@
         Скачать
       </button>
       <button class="editor-button-plus">
-        <img src="~assets/images/editor/plus.svg" alt="plus">
+        <img src="~assets/images/editor/plus-editor.svg" alt="plus">
       </button>
       <button class="editor-button-minus">
         <img src="~assets/images/editor/minus.svg" alt="minus">
@@ -128,7 +176,7 @@ function selection(nameButton) {
   height: 70px;
   color: var(--main-light-color);
   padding: 0 20px;
-  border: 1px solid rgba(255, 255, 225, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 225, 0.1);
   background-color: var(--main-backgground-color);
 
   .wrapper-logo-tools {
@@ -153,33 +201,152 @@ function selection(nameButton) {
         padding: 10px;
         transition: all 0.2s;
 
-        img {
+        svg {
           width: 20px;
           height: 20px;
         }
 
+        &:hover {
+          box-shadow: var(--hover-box-shadow);
+          border: 1px solid var(--light-blue);
+        }
+
         &:active {
           background-color: #2b2b2be5;
-          border: 1px solid var(--light-blue);
+        }
+      }
+
+      .cursor {
+        svg {
+          g {
+            path {
+              fill: var(--main-light-color);
+            }
+          }
+        }
+
+        &:active {
+          svg {
+            g {
+              path {
+                fill: var(--light-blue);
+              }
+            }
+          }
+        }
+      }
+
+      .cursor.selected {
+        svg {
+          g {
+            path {
+              fill: var(--light-blue);
+            }
+          }
+        }
+      }
+
+      .hand {
+        svg {
+          .st2 {
+            fill: none;
+            stroke: var(--main-light-color);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+        }
+
+        &:active {
+          svg {
+            .st2 {
+              stroke: var(--light-blue);
+            }
+          }
+        }
+      }
+
+      .hand.selected {
+        svg {
+          .st2 {
+            stroke: var(--light-blue);
+          }
+        }
+      }
+
+      .focus {
+        svg {
+          .st0 {
+            fill: none;
+            stroke: var(--main-light-color);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+        }
+
+        &:active {
+          svg {
+            .st0 {
+              stroke: var(--light-blue);
+            }
+          }
         }
       }
 
       .upload {
         position: relative;
         padding: 10px;
+        cursor: pointer;
 
         input {
           position: absolute;
           top: 0;
           left: 0;
-          width: 100%;
-          height: 100%;
+          width: 0;
+          height: 0;
           opacity: 0;
         }
 
-        .label-download {
-          width: 20px;
+        svg {
+          fill: var(--main-light-color);
         }
+      }
+
+      .eraser {
+        svg {
+          .st0 {
+            fill: none;
+            stroke: var(--main-light-color);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-miterlimit: 10;
+          }
+        }
+
+        &:active {
+          svg {
+            .st0 {
+              stroke: var(--light-blue);
+            }
+          }
+        }
+      }
+
+      .eraser.selected {
+        svg {
+          .st0 {
+            stroke: var(--light-blue);
+          }
+        }
+      }
+
+      .selected {
+        background-color: #2b2b2be5;
+        border: 1px solid var(--light-blue);
       }
 
       .v-application .v-application__wrap {
@@ -187,7 +354,7 @@ function selection(nameButton) {
         background-color: var(--main-backgground-color);
 
         .slider {
-          opacity: 0;
+          position: absolute;
           height: 50px;
           display: flex;
           background-color: var(--main-backgground-color);
@@ -203,18 +370,9 @@ function selection(nameButton) {
           }
         }
 
-        .show-slider {
-          opacity: 1;
-        }
-
         .v-slider.v-input--horizontal .v-slider-track__fill {
           height: 4px;
         }
-      }
-
-      .selected {
-        background-color: #2b2b2be5;
-        border: 1px solid var(--light-blue);
       }
     }
   }
@@ -227,12 +385,13 @@ function selection(nameButton) {
     }
 
     .name {
-      min-width: 200px;
+      min-width: 100px;
       color: var(--main-light-color);
     }
 
     input {
-      min-width: 200px;
+      width: 100px;
+      min-width: 100px;
       display: flex;
       color: var(--main-light-color);
       border-bottom: 1px solid rgba(255, 255, 225, 0.2);
@@ -305,9 +464,16 @@ function selection(nameButton) {
       background-color: var(--light-blue);
       padding: 0 15px;
       border-radius: 10px;
+      color: var(--main-backgground-color);
+      font-weight: bold;
+      transition: all 0.2s;
 
       img {
         width: 20px;
+      }
+
+      &:hover {
+        box-shadow: var(--hover-box-shadow);
       }
     }
 
@@ -318,10 +484,20 @@ function selection(nameButton) {
       padding: 8px;
       border: 1px solid rgba(255, 255, 225, 0.2);
       border-radius: 10px;
+      transition: all 0.2s;
 
       img {
         width: 15px;
         height: 15px;
+      }
+
+      &:hover {
+        box-shadow: var(--hover-box-shadow);
+        border: 1px solid var(--light-blue);
+      }
+
+      &:active {
+        background-color: #2b2b2be5;
       }
     }
   }

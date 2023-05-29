@@ -12,5 +12,7 @@
 .editor {
   min-width: calc(100vw - 356px);
   height: 100vh;
+  background-image: url("assets/images/editor/background-dot.svg");
+  background-repeat: repeat;
 }
 </style>
