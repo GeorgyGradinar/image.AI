@@ -2,6 +2,7 @@
   <section>
     <h1>Переключитесь на десктоп</h1>
     <h3>В данный момент страница доступна только на десктопе</h3>
+
     <div class="wrapper-button">
       <NuxtLink class="secondary" to="/editor">
         <v-icon icon="mdi-arrow-left"></v-icon>
@@ -9,6 +10,7 @@
       </NuxtLink>
       <NuxtLink class="create-account" to="/">Использовать другие инструменты</NuxtLink>
     </div>
+
     <div class="main-image">
       <img src="~assets/images/main-page/img-9jjtCkXWwKjZe9wElBEly2.jpeg" alt="">
       <img src="~assets/images/main-page/img-aHbNRGbgmNutEKIOHdTQ2t.jpeg" alt="">
@@ -23,7 +25,6 @@
 </script>
 
 <style scoped lang="scss">
-
 section {
   width: 100vw;
   display: flex;
