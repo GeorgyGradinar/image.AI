@@ -4,10 +4,7 @@
     <h3>В данный момент страница доступна только на десктопе</h3>
 
     <div class="wrapper-button">
-      <NuxtLink class="secondary" to="/editor">
-        <v-icon icon="mdi-arrow-left"></v-icon>
-        Назад
-      </NuxtLink>
+      <NuxtLink class="secondary" to="/editor"><v-icon icon="mdi-arrow-left"></v-icon>Назад</NuxtLink>
       <NuxtLink class="create-account" to="/">Использовать другие инструменты</NuxtLink>
     </div>
 
