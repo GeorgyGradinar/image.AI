@@ -8,7 +8,7 @@ export const personStore = defineStore('store', () => {
     let imagesData = ref({images: [], newImages: []});
     let filters = ref({
         model: 'Диффузия v2.1',
-        description: 'sdd',
+        description: '',
         exception: '',
         image: null,
         size: {

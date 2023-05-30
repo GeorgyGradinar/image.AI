@@ -1,5 +1,5 @@
 <template>
-  <v-dialog class="dialog share" v-model="isOpen" persistent>
+  <v-dialog class="dialog share" v-model="isOpen">
     <v-card class="card-share">
       <div class="image-share">
         <button @click.prevent="$emit('close')">
@@ -47,14 +47,16 @@ import {defineEmits, defineProps, ref} from "vue";
 
 const props = defineProps({
   imageSrc: {},
+  imageSharedUrl: String
 });
 const referral = ref(null);
 const emit = defineEmits(['close']);
 
 let isOpenSnackBarDone = ref(false);
 let isOpen = ref(true);
-let imageLink = ref('https://getimg.ai/img/img-9KB');
+let imageLink = ref(`https://image-ai-liard.vercel.app/img/${props.imageSharedUrl.toString().slice(0, -5)}`);
 let textSnackBarForGeneration = ref('');
+let test = 'tt'
 
 function copyLink() {
   textSnackBarForGeneration.value = "Ссылка скопирована";

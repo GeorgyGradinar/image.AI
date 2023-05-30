@@ -57,14 +57,10 @@ const props = defineProps({
 });
 const {hasShowSearch} = toRefs(props);
 
-onMounted(() => {
-  random();
-})
-
 const store = personStore();
 const {filters} = storeToRefs(store);
 const {changeFilters} = store;
-const panels = ref([]);
+const panels = ref([0]);
 
 const exampleTexts = [
   {
@@ -93,7 +89,12 @@ let index;
 let isShowSearch = ref(hasShowSearch._object ? hasShowSearch : false);
 
 onMounted(() => {
-  panels.value.push(0);
+  if (filters.value.description){
+    description.value = filters.value.description;
+    exception.value = filters.value.exception;
+  }else {
+    random();
+  }
 })
 
 function random() {
