@@ -1000,7 +1000,7 @@ export default function requests() {
     }
 
     function getImageShared(id) {
-        return imagesData.find(image => image.img.includes(id))
+        return imagesData.find(image => image.img === `${id}.jpeg`)
     }
 
     function generateImage(filters) {
