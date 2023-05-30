@@ -55,8 +55,8 @@ setTimeout(() => {
   wasGuideShowed.value = process.client && localStorage.getItem('vjt-tour');
 })
 
-if (process.client && window.innerWidth <= 650) {
-  setParametersTour(true);
+if (process.client && window.innerWidth >= 650) {
+  setParametersTour(false);
 } else {
   setParametersTour(true);
 }
