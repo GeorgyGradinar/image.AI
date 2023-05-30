@@ -68,7 +68,7 @@ function share() {
   navigator.share({
     title: 'test title',
     text: 'dvfs sdf  ds',
-    url: 'www.instagram.com'
+    url: ''
   })
 }
 
