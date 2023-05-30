@@ -14,9 +14,9 @@
           <div class="wrapper-vk">
             <img src="~/assets/images/vk.svg" alt="vk icon">
           </div>
-          <div class="wrapper-instagram">
+          <NuxtLink to="https://www.instagram.com/://sharesheet?text=https://google.com/" class="wrapper-instagram" >
             <img src="~/assets/images/instagram.svg" alt="instagram icon">
-          </div>
+          </NuxtLink>
           <div class="wrapper-class-mates">
             <img class="class-mates" src="~/assets/images/class-mates.svg" alt="class-mates icon">
           </div>

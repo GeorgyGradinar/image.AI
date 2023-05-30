@@ -22,10 +22,10 @@
           <img src="~/assets/images/text-to-image/block-images/image-details/refresh.svg" alt="">
           <p>Переиспользовать параметры</p>
         </div>
-        <div class="edit" >
+        <NuxtLink to="/editor" class="edit">
           <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">
           <p>Открыть в редакторе</p>
-        </div>
+        </NuxtLink>
         <a class="download" :href="useAsset(image.img)" download>
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
@@ -244,6 +244,14 @@ function toggleShowShareDialog() {
 
         &:hover {
           box-shadow: 0 0 10px rgba(54, 226, 255, 0.5);
+        }
+      }
+
+      .edit {
+        color: var(--main-light-color);
+
+        &:link {
+          text-decoration: none;
         }
       }
 
