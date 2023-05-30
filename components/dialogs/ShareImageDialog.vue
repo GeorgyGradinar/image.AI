@@ -68,8 +68,7 @@ function share() {
   navigator.share({
     title: 'test title',
     text: 'dvfs sdf  ds',
-    files: 'https://www.google.com/',
-    url: ''
+    url: 'https://www.google.com/'
   })
 }
 
