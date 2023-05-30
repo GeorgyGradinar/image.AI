@@ -11,7 +11,7 @@
         <h3>Поделитесь изображением в своих социальных сетях</h3>
 
         <div class="wrapper-share-social">
-          <div class="wrapper-vk">
+          <div class="wrapper-vk"  @click="vk">
             <img src="~/assets/images/vk.svg" alt="vk icon">
           </div>
           <div @click="share" class="wrapper-instagram">
@@ -70,6 +70,19 @@ function share() {
     text: 'dvfs sdf  ds',
     url: 'https://www.google.com/'
   })
+}
+
+function vk() {
+  let url = 'http://vk.com/share.php?';
+  url += 'url=' + encodeURIComponent('https://www.google.com/');
+
+  url += '&title=' + encodeURIComponent('test');
+
+  url += '&image=' + encodeURIComponent('https://image-ai-liard.vercel.app/_nuxt/img-aHbNRGbgmNutEKIOHdTQ2t.3c66b31d.jpeg');
+
+  url += '&noparse=true';
+
+  window.open(url, '', 'toolbar=0,status=0,width=626,height=436');
 }
 
 </script>
