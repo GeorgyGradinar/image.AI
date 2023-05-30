@@ -74,11 +74,9 @@ function share() {
 
 function vk() {
   let url = 'http://vk.com/share.php?';
-  url += 'url=' + encodeURIComponent('https://www.google.com/');
+  url += 'url=' + encodeURIComponent(imageLink.value);
 
-  url += '&title=' + encodeURIComponent('test');
-
-  url += '&image=' + encodeURIComponent('https://image-ai-liard.vercel.app/_nuxt/img-aHbNRGbgmNutEKIOHdTQ2t.3c66b31d.jpeg');
+  url += '&image=' + encodeURIComponent(`https://image-ai-liard.vercel.app/_nuxt/${props.imageSharedUrl}`);
 
   url += '&noparse=true';
 
