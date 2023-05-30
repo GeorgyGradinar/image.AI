@@ -14,9 +14,9 @@
           <div class="wrapper-vk">
             <img src="~/assets/images/vk.svg" alt="vk icon">
           </div>
-          <NuxtLink to="https://www.instagram.com/://sharesheet?text=https://google.com/" class="wrapper-instagram" >
+          <div @click="share" class="wrapper-instagram">
             <img src="~/assets/images/instagram.svg" alt="instagram icon">
-          </NuxtLink>
+          </div>
           <div class="wrapper-class-mates">
             <img class="class-mates" src="~/assets/images/class-mates.svg" alt="class-mates icon">
           </div>
@@ -62,6 +62,14 @@ function copyLink() {
   isOpenSnackBarDone.value = true;
   referral.value.select();
   document.execCommand("copy");
+}
+
+function share() {
+  navigator.share({
+    title: 'test title',
+    text: 'dvfs sdf  ds',
+    url: 'www.instagram.com'
+  })
 }
 
 </script>
