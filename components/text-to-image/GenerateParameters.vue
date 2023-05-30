@@ -81,7 +81,6 @@ watch(person, (newDataPerson) => {
   }
 })
 
-
 function setParametersTour(condition){
   if (condition) {
     tourSteps.value = [
