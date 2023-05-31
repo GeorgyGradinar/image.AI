@@ -17,7 +17,6 @@ import Footer from "~/components/FooterElement";
 import Header from "~/components/header/HeaderElement";
 import {useRoute} from "nuxt/app";
 import {onMounted, ref, watch} from "vue";
-import useHead from ".output/server/chunks/app/server.mjs";
 
 const route = useRoute();
 let isFooterVisible = ref(true);
