@@ -6,7 +6,7 @@
           <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close">
         </button>
         <span class="title">Вход</span>
-
+        <span class="error-message">{{ errorMessage }}</span>
         <form>
           <v-text-field
               v-model="initialState.email"
@@ -62,25 +62,31 @@ import ForgotPassword from "~/components/dialogs/ForgotPassword";
 import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
+import {personStore} from "~/store/personStore";
 
 const {mapErrors} = validation();
-
 const {loginIn} = requests();
-// eslint-disable-next-line no-undef
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
+const store = personStore();
+const {changePerson} = store;
+
 const initialState = ref({
   email: '',
   password: '',
 });
+
 const rules = {
   email: {required, email},
   password: {required}
 };
+
 const v$ = useVuelidate(rules, initialState);
+
 let dialog = ref(true);
 let forgotPasswordDialog = ref(false);
 let isOpenRegistrationDialog = ref(false);
 let showPassword = ref(false);
+let errorMessage = ref('');
 
 onMounted(() => {
   document.addEventListener('click', closeDialogClickOnAbroad)
@@ -97,13 +103,36 @@ function openRegistrationBlock() {
   isOpenRegistrationDialog.value = true;
 }
 
-function submit() {
+async function submit() {
   v$.value.$validate();
 
   if (!v$.value.$error) {
-    loginIn();
-    closeDialog();
+    changeErrorMessage('')
+    await loginIn({
+      email: initialState.value.email,
+      password: initialState.value.password
+    })
+        .then(response => {
+          let person = {
+            id: response.user.id,
+            name: response.user.name,
+            email: response.user.email,
+            credits: response.user.credits,
+            token: response.authorisation.token
+          }
+          changePerson(person);
+          closeDialog();
+        })
+        .catch(error => {
+          if (error.statusCode === 401) {
+            changeErrorMessage('Некорректная почта или пароль')
+          }
+        })
   }
+}
+
+function changeErrorMessage(message) {
+  errorMessage.value = message;
 }
 
 function openForgotPasswordDialog() {
@@ -133,6 +162,11 @@ function closeDialog() {
 
 .v-row {
   margin: 0;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
 }
 
 </style>

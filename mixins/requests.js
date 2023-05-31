@@ -1,8 +1,10 @@
 import {personStore} from "~/store/personStore";
 import {ACCOUNT_STORAGE_KEY} from "~/constants";
+import {HEADER_PARAMETERS, MAIN_URL} from "~/config"
 
 export default function requests() {
     let store = personStore();
+    const {changePerson} = store;
     const imagesData = [
         {
             id: '31554',
@@ -559,37 +561,56 @@ export default function requests() {
 
     function initStore() {
         let savedPerson = process.client && localStorage.getItem(ACCOUNT_STORAGE_KEY);
-        store.person = savedPerson ? JSON.parse(savedPerson) : '';
+        changePerson(savedPerson ? JSON.parse(savedPerson) : '');
     }
 
     function registration(data) {
-        console.log(data)
-    }
-
-    function checkVerificationEmail() {
-
-    }
-
-    function loginIn() {
-        const person = {
-            id: 26516,
-            name: 'Евгений Кондратьев',
-            email: 'test-email@mail.ru',
-            password: 'frej4324f43',
-            credits: 25,
+        let requestOptions = [HEADER_PARAMETERS.accept];
+        const body = {
+            email: data.email,
+            password: data.password,
+            name: data.name,
+            password_confirmation: data.passwordConfirmation
         }
-        store.person = person;
-        localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(person));
+        return $fetch(`${MAIN_URL}/api/v1/register?${new URLSearchParams(body)}`, getRequestOptions(requestOptions));
+    }
+
+    function loginIn(data) {
+        let requestOptions = [HEADER_PARAMETERS.accept];
+        const body = {
+            email: data.email,
+            password: data.password
+        }
+        return $fetch(`${MAIN_URL}/api/v1/login?${new URLSearchParams(body)}`, getRequestOptions(requestOptions));
     }
 
     function logout() {
-        const person = {}
-        const images = {images: [], newImages: []}
+        let requestOptions = [HEADER_PARAMETERS.content, HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
+        $fetch(`${MAIN_URL}/api/v1/logout`, getRequestOptions(requestOptions))
+            .then(request => {
+                if (request.status === 'success') {
+                    changePerson({});
+                    store.imagesData = {images: [], newImages: []}
+                }
+            })
+            .catch(error => console.log(error))
+    }
 
-        store.person = person;
-        store.imagesData = images;
+    function getRequestOptions(payload) {
+        let myHeaders = new Headers();
+        payload.forEach(headerElement => {
+            if (headerElement.key === 'Authorization') {
+                myHeaders.append(headerElement.key, `${headerElement.body} ${store.person.token}`);
+            } else {
+                myHeaders.append(headerElement.key, headerElement.body);
+            }
+        });
 
-        localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(person));
+        return {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
     }
 
     function getImages() {
@@ -1038,5 +1059,5 @@ export default function requests() {
         store.changeCredits(store.person.credits - filters.parameters.countImages * 2);
     }
 
-    return {registration, checkVerificationEmail, loginIn, logout, generateImage, getImages, initStore, getImageShared};
+    return {registration, loginIn, logout, generateImage, getImages, initStore, getImageShared};
 }

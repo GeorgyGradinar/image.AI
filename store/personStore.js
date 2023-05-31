@@ -3,8 +3,10 @@ import {ref} from "vue";
 import {ACCOUNT_STORAGE_KEY} from "~/constants";
 
 export const personStore = defineStore('store', () => {
-    let savedPerson = process.client && localStorage.getItem(ACCOUNT_STORAGE_KEY);
-    let person = ref(savedPerson ? JSON.parse(savedPerson) : '')
+    // let savedPerson = process.client && localStorage.getItem(ACCOUNT_STORAGE_KEY);
+    // let person = ref(savedPerson ? JSON.parse(savedPerson) : '');
+    let person = ref({});
+
     let imagesData = ref({images: [], newImages: []});
     let filters = ref({
         model: 'Диффузия v2.1',
@@ -23,6 +25,13 @@ export const personStore = defineStore('store', () => {
         },
     });
     let referralId = ref('');
+
+    function changePerson(data) {
+        person.value = {
+            ...data
+        }
+        localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(person.value));
+    }
 
     function toggleFavorite(id) {
         let image = imagesData.value.images.find((image) => image.id === id);
@@ -55,5 +64,16 @@ export const personStore = defineStore('store', () => {
         }
     }
 
-    return {person, filters, imagesData, referralId, toggleFavorite, deleteImage, changeFilters,  reuseParameters, changeCredits}
+    return {
+        person,
+        filters,
+        imagesData,
+        referralId,
+        toggleFavorite,
+        deleteImage,
+        changeFilters,
+        reuseParameters,
+        changeCredits,
+        changePerson,
+    }
 })

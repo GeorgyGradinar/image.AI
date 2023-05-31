@@ -30,7 +30,6 @@ import {useRouter} from "nuxt/app";
 
 const router = useRouter();
 const {logout} = requests();
-// eslint-disable-next-line no-undef
 const emit = defineEmits(['closeMainDialog']);
 const store = personStore();
 const {person} = storeToRefs(store);

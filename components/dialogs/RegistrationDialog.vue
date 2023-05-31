@@ -5,8 +5,16 @@
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
       </button>
       <span class="title">Регистрация</span>
-
+      <span v-if="messageError" class="error-message">{{ messageError }}. <a @click.prevent="openLoginDialog">Войти</a></span>
       <form>
+        <v-text-field
+            v-model="initialState.name"
+            :error-messages="mapErrors(v$.name.$errors)"
+            label="Имя"
+            @input="v$.name.$touch"
+            @blur="v$.name.$touch"
+        ></v-text-field>
+
         <v-text-field
             v-model="initialState.email"
             :error-messages="mapErrors(v$.email.$errors)"
@@ -26,6 +34,17 @@
             @blur="v$.password.$touch"
         ></v-text-field>
 
+        <v-text-field
+            v-model="initialState.passwordConfirmation"
+            :error-messages="mapErrors(v$.passwordConfirmation.$errors)"
+            label="Повторите пароль"
+            :type="isShowPasswordConfirmation ? 'text' : 'password'"
+            :append-inner-icon="isShowPasswordConfirmation ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append-inner="isShowPasswordConfirmation = !isShowPasswordConfirmation"
+            @input="v$.passwordConfirmation.$touch"
+            @blur="v$.passwordConfirmation.$touch"
+        ></v-text-field>
+
         <div class="login-block">
           <p>Уже есть аккаунт?</p>
           <a @click.prevent="openLoginDialog">Войти</a>
@@ -41,7 +60,7 @@
         </div>
 
         <div class="card-buttons">
-            <button class="create-account no-hover" @click.prevent="submit">Регистрация</button>
+          <button class="create-account no-hover" @click.prevent="submit">Регистрация</button>
         </div>
       </form>
 
@@ -52,9 +71,9 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useVuelidate} from '@vuelidate/core'
-import {email, required} from '@vuelidate/validators'
+import {email, minLength, required, sameAs} from '@vuelidate/validators'
 import requests from '~/mixins/requests'
 import validation from "~/mixins/validation";
 import AcceptEmailDialog from "~/components/dialogs/AcceptEmailDialog";
@@ -64,26 +83,34 @@ import {personStore} from "~/store/personStore";
 
 const store = personStore();
 const {referralId} = storeToRefs(store);
+const {changePerson} = store;
 const {mapErrors} = validation();
-
-const {registration} = requests();
-const initialState = ref({
-  email: '',
-  password: '',
-})
-const rules = {
-  email: {required, email},
-  password: {required}
-}
-const v$ = useVuelidate(rules, initialState)
-
-// eslint-disable-next-line no-undef
 const emit = defineEmits(['closeRegistrationBlock'])
 
 let dialog = ref(true);
 let showPassword = ref(false);
+let isShowPasswordConfirmation = ref(false);
 let isOpenAcceptDialog = ref(false);
 let isOpenLoginDialog = ref(false);
+let messageError = ref('');
+
+const {registration} = requests();
+const initialState = ref({
+  name: '',
+  email: '',
+  password: '',
+  passwordConfirmation: ''
+})
+
+const emailRef = computed(() => initialState.value.password);
+const rules = {
+  name: {required},
+  email: {required, email},
+  password: {required, minLength: minLength(6)},
+  passwordConfirmation: {required, sameAs: sameAs(emailRef)}
+}
+
+const v$ = useVuelidate(rules, initialState)
 
 onMounted(() => {
   document.addEventListener('click', closeDialogClickOnAbroad)
@@ -100,20 +127,37 @@ function closeDialogClickOnAbroad(event) {
   }
 }
 
-function submit() {
+async function submit() {
   v$.value.$validate();
-
   if (!v$.value.$error) {
-    registration({
+    changeErrorMessage('');
+    await registration({
       email: initialState.value.email,
-      name: initialState.value.password,
-      referralId: referralId._value
+      password: initialState.value.password,
+      name: initialState.value.name,
+      passwordConfirmation: initialState.value.passwordConfirmation,
     })
-    initialState.value.password = '';
-    initialState.value.email = '';
-    isOpenAcceptDialog.value = true;
-    dialog.value = false;
+        .then(response => {
+          let person = {
+            id: response.user.id,
+            name: response.user.name,
+            email: response.user.email,
+            credits: response.user.credits,
+            token: response.authorisation.token
+          }
+          changePerson(person);
+          dialog.value = false;
+        })
+        .catch(error => {
+          if (error.statusCode === 422) {
+            changeErrorMessage('Пользователь с такой почтой уже существует');
+          }
+        })
   }
+}
+
+function changeErrorMessage(message) {
+  messageError.value = message;
 }
 
 function closeRegistrationBlock() {
@@ -128,5 +172,16 @@ function closeRegistrationBlock() {
 
 .dialog .v-overlay__content .card form .card-buttons {
   justify-content: flex-end;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+
+  a {
+    color: var(--light-blue);
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 </style>

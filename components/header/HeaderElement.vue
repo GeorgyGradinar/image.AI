@@ -18,7 +18,8 @@
 
     <nav class="mini-header">
       <AccountCard @closeMainDialog="closeDrawer" :hasCloseDrawer="hasHiddenDrawer"></AccountCard>
-      <v-app-bar-nav-icon :color="'rgba(255, 255, 225, 0.91)'" variant="text" @click.stop="toggleDrawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon :color="'rgba(255, 255, 225, 0.91)'" variant="text"
+                          @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
       <NuxtLink to="/editor" @click="closeDrawer">Редактор</NuxtLink>
@@ -56,12 +57,8 @@ let isOpenLoginDialog = ref(false);
 let isOpenRegistrationDialog = ref(false);
 
 onMounted(() => {
-  if (route.query.ref) {
-    referralId._value = route.query.ref;
-    isOpenRegistrationDialog.value = true;
-  } else {
-    initStore();
-  }
+  referralId._value = route.query.ref;
+  initStore();
 })
 
 function toggleDrawer() {
