@@ -1,4 +1,8 @@
 <template>
+  <Head>
+    <Title>My App</Title>
+    <Meta name="description" http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+  </Head>
   <div>
     <NuxtLayout>
       <section class="pages">
@@ -21,6 +25,7 @@ import {onMounted, ref, watch} from "vue";
 const route = useRoute();
 let isFooterVisible = ref(true);
 let isHeaderVisible = ref(true);
+
 
 onMounted(() => {
   checkRoute(route);
