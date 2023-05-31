@@ -25,7 +25,6 @@ let isHeaderVisible = ref(true);
 
 const title = ref('My App')
 const description = ref('My App Description')
-
 useHead({
   title,
   meta: [{
