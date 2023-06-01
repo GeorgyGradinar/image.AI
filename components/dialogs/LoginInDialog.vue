@@ -36,7 +36,7 @@
           <div class="socials">
             <p>Войти с помощью</p>
             <div class="wrapper-socials">
-              <img src="~/assets/images/vk.svg" alt="вконтакте">
+              <img src="~/assets/images/vk.svg" alt="вконтакте" @click="getAuthVK">
               <img src="~/assets/images/yandex.svg" alt="яндекс">
               <img src="~/assets/images/google.svg" alt="гугл">
             </div>
@@ -63,6 +63,7 @@ import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import {personStore} from "~/store/personStore";
+
 
 const {mapErrors} = validation();
 const {loginIn} = requests();
@@ -129,6 +130,40 @@ async function submit() {
           }
         })
   }
+}
+
+
+
+function getAuthVK(){
+  $fetch('https://vk.com/js/api/openapi.js?169').then(el => console.log(el))
+  // VK.init({
+  //   apiId: 51663647
+  // });
+  //
+  // VK.Auth.login(
+  //     // callback-функция, которая будет вызвана после авторизации
+  //     function (response) {
+  //
+  //       console.log(response)
+  //
+  //       if (response.status === 'connected') { // авторизация прошла успешно
+  //
+  //         var user = response.session.user; //  информация о пользователе
+  //         /*
+  //          user.first_name - имя;
+  //          user.last_name - фамилия;
+  //          user.href - ссылка на страницу в формате https://vk.com/domain;
+  //          user.id  - идентификатор пользователя;
+  //          user.nickname -  отчество или никнейм (если указано);
+  //          */
+  //
+  //       } else if (response.status === 'not_authorized') { // пользователь авторизован в ВКонтакте, но не разрешил доступ приложению;
+  //
+  //       } else if (response.status === 'unknown') { // пользователь не авторизован ВКонтакте.
+  //
+  //       }
+  //
+  //     },
 }
 
 function changeErrorMessage(message) {

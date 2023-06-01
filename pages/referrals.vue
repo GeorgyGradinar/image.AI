@@ -37,6 +37,10 @@ import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {ref} from "vue";
 import seo from "~/mixins/seo";
 
+definePageMeta({
+  middleware: "auth"
+})
+
 const referral = ref(null);
 const {setProperty} = seo();
 setProperty('Пригласить друзей | getImage');

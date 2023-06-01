@@ -1,15 +1,13 @@
 <template>
-  <div>
-    <NuxtLayout>
-      <section class="pages">
-        <Header v-if="isHeaderVisible"></Header>
-        <main>
-          <NuxtPage></NuxtPage>
-        </main>
-        <Footer v-if="isFooterVisible"></Footer>
-      </section>
-    </NuxtLayout>
-  </div>
+  <NuxtLayout>
+    <section class="pages">
+      <Header v-if="isHeaderVisible"></Header>
+      <main>
+        <NuxtPage></NuxtPage>
+      </main>
+      <Footer v-if="isFooterVisible"></Footer>
+    </section>
+  </NuxtLayout>
 </template>
 
 <script setup>
@@ -24,14 +22,6 @@ let isHeaderVisible = ref(true);
 
 const title = ref('My App')
 const description = ref('My App Description')
-useHead({
-  title,
-  meta: [{
-    name: 'description',
-    content: 'upgrade-insecure-requests',
-    'http-equiv': "Content-Security-Policy"
-  }]
-})
 
 onMounted(() => {
   checkRoute(route);

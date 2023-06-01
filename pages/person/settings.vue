@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper-settings">
+  <div class="wrapper-settings" id="settings">
     <section class="settings">
       <div class="title">
         <h1>Настройки</h1>
@@ -62,7 +62,7 @@
           будут безвозвратно утеряны. Это действие необратимо!
         </span>
         <div class="button-delete-account">
-          <button>Удалить аккаунт...</button>
+          <button @click="deletePerson">Удалить аккаунт...</button>
         </div>
       </div>
     </section>
@@ -71,13 +71,19 @@
 
 <script setup>
 import {onMounted, ref} from "vue";
-import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
-import {minLength, required} from "@vuelidate/validators";
-import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
+import {personStore} from "~/store/personStore";
+import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import seo from "~/mixins/seo";
+import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
+import {minLength, required} from "@vuelidate/validators";
 
+definePageMeta({
+  middleware: "auth"
+})
+
+const {deleteAccount} = requests();
 const {setProperty} = seo();
 setProperty('Аккаунт-настройки');
 
@@ -107,6 +113,10 @@ const rules = {
 const v$ = useVuelidate(rules, user);
 
 function reset() {
+}
+
+function deletePerson() {
+  deleteAccount();
 }
 
 function updateUserData() {

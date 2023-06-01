@@ -9,14 +9,20 @@
     </div>
 
     <section class="details-person" :class="{'hidden-drop-down': !hasOpenDetail}">
-      <div>
-        <p @click="routeTo('/gallery')"><img src="~/assets/images/details-person/gallery.svg" alt="gallery">Моя галерея</p>
-        <p @click="routeTo('/person/settings')"><img src="~/assets/images/details-person/settings.svg" alt="settings">Настройки</p>
-        <p @click="routeTo('/legal/privacy-policy')"><img src="~/assets/images/details-person/security.svg" alt="privacy">Конфиденциальность</p>
-        <p @click="routeTo('/legal/terms-of-service')"><img src="~/assets/images/details-person/terms.svg" alt="terms">Условия использования</p>
-        <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти</p>
-        <p @click="routeTo('/referrals')"><img src="~/assets/images/details-person/invite.svg" alt="invite">Пригласить другей</p>
-      </div>
+
+      <p @click="routeTo('/gallery')"><img src="~/assets/images/details-person/gallery.svg" alt="gallery">Моя галерея
+      </p>
+      <p @click="routeTo('/person/settings')" ><img src="~/assets/images/details-person/settings.svg" alt="settings">Настройки
+      </p>
+      <p @click="routeTo('/legal/privacy-policy')"><img src="~/assets/images/details-person/security.svg" alt="privacy">Конфиденциальность
+      </p>
+      <p @click="routeTo('/legal/terms-of-service')"><img src="~/assets/images/details-person/terms.svg" alt="terms">Условия
+        использования</p>
+      <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти
+      </p>
+      <p @click="routeTo('/referrals')"><img src="~/assets/images/details-person/invite.svg" alt="invite">Пригласить
+        другей</p>
+
     </section>
   </div>
 </template>
@@ -136,25 +142,24 @@ function routeTo(route) {
   z-index: -10;
   transition: right 0.5s;
 
-  div{
-    & p {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      line-height: 12px;
-      cursor: pointer;
-      padding: 10px 5px 10px 10px;
-      border-radius: 10px;
 
-      &:hover {
-        background-color: var(--main-backgground-color);
-      }
-    }
+  & p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 12px;
+    cursor: pointer;
+    padding: 10px 5px 10px 10px;
+    border-radius: 10px;
 
-    .rotate {
-      transform: rotate(180deg);
+    &:hover {
+      background-color: var(--main-backgground-color);
     }
+  }
+
+  .rotate {
+    transform: rotate(180deg);
   }
 }
 

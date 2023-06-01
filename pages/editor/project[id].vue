@@ -17,6 +17,10 @@ import GenerateParameters from "~/components/editor/GenerateParameters";
 import Editor from "~/components/editor/Editor";
 import MobileBlock from "~/components/editor/MobileBlock";
 
+definePageMeta({
+  middleware: "auth"
+})
+
 </script>
 
 <style scoped lang="scss">

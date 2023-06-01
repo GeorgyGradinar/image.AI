@@ -2,6 +2,7 @@ import {personStore} from "~/store/personStore";
 import {ACCOUNT_STORAGE_KEY} from "~/constants";
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config"
 
+
 export default function requests() {
     let store = personStore();
     const {changePerson} = store;
@@ -572,7 +573,20 @@ export default function requests() {
             name: data.name,
             password_confirmation: data.passwordConfirmation
         }
-        return $fetch(`${MAIN_URL}/api/v1/register?${new URLSearchParams(body)}`, getRequestOptions(requestOptions));
+
+        return $fetch(`${MAIN_URL}/api/v1/register?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions));
+    }
+
+    function deleteAccount() {
+        let requestOptions = [HEADER_PARAMETERS.authorization];
+        $fetch(`${MAIN_URL}/api/v1/user/remove`, getRequestOptions('DELETE', requestOptions))
+            .then(request => {
+                if (request.status === 'success') {
+                    changePerson({});
+                    store.imagesData = {images: [], newImages: []};
+                }
+            })
+            .catch(error => console.log(error));
     }
 
     function loginIn(data) {
@@ -581,22 +595,22 @@ export default function requests() {
             email: data.email,
             password: data.password
         }
-        return $fetch(`${MAIN_URL}/api/v1/login?${new URLSearchParams(body)}`, getRequestOptions(requestOptions));
+        return $fetch(`${MAIN_URL}/api/v1/login?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions));
     }
 
     function logout() {
         let requestOptions = [HEADER_PARAMETERS.content, HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
-        $fetch(`${MAIN_URL}/api/v1/logout`, getRequestOptions(requestOptions))
+        $fetch(`${MAIN_URL}/api/v1/logout`, getRequestOptions('POST', requestOptions))
             .then(request => {
                 if (request.status === 'success') {
                     changePerson({});
                     store.imagesData = {images: [], newImages: []}
                 }
             })
-            .catch(error => console.log(error))
+            .catch(error => console.log(error));
     }
 
-    function getRequestOptions(payload) {
+    function getRequestOptions(typeRequest, payload) {
         let myHeaders = new Headers();
         payload.forEach(headerElement => {
             if (headerElement.key === 'Authorization') {
@@ -607,7 +621,7 @@ export default function requests() {
         });
 
         return {
-            method: 'POST',
+            method: typeRequest,
             headers: myHeaders,
             redirect: 'follow'
         };
@@ -1059,5 +1073,5 @@ export default function requests() {
         store.changeCredits(store.person.credits - filters.parameters.countImages * 2);
     }
 
-    return {registration, loginIn, logout, generateImage, getImages, initStore, getImageShared};
+    return {registration, loginIn, logout, generateImage, getImages, initStore, getImageShared, deleteAccount};
 }
