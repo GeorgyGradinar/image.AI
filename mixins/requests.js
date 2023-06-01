@@ -577,18 +577,6 @@ export default function requests() {
         return $fetch(`${MAIN_URL}/api/v1/register?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions));
     }
 
-    function deleteAccount() {
-        let requestOptions = [HEADER_PARAMETERS.authorization];
-        $fetch(`${MAIN_URL}/api/v1/user/remove`, getRequestOptions('DELETE', requestOptions))
-            .then(request => {
-                if (request.status === 'success') {
-                    changePerson({});
-                    store.imagesData = {images: [], newImages: []};
-                }
-            })
-            .catch(error => console.log(error));
-    }
-
     function loginIn(data) {
         let requestOptions = [HEADER_PARAMETERS.accept];
         const body = {
@@ -1073,5 +1061,5 @@ export default function requests() {
         store.changeCredits(store.person.credits - filters.parameters.countImages * 2);
     }
 
-    return {registration, loginIn, logout, generateImage, getImages, initStore, getImageShared, deleteAccount};
+    return {registration, loginIn, logout, generateImage, getImages, initStore, getImageShared};
 }

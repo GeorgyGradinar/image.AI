@@ -31,28 +31,40 @@
               v-model="user.email"
               label="Почта"
           ></v-text-field>
-          <v-text-field
-              v-model="user.password"
-              label="Пароль"
-              :error-messages="mapErrors(v$.password.$errors)"
-              :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-              hint="Не менее 8 символов"
-              :type="showPassword ? 'text' : 'password'"
-              @click:append-inner="showPassword = !showPassword"
-              @input="v$.password.$touch"
-              @blur="v$.password.$touch"
-          ></v-text-field>
+
 
           <div class="wrapper-account-button">
             <button class="cancel" @click.prevent="reset">Отменить</button>
-            <button class="create-account no-hover" @click.prevent="updateUserData">Обновить данные</button>
+            <button class="create-account no-hover" @click.prevent="updateUser">Обновить данные</button>
           </div>
         </form>
       </div>
 
       <div class="change-password">
-        <h3>Измените свой пароль</h3>
-        <span>Сбросьте пароль, перейдя по этой <a>ссылке</a></span>
+        <h3>Сменить пароль</h3>
+        <v-text-field
+            v-model="user.password"
+            label="Пароль"
+            :error-messages="mapErrors(v$.password.$errors)"
+            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            hint="Не менее 8 символов"
+            :type="showPassword ? 'text' : 'password'"
+            @click:append-inner="showPassword = !showPassword"
+            @input="v$.password.$touch"
+            @blur="v$.password.$touch"
+        ></v-text-field>
+
+        <v-text-field
+            v-model="user.password"
+            label="Пароль"
+            :error-messages="mapErrors(v$.password.$errors)"
+            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            hint="Не менее 8 символов"
+            :type="showPassword ? 'text' : 'password'"
+            @click:append-inner="showPassword = !showPassword"
+            @input="v$.password.$touch"
+            @blur="v$.password.$touch"
+        ></v-text-field>
       </div>
 
       <div class="delete-account">
@@ -70,47 +82,54 @@
 </template>
 
 <script setup>
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
+import userSettings from "~/mixins/userSettings";
 import validation from "~/mixins/validation";
 import seo from "~/mixins/seo";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
-import {minLength, required} from "@vuelidate/validators";
+import {minLength, required, sameAs} from "@vuelidate/validators";
 
 definePageMeta({
   middleware: "auth"
 })
 
-const {deleteAccount} = requests();
-const {setProperty} = seo();
-setProperty('Аккаунт-настройки');
 
+const {} = requests();
+const {deleteAccount, updatePassword, updateUserData} = userSettings();
+const {setProperty} = seo();
 const {mapErrors} = validation();
 const store = personStore();
 const {person} = storeToRefs(store)
-let showPassword = ref(false);
+
+
 
 const user = ref({
   name: '',
   email: '',
   password: '',
+  confirmation: ''
 })
 
+const emailRef = computed(() => user.value.password);
+const rules = {
+  name: {required},
+  password: {required, minLength: minLength(8)},
+  passwordConfirmation: {required, sameAs: sameAs(emailRef)}
+};
+
+const v$ = useVuelidate(rules, user);
+
+let showPassword = ref(false);
+
+setProperty('Аккаунт-настройки');
 
 onMounted(() => {
   user.value.name = person.value.name
   user.value.email = person.value.email
-  user.value.password = person.value.password
 });
-
-const rules = {
-  name: {required},
-  password: {required, minLength: minLength(8)},
-};
-
-const v$ = useVuelidate(rules, user);
 
 function reset() {
 }
@@ -119,7 +138,7 @@ function deletePerson() {
   deleteAccount();
 }
 
-function updateUserData() {
+function updateUser() {
 }
 </script>
 

@@ -134,15 +134,11 @@ async function submit() {
 
 
 function getAuthVK() {
-  let requestOptions = {
-    method: 'GET',
-    redirect: 'follow'
-  };
-
-  $fetch("http://imager.plinskiy.space/api/v1/login/vkontakte", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+  const width = window.document.body.clientWidth * 0.6;
+  const height = screen.height * 0.6;
+  const left = window.document.body.clientWidth / 2 - width / 2;
+  const top = screen.height / 2 - height / 2;
+  window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '_blank', `left=${left},top=${top},width=${width},height=${height}`);
 }
 
 function changeErrorMessage(message) {
