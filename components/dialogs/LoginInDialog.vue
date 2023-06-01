@@ -132,38 +132,42 @@ async function submit() {
   }
 }
 
-
+useHead({
+  script: [{ src: 'https://vk.com/js/api/openapi.js?169', type:'text/javascript' }],
+});
 
 function getAuthVK(){
-  $fetch('https://vk.com/js/api/openapi.js?169').then(el => console.log(el))
-  // VK.init({
-  //   apiId: 51663647
-  // });
-  //
-  // VK.Auth.login(
-  //     // callback-функция, которая будет вызвана после авторизации
-  //     function (response) {
-  //
-  //       console.log(response)
-  //
-  //       if (response.status === 'connected') { // авторизация прошла успешно
-  //
-  //         var user = response.session.user; //  информация о пользователе
-  //         /*
-  //          user.first_name - имя;
-  //          user.last_name - фамилия;
-  //          user.href - ссылка на страницу в формате https://vk.com/domain;
-  //          user.id  - идентификатор пользователя;
-  //          user.nickname -  отчество или никнейм (если указано);
-  //          */
-  //
-  //       } else if (response.status === 'not_authorized') { // пользователь авторизован в ВКонтакте, но не разрешил доступ приложению;
-  //
-  //       } else if (response.status === 'unknown') { // пользователь не авторизован ВКонтакте.
-  //
-  //       }
-  //
-  //     },
+  // $fetch('https://oauth.vk.com/authorize?client_id=51663795&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=stats,wall,groups,photos,offline&response_type=token&v=5.92&state=123456')
+  //     .then(el => console.log(el))
+  VK.init({
+    apiId: 51663647
+  });
+
+  VK.Auth.login(
+      // callback-функция, которая будет вызвана после авторизации
+      function (response) {
+
+        console.log(response)
+
+        if (response.status === 'connected') { // авторизация прошла успешно
+
+          var user = response.session.user; //  информация о пользователе
+          /*
+           user.first_name - имя;
+           user.last_name - фамилия;
+           user.href - ссылка на страницу в формате https://vk.com/domain;
+           user.id  - идентификатор пользователя;
+           user.nickname -  отчество или никнейм (если указано);
+           */
+
+        } else if (response.status === 'not_authorized') { // пользователь авторизован в ВКонтакте, но не разрешил доступ приложению;
+
+        } else if (response.status === 'unknown') { // пользователь не авторизован ВКонтакте.
+
+        }
+
+      },
+  )
 }
 
 function changeErrorMessage(message) {
