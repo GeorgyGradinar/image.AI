@@ -132,6 +132,7 @@ async function submit() {
   }
 }
 
+
 function getAuthVK() {
   let requestOptions = {
     method: 'GET',
