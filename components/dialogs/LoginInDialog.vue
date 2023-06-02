@@ -38,7 +38,7 @@
             <div class="wrapper-socials">
               <img @click="getAuthVK" src="~/assets/images/vk.svg" alt="вконтакте">
               <img @click="getAuthYandex" src="~/assets/images/yandex.svg" alt="яндекс">
-              <img src="~/assets/images/google.svg" alt="гугл">
+              <img @click="getAuthGoogle" src="~/assets/images/google.svg" alt="гугл">
             </div>
           </div>
 
@@ -126,13 +126,32 @@ async function submit() {
   }
 }
 
+window.addEventListener(
+    "message",
+    (event) => {
+      console.log(event);
+      // Do we trust the sender of this message?  (might be
+      // different from what we originally opened, for example).
+      // if (event.origin !== "http://example.com") return;
+
+      // event.source is popup
+      // event.data is "hi there yourself!  the secret response is: rheeeeet!"
+    },
+    false
+);
+
 function getAuthVK() {
   const width = window.document.body.clientWidth * 0.6;
   const height = screen.height * 0.6;
   const left = window.document.body.clientWidth / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
-  let popup = window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
+  const params = `width=${width},height=${height},toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=${left},top=${top}`;
+  let popup = window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '', params)
   const currentURL = getPopupLocation(popup);
+  popup.window.postMessage(
+      "The user is 'bob' and the password is 'secret'",
+      '*'
+  );
 
   checkUrlChange(popup, currentURL, '');
 }
@@ -176,22 +195,13 @@ function checkUrlChange(popup, currentUrl, oldUrl) {
 }
 
 function getPopupLocation(popup) {
-  return popup?.location?.href;
+  // popup.location.href = 'google.com';
+  try {
+    return popup.location.href;
+  } catch {
+    return ''
+  }
 }
-
-// public loginTwitterLinkedIn(type: SocialMediaAccountType, id: number = 0): Observable<SaveAccountError> {
-//   this.errorMessage = null;
-//   const params: string = 'width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0';
-// const popup: Window = window.open(this.getLoginUrl(type, id), '', ${params});
-// const currentURL: string = this.getPopupLocation(popup);
-//
-// this.checkUrlChange(popup, currentURL, '', type);
-//
-// return this.closeWindow.pipe(
-//     switchMap(() => this.updateAccountList()),
-//     map(() => this.errorMessage),
-// );
-// }
 
 function getAuthYandex() {
   const width = window.document.body.clientWidth * 0.6;
@@ -199,6 +209,14 @@ function getAuthYandex() {
   const left = window.document.body.clientWidth / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
   let popup = window.open('http://imager.plinskiy.space/api/v1/login/yandex', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
+}
+
+function getAuthGoogle() {
+  const width = window.document.body.clientWidth * 0.6;
+  const height = screen.height * 0.6;
+  const left = window.document.body.clientWidth / 2 - width / 2;
+  const top = screen.height / 2 - height / 2;
+  let popup = window.open('http://imager.plinskiy.space/api/v1/login/google', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
 }
 
 function changeErrorMessage(message) {
