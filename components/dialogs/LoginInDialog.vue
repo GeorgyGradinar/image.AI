@@ -36,8 +36,8 @@
           <div class="socials">
             <p>Войти с помощью</p>
             <div class="wrapper-socials">
-              <img src="~/assets/images/vk.svg" alt="вконтакте" @click="getAuthVK">
-              <img src="~/assets/images/yandex.svg" alt="яндекс">
+              <img @click="getAuthVK" src="~/assets/images/vk.svg" alt="вконтакте">
+              <img @click="getAuthYandex" src="~/assets/images/yandex.svg" alt="яндекс">
               <img src="~/assets/images/google.svg" alt="гугл">
             </div>
           </div>
@@ -146,37 +146,37 @@ function checkUrlChange(popup, currentUrl, oldUrl) {
   console.log(currentUrl);
   let currentOldUrl = oldUrl;
 
-if (currentUrl && currentUrl !== oldUrl) {
-  currentOldUrl = currentUrl;
+  if (currentUrl && currentUrl !== oldUrl) {
+    currentOldUrl = currentUrl;
     console.log(currentUrl);
-  if (currentUrl.includes('callback')) {
+    if (currentUrl.includes('callback')) {
 
-    alert('kuku');
-    // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
-    // const errorMessage: string = urlParams.get('ErrorMessage');
-    //
-    // if (errorMessage) {
-    //   this.errorMessage = {
-    //     socialMediaType: type,
-    //     message: errorMessage,
-    //   };
-    // }
+      alert('kuku');
+      // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
+      // const errorMessage: string = urlParams.get('ErrorMessage');
+      //
+      // if (errorMessage) {
+      //   this.errorMessage = {
+      //     socialMediaType: type,
+      //     message: errorMessage,
+      //   };
+      // }
 
-    popup.close();
+      popup.close();
+    }
   }
-}
 
-currentOldUrl = getPopupLocation(popup);
+  currentOldUrl = getPopupLocation(popup);
 
-checkUrlTimeout = window.setTimeout(() => {
-  const newUrl = getPopupLocation(popup);
+  checkUrlTimeout = window.setTimeout(() => {
+    const newUrl = getPopupLocation(popup);
 
-  checkUrlChange(popup, newUrl, currentOldUrl);
-}, 1000);
+    checkUrlChange(popup, newUrl, currentOldUrl);
+  }, 1000);
 }
 
 function getPopupLocation(popup) {
-    return popup?.location?.href;
+  return popup?.location?.href;
 }
 
 // public loginTwitterLinkedIn(type: SocialMediaAccountType, id: number = 0): Observable<SaveAccountError> {
@@ -192,6 +192,14 @@ function getPopupLocation(popup) {
 //     map(() => this.errorMessage),
 // );
 // }
+
+function getAuthYandex() {
+  const width = window.document.body.clientWidth * 0.6;
+  const height = screen.height * 0.6;
+  const left = window.document.body.clientWidth / 2 - width / 2;
+  const top = screen.height / 2 - height / 2;
+  let popup = window.open('http://imager.plinskiy.space/api/v1/login/yandex', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
+}
 
 function changeErrorMessage(message) {
   errorMessage.value = message;

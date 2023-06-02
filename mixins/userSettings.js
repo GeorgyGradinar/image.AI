@@ -16,7 +16,13 @@ export default function userSettings() {
                     navigateTo('/');
                 }
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                if (error.status === 401){
+                    changePerson({});
+                    navigateTo('/');
+                }
+                console.log(error)
+            });
     }
 
     function updatePassword(newPassword, confirmation, oldPassword) {

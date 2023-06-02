@@ -608,6 +608,12 @@ export default function requests() {
             .then(response => {
                 changePerson(personMapper(response.user, store.person.token));
             })
+            .catch(error => {
+                if (error.status === 401){
+                    changePerson({});
+                    navigateTo('/');
+                }
+            })
     }
 
     function getRequestOptions(typeRequest, payload) {
