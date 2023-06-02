@@ -32,10 +32,9 @@
               label="Почта"
           ></v-text-field>
 
-
           <div class="wrapper-account-button">
             <button class="cancel" @click.prevent="reset">Отменить</button>
-            <button class="create-account no-hover" @click.prevent="updateUser">Обновить данные</button>
+            <button class="secondary no-hover" @click.prevent="updateUser">Обновить данные</button>
           </div>
         </form>
       </div>
@@ -43,28 +42,41 @@
       <div class="change-password">
         <h3>Сменить пароль</h3>
         <v-text-field
-            v-model="user.password"
-            label="Пароль"
-            :error-messages="mapErrors(v$.password.$errors)"
-            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            hint="Не менее 8 символов"
-            :type="showPassword ? 'text' : 'password'"
-            @click:append-inner="showPassword = !showPassword"
-            @input="v$.password.$touch"
-            @blur="v$.password.$touch"
+            v-model="user.oldPassword"
+            label="Старый пароль"
+            :error-messages="mapErrors(v$.oldPassword.$errors)"
+            :append-inner-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showOldPassword ? 'text' : 'password'"
+            @click:append-inner="showOldPassword = !showOldPassword"
+            @input="v$.oldPassword.$touch"
+            @blur="v$.oldPassword.$touch"
         ></v-text-field>
 
         <v-text-field
-            v-model="user.password"
-            label="Пароль"
-            :error-messages="mapErrors(v$.password.$errors)"
-            :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            hint="Не менее 8 символов"
-            :type="showPassword ? 'text' : 'password'"
-            @click:append-inner="showPassword = !showPassword"
-            @input="v$.password.$touch"
-            @blur="v$.password.$touch"
+            v-model="user.newPassword"
+            label="Новый пароль"
+            :error-messages="mapErrors(v$.newPassword.$errors)"
+            :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showNewPassword ? 'text' : 'password'"
+            @click:append-inner="showNewPassword = !showNewPassword"
+            @input="v$.newPassword.$touch"
+            @blur="v$.newPassword.$touch"
         ></v-text-field>
+
+        <v-text-field
+            v-model="user.confirmation"
+            label="Повторите новый пароль"
+            :error-messages="mapErrors(v$.confirmation.$errors)"
+            :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showNewPassword ? 'text' : 'password'"
+            @click:append-inner="showNewPassword = !showNewPassword"
+            @input="v$.confirmation.$touch"
+            @blur="v$.confirmation.$touch"
+        ></v-text-field>
+
+        <div class="wrapper-account-button">
+          <button class="secondary no-hover" @click.prevent="updateUserPassword">Обновить пароль</button>
+        </div>
       </div>
 
       <div class="delete-account">
@@ -74,15 +86,28 @@
           будут безвозвратно утеряны. Это действие необратимо!
         </span>
         <div class="button-delete-account">
-          <button @click="deletePerson">Удалить аккаунт...</button>
+          <button @click="openAcceptDialog">Удалить аккаунт...</button>
         </div>
       </div>
     </section>
   </div>
+
+  <AcceptDialog v-if="isOpenAcceptDialog" @closeAcceptDialog="getAccept"></AcceptDialog>
+
+  <DoneSnackBar
+      :openSnackBar="isOpenSnackBarDone"
+      :text-snack-bar="textSnackBarDone"
+      @close="isOpenSnackBarDone = false">
+  </DoneSnackBar>
+  <RejectSnackBar
+      :openSnackBar="isOpenSnackBarReject"
+      :text-snack-bar="textSnackBarReject"
+      @close="isOpenSnackBarReject = false">
+  </RejectSnackBar>
 </template>
 
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
@@ -90,56 +115,147 @@ import userSettings from "~/mixins/userSettings";
 import validation from "~/mixins/validation";
 import seo from "~/mixins/seo";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
-import {minLength, required, sameAs} from "@vuelidate/validators";
+import { minLength, required, sameAs} from "@vuelidate/validators";
+import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
+import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
+import apiMapper from "~/mixins/apiMapper";
+import AcceptDialog from "../../components/dialogs/AcceptDialog";
+import {navigateTo} from "nuxt/app";
 
 definePageMeta({
   middleware: "auth"
 })
 
-
-const {} = requests();
+const {getPersonInfo} = requests();
 const {deleteAccount, updatePassword, updateUserData} = userSettings();
 const {setProperty} = seo();
 const {mapErrors} = validation();
 const store = personStore();
 const {person} = storeToRefs(store)
-
-
+const {changePerson} = store;
+const {personMapper} = apiMapper();
 
 const user = ref({
   name: '',
   email: '',
-  password: '',
+  oldPassword: '',
+  newPassword: '',
   confirmation: ''
 })
 
-const emailRef = computed(() => user.value.password);
+const emailRef = computed(() => user.value.newPassword);
 const rules = {
   name: {required},
-  password: {required, minLength: minLength(8)},
-  passwordConfirmation: {required, sameAs: sameAs(emailRef)}
+  oldPassword: {required, minLength: minLength(6)},
+  newPassword: {required, minLength: minLength(6)},
+  confirmation: {required, sameAs: sameAs(emailRef)}
 };
 
 const v$ = useVuelidate(rules, user);
 
-let showPassword = ref(false);
+let showOldPassword = ref(false);
+let showNewPassword = ref(false);
+
+let isOpenAcceptDialog = ref(false);
+let isOpenSnackBarDone = ref(false);
+let textSnackBarDone = ref('');
+let isOpenSnackBarReject = ref(false);
+let textSnackBarReject = ref('');
 
 setProperty('Аккаунт-настройки');
 
 onMounted(() => {
-  user.value.name = person.value.name
-  user.value.email = person.value.email
+  getPersonInfo();
+  user.value.name = person.value.name;
+  user.value.email = person.value.email;
 });
 
+watch(person, (newData) => {
+  user.value.name = newData.name;
+})
+
 function reset() {
+
 }
 
-function deletePerson() {
-  deleteAccount();
+async function updateUser() {
+  await updateUserData(user.value.name, user.value.email)
+      .then(response => {
+        if (response.status === "success") {
+          changePerson(personMapper(response.user, person.value.token));
+          openSnackBarDone(response.message);
+        }
+      })
+      .catch(error => {
+        if (error.status === "error") {
+          console.log(error)
+        } else if (error.status === 401) {
+          console.log(error)
+          // changePerson({});
+          // navigateTo('/');
+        }
+
+      })
 }
 
-function updateUser() {
+async function updateUserPassword() {
+  v$.value.$validate();
+
+  if (!v$.value.$error) {
+    await updatePassword(user.value.newPassword, user.value.confirmation, user.value.oldPassword,)
+        .then(response => {
+          if (response.status === "success") {
+            openSnackBarDone(response.message);
+            user.value = {
+              ...user.value,
+              oldPassword: '',
+              newPassword: '',
+              confirmation: ''
+            }
+            v$.value.$reset();
+          }
+        })
+        .catch(error => {
+          if (error.status === 400) {
+            openSnackBarReject(error.data.message)
+          } else if (error.status === 401) {
+            console.log(error.status);
+            changePerson({});
+            navigateTo('/');
+          } else if (error.status === "error") {
+            console.log(error.status);
+          }
+        })
+  } else {
+    openSnackBarReject('Данные заполнены не корректно')
+  }
 }
+
+function openSnackBarDone(message) {
+  textSnackBarDone.value = message;
+  isOpenSnackBarDone.value = true;
+}
+
+function openSnackBarReject(message) {
+  textSnackBarReject.value = message;
+  isOpenSnackBarReject.value = true;
+}
+
+function openAcceptDialog() {
+  isOpenAcceptDialog.value = true;
+}
+
+function getAccept(isAccept) {
+  isOpenAcceptDialog.value = false;
+  deletePerson(isAccept);
+}
+
+function deletePerson(isAccept) {
+  if (isAccept) {
+    deleteAccount();
+  }
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -209,6 +325,19 @@ function updateUser() {
         }
       }
     }
+
+    .change-password {
+      .wrapper-account-button {
+        display: flex;
+        justify-content: flex-end;
+
+        button {
+          max-width: 250px;
+          font-size: 13px;
+        }
+      }
+    }
+
 
     .delete-account {
       border-bottom: none;

@@ -62,7 +62,6 @@ const v$ = useVuelidate(rules, verificationCode);
 let hasLoader = ref(false);
 let hasShowAcceptMessage = ref(false);
 let hasShowRejectMessage = ref(false);
-// eslint-disable-next-line no-undef
 const emit = defineEmits(['closeDialog'])
 
 function checkVerificationCode() {``

@@ -80,12 +80,14 @@ import AcceptEmailDialog from "~/components/dialogs/AcceptEmailDialog";
 import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
+import apiMapper from "~/mixins/apiMapper";
 
 const store = personStore();
 const {referralId} = storeToRefs(store);
 const {changePerson} = store;
 const {mapErrors} = validation();
 const emit = defineEmits(['closeRegistrationBlock'])
+const {personMapper} = apiMapper();
 
 let dialog = ref(true);
 let showPassword = ref(false);
@@ -138,19 +140,14 @@ async function submit() {
       passwordConfirmation: initialState.value.passwordConfirmation,
     })
         .then(response => {
-          let person = {
-            id: response.user.id,
-            name: response.user.name,
-            email: response.user.email,
-            credits: response.user.credits,
-            token: response.authorisation.token
-          }
-          changePerson(person);
+          changePerson(personMapper(response.user, response.authorisation.token));
           dialog.value = false;
         })
         .catch(error => {
           if (error.statusCode === 422) {
             changeErrorMessage('Пользователь с такой почтой уже существует');
+          }else {
+            changeErrorMessage('Что то пошло не так, повторите попытку');
           }
         })
   }

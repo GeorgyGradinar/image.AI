@@ -1,11 +1,14 @@
 import {personStore} from "~/store/personStore";
 import {ACCOUNT_STORAGE_KEY} from "~/constants";
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config"
+import {navigateTo} from "nuxt/app";
+import apiMapper from "~/mixins/apiMapper";
 
 
 export default function requests() {
     let store = personStore();
     const {changePerson} = store;
+    const {personMapper} = apiMapper();
     const imagesData = [
         {
             id: '31554',
@@ -593,9 +596,18 @@ export default function requests() {
                 if (request.status === 'success') {
                     changePerson({});
                     store.imagesData = {images: [], newImages: []}
+                    navigateTo('/');
                 }
             })
             .catch(error => console.log(error));
+    }
+
+    function getPersonInfo() {
+        let requestOptions = [HEADER_PARAMETERS.authorization];
+        $fetch(`${MAIN_URL}/api/v1/user/me`, getRequestOptions('GET', requestOptions))
+            .then(response => {
+                changePerson(personMapper(response.user, store.person.token));
+            })
     }
 
     function getRequestOptions(typeRequest, payload) {
@@ -1061,5 +1073,5 @@ export default function requests() {
         store.changeCredits(store.person.credits - filters.parameters.countImages * 2);
     }
 
-    return {registration, loginIn, logout, generateImage, getImages, initStore, getImageShared};
+    return {registration, loginIn, logout, getPersonInfo, generateImage, getImages, initStore, getImageShared, };
 }

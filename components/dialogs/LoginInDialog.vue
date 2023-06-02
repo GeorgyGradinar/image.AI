@@ -63,13 +63,14 @@ import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import {personStore} from "~/store/personStore";
-
+import apiMapper from "~/mixins/apiMapper";
 
 const {mapErrors} = validation();
 const {loginIn} = requests();
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
 const store = personStore();
 const {changePerson} = store;
+const {personMapper} = apiMapper();
 
 const initialState = ref({
   email: '',
@@ -114,14 +115,7 @@ async function submit() {
       password: initialState.value.password
     })
         .then(response => {
-          let person = {
-            id: response.user.id,
-            name: response.user.name,
-            email: response.user.email,
-            credits: response.user.credits,
-            token: response.authorisation.token
-          }
-          changePerson(person);
+          changePerson(personMapper(response.user, response.authorisation.token));
           closeDialog();
         })
         .catch(error => {
@@ -132,14 +126,72 @@ async function submit() {
   }
 }
 
-
 function getAuthVK() {
   const width = window.document.body.clientWidth * 0.6;
   const height = screen.height * 0.6;
   const left = window.document.body.clientWidth / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
-  window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '_blank', `left=${left},top=${top},width=${width},height=${height}`);
+  let popup = window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
+  // const currentURL = getPopupLocation(popup);
+  //
+  // checkUrlChange(popup, currentURL, '');
 }
+
+// let checkUrlTimeout;
+//
+// function checkUrlChange(popup, currentUrl, oldUrl) {
+//   if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
+//   console.log('kuku');
+//   console.log(oldUrl);
+//   console.log(currentUrl);
+//   let currentOldUrl = oldUrl;
+//
+// if (currentUrl && currentUrl !== oldUrl) {
+//   currentOldUrl = currentUrl;
+//     console.log(currentUrl);
+//   if (currentUrl.includes('callback')) {
+//
+//     alert('kuku');
+//     // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
+//     // const errorMessage: string = urlParams.get('ErrorMessage');
+//     //
+//     // if (errorMessage) {
+//     //   this.errorMessage = {
+//     //     socialMediaType: type,
+//     //     message: errorMessage,
+//     //   };
+//     // }
+//
+//     popup.close();
+//   }
+// }
+//
+// currentOldUrl = getPopupLocation(popup);
+//
+// checkUrlTimeout = window.setTimeout(() => {
+//   const newUrl = getPopupLocation(popup);
+//
+//   checkUrlChange(popup, newUrl, currentOldUrl);
+// }, 1000);
+// }
+//
+// function getPopupLocation(popup) {
+//     return popup?.location?.href;
+// }
+
+// public loginTwitterLinkedIn(type: SocialMediaAccountType, id: number = 0): Observable<SaveAccountError> {
+//   this.errorMessage = null;
+//   const params: string = 'width=700,height=500,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=0,top=0';
+// const popup: Window = window.open(this.getLoginUrl(type, id), '', ${params});
+// const currentURL: string = this.getPopupLocation(popup);
+//
+// this.checkUrlChange(popup, currentURL, '', type);
+//
+// return this.closeWindow.pipe(
+//     switchMap(() => this.updateAccountList()),
+//     map(() => this.errorMessage),
+// );
+// }
 
 function changeErrorMessage(message) {
   errorMessage.value = message;
