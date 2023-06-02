@@ -132,52 +132,52 @@ function getAuthVK() {
   const left = window.document.body.clientWidth / 2 - width / 2;
   const top = screen.height / 2 - height / 2;
   let popup = window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
-  // const currentURL = getPopupLocation(popup);
-  //
-  // checkUrlChange(popup, currentURL, '');
+  const currentURL = getPopupLocation(popup);
+
+  checkUrlChange(popup, currentURL, '');
 }
 
-// let checkUrlTimeout;
-//
-// function checkUrlChange(popup, currentUrl, oldUrl) {
-//   if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
-//   console.log('kuku');
-//   console.log(oldUrl);
-//   console.log(currentUrl);
-//   let currentOldUrl = oldUrl;
-//
-// if (currentUrl && currentUrl !== oldUrl) {
-//   currentOldUrl = currentUrl;
-//     console.log(currentUrl);
-//   if (currentUrl.includes('callback')) {
-//
-//     alert('kuku');
-//     // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
-//     // const errorMessage: string = urlParams.get('ErrorMessage');
-//     //
-//     // if (errorMessage) {
-//     //   this.errorMessage = {
-//     //     socialMediaType: type,
-//     //     message: errorMessage,
-//     //   };
-//     // }
-//
-//     popup.close();
-//   }
-// }
-//
-// currentOldUrl = getPopupLocation(popup);
-//
-// checkUrlTimeout = window.setTimeout(() => {
-//   const newUrl = getPopupLocation(popup);
-//
-//   checkUrlChange(popup, newUrl, currentOldUrl);
-// }, 1000);
-// }
-//
-// function getPopupLocation(popup) {
-//     return popup?.location?.href;
-// }
+let checkUrlTimeout;
+
+function checkUrlChange(popup, currentUrl, oldUrl) {
+  if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
+  console.log('kuku');
+  console.log(oldUrl);
+  console.log(currentUrl);
+  let currentOldUrl = oldUrl;
+
+if (currentUrl && currentUrl !== oldUrl) {
+  currentOldUrl = currentUrl;
+    console.log(currentUrl);
+  if (currentUrl.includes('callback')) {
+
+    alert('kuku');
+    // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
+    // const errorMessage: string = urlParams.get('ErrorMessage');
+    //
+    // if (errorMessage) {
+    //   this.errorMessage = {
+    //     socialMediaType: type,
+    //     message: errorMessage,
+    //   };
+    // }
+
+    popup.close();
+  }
+}
+
+currentOldUrl = getPopupLocation(popup);
+
+checkUrlTimeout = window.setTimeout(() => {
+  const newUrl = getPopupLocation(popup);
+
+  checkUrlChange(popup, newUrl, currentOldUrl);
+}, 1000);
+}
+
+function getPopupLocation(popup) {
+    return popup?.location?.href;
+}
 
 // public loginTwitterLinkedIn(type: SocialMediaAccountType, id: number = 0): Observable<SaveAccountError> {
 //   this.errorMessage = null;
