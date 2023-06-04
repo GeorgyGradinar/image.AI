@@ -42,6 +42,7 @@ import {storeToRefs} from "pinia";
 import {imagesStore} from "~/store/imagesStore";
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
+import billing from '~/mixins/billing'
 import generatorImages from "~/mixins/generatorImages";
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
@@ -57,6 +58,7 @@ const {person, filters} = storeToRefs(store);
 const generationImage = imagesStore();
 const {generatedImages} = storeToRefs(generationImage);
 const {generateImages} = generatorImages();
+const {priceGeneration} = billing();
 
 let coastGeneration = ref('');
 let counterImage = ref('');
@@ -80,9 +82,11 @@ watch(filters, (newData) => {
     counterImage.value = `${filters._value.parameters.countImages} изображений`;
   }
 
-  coastGeneration.value = newData.parameters.countImages * 2;
+  coastGeneration.value = newData.parameters.countImages;
 
-  if (coastGeneration.value < 5) {
+  if (coastGeneration.value === 1){
+    textForCredit.value = 'кредит';
+  }else if (coastGeneration.value < 5) {
     textForCredit.value = 'кредита';
   } else {
     textForCredit.value = 'кредитов';

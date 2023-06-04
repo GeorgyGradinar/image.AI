@@ -81,7 +81,7 @@ async function getAllRates() {
   await getRates()
       .then(response => {
         pricing.value = response.packages.map(price => {
-          let percent = Math.round((price.credits / price.price) * 100 / 2);
+          let percent = Math.round(( price.price / price.credits) * 100 / 2);
           percent = percent === 100 ? null : percent;
           return {
             id: price.id,

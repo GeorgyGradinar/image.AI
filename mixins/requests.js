@@ -622,23 +622,6 @@ export default function requests() {
             })
     }
 
-    // function getRequestOptions(typeRequest, payload) {
-    //     let myHeaders = new Headers();
-    //     payload.forEach(headerElement => {
-    //         if (headerElement.key === 'Authorization') {
-    //             myHeaders.append(headerElement.key, `${headerElement.body} ${store.person.token}`);
-    //         } else {
-    //             myHeaders.append(headerElement.key, headerElement.body);
-    //         }
-    //     });
-    //
-    //     return {
-    //         method: typeRequest,
-    //         headers: myHeaders,
-    //         redirect: 'follow'
-    //     };
-    // }
-
     function getImages() {
         const images = [
             ...store.imagesData.images,

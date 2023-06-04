@@ -113,6 +113,7 @@ header {
       font-size: 14px;
       position: relative;
       transition: all 0.2s;
+      cursor: pointer;
 
       &:link {
         text-decoration: none;
