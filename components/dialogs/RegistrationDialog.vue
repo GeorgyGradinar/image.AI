@@ -141,7 +141,7 @@ async function submit() {
     })
         .then(response => {
           changePerson(personMapper(response.user, response.authorisation.token));
-          dialog.value = false;
+          closeRegistrationBlock();
         })
         .catch(error => {
           if (error.statusCode === 422) {

@@ -13,12 +13,12 @@
           <h2>{{ price.name }}</h2>
           <span class="price">₽ {{ price.price }}</span>
           <div class="detail">
-            <span class="count-images">{{ price.countImage }} изображений</span>
+            <!--            <span class="count-images">{{ price.countImage }} изображений</span>-->
             <span class="count-credits">{{ price.countCredits }} кредитов</span>
           </div>
         </div>
         <div class="wrapper-button">
-          <button class="buy" @click="buy(price.countCredits)">Выбрать пакет</button>
+          <button class="buy" @click="buy(price.id)">Выбрать пакет</button>
         </div>
       </section>
     </div>
@@ -43,10 +43,9 @@ import {onMounted, ref, watch} from "vue";
 const store = personStore();
 const {changeCredits} = store;
 const {person} = storeToRefs(store);
-const {getRates} = billing();
+const {getRates, buyRate} = billing();
 
 onMounted(() => {
-  isLogin();
   getAllRates();
 })
 
@@ -77,18 +76,32 @@ let frequentlyAsks = [
   },
 ];
 
-watch(person, () => {
-  isLogin();
-})
 
 async function getAllRates() {
   await getRates()
+      .then(response => {
+        pricing.value = response.packages.map(price => {
+          let percent = Math.round((price.credits / price.price) * 100 / 2);
+          percent = percent === 100 ? null : percent;
+          return {
+            id: price.id,
+            sale: percent ? `выгода ${percent} %` : null,
+            name: price.name,
+            price: price.price,
+            countCredits: price.credits
+          }
+        })
+
+      })
+}
+
+function buy(id) {
+  buyRate(id);
 }
 
 function isLogin() {
   if (person._value.id) {
     pricing.value = [
-
       {
         sale: 'Выгода 10%',
         name: 'Base',
@@ -180,13 +193,13 @@ function isLogin() {
   }
 }
 
-function buy(credits) {
-  if (person._value.id) {
-    changeCredits(person._value.credits + credits)
-  } else {
-    isOpenRegistrationDialog.value = true;
-  }
-}
+// function buy(credits) {
+//   if (person._value.id) {
+//     changeCredits(person._value.credits + credits)
+//   } else {
+//     isOpenRegistrationDialog.value = true;
+//   }
+// }
 </script>
 
 <style scoped lang="scss">
