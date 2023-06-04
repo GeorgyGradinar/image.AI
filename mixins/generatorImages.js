@@ -12,6 +12,7 @@ export default function generatorImages() {
             .then(response => {
                 if (response.status === 'success') {
                     for (let x = 0; x < +response.image.count; x++) {
+
                         let randomId = Math.floor(Math.random() * 10000);
                         const loading = {
                             id: randomId,
