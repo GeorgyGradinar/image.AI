@@ -22,22 +22,22 @@
           <img src="~/assets/images/text-to-image/block-images/image-details/refresh.svg" alt="">
           <p>Переиспользовать параметры</p>
         </div>
-        <NuxtLink to="/editor" class="edit">
-          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">
-          <p>Открыть в редакторе</p>
-        </NuxtLink>
+<!--        <NuxtLink to="/editor" class="edit">-->
+<!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
+<!--          <p>Открыть в редакторе</p>-->
+<!--        </NuxtLink>-->
         <a class="download" :href="useAsset(image.img)" download>
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
         </a>
-        <div class="reuse" @click="reuseImageParameter">
-          <img src="~/assets/images/text-to-image/block-images/image-details/image.svg" alt="">
-          <p>Использовать изображение</p>
-        </div>
-        <div class="improve-quality">
-          <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">
-          <p>Повысить разрешение</p>
-        </div>
+<!--        <div class="reuse" @click="reuseImageParameter">-->
+<!--          <img src="~/assets/images/text-to-image/block-images/image-details/image.svg" alt="">-->
+<!--          <p>Использовать изображение</p>-->
+<!--        </div>-->
+<!--        <div class="improve-quality">-->
+<!--          <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
+<!--          <p>Повысить разрешение</p>-->
+<!--        </div>-->
         <div class="share-button" @click="toggleShowShareDialog">
           <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">
           <strong>Поделиться</strong>
@@ -228,7 +228,8 @@ function toggleShowShareDialog() {
       .reuse,
       .improve-quality,
       .download {
-        width: calc(50% - 5px);
+        //width: calc(50% - 5px);
+        width: 100%;
         display: flex;
         align-items: center;
         gap: 10px;

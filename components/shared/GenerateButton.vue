@@ -85,11 +85,11 @@ watch(filters, (newData) => {
   coastGeneration.value = newData.parameters.countImages;
 
   if (coastGeneration.value === 1){
-    textForCredit.value = 'кредит';
+    textForCredit.value = 'краска';
   }else if (coastGeneration.value < 5) {
-    textForCredit.value = 'кредита';
+    textForCredit.value = 'краски';
   } else {
-    textForCredit.value = 'кредитов';
+    textForCredit.value = 'красок';
   }
 })
 
@@ -132,7 +132,7 @@ function openSnackBarReject(text) {
 function buyMoreCredits(hasBuy) {
   isOpenBuyMoreCredits.value = false;
   if (hasBuy) {
-    openSnackBarDone("Кредиты пополнены");
+    openSnackBarDone("Краски пополнены");
   }
 }
 

@@ -9,7 +9,7 @@ import PricingBlock from "~/components/pricing/PricingBlock";
 import seo from "~/mixins/seo";
 
 const {setProperty} = seo();
-setProperty('НейроХолст-Цены', 'Стоимость кредитов для генерации');
+setProperty('НейроХолст-Цены', 'Стоимость красок для генерации');
 
 </script>
 

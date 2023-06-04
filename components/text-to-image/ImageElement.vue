@@ -7,18 +7,18 @@
         <img src="~/assets/images/text-to-image/block-images/refresh.svg" alt="cover">
         <v-tooltip activator="parent" location="bottom">Переиспользовать параметры</v-tooltip>
       </div>
-      <div class="wrapper-add-image" @click="reuseImage">
-        <img src="~/assets/images/text-to-image/block-images/add-image.svg" alt="">
-        <v-tooltip activator="parent" location="bottom">Переиспользовать изображение</v-tooltip>
-      </div>
-      <div class="wrapper-arrows">
-        <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">
-        <v-tooltip activator="parent" location="bottom">Повысить разрешение</v-tooltip>
-      </div>
-      <div class="wrapper-smile">
-        <img src="~/assets/images/text-to-image/block-images/smile.svg" alt="smile">
-        <v-tooltip activator="parent" location="bottom">Изменение лица</v-tooltip>
-      </div>
+<!--      <div class="wrapper-add-image" @click="reuseImage">-->
+<!--        <img src="~/assets/images/text-to-image/block-images/add-image.svg" alt="">-->
+<!--        <v-tooltip activator="parent" location="bottom">Переиспользовать изображение</v-tooltip>-->
+<!--      </div>-->
+<!--      <div class="wrapper-arrows">-->
+<!--        <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
+<!--        <v-tooltip activator="parent" location="bottom">Повысить разрешение</v-tooltip>-->
+<!--      </div>-->
+<!--      <div class="wrapper-smile">-->
+<!--        <img src="~/assets/images/text-to-image/block-images/smile.svg" alt="smile">-->
+<!--        <v-tooltip activator="parent" location="bottom">Изменение лица</v-tooltip>-->
+<!--      </div>-->
       <div class="wrapper-bin" @click="deleteImg(image.id)">
         <svg viewBox="0 0 24 24" fill="none">
           <path

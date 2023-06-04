@@ -2,7 +2,7 @@
   <v-dialog class="dialog price" v-model="isOpen" persistent>
     <v-card class="card">
       <div class="wrapper-close">
-        <p class="warning">У вас недостаточно кредитов, выберите пакет</p>
+        <p class="warning">У вас недостаточно красок, выберите пакет</p>
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt=""
              @click.prevent="$emit('close')">
       </div>
@@ -16,7 +16,7 @@
             <span class="price">₽ {{ price.price }}</span>
             <div class="detail">
               <span class="count-images">{{ price.countImage }} изображений</span>
-              <span class="count-credits">{{ price.countCredits }} кредитов</span>
+              <span class="count-credits">{{ price.countCredits }} красок</span>
             </div>
           </div>
           <div class="wrapper-button">

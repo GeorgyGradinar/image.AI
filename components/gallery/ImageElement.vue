@@ -7,14 +7,14 @@
         <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
         <v-tooltip activator="parent" location="bottom">Скачать</v-tooltip>
       </a>
-      <div class="wrapper-arrows">
-        <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">
-        <v-tooltip activator="parent" location="bottom">Повысить разрешение</v-tooltip>
-      </div>
-      <div class="wrapper-smile">
-        <img src="~/assets/images/text-to-image/block-images/smile.svg" alt="smile">
-        <v-tooltip activator="parent" location="bottom">Изменение лица</v-tooltip>
-      </div>
+<!--      <div class="wrapper-arrows">-->
+<!--        <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
+<!--        <v-tooltip activator="parent" location="bottom">Повысить разрешение</v-tooltip>-->
+<!--      </div>-->
+<!--      <div class="wrapper-smile">-->
+<!--        <img src="~/assets/images/text-to-image/block-images/smile.svg" alt="smile">-->
+<!--        <v-tooltip activator="parent" location="bottom">Изменение лица</v-tooltip>-->
+<!--      </div>-->
       <div class="wrapper-bin" @click="deleteImg(image.id)">
         <svg viewBox="0 0 24 24" fill="none">
           <path

@@ -2,53 +2,71 @@
   <footer>
     <div class="wrapper-footer">
       <div class="logo">
-        <h3>Logo</h3>
+        <h3>НейроХолст</h3>
         <div class="social">
-          <img src="~/assets/images/footer/instagram.svg" alt="">
-          <img src="~/assets/images/footer/twitter.svg" alt="">
+<!--          <img src="~/assets/images/footer/instagram.svg" alt="">-->
+<!--          <img src="~/assets/images/footer/twitter.svg" alt="">-->
           <img src="~/assets/images/footer/vk.svg" alt="">
         </div>
       </div>
 
       <section class="item">
         <h3>Продукт</h3>
-        <button>Арт генератор</button>
-        <button>AI редактор</button>
-        <button>Сеть управления</button>
-        <button>ФотоМечты</button>
-        <button>Цены</button>
+<!--        <button>Арт генератор</button>-->
+<!--        <button>AI редактор</button>-->
+<!--        <button>Сеть управления</button>-->
+<!--        <button>ФотоМечты</button>-->
+        <NuxtLink to="/text-to-image">Изображение по описанию</NuxtLink>
+        <NuxtLink to="/pricing">Цены</NuxtLink>
+        <NuxtLink to="" v-if="!person.name" @click="isOpenLoginDialog = true">Войти</NuxtLink>
+        <NuxtLink to="" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
+        </NuxtLink>
       </section>
 
-      <section class="item">
-        <h3>Виды</h3>
-        <button>Аналоговая Диффузия</button>
-        <button>Аниме Диффузия</button>
-        <button>Дисней Диффузия</button>
-        <button>Гибли Диффузия</button>
-        <button>Inkpunk Диффузия</button>
-        <button>ван Гог Диффузия</button>
-      </section>
+<!--      <section class="item">-->
+<!--        <h3>Виды</h3>-->
+<!--        <button>Аналоговая Диффузия</button>-->
+<!--        <button>Аниме Диффузия</button>-->
+<!--        <button>Дисней Диффузия</button>-->
+<!--        <button>Гибли Диффузия</button>-->
+<!--        <button>Inkpunk Диффузия</button>-->
+<!--        <button>ван Гог Диффузия</button>-->
+<!--      </section>-->
 
       <section class="item">
         <h3>Ресурсы</h3>
-        <button>Политика конфиденциальности</button>
-        <button>Условия использования</button>
-        <button>Ограничения</button>
-        <button>Партнерская программа</button>
+        <NuxtLink to="/legal/privacy-policy">Политика конфиденциальности</NuxtLink>
+        <NuxtLink to="/legal/terms-of-service">Условия использования</NuxtLink>
+        <NuxtLink to="/legal/restrictions">Ограничения</NuxtLink>
+        <NuxtLink to="/legal/subprocessors">Подпроцессоры</NuxtLink>
+        <NuxtLink to="/legal/cancellation-policy">Политика отмены</NuxtLink>
       </section>
 
-      <section class="item">
-        <h3>О нас</h3>
-        <button>Инфо</button>
-        <button>FAQ</button>
-        <button>Email</button>
-      </section>
+<!--      <section class="item">-->
+<!--        <h3>О нас</h3>-->
+<!--        <button>Инфо</button>-->
+<!--        <button>FAQ</button>-->
+<!--        <button>Email</button>-->
+<!--      </section>-->
     </div>
+    <LoginInDialog v-if="isOpenLoginDialog" @closeLoginDialog="isOpenLoginDialog = false"></LoginInDialog>
+    <RegistrationDialog v-if="isOpenRegistrationDialog"
+                        @closeRegistrationBlock="isOpenRegistrationDialog = false"></RegistrationDialog>
   </footer>
 </template>
 
 <script setup>
+import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
+import LoginInDialog from "~/components/dialogs/LoginInDialog";
+import {storeToRefs} from "pinia";
+import {personStore} from "../store/personStore";
+import {ref} from "vue";
 
+const store = personStore();
+const {person} = storeToRefs(store);
+
+let isOpenLoginDialog = ref(false);
+let isOpenRegistrationDialog = ref(false);
 </script>
 
 <style scoped lang="scss">
@@ -99,6 +117,7 @@ footer {
         font-weight: 500;
       }
 
+      a,
       button {
         display: flex;
         font-size: 15px;
@@ -107,9 +126,12 @@ footer {
         text-align: start;
         background-color: #232426;
         border: none;
+        text-decoration: none;
+        cursor: pointer;
       }
 
-      button:hover {
+      button:hover,
+      a:hover {
         color: #f9f6e0;
       }
     }

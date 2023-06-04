@@ -32,6 +32,7 @@
       </button>
     </section>
   </header>
+
   <LoginInDialog v-if="isOpenLoginDialog" @closeLoginDialog="isOpenLoginDialog = false"></LoginInDialog>
   <RegistrationDialog v-if="isOpenRegistrationDialog"
                       @closeRegistrationBlock="isOpenRegistrationDialog = false"></RegistrationDialog>

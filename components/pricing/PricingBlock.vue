@@ -3,7 +3,7 @@
     <div class="artifact"></div>
     <div class="artifact"></div>
     <h1>Пакеты</h1>
-    <p>Используйте getimg.ai бесплатно со 100 кредитами в месяц. Создавайте больше. Платите меньше.</p>
+    <p>Используйте getimg.ai бесплатно со 100 красками в месяц. Создавайте больше. Платите меньше.</p>
     <div class="pricing">
       <section class="item" v-for="price of pricing" :key="price.id">
         <div class="sale">
@@ -14,7 +14,7 @@
           <span class="price">₽ {{ price.price }}</span>
           <div class="detail">
             <!--            <span class="count-images">{{ price.countImage }} изображений</span>-->
-            <span class="count-credits">{{ price.countCredits }} кредитов</span>
+            <span class="count-credits">{{ price.countCredits }} красок</span>
           </div>
         </div>
         <div class="wrapper-button">
@@ -72,7 +72,7 @@ let frequentlyAsks = [
   },
   {
     title: 'Что, если я решу отменить?',
-    text: 'Если вы больше не хотите использовать getimg.ai, вы можете отменить подписку в любое время. После отмены вы по-прежнему сможете использовать свои кредиты до конца текущего платежного цикла.'
+    text: 'Если вы больше не хотите использовать getimg.ai, вы можете отменить подписку в любое время. После отмены вы по-прежнему сможете использовать свои краски до конца текущего платежного цикла.'
   },
 ];
 
@@ -305,7 +305,7 @@ function isLogin() {
   }
 
   .pricing {
-    max-width: 930px;
+    max-width: 1440px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -313,45 +313,21 @@ function isLogin() {
     align-items: center;
     margin-top: 60px;
     padding: 0 10px;
-    background-color: rgba(200, 180, 255, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(54, 226, 255, 0.2);
-    border: 1px solid rgba(200, 180, 255, 0.3);
+    gap: 60px;
 
     .item {
+      background-color: rgba(200, 180, 255, 0.3);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(54, 226, 255, 0.2);
+      border: 1px solid rgba(200, 180, 255, 0.3);
       width: 100%;
       max-width: 300px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       position: relative;
-
-      &:first-child:before,
-      &:nth-child(2):before,
-      &:nth-child(4):before,
-      &:nth-child(5):before, {
-        content: '';
-        position: absolute;
-        right: 0;
-        top: 15%;
-        height: 70%;
-        border-right: 1px solid var(--main-light-color);
-        opacity: 0.4;
-      }
-
-      &:nth-child(1):after,
-      &:nth-child(2):after,
-      &:nth-child(3):after, {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: calc(50% - 125px);
-        width: 250px;
-        border-bottom: 1px solid var(--main-light-color);
-        opacity: 0.4;
-      }
 
       .sale {
         height: 50px;
@@ -438,7 +414,7 @@ function isLogin() {
     }
 
     .pricing {
-      max-width: 1200px;
+      max-width: 1600px;
       margin-top: 80px;
 
       .item {
@@ -502,36 +478,7 @@ function isLogin() {
     }
 
     .pricing {
-      gap: 40px;
       margin-top: 40px;
-      flex-wrap: wrap;
-      justify-content: center;
-      background: none;
-      border: none;
-      box-shadow: none;
-      backdrop-filter: none;
-
-      .item {
-        background-color: rgba(200, 180, 255, 0.3);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(10px);
-        border-radius: 20px;
-        box-shadow: 0 0 20px rgba(54, 226, 255, 0.2);
-        border: 1px solid rgba(200, 180, 255, 0.3);
-
-        &:first-child:before,
-        &:nth-child(2):before,
-        &:nth-child(4):before,
-        &:nth-child(5):before, {
-          display: none;
-        }
-
-        &:nth-child(1):after,
-        &:nth-child(2):after,
-        &:nth-child(3):after, {
-          display: none;
-        }
-      }
     }
   }
 }
