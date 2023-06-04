@@ -71,7 +71,6 @@ onMounted(() => {
   }
 })
 
-
 watch(person, (newDataPerson) => {
   if (newDataPerson.id && !images.value?.length) {
     getImages();

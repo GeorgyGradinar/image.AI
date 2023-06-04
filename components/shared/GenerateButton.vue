@@ -39,8 +39,10 @@
 <script setup>
 import {defineEmits, ref, toRefs, watch} from "vue";
 import {storeToRefs} from "pinia";
+import {imagesStore} from "~/store/imagesStore";
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
+import generatorImages from "~/mixins/generatorImages";
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
 import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
@@ -52,6 +54,9 @@ const {generateImage} = requests();
 const {name} = toRefs(props);
 const store = personStore();
 const {person, filters} = storeToRefs(store);
+const generationImage = imagesStore();
+const {generatedImages} = storeToRefs(generationImage);
+const {generateImages} = generatorImages();
 
 let coastGeneration = ref('');
 let counterImage = ref('');
@@ -65,7 +70,6 @@ let textSnackBarReject = ref('');
 
 let isOpenRegistrationDialog = ref(false);
 let isOpenBuyMoreCredits = ref(false);
-
 
 watch(filters, (newData) => {
   if (newData.parameters.countImages === 1) {
@@ -89,7 +93,8 @@ function generate() {
 
   if (person._value.id) {
     if (coastGeneration.value < person._value.credits) {
-      generateImage(filters._value);
+      // generateImage(filters._value);
+      generateImages();
 
       const blockImages = document.getElementById('images')?.offsetTop;
       window.scrollTo({
@@ -97,10 +102,10 @@ function generate() {
         behavior: "smooth",
       })
       loadingMore.value = true;
-      setTimeout(() => {
-        loadingMore.value = false;
-        openSnackBarDone("Изображение сгенерировано")
-      }, 2000)
+      // setTimeout(() => {
+      //   loadingMore.value = false;
+      //   openSnackBarDone("Изображение сгенерировано")
+      // }, 2000)
     } else {
       openSnackBarReject("Недостаточно средств");
       isOpenBuyMoreCredits.value = true;

@@ -36,15 +36,18 @@
 import FrequentlyAsked from "~/components/main-page/FrequentlyAsked";
 import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import {personStore} from "~/store/personStore";
+import billing from '~/mixins/billing'
 import {storeToRefs} from "pinia";
 import {onMounted, ref, watch} from "vue";
 
 const store = personStore();
 const {changeCredits} = store;
 const {person} = storeToRefs(store);
+const {getRates} = billing();
 
 onMounted(() => {
   isLogin();
+  getAllRates();
 })
 
 let isOpenRegistrationDialog = ref(false);
@@ -77,6 +80,10 @@ let frequentlyAsks = [
 watch(person, () => {
   isLogin();
 })
+
+async function getAllRates() {
+  await getRates()
+}
 
 function isLogin() {
   if (person._value.id) {

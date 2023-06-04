@@ -1,4 +1,4 @@
-export const MAIN_URL = 'http://imager.plinskiy.space';
+export const MAIN_URL = 'https://api.neuro-holst.ru';
 export const HEADER_PARAMETERS = {
     content : {
         key : "Content-Type",

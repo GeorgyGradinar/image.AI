@@ -1,7 +1,7 @@
 <template>
   <v-dialog class="dialog accept-dialog" v-model="dialog" width="400" persistent>
     <v-card class="card">
-      <button class="close-button" @click.prevent="closeDialog">
+      <button class="close-button" @click.prevent="closeDialog(false)">
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close">
       </button>
       <div class="wrapper-text">
