@@ -1,17 +1,17 @@
 <template>
   <section class="filters">
     <div class="wrapper-settings-block">
-      <h1 class="filters-header">Настройки для генерации</h1>
+      <h1 class="filters-header">Генерация изображений</h1>
       <div class="wrapper-filters" :class="{'remove-guide': loginIn}">
         <v-expansion-panels flat multiple variant="accordion">
-          <Models></Models>
+<!--          <Models></Models>-->
           <client-only>
             <DescriptionBlock @click.prevent="setNext"></DescriptionBlock>
           </client-only>
-          <UploadImages></UploadImages>
+<!--          <UploadImages></UploadImages>-->
           <ResolutionBlock></ResolutionBlock>
           <GenerationParameters></GenerationParameters>
-          <Settings></Settings>
+<!--          <Settings></Settings>-->
         </v-expansion-panels>
       </div>
     </div>

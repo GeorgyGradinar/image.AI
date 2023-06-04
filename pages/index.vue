@@ -17,7 +17,7 @@ import ReadyToGet from "~/components/main-page/ReadyToGet";
 import seo from "~/mixins/seo";
 
 const {setProperty} = seo();
-setProperty('AI Images', 'Генерация изображения с помощью искусственного интелекта');
+setProperty('НейроХолст', 'Генерация изображения с помощью искусственного интелекта');
 
 
 const frequentlyAsked = [

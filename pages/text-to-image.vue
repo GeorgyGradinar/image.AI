@@ -10,7 +10,7 @@ import GenerationImages from "~/components/text-to-image/GenerationImages";
 import seo from "~/mixins/seo";
 
 const {setProperty} = seo();
-setProperty('AI Images-Генерация по описанию', '');
+setProperty('НейроХолст-Генерация по описанию', '');
 
 </script>
 

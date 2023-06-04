@@ -1,18 +1,18 @@
 <template>
   <header :class="{'header-open': !hasHiddenDrawer}">
-    <NuxtLink to="/" class="logo">Лого</NuxtLink>
+    <NuxtLink to="/" class="logo">НейроХолст</NuxtLink>
     <nav class="main-header">
-      <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>
+<!--      <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>-->
       <NuxtLink to="/text-to-image" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
         описанию
       </NuxtLink>
-      <NuxtLink to="/dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>
-      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>
+<!--      <NuxtLink to="/dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>-->
+<!--      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>-->
       <NuxtLink class="no-hover"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
       <NuxtLink to="/pricing" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
-      <a v-if="!person.name" @click="isOpenLoginDialog = true">Войти</a>
-      <a class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
-      </a>
+      <NuxtLink to="" v-if="!person.name" @click="isOpenLoginDialog = true">Войти</NuxtLink>
+      <NuxtLink to="" class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
+      </NuxtLink>
       <AccountCard></AccountCard>
     </nav>
 
@@ -22,10 +22,10 @@
                           @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
-      <NuxtLink to="/editor" @click="closeDrawer">Редактор</NuxtLink>
+<!--      <NuxtLink to="/editor" @click="closeDrawer">Редактор</NuxtLink>-->
       <NuxtLink to="/text-to-image" @click="closeDrawer">Изображение по описанию</NuxtLink>
-      <NuxtLink to="/dream-booth" @click="closeDrawer">ФотоМечты</NuxtLink>
-      <NuxtLink @click="closeDrawer">Инфо</NuxtLink>
+<!--      <NuxtLink to="/dream-booth" @click="closeDrawer">ФотоМечты</NuxtLink>-->
+<!--      <NuxtLink @click="closeDrawer">Инфо</NuxtLink>-->
       <NuxtLink to="/pricing" @click="closeDrawer">Цены</NuxtLink>
       <button v-if="!person.name" @click="isOpenLoginDialog = true">Войти</button>
       <button class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
