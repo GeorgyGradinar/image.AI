@@ -38,7 +38,7 @@ import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import {personStore} from "~/store/personStore";
 import billing from '~/mixins/billing'
 import {storeToRefs} from "pinia";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, ref} from "vue";
 
 const store = personStore();
 const {changeCredits} = store;
@@ -305,6 +305,7 @@ function isLogin() {
   }
 
   .pricing {
+    width: 100%;
     max-width: 1440px;
     display: flex;
     justify-content: center;
