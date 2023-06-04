@@ -121,7 +121,6 @@ function checkRoute() {
 }
 
 function reuseFilterParameters() {
-
   let changeFilters = {
     description: image._object.image.filters.description,
     exception: image._object.image.filters.exception,
