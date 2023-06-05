@@ -172,12 +172,10 @@ function checkUrlChange(popup, currentUrl, oldUrl) {
     if (currentUrl.includes('login/vk')) {
       const urlParams = new URLSearchParams(currentUrl);
       const token = urlParams.get('token');
-      const status = urlParams.get('status');
       console.log(token);
-      console.log(status);
       console.log(urlParams);
 
-      if (status === 'success') {
+      if (token) {
         changePerson({token});
         getPersonInfo();
 
