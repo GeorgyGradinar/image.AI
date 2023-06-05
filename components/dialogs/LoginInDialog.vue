@@ -173,13 +173,16 @@ function checkUrlChange(popup, currentUrl, oldUrl) {
       const urlParams = new URLSearchParams(currentUrl);
       const token = urlParams.get('token');
       const status = urlParams.get('status');
+      console.log(token);
+      console.log(status);
+      console.log(urlParams);
 
       if (status === 'success') {
         changePerson({token});
         getPersonInfo();
-      }
 
-      popup.close();
+        popup.close();
+      }
     }
   }
 
