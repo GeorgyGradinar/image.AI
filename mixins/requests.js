@@ -575,23 +575,6 @@ export default function requests() {
 
         if (store.person.id) {
             getPersonInfo()
-                // .then(response => {
-                //     if (!response.user.email_verified_at) {
-                //         toggleAcceptDialog(true);
-                //         if (timer) {
-                //             clearTimeout(timer);
-                //         }
-                //         timer = setTimeout(() => initStore(), 5000);
-                //     } else {
-                //         toggleAcceptDialog(false);
-                //     }
-                // })
-                // .catch(error => {
-                //     if (error.status === 401) {
-                //         changePerson({});
-                //         navigateTo('/');
-                //     }
-                // })
         }
     }
 

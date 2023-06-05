@@ -86,6 +86,7 @@ import {modelsStore} from "~/store/models";
 const store = personStore();
 const {referralId} = storeToRefs(store);
 const {changePerson} = store;
+const {registration, getPersonInfo} = requests();
 const models = modelsStore()
 const {toggleAcceptDialog} = models;
 const {mapErrors} = validation();
@@ -99,7 +100,7 @@ let isOpenAcceptDialog = ref(false);
 let isOpenLoginDialog = ref(false);
 let messageError = ref('');
 
-const {registration} = requests();
+
 const initialState = ref({
   name: '',
   email: '',
@@ -147,6 +148,7 @@ async function submit() {
 
           if (!response.user.email_verified_at) {
             toggleAcceptDialog(true);
+            getPersonInfo();
           }
 
           closeRegistrationBlock();

@@ -120,11 +120,11 @@ async function submit() {
     })
         .then(response => {
           changePerson(personMapper(response.user, response.authorisation.token));
-
+          console.log(response)
           if (!response.user.email_verified_at) {
             toggleAcceptDialog(true);
+            getPersonInfo();
           }
-
           closeDialog();
         })
         .catch(error => {
@@ -172,8 +172,6 @@ function checkUrlChange(popup, currentUrl, oldUrl) {
     if (currentUrl.includes('login/vk')) {
       const urlParams = new URLSearchParams(currentUrl);
       const token = urlParams.get('token');
-      console.log(token);
-      console.log(urlParams);
 
       if (token) {
         changePerson({token});
