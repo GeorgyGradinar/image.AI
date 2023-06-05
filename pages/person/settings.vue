@@ -115,7 +115,7 @@ import userSettings from "~/mixins/userSettings";
 import validation from "~/mixins/validation";
 import seo from "~/mixins/seo";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
-import { minLength, required, sameAs} from "@vuelidate/validators";
+import {minLength, required, sameAs} from "@vuelidate/validators";
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
 import apiMapper from "~/mixins/apiMapper";
@@ -179,23 +179,26 @@ function reset() {
 }
 
 async function updateUser() {
-  await updateUserData(user.value.name, user.value.email)
-      .then(response => {
-        if (response.status === "success") {
-          changePerson(personMapper(response.user, person.value.token));
-          openSnackBarDone(response.message);
-        }
-      })
-      .catch(error => {
-        if (error.status === "error") {
-          console.log(error)
-        } else if (error.status === 401) {
-          console.log(error)
-          // changePerson({});
-          // navigateTo('/');
-        }
 
-      })
+
+  if (!v$.value.$error) {
+    await updateUserData(user.value.name, user.value.email)
+        .then(response => {
+          if (response.status === "success") {
+            changePerson(personMapper(response.user, person.value.token));
+            openSnackBarDone(response.message);
+          }
+        })
+        .catch(error => {
+          if (error.status === "error") {
+            console.log(error)
+          } else if (error.status === 401) {
+            changePerson({});
+            navigateTo('/');
+          }
+
+        })
+  }
 }
 
 async function updateUserPassword() {

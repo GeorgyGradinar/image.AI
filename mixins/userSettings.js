@@ -1,6 +1,7 @@
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config";
 import {personStore} from "~/store/personStore";
 import {navigateTo} from "nuxt/app";
+import getRequestOptions from "~/mixins/requestOptions";
 
 export default function userSettings() {
     let store = personStore();
@@ -37,22 +38,22 @@ export default function userSettings() {
             getRequestOptions('PATCH', requestOptions))
     }
 
-    function getRequestOptions(typeRequest, payload) {
-        let myHeaders = new Headers();
-        payload.forEach(headerElement => {
-            if (headerElement.key === 'Authorization') {
-                myHeaders.append(headerElement.key, `${headerElement.body} ${store.person.token}`);
-            } else {
-                myHeaders.append(headerElement.key, headerElement.body);
-            }
-        });
-
-        return {
-            method: typeRequest,
-            headers: myHeaders,
-            redirect: 'follow'
-        };
-    }
+    // function getRequestOptions(typeRequest, payload) {
+    //     let myHeaders = new Headers();
+    //     payload.forEach(headerElement => {
+    //         if (headerElement.key === 'Authorization') {
+    //             myHeaders.append(headerElement.key, `${headerElement.body} ${store.person.token}`);
+    //         } else {
+    //             myHeaders.append(headerElement.key, headerElement.body);
+    //         }
+    //     });
+    //
+    //     return {
+    //         method: typeRequest,
+    //         headers: myHeaders,
+    //         redirect: 'follow'
+    //     };
+    // }
 
     return {deleteAccount, updatePassword, updateUserData}
 }

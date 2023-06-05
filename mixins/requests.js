@@ -1,15 +1,19 @@
 import {personStore} from "~/store/personStore";
+import {modelsStore} from "~/store/models";
 import {ACCOUNT_STORAGE_KEY} from "~/constants";
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config"
 import {navigateTo} from "nuxt/app";
 import apiMapper from "~/mixins/apiMapper";
 import getRequestOptions from "~/mixins/requestOptions";
-
+import userSettings from "~/mixins/userSettings";
 
 export default function requests() {
-    let store = personStore();
+    const store = personStore();
+    const models = modelsStore()
+    const {toggleAcceptDialog} = models;
     const {changePerson} = store;
     const {personMapper} = apiMapper();
+    const {updateUserData} = userSettings();
     const imagesData = [
         {
             id: '31554',
@@ -564,9 +568,24 @@ export default function requests() {
         }
     ];
 
-    function initStore() {
+    async function initStore() {
         let savedPerson = process.client && localStorage.getItem(ACCOUNT_STORAGE_KEY);
         changePerson(savedPerson ? JSON.parse(savedPerson) : '');
+
+        if (store.person.id) {
+            await updateUserData()
+                .then(response => {
+                    if (!response.user.email_verified_at) {
+                        toggleAcceptDialog(true);
+                    }
+                })
+                .catch(error => {
+                    if (error.status === 401) {
+                        changePerson({});
+                        navigateTo('/');
+                    }
+                })
+        }
     }
 
     function registration(data) {
@@ -587,7 +606,6 @@ export default function requests() {
             email: data.email,
             password: data.password
         }
-        console.log(getRequestOptions('POST', requestOptions))
         return $fetch(`${MAIN_URL}/api/v1/login?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions));
     }
 
@@ -615,11 +633,16 @@ export default function requests() {
                 changePerson(personMapper(response.user, store.person.token));
             })
             .catch(error => {
-                if (error.status === 401){
+                if (error.status === 401) {
                     changePerson({});
                     navigateTo('/');
                 }
             })
+    }
+
+    function getPersonTransaction(){
+        let requestOptions = [HEADER_PARAMETERS.authorization];
+        return $fetch(`${MAIN_URL}/api/v1/user/transactions`, getRequestOptions('GET', requestOptions))
     }
 
     function getImages() {
@@ -1068,5 +1091,5 @@ export default function requests() {
         store.changeCredits(store.person.credits - filters.parameters.countImages * 2);
     }
 
-    return {registration, loginIn, logout, getPersonInfo, generateImage, getImages, initStore, getImageShared, };
+    return {registration, loginIn, logout, getPersonInfo, generateImage, getImages, initStore, getImageShared, getPersonTransaction};
 }

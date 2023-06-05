@@ -18,11 +18,12 @@
       </p>
       <p @click="routeTo('/legal/terms-of-service')"><img src="~/assets/images/details-person/terms.svg" alt="terms">Условия
         использования</p>
+      <p @click="routeTo('/transactions')"><img src="~/assets/images/details-person/history.svg" alt="history">История покупок
+      </p>
       <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти
       </p>
       <p @click="routeTo('/referrals')"><img src="~/assets/images/details-person/invite.svg" alt="invite">Пригласить
         другей</p>
-
     </section>
   </div>
 </template>

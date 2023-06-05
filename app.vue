@@ -8,13 +8,16 @@
       <Footer v-if="isFooterVisible"></Footer>
     </section>
   </NuxtLayout>
+  <Models></Models>
 </template>
 
 <script setup>
 import Footer from "~/components/FooterElement";
 import Header from "~/components/header/HeaderElement";
+import Models from "~/components/Models";
 import {useRoute} from "nuxt/app";
 import {onMounted, ref, watch} from "vue";
+
 
 const route = useRoute();
 let isFooterVisible = ref(true);

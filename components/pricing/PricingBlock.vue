@@ -3,7 +3,7 @@
     <div class="artifact"></div>
     <div class="artifact"></div>
     <h1>Пакеты</h1>
-    <p>Используйте getimg.ai бесплатно со 100 красками в месяц. Создавайте больше. Платите меньше.</p>
+    <p>Используйте НейроХолст бесплатно со 100 красками в месяц. Создавайте больше. Платите меньше.</p>
     <div class="pricing">
       <section class="item" v-for="price of pricing" :key="price.id">
         <div class="sale">
@@ -14,7 +14,8 @@
           <span class="price">₽ {{ price.price }}</span>
           <div class="detail">
             <!--            <span class="count-images">{{ price.countImage }} изображений</span>-->
-            <span class="count-credits">{{ price.countCredits }} красок</span>
+            <span class="count-credits"><span class="painting">{{ price.countCredits }} красок</span> <span
+                class="equal">≈</span> <span>{{ price.countImages }} изображений</span> </span>
           </div>
         </div>
         <div class="wrapper-button">
@@ -76,27 +77,34 @@ let frequentlyAsks = [
   },
 ];
 
-
 async function getAllRates() {
   await getRates()
       .then(response => {
+        const cheapest = response.packages.sort((package1, package2) => package1.price/package1.credits + package2.price/package2.credits)[0];
+        let deal = cheapest.price/cheapest.credits;
+        console.log(deal);
         pricing.value = response.packages.map(price => {
-          let percent = Math.round(( price.price / price.credits) * 100 / 2);
-          percent = percent === 100 ? null : percent;
+          let percent = Math.round((price.price / price.credits) * 100 / deal);
+          percent = 100 - percent;
+          percent = percent === 0 ? null : percent;
           return {
             id: price.id,
             sale: percent ? `выгода ${percent} %` : null,
             name: price.name,
             price: price.price,
-            countCredits: price.credits
+            countCredits: price.credits,
+            countImages: price.credits
           }
         })
-
       })
 }
 
 function buy(id) {
-  buyRate(id);
+  if (person._value.id) {
+    buyRate(id);
+  } else {
+    isOpenRegistrationDialog.value = true;
+  }
 }
 
 function isLogin() {
@@ -369,6 +377,24 @@ function isLogin() {
           padding: 10px 0;
           margin: 10px 0 20px;
 
+          .count-credits {
+            white-space: nowrap;
+
+            .painting {
+              font-size: 17px;
+              opacity: 1;
+            }
+
+            .equal {
+              font-size: unset;
+              opacity: 0.7;
+            }
+
+            span {
+              font-size: 12px;
+              opacity: 0.7;
+            }
+          }
         }
       }
 

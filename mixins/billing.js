@@ -4,6 +4,7 @@ import {personStore} from "~/store/personStore";
 
 export default function billing() {
     const store = personStore();
+    const {changePerson} = store;
 
     function getRates() {
         let requestOptions = {
@@ -20,13 +21,19 @@ export default function billing() {
             .then(response => {
                 window.open(response.payment_url, '_blank')
             })
+            .catch(error => {
+                if (error.status === 401) {
+                    changePerson({});
+                }
+                console.dir(error)
+            })
     }
 
     function priceGeneration() {
         let requestOptions = [HEADER_PARAMETERS.accept];
         let currentFilters = store.filters;
-       return $fetch(`${MAIN_URL}/api/v1/image/request_price?height=${currentFilters.size.height}&width=${currentFilters.size.width}&prompt=${currentFilters.description}&negative_prompt=${currentFilters.exception}&is_upscaled=${0}&is_liked=${0}&count=${currentFilters.parameters.countImages}`,
-           getRequestOptions('POST', requestOptions));
+        return $fetch(`${MAIN_URL}/api/v1/image/request_price?height=${currentFilters.size.height}&width=${currentFilters.size.width}&prompt=${currentFilters.description}&negative_prompt=${currentFilters.exception}&is_upscaled=${0}&is_liked=${0}&count=${currentFilters.parameters.countImages}`,
+            getRequestOptions('POST', requestOptions));
     }
 
     return {getRates, buyRate, priceGeneration}

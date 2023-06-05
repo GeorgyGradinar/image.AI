@@ -81,10 +81,13 @@ import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import apiMapper from "~/mixins/apiMapper";
+import {modelsStore} from "~/store/models";
 
 const store = personStore();
 const {referralId} = storeToRefs(store);
 const {changePerson} = store;
+const models = modelsStore()
+const {toggleAcceptDialog} = models;
 const {mapErrors} = validation();
 const emit = defineEmits(['closeRegistrationBlock'])
 const {personMapper} = apiMapper();
@@ -141,6 +144,11 @@ async function submit() {
     })
         .then(response => {
           changePerson(personMapper(response.user, response.authorisation.token));
+
+          if (!response.user.email_verified_at) {
+            toggleAcceptDialog(true);
+          }
+
           closeRegistrationBlock();
         })
         .catch(error => {

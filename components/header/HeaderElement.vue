@@ -36,6 +36,7 @@
   <LoginInDialog v-if="isOpenLoginDialog" @closeLoginDialog="isOpenLoginDialog = false"></LoginInDialog>
   <RegistrationDialog v-if="isOpenRegistrationDialog"
                       @closeRegistrationBlock="isOpenRegistrationDialog = false"></RegistrationDialog>
+
 </template>
 
 <script setup>
@@ -44,9 +45,11 @@ import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {personStore} from "~/store/personStore";
 import AccountCard from "~/components/header/AccountCard";
+
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
 import {useRoute} from "nuxt/app";
+
 
 const store = personStore();
 const {person, referralId} = storeToRefs(store);

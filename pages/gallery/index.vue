@@ -8,6 +8,7 @@
           variant="outlined"
           return-object
           persistent-hint
+          label="Поиск"
           :class="'rounded-lg'"
       ></v-select>
       <v-text-field

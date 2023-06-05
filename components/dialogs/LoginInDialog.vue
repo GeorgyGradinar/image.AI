@@ -64,13 +64,17 @@ import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import {personStore} from "~/store/personStore";
 import apiMapper from "~/mixins/apiMapper";
+import {modelsStore} from "~/store/models";
 
 const {mapErrors} = validation();
 const {loginIn} = requests();
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
 const store = personStore();
 const {changePerson} = store;
+const models = modelsStore()
+const {toggleAcceptDialog} = models;
 const {personMapper} = apiMapper();
+
 
 const initialState = ref({
   email: '',
@@ -116,6 +120,11 @@ async function submit() {
     })
         .then(response => {
           changePerson(personMapper(response.user, response.authorisation.token));
+
+          if (!response.user.email_verified_at) {
+            toggleAcceptDialog(true);
+          }
+
           closeDialog();
         })
         .catch(error => {
