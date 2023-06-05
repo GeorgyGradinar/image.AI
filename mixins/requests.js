@@ -574,25 +574,24 @@ export default function requests() {
         changePerson(savedPerson ? JSON.parse(savedPerson) : '');
 
         if (store.person.id) {
-            await updateUserData()
-                .then(response => {
-                    if (!response.user.email_verified_at) {
-                        toggleAcceptDialog(true);
-
-                        if (timer) {
-                            clearTimeout(timer);
-                        }
-                        timer = setTimeout(() => initStore(), 5000);
-                    } else {
-                        toggleAcceptDialog(false);
-                    }
-                })
-                .catch(error => {
-                    if (error.status === 401) {
-                        changePerson({});
-                        navigateTo('/');
-                    }
-                })
+            getPersonInfo()
+                // .then(response => {
+                //     if (!response.user.email_verified_at) {
+                //         toggleAcceptDialog(true);
+                //         if (timer) {
+                //             clearTimeout(timer);
+                //         }
+                //         timer = setTimeout(() => initStore(), 5000);
+                //     } else {
+                //         toggleAcceptDialog(false);
+                //     }
+                // })
+                // .catch(error => {
+                //     if (error.status === 401) {
+                //         changePerson({});
+                //         navigateTo('/');
+                //     }
+                // })
         }
     }
 
@@ -638,6 +637,16 @@ export default function requests() {
         $fetch(`${MAIN_URL}/api/v1/user/me`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 changePerson(personMapper(response.user, store.person.token));
+                if (!response.user.email_verified_at) {
+                    toggleAcceptDialog(true);
+                    console.log(response)
+                    if (timer) {
+                        clearTimeout(timer);
+                    }
+                    timer = setTimeout(() => getPersonInfo(), 5000);
+                } else {
+                    toggleAcceptDialog(false);
+                }
             })
             .catch(error => {
                 if (error.status === 401) {

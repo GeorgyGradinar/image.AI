@@ -21,9 +21,9 @@ const store = personStore();
 const emit = defineEmits(['closeLoginDialog']);
 
 let dialog = ref(true);
-onMounted(() => {
-  initStore()
-})
+// onMounted(() => {
+//   initStore()
+// })
 
 function logoutFromAccount() {
   logout();
