@@ -67,7 +67,7 @@ import apiMapper from "~/mixins/apiMapper";
 import {modelsStore} from "~/store/models";
 
 const {mapErrors} = validation();
-const {loginIn} = requests();
+const {loginIn, getPersonInfo} = requests();
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
 const store = personStore();
 const {changePerson} = store;
@@ -165,26 +165,19 @@ let checkUrlTimeout;
 
 function checkUrlChange(popup, currentUrl, oldUrl) {
   if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
-  console.log('kuku');
-  console.log(oldUrl);
-  console.log(currentUrl);
   let currentOldUrl = oldUrl;
 
   if (currentUrl && currentUrl !== oldUrl) {
     currentOldUrl = currentUrl;
-    console.log(currentUrl);
     if (currentUrl.includes('login/vk')) {
+      const urlParams = new URLSearchParams(currentUrl);
+      const token = urlParams.get('token');
+      const status = urlParams.get('status');
 
-      alert('kuku');
-      // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
-      // const errorMessage: string = urlParams.get('ErrorMessage');
-      //
-      // if (errorMessage) {
-      //   this.errorMessage = {
-      //     socialMediaType: type,
-      //     message: errorMessage,
-      //   };
-      // }
+      if (status === 'success') {
+        changePerson({token});
+        getPersonInfo();
+      }
 
       popup.close();
     }
@@ -200,7 +193,6 @@ function checkUrlChange(popup, currentUrl, oldUrl) {
 }
 
 function getPopupLocation(popup) {
-  // popup.location.href = 'google.com';
   try {
     return popup.location.href;
   } catch {
