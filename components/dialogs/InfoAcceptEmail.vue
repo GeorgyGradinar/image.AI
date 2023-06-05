@@ -14,10 +14,16 @@
 <script setup>
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
+import {defineEmits, onMounted} from "vue";
 
-const {logout} = requests();
+const {logout, initStore} = requests();
 const store = personStore();
+const emit = defineEmits(['closeLoginDialog']);
+
 let dialog = ref(true);
+onMounted(() => {
+  initStore()
+})
 
 function logoutFromAccount() {
   logout();
@@ -28,7 +34,7 @@ function logoutFromAccount() {
 <style scoped lang="scss">
 p {
   text-align: center;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .wrapper-button{

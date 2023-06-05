@@ -180,6 +180,7 @@ function checkUrlChange(popup, currentUrl, oldUrl) {
         getPersonInfo();
 
         popup.close();
+        closeDialog();
       }
     }
   }
