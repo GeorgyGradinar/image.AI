@@ -5,7 +5,6 @@
         <p>Подтвердите почту {{ store.person.email }}</p>
         <div class="wrapper-button">
           <button class="secondary logout" @click="logoutFromAccount">Выход</button>
-          <button class="secondary logout" @click="emit('closeLoginDialog')">Закрыть</button>
         </div>
       </v-card>
     </v-dialog>
@@ -18,8 +17,6 @@ import requests from "~/mixins/requests";
 
 const {logout} = requests();
 const store = personStore();
-const emit = defineEmits(['closeLoginDialog']);
-
 let dialog = ref(true);
 
 function logoutFromAccount() {

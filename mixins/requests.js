@@ -567,6 +567,7 @@ export default function requests() {
             }
         }
     ];
+    let timer;
 
     async function initStore() {
         let savedPerson = process.client && localStorage.getItem(ACCOUNT_STORAGE_KEY);
@@ -577,6 +578,13 @@ export default function requests() {
                 .then(response => {
                     if (!response.user.email_verified_at) {
                         toggleAcceptDialog(true);
+
+                        if (timer) {
+                            clearTimeout(timer);
+                        }
+                        timer = setTimeout(() => initStore(), 5000);
+                    } else {
+                        toggleAcceptDialog(false);
                     }
                 })
                 .catch(error => {
