@@ -149,68 +149,64 @@ async function submit() {
 //     false
 // );
 
-// function getAuthVK() {
-//   const width = window.document.body.clientWidth * 0.6;
-//   const height = screen.height * 0.6;
-//   const left = window.document.body.clientWidth / 2 - width / 2;
-//   const top = screen.height / 2 - height / 2;
-//   const params = `width=${width},height=${height},toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=${left},top=${top}`;
-//   let popup = window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '', params)
-//   const currentURL = getPopupLocation(popup);
-//   popup.window.postMessage(
-//       "The user is 'bob' and the password is 'secret'",
-//       '*'
-//   );
-//
-//   checkUrlChange(popup, currentURL, '');
-// }
-//
-// let checkUrlTimeout;
-//
-// function checkUrlChange(popup, currentUrl, oldUrl) {
-//   if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
-//   console.log('kuku');
-//   console.log(oldUrl);
-//   console.log(currentUrl);
-//   let currentOldUrl = oldUrl;
-//
-//   if (currentUrl && currentUrl !== oldUrl) {
-//     currentOldUrl = currentUrl;
-//     console.log(currentUrl);
-//     if (currentUrl.includes('callback')) {
-//
-//       alert('kuku');
-//       // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
-//       // const errorMessage: string = urlParams.get('ErrorMessage');
-//       //
-//       // if (errorMessage) {
-//       //   this.errorMessage = {
-//       //     socialMediaType: type,
-//       //     message: errorMessage,
-//       //   };
-//       // }
-//
-//       popup.close();
-//     }
-//   }
-//
-//   currentOldUrl = getPopupLocation(popup);
-//
-//   checkUrlTimeout = window.setTimeout(() => {
-//     const newUrl = getPopupLocation(popup);
-//
-//     checkUrlChange(popup, newUrl, currentOldUrl);
-//   }, 1000);
-// }
-//
-// function getPopupLocation(popup) {
-//   // popup.location.href = 'google.com';
-//   try {
-//     return popup.location.href;
-//   } catch {
-//     return ''
-//   }
-// }
+function getAuthVK() {
+  const width = window.document.body.clientWidth * 0.6;
+  const height = screen.height * 0.6;
+  const left = window.document.body.clientWidth / 2 - width / 2;
+  const top = screen.height / 2 - height / 2;
+  const params = `width=${width},height=${height},toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=${left},top=${top}`;
+  let popup = window.open('http://imager.plinskiy.space/api/v1/login/vkontakte', '', params)
+  const currentURL = getPopupLocation(popup);
+
+  checkUrlChange(popup, currentURL, '');
+}
+
+let checkUrlTimeout;
+
+function checkUrlChange(popup, currentUrl, oldUrl) {
+  if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
+  console.log('kuku');
+  console.log(oldUrl);
+  console.log(currentUrl);
+  let currentOldUrl = oldUrl;
+
+  if (currentUrl && currentUrl !== oldUrl) {
+    currentOldUrl = currentUrl;
+    console.log(currentUrl);
+    if (currentUrl.includes('login/vk')) {
+
+      alert('kuku');
+      // const urlParams: URLSearchParams = new URLSearchParams(currentUrl);
+      // const errorMessage: string = urlParams.get('ErrorMessage');
+      //
+      // if (errorMessage) {
+      //   this.errorMessage = {
+      //     socialMediaType: type,
+      //     message: errorMessage,
+      //   };
+      // }
+
+      popup.close();
+    }
+  }
+
+  currentOldUrl = getPopupLocation(popup);
+
+  checkUrlTimeout = window.setTimeout(() => {
+    const newUrl = getPopupLocation(popup);
+
+    checkUrlChange(popup, newUrl, currentOldUrl);
+  }, 1000);
+}
+
+function getPopupLocation(popup) {
+  // popup.location.href = 'google.com';
+  try {
+    return popup.location.href;
+  } catch {
+    return ''
+  }
+}
 //
 // function getAuthYandex() {
 //   const width = window.document.body.clientWidth * 0.6;

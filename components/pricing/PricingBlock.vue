@@ -82,7 +82,6 @@ async function getAllRates() {
       .then(response => {
         const cheapest = response.packages.sort((package1, package2) => package1.price/package1.credits + package2.price/package2.credits)[0];
         let deal = cheapest.price/cheapest.credits;
-        console.log(deal);
         pricing.value = response.packages.map(price => {
           let percent = Math.round((price.price / price.credits) * 100 / deal);
           percent = 100 - percent;
