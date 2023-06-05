@@ -596,7 +596,6 @@ export default function requests() {
             name: data.name,
             password_confirmation: data.passwordConfirmation
         }
-
         return $fetch(`${MAIN_URL}/api/v1/register?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions));
     }
 
