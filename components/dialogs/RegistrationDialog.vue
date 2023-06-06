@@ -66,8 +66,6 @@
 
     </v-card>
   </v-dialog>
-  <LoginInDialog v-if="isOpenLoginDialog" @closeLoginDialog="closeRegistrationBlock"></LoginInDialog>
-  <AcceptEmailDialog v-if="isOpenAcceptDialog" @closeDialog="closeRegistrationBlock"></AcceptEmailDialog>
 </template>
 
 <script setup>
@@ -76,8 +74,6 @@ import {useVuelidate} from '@vuelidate/core'
 import {email, minLength, required, sameAs} from '@vuelidate/validators'
 import requests from '~/mixins/requests'
 import validation from "~/mixins/validation";
-import AcceptEmailDialog from "~/components/dialogs/AcceptEmailDialog";
-import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import apiMapper from "~/mixins/apiMapper";
@@ -88,8 +84,8 @@ const store = personStore();
 const {referralId} = storeToRefs(store);
 const {changePerson} = store;
 const {registration, getPersonInfo} = requests();
-const models = modelsStore()
-const {toggleAcceptDialog} = models;
+const models = modelsStore();
+const {toggleAcceptDialog, toggleLoginDialog} = models;
 const {mapErrors} = validation();
 const emit = defineEmits(['closeRegistrationBlock'])
 const {personMapper} = apiMapper();
@@ -98,10 +94,7 @@ const {authVK} = socials();
 let dialog = ref(true);
 let showPassword = ref(false);
 let isShowPasswordConfirmation = ref(false);
-let isOpenAcceptDialog = ref(false);
-let isOpenLoginDialog = ref(false);
 let messageError = ref('');
-
 
 const initialState = ref({
   name: '',
@@ -125,8 +118,8 @@ onMounted(() => {
 });
 
 function openLoginDialog() {
-  isOpenLoginDialog.value = true;
-  dialog.value = false;
+  closeRegistrationBlock();
+  toggleLoginDialog(true);
 }
 
 function closeDialogClickOnAbroad(event) {
@@ -178,8 +171,6 @@ function changeErrorMessage(message) {
 
 function closeRegistrationBlock() {
   removeEventListener('click', closeDialogClickOnAbroad);
-  isOpenAcceptDialog.value = false;
-  isOpenLoginDialog.value = false;
   emit('closeRegistrationBlock');
 }
 </script>

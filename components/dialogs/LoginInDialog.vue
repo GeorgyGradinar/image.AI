@@ -49,7 +49,6 @@
 
       </v-card>
     </v-dialog>
-    <RegistrationDialog v-if="isOpenRegistrationDialog" @closeRegistrationBlock="closeDialog"></RegistrationDialog>
     <ForgotPassword v-if="forgotPasswordDialog" @close="closeDialog"></ForgotPassword>
   </div>
 </template>
@@ -59,7 +58,6 @@ import {onMounted, ref} from "vue";
 import {useVuelidate} from '@vuelidate/core';
 import {email, required} from '@vuelidate/validators';
 import ForgotPassword from "~/components/dialogs/ForgotPassword";
-import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import {personStore} from "~/store/personStore";
@@ -67,13 +65,14 @@ import apiMapper from "~/mixins/apiMapper";
 import socials from "~/mixins/socials";
 import {modelsStore} from "~/store/models";
 
+
 const {mapErrors} = validation();
 const {loginIn, getPersonInfo} = requests();
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
 const store = personStore();
 const {changePerson} = store;
 const models = modelsStore()
-const {toggleAcceptDialog} = models;
+const {toggleAcceptDialog, toggleRegistrationDialog} = models;
 const {authVK} = socials();
 const {personMapper} = apiMapper();
 
@@ -92,7 +91,6 @@ const v$ = useVuelidate(rules, initialState);
 
 let dialog = ref(true);
 let forgotPasswordDialog = ref(false);
-let isOpenRegistrationDialog = ref(false);
 let showPassword = ref(false);
 let errorMessage = ref('');
 
@@ -107,8 +105,8 @@ function closeDialogClickOnAbroad(event) {
 }
 
 function openRegistrationBlock() {
-  dialog.value = false;
-  isOpenRegistrationDialog.value = true;
+  closeDialog();
+  toggleRegistrationDialog(true);
 }
 
 async function submit() {
@@ -138,59 +136,8 @@ async function submit() {
 }
 
 function getAuthVK() {
-
   if (authVK()) {
     closeDialog();
-  }
-  // const width = window.document.body.clientWidth * 0.6;
-  // const height = screen.height * 0.6;
-  // const left = window.document.body.clientWidth / 2 - width / 2;
-  // const top = screen.height / 2 - height / 2;
-  // const params = `width=${width},height=${height},toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=${left},top=${top}`;
-  // let popup = window.open('https://api.neuro-holst.ru/api/v1/login/vkontakte', '', params)
-  // const currentURL = getPopupLocation(popup);
-  //
-  // checkUrlChange(popup, currentURL, '');
-
-
-}
-
-let checkUrlTimeout;
-
-function checkUrlChange(popup, currentUrl, oldUrl) {
-  if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
-  let currentOldUrl = oldUrl;
-
-  if (currentUrl && currentUrl !== oldUrl) {
-    currentOldUrl = currentUrl;
-    if (currentUrl.includes('login/vk')) {
-      const urlParams = new URLSearchParams(currentUrl);
-      const token = urlParams.get('token');
-
-      if (token) {
-        changePerson({token});
-        getPersonInfo();
-
-        popup.close();
-        closeDialog();
-      }
-    }
-  }
-
-  currentOldUrl = getPopupLocation(popup);
-
-  checkUrlTimeout = window.setTimeout(() => {
-    const newUrl = getPopupLocation(popup);
-
-    checkUrlChange(popup, newUrl, currentOldUrl);
-  }, 1000);
-}
-
-function getPopupLocation(popup) {
-  try {
-    return popup.location.href;
-  } catch {
-    return ''
   }
 }
 
@@ -223,7 +170,6 @@ function openForgotPasswordDialog() {
 function closeDialog() {
   removeEventListener('click', closeDialogClickOnAbroad);
   forgotPasswordDialog.value = false;
-  isOpenRegistrationDialog.value = false;
   emit('closeLoginDialog');
 }
 

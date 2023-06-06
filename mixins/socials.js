@@ -1,10 +1,14 @@
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
+import {modelsStore} from "~/store/models";
 
 export default function socials() {
     const store = personStore();
     const {changePerson} = store;
     const {getPersonInfo} = requests();
+
+    const models = modelsStore();
+    const {toggleRegistrationDialog, toggleLoginDialog} = models;
 
     function authVK() {
         const width = window.document.body.clientWidth * 0.6;
@@ -35,7 +39,8 @@ export default function socials() {
                     getPersonInfo();
 
                     popup.close();
-                    return true;
+                    toggleRegistrationDialog(false);
+                    toggleLoginDialog(false);
                 }
             }
         }

@@ -2,16 +2,17 @@
   <header :class="{'header-open': !hasHiddenDrawer}">
     <NuxtLink to="/" class="logo">НейроХолст</NuxtLink>
     <nav class="main-header">
-<!--      <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>-->
+      <!--      <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>-->
       <NuxtLink to="/text-to-image" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
         описанию
       </NuxtLink>
-<!--      <NuxtLink to="/dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>-->
-<!--      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>-->
+      <!--      <NuxtLink to="/dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>-->
+      <!--      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>-->
       <NuxtLink class="no-hover"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
       <NuxtLink to="/pricing" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
-      <NuxtLink to="" v-if="!person.name" @click="isOpenLoginDialog = true">Войти</NuxtLink>
-      <NuxtLink to="" class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
+      <NuxtLink to="" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
+      <NuxtLink to="" class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">
+        Регистрация
       </NuxtLink>
       <AccountCard></AccountCard>
     </nav>
@@ -22,43 +23,35 @@
                           @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
     <section class="navigation-drawer" :class="{'drawer-hidden': hasHiddenDrawer}">
-<!--      <NuxtLink to="/editor" @click="closeDrawer">Редактор</NuxtLink>-->
+      <!--      <NuxtLink to="/editor" @click="closeDrawer">Редактор</NuxtLink>-->
       <NuxtLink to="/text-to-image" @click="closeDrawer">Изображение по описанию</NuxtLink>
-<!--      <NuxtLink to="/dream-booth" @click="closeDrawer">ФотоМечты</NuxtLink>-->
-<!--      <NuxtLink @click="closeDrawer">Инфо</NuxtLink>-->
+      <!--      <NuxtLink to="/dream-booth" @click="closeDrawer">ФотоМечты</NuxtLink>-->
+      <!--      <NuxtLink @click="closeDrawer">Инфо</NuxtLink>-->
       <NuxtLink to="/pricing" @click="closeDrawer">Цены</NuxtLink>
-      <button v-if="!person.name" @click="isOpenLoginDialog = true">Войти</button>
-      <button class="create-account no-hover" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
+      <button v-if="!person.name" @click="toggleLoginDialog(true)">Войти</button>
+      <button class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">Регистрация
       </button>
     </section>
   </header>
-
-  <LoginInDialog v-if="isOpenLoginDialog" @closeLoginDialog="isOpenLoginDialog = false"></LoginInDialog>
-  <RegistrationDialog v-if="isOpenRegistrationDialog"
-                      @closeRegistrationBlock="isOpenRegistrationDialog = false"></RegistrationDialog>
-
 </template>
 
 <script setup>
 import {onMounted, ref} from "vue";
-import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
-import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {personStore} from "~/store/personStore";
 import AccountCard from "~/components/header/AccountCard";
-
+import {modelsStore} from "~/store/models";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
 import {useRoute} from "nuxt/app";
-
 
 const store = personStore();
 const {person, referralId} = storeToRefs(store);
 const route = useRoute();
 const {initStore} = requests();
+const models = modelsStore();
+const {toggleRegistrationDialog, toggleLoginDialog} = models;
 
 let hasHiddenDrawer = ref(true);
-let isOpenLoginDialog = ref(false);
-let isOpenRegistrationDialog = ref(false);
 
 onMounted(() => {
   referralId._value = route.query.ref;

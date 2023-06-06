@@ -6,6 +6,8 @@ export const modelsStore = defineStore('models', () => {
         isOpen: false,
         idRate: null
     });
+    let isOpenRegistrationDialog = ref(false);
+    let isOpenLoginDialog = ref(false);
 
     function toggleAcceptDialog(event) {
         isOpenAcceptDialog.value = event;
@@ -13,10 +15,23 @@ export const modelsStore = defineStore('models', () => {
 
     function toggleAddEmailDialog(payload) {
         isOpenAddEmailDialog.value = {
-            isOpen:payload.isOpen,
-            idRate:payload.id
+            isOpen: payload.isOpen,
+            idRate: payload.id
         };
     }
 
-    return {isOpenAcceptDialog, toggleAcceptDialog, isOpenAddEmailDialog, toggleAddEmailDialog}
+    function toggleRegistrationDialog(event) {
+        isOpenRegistrationDialog.value = event;
+    }
+
+    function toggleLoginDialog(event) {
+        isOpenLoginDialog.value = event;
+    }
+
+    return {
+        isOpenAcceptDialog, toggleAcceptDialog,
+        isOpenAddEmailDialog, toggleAddEmailDialog,
+        isOpenRegistrationDialog, toggleRegistrationDialog,
+        isOpenLoginDialog, toggleLoginDialog
+    }
 })
