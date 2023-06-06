@@ -36,7 +36,7 @@
           <div class="socials">
             <p>Войти с помощью</p>
             <div class="wrapper-socials">
-              <img @click="getAuthVK" src="~/assets/images/vk.svg" alt="вконтакте">
+              <img @click="authVK()" src="~/assets/images/vk.svg" alt="вконтакте">
               <img @click="getAuthYandex" src="~/assets/images/yandex.svg" alt="яндекс">
               <img @click="getAuthGoogle" src="~/assets/images/google.svg" alt="гугл">
             </div>
@@ -135,20 +135,13 @@ async function submit() {
   }
 }
 
-function getAuthVK() {
-  if (authVK()) {
-    closeDialog();
-  }
+function getAuthYandex() {
+  const width = window.document.body.clientWidth * 0.6;
+  const height = screen.height * 0.6;
+  const left = window.document.body.clientWidth / 2 - width / 2;
+  const top = screen.height / 2 - height / 2;
+  let popup = window.open('https://api.neuro-holst.ru/api/v1/login/yandex', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
 }
-
-//
-// function getAuthYandex() {
-//   const width = window.document.body.clientWidth * 0.6;
-//   const height = screen.height * 0.6;
-//   const left = window.document.body.clientWidth / 2 - width / 2;
-//   const top = screen.height / 2 - height / 2;
-//   let popup = window.open('http://imager.plinskiy.space/api/v1/login/yandex', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
-// }
 //
 // function getAuthGoogle() {
 //   const width = window.document.body.clientWidth * 0.6;

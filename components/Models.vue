@@ -21,7 +21,6 @@ import {modelsStore} from "~/store/models";
 import {storeToRefs} from "pinia";
 import {watch} from "vue";
 
-
 const models = modelsStore();
 const {isOpenAcceptDialog, isOpenAddEmailDialog, isOpenRegistrationDialog, isOpenLoginDialog} = storeToRefs(models);
 const {toggleAcceptDialog, toggleAddEmailDialog, toggleRegistrationDialog, toggleLoginDialog} = models;

@@ -18,8 +18,8 @@
 <!--        <button>ФотоМечты</button>-->
         <NuxtLink to="/text-to-image">Изображение по описанию</NuxtLink>
         <NuxtLink to="/pricing">Цены</NuxtLink>
-        <NuxtLink to="" v-if="!person.name" @click="isOpenLoginDialog = true">Войти</NuxtLink>
-        <NuxtLink to="" v-if="!person.name" @click="isOpenRegistrationDialog = true">Регистрация
+        <NuxtLink to="" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
+        <NuxtLink to="" v-if="!person.name" @click="toggleRegistrationDialog(true)">Регистрация
         </NuxtLink>
       </section>
 
@@ -49,24 +49,20 @@
 <!--        <button>Email</button>-->
 <!--      </section>-->
     </div>
-    <LoginInDialog v-if="isOpenLoginDialog" @closeLoginDialog="isOpenLoginDialog = false"></LoginInDialog>
-    <RegistrationDialog v-if="isOpenRegistrationDialog"
-                        @closeRegistrationBlock="isOpenRegistrationDialog = false"></RegistrationDialog>
   </footer>
 </template>
 
 <script setup>
-import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
-import LoginInDialog from "~/components/dialogs/LoginInDialog";
+import {modelsStore} from "~/store/models";
 import {storeToRefs} from "pinia";
 import {personStore} from "../store/personStore";
 import {ref} from "vue";
 
 const store = personStore();
 const {person} = storeToRefs(store);
+const models = modelsStore();
+const {toggleLoginDialog, toggleRegistrationDialog} = models;
 
-let isOpenLoginDialog = ref(false);
-let isOpenRegistrationDialog = ref(false);
 </script>
 
 <style scoped lang="scss">
