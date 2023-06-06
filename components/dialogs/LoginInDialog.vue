@@ -38,7 +38,7 @@
             <div class="wrapper-socials">
               <img @click="authVK()" src="~/assets/images/vk.svg" alt="вконтакте">
               <img @click="authYandex()" src="~/assets/images/yandex.svg" alt="яндекс">
-              <img @click="getAuthGoogle" src="~/assets/images/google.svg" alt="гугл">
+              <img @click="authGoogle()" src="~/assets/images/google.svg" alt="гугл">
             </div>
           </div>
 
@@ -73,7 +73,7 @@ const store = personStore();
 const {changePerson} = store;
 const models = modelsStore()
 const {toggleAcceptDialog, toggleRegistrationDialog} = models;
-const {authVK, authYandex} = socials();
+const {authVK, authYandex, authGoogle} = socials();
 const {personMapper} = apiMapper();
 
 
@@ -135,21 +135,8 @@ async function submit() {
   }
 }
 
-function getAuthYandex() {
-  const width = window.document.body.clientWidth * 0.6;
-  const height = screen.height * 0.6;
-  const left = window.document.body.clientWidth / 2 - width / 2;
-  const top = screen.height / 2 - height / 2;
-  let popup = window.open('https://api.neuro-holst.ru/api/v1/login/yandex', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
-}
-//
-// function getAuthGoogle() {
-//   const width = window.document.body.clientWidth * 0.6;
-//   const height = screen.height * 0.6;
-//   const left = window.document.body.clientWidth / 2 - width / 2;
-//   const top = screen.height / 2 - height / 2;
-//   let popup = window.open('http://imager.plinskiy.space/api/v1/login/google', '_blank', `left=${left},top=${top},width=${width},height=${height}`)
-// }
+
+
 
 function changeErrorMessage(message) {
   errorMessage.value = message;

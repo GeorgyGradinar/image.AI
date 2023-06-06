@@ -34,6 +34,18 @@ export default function socials() {
         checkUrlChange(popup, currentURL, '', 'login/yandex');
     }
 
+    function authGoogle() {
+        const width = window.document.body.clientWidth * 0.6;
+        const height = screen.height * 0.6;
+        const left = window.document.body.clientWidth / 2 - width / 2;
+        const top = screen.height / 2 - height / 2;
+        const params = `width=${width},height=${height},toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=${left},top=${top}`;
+        let popup = window.open('https://api.neuro-holst.ru/api/v1/login/google', '_blank', params)
+        const currentURL = getPopupLocation(popup);
+
+        checkUrlChange(popup, currentURL, '', 'login/google');
+    }
+
 
     let checkUrlTimeout;
 
@@ -75,5 +87,5 @@ export default function socials() {
         }
     }
 
-    return {authVK, authYandex, }
+    return {authVK, authYandex, authGoogle}
 }

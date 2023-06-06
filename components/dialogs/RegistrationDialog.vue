@@ -53,9 +53,9 @@
         <div class="socials">
           <p>Регистрация с помощю</p>
           <div class="wrapper-socials">
-            <img @click="getAuthVK" src="~/assets/images/vk.svg" alt="вконтакте">
-            <img src="~/assets/images/yandex.svg" alt="яндекс">
-            <img src="~/assets/images/google.svg" alt="гугл">
+            <img @click="authVK" src="~/assets/images/vk.svg" alt="вконтакте">
+            <img @click="authYandex" src="~/assets/images/yandex.svg" alt="яндекс">
+            <img @click="authGoogle" src="~/assets/images/google.svg" alt="гугл">
           </div>
         </div>
 
@@ -89,7 +89,7 @@ const {toggleAcceptDialog, toggleLoginDialog} = models;
 const {mapErrors} = validation();
 const emit = defineEmits(['closeRegistrationBlock'])
 const {personMapper} = apiMapper();
-const {authVK} = socials();
+const {authVK, authYandex, authGoogle} = socials();
 
 let dialog = ref(true);
 let showPassword = ref(false);
@@ -155,13 +155,6 @@ async function submit() {
             changeErrorMessage('Что то пошло не так, повторите попытку');
           }
         })
-  }
-}
-
-function getAuthVK() {
-
-  if (authVK()) {
-    closeRegistrationBlock();
   }
 }
 
