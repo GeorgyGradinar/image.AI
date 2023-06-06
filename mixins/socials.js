@@ -31,7 +31,7 @@ export default function socials() {
         let popup = window.open('https://api.neuro-holst.ru/api/v1/login/yandex', '', params)
         const currentURL = getPopupLocation(popup);
 
-        checkUrlChange(popup, currentURL, '', 'login/vk');
+        checkUrlChange(popup, currentURL, '', 'login/yandex');
     }
 
 
