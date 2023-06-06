@@ -43,6 +43,7 @@ export default function socials() {
 
         if (currentUrl && currentUrl !== oldUrl) {
             currentOldUrl = currentUrl;
+            console.log(currentOldUrl)
             if (currentUrl.includes(partOfUrl)) {
                 const urlParams = new URLSearchParams(currentUrl);
                 const token = urlParams.get('token');
@@ -62,7 +63,7 @@ export default function socials() {
         checkUrlTimeout = window.setTimeout(() => {
             const newUrl = getPopupLocation(popup);
 
-            checkUrlChange(popup, newUrl, currentOldUrl);
+            checkUrlChange(popup, newUrl, currentOldUrl, partOfUrl);
         }, 1000);
     }
 
