@@ -37,7 +37,7 @@
             <p>Войти с помощью</p>
             <div class="wrapper-socials">
               <img @click="authVK()" src="~/assets/images/vk.svg" alt="вконтакте">
-              <img @click="getAuthYandex" src="~/assets/images/yandex.svg" alt="яндекс">
+              <img @click="authYandex()" src="~/assets/images/yandex.svg" alt="яндекс">
               <img @click="getAuthGoogle" src="~/assets/images/google.svg" alt="гугл">
             </div>
           </div>
@@ -73,7 +73,7 @@ const store = personStore();
 const {changePerson} = store;
 const models = modelsStore()
 const {toggleAcceptDialog, toggleRegistrationDialog} = models;
-const {authVK} = socials();
+const {authVK, authYandex} = socials();
 const {personMapper} = apiMapper();
 
 
