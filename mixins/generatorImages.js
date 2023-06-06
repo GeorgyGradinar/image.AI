@@ -66,7 +66,6 @@ export default function generatorImages() {
         }, 1000)
     }
 
-
     function getRequestOptions(typeRequest, payload) {
         let myHeaders = new Headers();
         payload.forEach(headerElement => {
