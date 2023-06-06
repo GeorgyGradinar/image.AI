@@ -27,6 +27,7 @@ export default function generatorImages() {
                             images: loadImages,
                         }
                     }
+                    console.log(response.image.id)
                     getStatusGeneration(response.image.id);
                 }
             })
@@ -37,8 +38,10 @@ export default function generatorImages() {
         let requestOptions = [HEADER_PARAMETERS.authorization, HEADER_PARAMETERS.accept];
 
         let interval = setInterval(() => {
+
             $fetch(`${MAIN_URL}/api/v1/image/status?request_id=${id}`, getRequestOptions('POST', requestOptions))
                 .then(response => {
+                    console.log(response)
                     if (response.status === "processing"){
 
                     }else {
@@ -46,7 +49,18 @@ export default function generatorImages() {
                     }
                 })
         }, 1000)
-    }
+    //     $fetch(`https://api.neuro-holst.ru/api/v1/image/render/${id}`, getRequestOptions('GET', requestOptions))
+    //         .then(response => {
+    //             console.log(response)
+    //             if (response.status === "processing"){
+    //
+    //             }else {
+    //                 clearInterval(interval);
+    //             }
+    //         })
+    // }, 1000)
+
+}
 
     function getRequestOptions(typeRequest, payload) {
         let myHeaders = new Headers();

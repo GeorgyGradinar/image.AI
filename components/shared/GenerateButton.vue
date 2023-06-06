@@ -110,6 +110,7 @@ function generate() {
       //   loadingMore.value = false;
       //   openSnackBarDone("Изображение сгенерировано")
       // }, 2000)
+
     } else {
       openSnackBarReject("Недостаточно средств");
       isOpenBuyMoreCredits.value = true;
