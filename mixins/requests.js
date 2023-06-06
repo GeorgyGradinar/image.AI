@@ -574,7 +574,7 @@ export default function requests() {
         changePerson(savedPerson ? JSON.parse(savedPerson) : '');
 
         if (store.person.id) {
-            getPersonInfo()
+            // getPersonInfo()
         }
     }
 

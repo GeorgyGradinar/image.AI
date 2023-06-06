@@ -64,6 +64,7 @@ import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import {personStore} from "~/store/personStore";
 import apiMapper from "~/mixins/apiMapper";
+import socials from "~/mixins/socials";
 import {modelsStore} from "~/store/models";
 
 const {mapErrors} = validation();
@@ -73,6 +74,7 @@ const store = personStore();
 const {changePerson} = store;
 const models = modelsStore()
 const {toggleAcceptDialog} = models;
+const {authVK} = socials();
 const {personMapper} = apiMapper();
 
 
@@ -122,8 +124,8 @@ async function submit() {
           changePerson(personMapper(response.user, response.authorisation.token));
           console.log(response)
           if (!response.user.email_verified_at) {
-            toggleAcceptDialog(true);
-            getPersonInfo();
+            // toggleAcceptDialog(true);
+            // getPersonInfo();
           }
           closeDialog();
         })
@@ -135,30 +137,22 @@ async function submit() {
   }
 }
 
-// window.addEventListener(
-//     "message",
-//     (event) => {
-//       console.log(event);
-//       // Do we trust the sender of this message?  (might be
-//       // different from what we originally opened, for example).
-//       // if (event.origin !== "http://example.com") return;
-//
-//       // event.source is popup
-//       // event.data is "hi there yourself!  the secret response is: rheeeeet!"
-//     },
-//     false
-// );
-
 function getAuthVK() {
-  const width = window.document.body.clientWidth * 0.6;
-  const height = screen.height * 0.6;
-  const left = window.document.body.clientWidth / 2 - width / 2;
-  const top = screen.height / 2 - height / 2;
-  const params = `width=${width},height=${height},toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=${left},top=${top}`;
-  let popup = window.open('https://api.neuro-holst.ru/api/v1/login/vkontakte', '', params)
-  const currentURL = getPopupLocation(popup);
 
-  checkUrlChange(popup, currentURL, '');
+  if (authVK()) {
+    closeDialog();
+  }
+  // const width = window.document.body.clientWidth * 0.6;
+  // const height = screen.height * 0.6;
+  // const left = window.document.body.clientWidth / 2 - width / 2;
+  // const top = screen.height / 2 - height / 2;
+  // const params = `width=${width},height=${height},toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=${left},top=${top}`;
+  // let popup = window.open('https://api.neuro-holst.ru/api/v1/login/vkontakte', '', params)
+  // const currentURL = getPopupLocation(popup);
+  //
+  // checkUrlChange(popup, currentURL, '');
+
+
 }
 
 let checkUrlTimeout;
@@ -199,6 +193,7 @@ function getPopupLocation(popup) {
     return ''
   }
 }
+
 //
 // function getAuthYandex() {
 //   const width = window.document.body.clientWidth * 0.6;

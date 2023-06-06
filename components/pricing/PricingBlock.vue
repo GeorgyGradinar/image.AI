@@ -37,6 +37,7 @@
 import FrequentlyAsked from "~/components/main-page/FrequentlyAsked";
 import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import {personStore} from "~/store/personStore";
+import {modelsStore} from "~/store/models";
 import billing from '~/mixins/billing'
 import {storeToRefs} from "pinia";
 import {onMounted, ref} from "vue";
@@ -44,6 +45,8 @@ import {onMounted, ref} from "vue";
 const store = personStore();
 const {changeCredits} = store;
 const {person} = storeToRefs(store);
+const models = modelsStore();
+const {toggleAddEmailDialog} = models;
 const {getRates, buyRate} = billing();
 
 onMounted(() => {
@@ -100,7 +103,12 @@ async function getAllRates() {
 
 function buy(id) {
   if (person._value.id) {
-    buyRate(id);
+    if (!person._value.email){
+      buyRate(id);
+    }else {
+      toggleAddEmailDialog({isOpen:true, id: id});
+    }
+
   } else {
     isOpenRegistrationDialog.value = true;
   }

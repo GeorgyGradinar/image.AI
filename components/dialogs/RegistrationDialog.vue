@@ -53,7 +53,7 @@
         <div class="socials">
           <p>Регистрация с помощю</p>
           <div class="wrapper-socials">
-            <img src="~/assets/images/vk.svg" alt="вконтакте">
+            <img @click="getAuthVK" src="~/assets/images/vk.svg" alt="вконтакте">
             <img src="~/assets/images/yandex.svg" alt="яндекс">
             <img src="~/assets/images/google.svg" alt="гугл">
           </div>
@@ -81,6 +81,7 @@ import LoginInDialog from "~/components/dialogs/LoginInDialog";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import apiMapper from "~/mixins/apiMapper";
+import socials from "~/mixins/socials";
 import {modelsStore} from "~/store/models";
 
 const store = personStore();
@@ -92,6 +93,7 @@ const {toggleAcceptDialog} = models;
 const {mapErrors} = validation();
 const emit = defineEmits(['closeRegistrationBlock'])
 const {personMapper} = apiMapper();
+const {authVK} = socials();
 
 let dialog = ref(true);
 let showPassword = ref(false);
@@ -160,6 +162,13 @@ async function submit() {
             changeErrorMessage('Что то пошло не так, повторите попытку');
           }
         })
+  }
+}
+
+function getAuthVK() {
+
+  if (authVK()) {
+    closeRegistrationBlock();
   }
 }
 

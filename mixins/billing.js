@@ -17,7 +17,7 @@ export default function billing() {
     function buyRate(id) {
         let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
 
-        $fetch(`${MAIN_URL}/api/v1/tariff/buy?package=${id}`, getRequestOptions('POST', requestOptions))
+        $fetch(`${MAIN_URL}/api/v1/yookassa/buy?package=${id}`, getRequestOptions('POST', requestOptions))
             .then(response => {
                 window.open(response.payment_url, '_blank')
             })

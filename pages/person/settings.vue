@@ -22,14 +22,16 @@
           <v-text-field
               v-model="user.name"
               label="Имя"
-              :error-messages="mapErrors(v$.name.$errors)"
-              @input="v$.name.$touch"
-              @blur="v$.name.$touch"
+              :error-messages="mapErrors(vUser$.name.$errors)"
+              @input="vUser$.name.$touch"
+              @blur="vUser$.name.$touch"
           ></v-text-field>
           <v-text-field
-              readonly
               v-model="user.email"
               label="Почта"
+              :error-messages="mapErrors(vUser$.email.$errors)"
+              @input="vUser$.email.$touch"
+              @blur="vUser$.email.$touch"
           ></v-text-field>
 
           <div class="wrapper-account-button">
@@ -44,34 +46,34 @@
         <v-text-field
             v-model="user.oldPassword"
             label="Старый пароль"
-            :error-messages="mapErrors(v$.oldPassword.$errors)"
+            :error-messages="mapErrors(vPass$.oldPassword.$errors)"
             :append-inner-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showOldPassword ? 'text' : 'password'"
             @click:append-inner="showOldPassword = !showOldPassword"
-            @input="v$.oldPassword.$touch"
-            @blur="v$.oldPassword.$touch"
+            @input="vPass$.oldPassword.$touch"
+            @blur="vPass$.oldPassword.$touch"
         ></v-text-field>
 
         <v-text-field
             v-model="user.newPassword"
             label="Новый пароль"
-            :error-messages="mapErrors(v$.newPassword.$errors)"
+            :error-messages="mapErrors(vPass$.newPassword.$errors)"
             :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showNewPassword ? 'text' : 'password'"
             @click:append-inner="showNewPassword = !showNewPassword"
-            @input="v$.newPassword.$touch"
-            @blur="v$.newPassword.$touch"
+            @input="vPass$.newPassword.$touch"
+            @blur="vPass$.newPassword.$touch"
         ></v-text-field>
 
         <v-text-field
             v-model="user.confirmation"
             label="Повторите новый пароль"
-            :error-messages="mapErrors(v$.confirmation.$errors)"
+            :error-messages="mapErrors(vPass$.confirmation.$errors)"
             :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showNewPassword ? 'text' : 'password'"
             @click:append-inner="showNewPassword = !showNewPassword"
-            @input="v$.confirmation.$touch"
-            @blur="v$.confirmation.$touch"
+            @input="vPass$.confirmation.$touch"
+            @blur="vPass$.confirmation.$touch"
         ></v-text-field>
 
         <div class="wrapper-account-button">
@@ -115,7 +117,7 @@ import userSettings from "~/mixins/userSettings";
 import validation from "~/mixins/validation";
 import seo from "~/mixins/seo";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
-import {minLength, required, sameAs} from "@vuelidate/validators";
+import {minLength, required, email, sameAs} from "@vuelidate/validators";
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
 import apiMapper from "~/mixins/apiMapper";
@@ -138,20 +140,27 @@ const {personMapper} = apiMapper();
 const user = ref({
   name: '',
   email: '',
+})
+
+const rulesUser = {
+  name: {required},
+  email:{email}
+};
+const vUser$ = useVuelidate(rulesUser, user);
+
+const password = ref({
   oldPassword: '',
   newPassword: '',
   confirmation: ''
 })
 
-const emailRef = computed(() => user.value.newPassword);
-const rules = {
-  name: {required},
+const newPassRef = computed(() => user.value.newPassword);
+const rulesPass = {
   oldPassword: {required, minLength: minLength(6)},
   newPassword: {required, minLength: minLength(6)},
-  confirmation: {required, sameAs: sameAs(emailRef)}
+  confirmation: {required, sameAs: sameAs(newPassRef)}
 };
-
-const v$ = useVuelidate(rules, user);
+const vPass$ = useVuelidate(rulesPass, password);
 
 let showOldPassword = ref(false);
 let showNewPassword = ref(false);
@@ -165,7 +174,7 @@ let textSnackBarReject = ref('');
 setProperty('Аккаунт-настройки');
 
 onMounted(() => {
-  getPersonInfo();
+  // getPersonInfo();
   user.value.name = person.value.name;
   user.value.email = person.value.email;
 });
@@ -179,9 +188,7 @@ function reset() {
 }
 
 async function updateUser() {
-
-
-  if (!v$.value.$error) {
+  if (!vUser$.value.$error) {
     await updateUserData(user.value.name, user.value.email)
         .then(response => {
           if (response.status === "success") {
@@ -202,20 +209,19 @@ async function updateUser() {
 }
 
 async function updateUserPassword() {
-  v$.value.$validate();
+  vPass$.value.$validate();
 
-  if (!v$.value.$error) {
+  if (!vPass$.value.$error) {
     await updatePassword(user.value.newPassword, user.value.confirmation, user.value.oldPassword,)
         .then(response => {
           if (response.status === "success") {
             openSnackBarDone(response.message);
             user.value = {
-              ...user.value,
               oldPassword: '',
               newPassword: '',
               confirmation: ''
             }
-            v$.value.$reset();
+            vPass$.value.$reset();
           }
         })
         .catch(error => {
