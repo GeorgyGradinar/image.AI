@@ -51,21 +51,22 @@ let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
 let loadingMore = ref(false);
 let images = ref(null);
-let isActiveLoader = ref(true);
+let isActiveLoader = ref(false);
 
 onMounted(() => {
   if (person._value.id) {
-    if (!imagesData._value.images.length){
-      setTimeout(() => {
-        getImages();
-        isActiveLoader.value = false;
-      }, 2000)
-    }else {
-      setTimeout(() => {
-        isActiveLoader.value = false;
-        images.value = imagesData._value.images;
-      })
-    }
+    console.log(imagesData)
+    // if (!imagesData._value.images.length){
+    //   setTimeout(() => {
+    //     getImages();
+    //     isActiveLoader.value = false;
+    //   }, 2000)
+    // }else {
+    //   setTimeout(() => {
+    //     isActiveLoader.value = false;
+    //     images.value = imagesData._value.images;
+    //   })
+    // }
   }else {
     isActiveLoader.value = false;
   }
@@ -79,6 +80,7 @@ watch(person, (newDataPerson) => {
 
 watch(imagesData, (newDataImages) => {
   images.value = newDataImages.images;
+  console.log(newDataImages)
 })
 
 function getNextImages() {

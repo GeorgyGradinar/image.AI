@@ -1,8 +1,10 @@
 <template>
   <div class="photo-grid">
-    <div class="photo-wrapper" v-if="image.img">
-      <img class="main-image" :src="useAsset(image.img)"
+    <div class="photo-wrapper" v-if="image.url">
+
+      <img class="main-image" :src="image.url"
            alt="image example" @click.prevent="openImageDetails(image)">
+
       <div class="wrapper-reuse" @click="reuseFilterParameters">
         <img src="~/assets/images/text-to-image/block-images/refresh.svg" alt="cover">
         <v-tooltip activator="parent" location="bottom">Переиспользовать параметры</v-tooltip>
@@ -39,7 +41,7 @@
       </div>
     </div>
 
-    <div v-if="!image.img" class="loader-block">
+    <div v-if="!image.url" class="loader-block">
       <div class="wrapper-text">
         <p class="seconds">
           <span v-if="minute">{{ minute }}.</span>

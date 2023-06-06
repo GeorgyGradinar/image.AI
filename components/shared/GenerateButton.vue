@@ -48,12 +48,16 @@ import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
 import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
 import BuyMoreCredits from "~/components/dialogs/BuyMoreCredits";
+import {imageGenerationStore} from "~/store/imageGeneration"
 
 const emit = defineEmits(['setNext']);
 const props = defineProps({});
 const {generateImage} = requests();
 const {name} = toRefs(props);
 const store = personStore();
+const image = imageGenerationStore()
+const {isGeneration} = storeToRefs(image);
+const {toggleGeneration} = image;
 const {person, filters} = storeToRefs(store);
 const generationImage = imagesStore();
 const {generatedImages} = storeToRefs(generationImage);
@@ -63,7 +67,7 @@ const {priceGeneration} = billing();
 let coastGeneration = ref('');
 let counterImage = ref('');
 let textForCredit = ref('');
-let loadingMore = ref(false);
+let loadingMore = ref(isGeneration.value);
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarDone = ref('');
@@ -84,13 +88,17 @@ watch(filters, (newData) => {
 
   coastGeneration.value = newData.parameters.countImages;
 
-  if (coastGeneration.value === 1){
+  if (coastGeneration.value === 1) {
     textForCredit.value = 'краска';
-  }else if (coastGeneration.value < 5) {
+  } else if (coastGeneration.value < 5) {
     textForCredit.value = 'краски';
   } else {
     textForCredit.value = 'красок';
   }
+})
+
+watch(isGeneration, (newData) => {
+  loadingMore.value = newData;
 })
 
 function generate() {
@@ -105,12 +113,12 @@ function generate() {
         top: blockImages,
         behavior: "smooth",
       })
-      loadingMore.value = true;
+      toggleGeneration(true);
+      // loadingMore.value = true;
       // setTimeout(() => {
       //   loadingMore.value = false;
       //   openSnackBarDone("Изображение сгенерировано")
       // }, 2000)
-
     } else {
       openSnackBarReject("Недостаточно средств");
       isOpenBuyMoreCredits.value = true;

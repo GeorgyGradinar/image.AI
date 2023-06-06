@@ -1,8 +1,12 @@
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config";
 import {personStore} from "~/store/personStore";
+import {imageGenerationStore} from "~/store/imageGeneration";
+import getRequestOptions from "~/mixins/requestOptions";
 
 export default function generatorImages() {
     let store = personStore();
+    let image = imageGenerationStore();
+    let {toggleGeneration} = image;
 
     function generateImages() {
         let requestOptions = [HEADER_PARAMETERS.authorization, HEADER_PARAMETERS.accept];
@@ -41,26 +45,27 @@ export default function generatorImages() {
 
             $fetch(`${MAIN_URL}/api/v1/image/status?request_id=${id}`, getRequestOptions('POST', requestOptions))
                 .then(response => {
-                    console.log(response)
-                    if (response.status === "processing"){
+                    if (response.status === "processing") {
 
-                    }else {
+                    } else {
                         clearInterval(interval);
+                        // response.images.forEach(image => !image.generateId)
+                        let image = store.imagesData.images.filter(image => !image.generateId)
+                        image = [...response.images, ...image]
+                        store.imagesData = {
+                            images: image
+                        }
+                        toggleGeneration(false);
                     }
                 })
         }, 1000)
-    //     $fetch(`https://api.neuro-holst.ru/api/v1/image/render/${id}`, getRequestOptions('GET', requestOptions))
-    //         .then(response => {
-    //             console.log(response)
-    //             if (response.status === "processing"){
-    //
-    //             }else {
-    //                 clearInterval(interval);
-    //             }
-    //         })
-    // }, 1000)
 
-}
+        setTimeout(() => {
+            let requestOptions = [ HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
+            $fetch("https://api.neuro-holst.ru/emulate", getRequestOptions('GET', requestOptions))
+        }, 1000)
+    }
+
 
     function getRequestOptions(typeRequest, payload) {
         let myHeaders = new Headers();

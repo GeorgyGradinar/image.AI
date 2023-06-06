@@ -645,410 +645,410 @@ export default function requests() {
     }
 
     function getImages() {
-        const images = [
-            ...store.imagesData.images,
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-i77g0LU68dD7As1cNlm7gR.jpeg',
-                like: false,
-                date: '14.03.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: ' качество, ',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-aHbNRGbgmNutEKIOHdTQ2t.jpeg',
-                like: false,
-                date: '23.11.2022',
-                filters: {
-                    model: 'Реалистичное',
-                    description: 'резк sdsd ssd',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-56NIBOvrjSaKS45vxomR6n.jpeg',
-                like: false,
-                date: '10.06.2022',
-                filters: {
-                    model: 'Бесконечная мечта',
-                    description: ' качество, резк',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-5lxSExuwWStJCuwd4OjIn6.jpeg',
-                like: false,
-                date: '12.03.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'изображения  изображения ',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-YkfgHICXA8YFGEzbWC36kS.jpeg',
-                like: false,
-                date: '12.03.2022',
-                filters: {
-                    model: 'Опенджорни',
-                    description: 'тренде  тренде ',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-WIBwVTR1rF74J3tVc8C2dE.jpeg',
-                like: false,
-                date: '12.03.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'Подедворна Подедворна',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-q9tOtcskhqYjxvpFdvE5c2.jpeg',
-                like: false,
-                date: '12.03.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'лепить Подедворна',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-kWY1RGIowDFHObYWrqKEuX.jpeg',
-                like: false,
-                date: '07.07.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'лепить лепить',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-9jjtCkXWwKjZe9wElBEly2.jpeg',
-                like: false,
-                date: '12.12.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'тренде тренде ',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-Azk6WKhpgaMAoMweR2HkUy.jpeg',
-                like: false,
-                date: '26.12.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'аллея аллея аллея',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-DjVseuFs8N2CikjWGgXM0T.jpeg',
-                like: false,
-                date: '30.06.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'еоновая  на ',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-hoT72XlOTiNoUcWPamhr9v.jpeg',
-                like: false,
-                date: '10.10.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'еоновая аллея на ',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-jYjnraZM46IaWERJsWQEw5.jpeg',
-                like: false,
-                date: '20.03.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'катаной катаной катаной',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-9jjtCkXWwKjZe9wElBEly2.jpeg',
-                like: false,
-                date: '11.11.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'лазерной катаной, поза г',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-Azk6WKhpgaMAoMweR2HkUy.jpeg',
-                like: false,
-                date: '09.08.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'лазерной , поза г',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-DjVseuFs8N2CikjWGgXM0T.jpeg',
-                like: false,
-                date: '19.08.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'vvvvvvvvvvvvvvvv',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-hoT72XlOTiNoUcWPamhr9v.jpeg',
-                like: false,
-                date: '15.05.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'dfsfsfsvx',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-            {
-                id: Math.floor(Math.random() * 10000),
-                img: 'img-jYjnraZM46IaWERJsWQEw5.jpeg',
-                like: false,
-                date: '22.03.2022',
-                filters: {
-                    model: 'Диффузия v2.1',
-                    description: 'fffffghjjgfbn',
-                    exception: '',
-                    image: null,
-                    size: {
-                        width: 512,
-                        height: 512
-                    },
-                    parameters: {
-                        countImages: 1,
-                        step: 5,
-                        navigation: 2,
-                        seed: null
-                    },
-                }
-            },
-        ];
-        store.imagesData = {
-            ...store.imagesData,
-            images
-        };
+        // const images = [
+        //     ...store.imagesData.images,
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-i77g0LU68dD7As1cNlm7gR.jpeg',
+        //         like: false,
+        //         date: '14.03.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: ' качество, ',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-aHbNRGbgmNutEKIOHdTQ2t.jpeg',
+        //         like: false,
+        //         date: '23.11.2022',
+        //         filters: {
+        //             model: 'Реалистичное',
+        //             description: 'резк sdsd ssd',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-56NIBOvrjSaKS45vxomR6n.jpeg',
+        //         like: false,
+        //         date: '10.06.2022',
+        //         filters: {
+        //             model: 'Бесконечная мечта',
+        //             description: ' качество, резк',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-5lxSExuwWStJCuwd4OjIn6.jpeg',
+        //         like: false,
+        //         date: '12.03.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'изображения  изображения ',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-YkfgHICXA8YFGEzbWC36kS.jpeg',
+        //         like: false,
+        //         date: '12.03.2022',
+        //         filters: {
+        //             model: 'Опенджорни',
+        //             description: 'тренде  тренде ',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-WIBwVTR1rF74J3tVc8C2dE.jpeg',
+        //         like: false,
+        //         date: '12.03.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'Подедворна Подедворна',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-q9tOtcskhqYjxvpFdvE5c2.jpeg',
+        //         like: false,
+        //         date: '12.03.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'лепить Подедворна',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-kWY1RGIowDFHObYWrqKEuX.jpeg',
+        //         like: false,
+        //         date: '07.07.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'лепить лепить',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-9jjtCkXWwKjZe9wElBEly2.jpeg',
+        //         like: false,
+        //         date: '12.12.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'тренде тренде ',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-Azk6WKhpgaMAoMweR2HkUy.jpeg',
+        //         like: false,
+        //         date: '26.12.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'аллея аллея аллея',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-DjVseuFs8N2CikjWGgXM0T.jpeg',
+        //         like: false,
+        //         date: '30.06.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'еоновая  на ',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-hoT72XlOTiNoUcWPamhr9v.jpeg',
+        //         like: false,
+        //         date: '10.10.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'еоновая аллея на ',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-jYjnraZM46IaWERJsWQEw5.jpeg',
+        //         like: false,
+        //         date: '20.03.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'катаной катаной катаной',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-9jjtCkXWwKjZe9wElBEly2.jpeg',
+        //         like: false,
+        //         date: '11.11.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'лазерной катаной, поза г',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-Azk6WKhpgaMAoMweR2HkUy.jpeg',
+        //         like: false,
+        //         date: '09.08.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'лазерной , поза г',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-DjVseuFs8N2CikjWGgXM0T.jpeg',
+        //         like: false,
+        //         date: '19.08.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'vvvvvvvvvvvvvvvv',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-hoT72XlOTiNoUcWPamhr9v.jpeg',
+        //         like: false,
+        //         date: '15.05.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'dfsfsfsvx',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        //     {
+        //         id: Math.floor(Math.random() * 10000),
+        //         img: 'img-jYjnraZM46IaWERJsWQEw5.jpeg',
+        //         like: false,
+        //         date: '22.03.2022',
+        //         filters: {
+        //             model: 'Диффузия v2.1',
+        //             description: 'fffffghjjgfbn',
+        //             exception: '',
+        //             image: null,
+        //             size: {
+        //                 width: 512,
+        //                 height: 512
+        //             },
+        //             parameters: {
+        //                 countImages: 1,
+        //                 step: 5,
+        //                 navigation: 2,
+        //                 seed: null
+        //             },
+        //         }
+        //     },
+        // ];
+        // store.imagesData = {
+        //     ...store.imagesData,
+        //     images
+        // };
     }
 
     function getImageShared(id) {
