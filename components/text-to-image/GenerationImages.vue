@@ -48,7 +48,6 @@ const {images, isShowMoreImages, isShowLoaderMoreImages, isShowMainLoader} = sto
 const models = modelsStore();
 const {toggleSnackBarDone, toggleSnackBarReject} = models;
 
-
 onMounted(() => {
   if (person._value.id && !models.isOpenAcceptDialog) {
     if (!images.value.length) {
