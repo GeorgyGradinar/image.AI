@@ -174,7 +174,7 @@ let textSnackBarReject = ref('');
 setProperty('Аккаунт-настройки');
 
 onMounted(() => {
-  // getPersonInfo();
+  getPersonInfo();
   user.value.name = person.value.name;
   user.value.email = person.value.email;
 });

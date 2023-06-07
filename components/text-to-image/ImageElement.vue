@@ -3,24 +3,24 @@
     <div class="photo-wrapper" v-if="image.url">
 
       <img class="main-image" :src="image.url"
-           alt="image example" @click.prevent="openImageDetails(image)">
+           alt="image example" @click.prevent="toggleImageDetails({isOpen:true, image})">
 
       <div class="wrapper-reuse" @click="reuseFilterParameters">
         <img src="~/assets/images/text-to-image/block-images/refresh.svg" alt="cover">
         <v-tooltip activator="parent" location="bottom">Переиспользовать параметры</v-tooltip>
       </div>
-<!--      <div class="wrapper-add-image" @click="reuseImage">-->
-<!--        <img src="~/assets/images/text-to-image/block-images/add-image.svg" alt="">-->
-<!--        <v-tooltip activator="parent" location="bottom">Переиспользовать изображение</v-tooltip>-->
-<!--      </div>-->
-<!--      <div class="wrapper-arrows">-->
-<!--        <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
-<!--        <v-tooltip activator="parent" location="bottom">Повысить разрешение</v-tooltip>-->
-<!--      </div>-->
-<!--      <div class="wrapper-smile">-->
-<!--        <img src="~/assets/images/text-to-image/block-images/smile.svg" alt="smile">-->
-<!--        <v-tooltip activator="parent" location="bottom">Изменение лица</v-tooltip>-->
-<!--      </div>-->
+      <!--      <div class="wrapper-add-image" @click="reuseImage">-->
+      <!--        <img src="~/assets/images/text-to-image/block-images/add-image.svg" alt="">-->
+      <!--        <v-tooltip activator="parent" location="bottom">Переиспользовать изображение</v-tooltip>-->
+      <!--      </div>-->
+      <!--      <div class="wrapper-arrows">-->
+      <!--        <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
+      <!--        <v-tooltip activator="parent" location="bottom">Повысить разрешение</v-tooltip>-->
+      <!--      </div>-->
+      <!--      <div class="wrapper-smile">-->
+      <!--        <img src="~/assets/images/text-to-image/block-images/smile.svg" alt="smile">-->
+      <!--        <v-tooltip activator="parent" location="bottom">Изменение лица</v-tooltip>-->
+      <!--      </div>-->
       <div class="wrapper-bin" @click="deleteImg(image.id)">
         <svg viewBox="0 0 24 24" fill="none">
           <path
@@ -55,70 +55,30 @@
       </div>
     </div>
   </div>
-
-  <ImageDetails v-if="imageDetailsDialog"
-                :image-src="currentImage"
-                @close="closeDetailImage">
-  </ImageDetails>
-  <DoneSnackBar
-      :openSnackBar="isOpenSnackBarDone"
-      :text-snack-bar="textSnackBarForGeneration"
-      @close="closeSnackBars">
-  </DoneSnackBar>
 </template>
 
 <script setup>
-import ImageDetails from "~/components/dialogs/ImageDetails";
-import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
+import generatorImages from "~/mixins/generatorImages";
 import {personStore} from "~/store/personStore";
-import {defineEmits, onMounted, ref, toRefs} from "vue";
+import {modelsStore} from "~/store/models";
+import {onMounted, ref, toRefs} from "vue";
 
-// eslint-disable-next-line no-undef
 const props = defineProps({
-  image: {},
+  image: Object,
 });
 const {image} = toRefs(props);
 const store = personStore();
-const {toggleFavorite, deleteImage, reuseParameters, changeFilters} = store;
-const emit = defineEmits(['delete']);
-
-let imageDetailsDialog = ref(false);
-let currentImage = ref('');
-let isOpenSnackBarDone = ref(false);
-let textSnackBarForGeneration = ref('');
-
-function useAsset(path) {
-  const assets = import.meta.glob('~/assets/**/*', {
-    eager: true,
-    import: 'default',
-  })
-  // @ts-expect-error: wrong type info
-  return assets['/assets/images/main-page/' + path]
-}
+const {reuseParameters, changeFilters} = store;
+const models = modelsStore();
+const {toggleImageDetails} = models;
+const {likeImage} = generatorImages();
 
 function toggleLike(id) {
-  toggleFavorite(id);
-  if (image._object.image.like) {
-    textSnackBarForGeneration.value = "Добавлено в избранные";
-    isOpenSnackBarDone.value = true;
-  } else {
-    textSnackBarForGeneration.value = "Удалено из избранного";
-    isOpenSnackBarDone.value = true;
-  }
+  console.log(image)
+  likeImage(id);
 }
 
 function deleteImg(id) {
-  emit('delete');
-  deleteImage(id);
-}
-
-function openImageDetails(image) {
-  imageDetailsDialog.value = true;
-  currentImage.value = image;
-}
-
-function closeSnackBars() {
-  isOpenSnackBarDone.value = false;
 }
 
 function reuseFilterParameters() {
@@ -131,26 +91,13 @@ function reuseFilterParameters() {
       ...image._object.image.filters.parameters,
     },
   }
-
   reuseParameters(changeFilters);
-  openSnackBar("Параметры установлены");
 }
 
 function reuseImage() {
-  changeFilters('image', {name: 'fsd', url: useAsset(image._object.image.img)});
-  openSnackBar("Изображение установлено");
 }
 
 function closeDetailImage(text) {
-  imageDetailsDialog.value = false;
-  if (text) {
-    openSnackBar(text);
-  }
-}
-
-function openSnackBar(text) {
-  textSnackBarForGeneration.value = text;
-  isOpenSnackBarDone.value = true;
 }
 
 //timer
@@ -406,7 +353,6 @@ function stopTimer() {
       }
     }
   }
-
 }
 
 @media screen and (max-width: 1100px) {
@@ -420,5 +366,4 @@ function stopTimer() {
     width: calc(100% - 4px);
   }
 }
-
 </style>

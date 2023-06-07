@@ -54,7 +54,7 @@ const emit = defineEmits(['close']);
 
 let isOpenSnackBarDone = ref(false);
 let isOpen = ref(true);
-let imageLink = ref(`https://image-ai-liard.vercel.app/image/${props.imageSharedUrl.toString().slice(0, -5)}`);
+let imageLink = ref(`https://image-ai-liard.vercel.app/image/${props.imageSharedUrl.url.toString().slice(0, -5)}`);
 let textSnackBarForGeneration = ref('');
 
 function copyLink() {

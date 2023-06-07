@@ -2,11 +2,11 @@
   <v-dialog class="dialog image" v-model="isOpen" persistent>
     <v-card class="card">
       <div class="header">
-        <button @click.prevent="$emit('close')">
+        <button @click.prevent="close">
           <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
         </button>
       </div>
-      <ImageDetailsBlock :image="imageSrc" @reuse="reuseParameter"></ImageDetailsBlock>
+      <ImageDetailsBlock :image="imageSrc" @reuse="close"></ImageDetailsBlock>
     </v-card>
   </v-dialog>
 </template>
@@ -17,13 +17,13 @@ import ImageDetailsBlock from "../shared/dialogs/ImageDetailsBlock";
 
 const emit = defineEmits(['close']);
 const props = defineProps({
-  imageSrc: {},
+  imageSrc: Object
 });
 
 let isOpen = ref(true);
 
-function reuseParameter(message) {
-  emit('close', message);
+function close() {
+  emit('close');
 }
 </script>
 

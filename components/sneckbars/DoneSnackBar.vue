@@ -8,7 +8,7 @@
       <div class="image-done">
         <img src="~/assets/images/snack-bars/done.svg" alt="">
       </div>
-      <span>{{ text }}</span>
+      <span>{{ textSnackBar }}</span>
     </div>
   </v-snackbar>
 </template>
@@ -25,11 +25,9 @@ const emit = defineEmits(['close']);
 const {openSnackBar, textSnackBar} = toRefs(props);
 let timeout = 2000;
 let snackbar = ref(false)
-let text = ref('');
 
 watch(openSnackBar, (newData) => {
   snackbar.value = newData;
-  text.value = textSnackBar._object.textSnackBar;
 })
 
 watch(snackbar, (newData) => {

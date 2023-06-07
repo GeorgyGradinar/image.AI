@@ -142,8 +142,8 @@ async function submit() {
           changePerson(personMapper(response.user, response.authorisation.token));
 
           if (!response.user.email_verified_at) {
-            // toggleAcceptDialog(true);
-            // getPersonInfo();
+            toggleAcceptDialog(true);
+            getPersonInfo();
           }
 
           closeRegistrationBlock();

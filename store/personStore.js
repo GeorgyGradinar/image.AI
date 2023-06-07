@@ -3,8 +3,6 @@ import {ref} from "vue";
 import {ACCOUNT_STORAGE_KEY} from "~/constants";
 
 export const personStore = defineStore('store', () => {
-    // let savedPerson = process.client && localStorage.getItem(ACCOUNT_STORAGE_KEY);
-    // let person = ref(savedPerson ? JSON.parse(savedPerson) : '');
     let person = ref({});
 
     let imagesData = ref({images: [], newImages: []});
@@ -33,16 +31,6 @@ export const personStore = defineStore('store', () => {
         localStorage.setItem(ACCOUNT_STORAGE_KEY, JSON.stringify(person.value));
     }
 
-    function toggleFavorite(id) {
-        let image = imagesData.value.images.find((image) => image.id === id);
-        image.like = !image.like;
-    }
-
-    function deleteImage(id) {
-        let idImage = imagesData.value.images.findIndex((image) => image.id === id);
-        imagesData.value.images.splice(idImage, 1);
-    }
-
     function changeFilters(parameters, data) {
         filters.value = {
             ...filters.value,
@@ -69,8 +57,6 @@ export const personStore = defineStore('store', () => {
         filters,
         imagesData,
         referralId,
-        toggleFavorite,
-        deleteImage,
         changeFilters,
         reuseParameters,
         changeCredits,

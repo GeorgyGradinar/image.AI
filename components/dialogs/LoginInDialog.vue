@@ -65,7 +65,6 @@ import apiMapper from "~/mixins/apiMapper";
 import socials from "~/mixins/socials";
 import {modelsStore} from "~/store/models";
 
-
 const {mapErrors} = validation();
 const {loginIn, getPersonInfo} = requests();
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
@@ -120,10 +119,9 @@ async function submit() {
     })
         .then(response => {
           changePerson(personMapper(response.user, response.authorisation.token));
-          console.log(response)
           if (!response.user.email_verified_at) {
-            // toggleAcceptDialog(true);
-            // getPersonInfo();
+            toggleAcceptDialog(true);
+            getPersonInfo();
           }
           closeDialog();
         })
@@ -134,9 +132,6 @@ async function submit() {
         })
   }
 }
-
-
-
 
 function changeErrorMessage(message) {
   errorMessage.value = message;

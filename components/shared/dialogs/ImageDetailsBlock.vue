@@ -2,19 +2,19 @@
   <section class="main-content" persistent>
     <div class="image-wrapper">
       <img class="background-image" alt="generated image"
-           :src="useAsset(image.img)">
+           :src="image.url">
       <img class="main-image" alt="generated image"
-           :src="useAsset(image.img)">
+           :src="image.url">
     </div>
     <div class="image-details">
       <p class="details-item">
         <span class="title">Описание:</span>
-        <span class="content">{{ image.filters.description }}</span>
+        <span class="content">{{ image?.filters?.description }}</span>
       </p>
 
       <p class="details-item with-divider">
-        <span class="title" v-if="image.filters.exception">Исключение:</span>
-        <span class="content"> {{ image.filters.exception }}</span>
+        <span class="title" v-if="image?.filters?.exception">Исключение:</span>
+        <span class="content"> {{ image?.filters?.exception }}</span>
       </p>
 
       <div class="options with-divider">
@@ -26,7 +26,7 @@
 <!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
 <!--          <p>Открыть в редакторе</p>-->
 <!--        </NuxtLink>-->
-        <a class="download" :href="useAsset(image.img)" download>
+        <a class="download" :href="image.url" download target="_blank">
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
         </a>
@@ -47,19 +47,19 @@
       <div class="short-details">
         <p class="details-item">
           <span class="title">Размер:</span>
-          <span class="content">{{ image.filters.size.width }} х {{ image.filters.size.height }}</span>
+          <span class="content">{{ image?.filters?.size.width }} х {{ image?.filters?.size.height }}</span>
         </p>
         <p class="details-item">
           <span class="title">Шкала навигации:</span>
-          <span class="content">{{ image.filters.parameters.navigation }}</span>
+          <span class="content">{{ image?.filters?.parameters.navigation }}</span>
         </p>
         <p class="details-item">
           <span class="title">Seed:</span>
-          <span class="content">{{ image.filters.parameters.seed }}</span>
+          <span class="content">{{ image?.filters?.parameters.seed }}</span>
         </p>
         <p class="details-item">
           <span class="title">Шаги:</span>
-          <span class="content">{{ image.filters.parameters.step }}</span>
+          <span class="content">{{ image?.filters?.parameters.step }}</span>
         </p>
         <p class="details-item">
           <span class="title">Семплер:</span>
@@ -67,14 +67,15 @@
         </p>
         <p class="details-item">
           <span class="title">Создано:</span>
-          <span class="content">{{ image.date }}</span>
+          <span class="content">{{ image?.date }}</span>
         </p>
       </div>
     </div>
   </section>
 
-  <ShareImageDialog v-if="isOpenShareDialog" :image-src="useAsset(image.img)" :imageSharedUrl="image.img"
-                    @close="toggleShowShareDialog"></ShareImageDialog>
+  <ShareImageDialog v-if="isOpenShareDialog" :image-src="image.url" :imageSharedUrl="image"
+                    @close="toggleShowShareDialog">
+  </ShareImageDialog>
 </template>
 
 <script setup>
@@ -87,7 +88,7 @@ const store = personStore();
 const {reuseParameters, changeFilters} = store;
 const emit = defineEmits(['reuse']);
 const props = defineProps({
-  image: {},
+  image: Object,
   route: String
 });
 const {image, route} = toRefs(props);
@@ -104,15 +105,6 @@ onMounted(() => {
     }
   })
 })
-
-function useAsset(path) {
-  const assets = import.meta.glob('~/assets/**/*', {
-    eager: true,
-    import: 'default',
-  })
-  // @ts-expect-error: wrong type info
-  return assets['/assets/images/main-page/' + path]
-}
 
 function checkRoute() {
   if (route.value) {
@@ -137,13 +129,10 @@ function reuseFilterParameters() {
   }
   reuseParameters(changeFilters);
   checkRoute()
-  emit('reuse', "Параметры установлены");
+  emit('reuse');
 }
 
 function reuseImageParameter() {
-  changeFilters('image', {name: 'fsd', url: useAsset(image._object.image.img)});
-  checkRoute()
-  emit('reuse', "Изображение установлено");
 }
 
 function toggleShowShareDialog() {

@@ -3,79 +3,39 @@
     <div class="wrapper-coast">
       <p class="coast-generation">Стоимость генерации: {{ coastGeneration }} {{ textForCredit }}</p>
     </div>
-    <button v-if="!loadingMore" class="create-project" @click="generate">
+    <button v-if="!isGeneration" class="create-project" @click="generate">
       Сгенерировать {{ counterImage }}
       <v-icon end icon="mdi-arrow-right"></v-icon>
     </button>
-    <button v-else class="create-project no-hover">
-      <div class="wrapper-button-loader">
-        <span>Генерация...</span>
-        <svg viewBox="25 25 50 50">
-          <circle r="20" cy="50" cx="50"></circle>
-        </svg>
-      </div>
+    <button v-else class="create-project no-hover button-loader">
+      <span>Генерация...</span>
+      <svg viewBox="25 25 50 50">
+        <circle r="20" cy="50" cx="50"></circle>
+      </svg>
     </button>
   </section>
-
-  <DoneSnackBar
-      :openSnackBar="isOpenSnackBarDone"
-      :text-snack-bar="textSnackBarDone"
-      @close="isOpenSnackBarDone = false">
-  </DoneSnackBar>
-  <RejectSnackBar
-      :openSnackBar="isOpenSnackBarReject"
-      :text-snack-bar="textSnackBarReject"
-      @close="isOpenSnackBarReject = false">
-  </RejectSnackBar>
-
-  <RegistrationDialog
-      v-if="isOpenRegistrationDialog" @closeRegistrationBlock="isOpenRegistrationDialog = false">
-  </RegistrationDialog>
-  <BuyMoreCredits
-      v-if="isOpenBuyMoreCredits" @close="buyMoreCredits">
-  </BuyMoreCredits>
 </template>
 
 <script setup>
-import {defineEmits, ref, toRefs, watch} from "vue";
+import {defineEmits, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
-import {imagesStore} from "~/store/imagesStore";
 import {personStore} from "~/store/personStore";
-import requests from "~/mixins/requests";
-import billing from '~/mixins/billing'
+import {imageGenerationStore} from "~/store/imageGenerationStore"
+import {modelsStore} from "~/store/models"
 import generatorImages from "~/mixins/generatorImages";
-import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
-import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
-import RegistrationDialog from "~/components/dialogs/RegistrationDialog";
-import BuyMoreCredits from "~/components/dialogs/BuyMoreCredits";
-import {imageGenerationStore} from "~/store/imageGeneration"
 
 const emit = defineEmits(['setNext']);
-const props = defineProps({});
-const {generateImage} = requests();
-const {name} = toRefs(props);
 const store = personStore();
+const {person, filters} = storeToRefs(store);
 const image = imageGenerationStore()
 const {isGeneration} = storeToRefs(image);
-const {toggleGeneration} = image;
-const {person, filters} = storeToRefs(store);
-const generationImage = imagesStore();
-const {generatedImages} = storeToRefs(generationImage);
+const models = modelsStore();
+const {toggleRegistrationDialog, toggleBuyMoreCredits, toggleSnackBarReject} = models;
 const {generateImages} = generatorImages();
-const {priceGeneration} = billing();
 
 let coastGeneration = ref('');
-let counterImage = ref('');
+let counterImage = ref(1);
 let textForCredit = ref('');
-let loadingMore = ref(isGeneration.value);
-
-let isOpenSnackBarDone = ref(false);
-let textSnackBarDone = ref('');
-let isOpenSnackBarReject = ref(false);
-let textSnackBarReject = ref('');
-
-let isOpenRegistrationDialog = ref(false);
-let isOpenBuyMoreCredits = ref(false);
 
 watch(filters, (newData) => {
   if (newData.parameters.countImages === 1) {
@@ -97,51 +57,21 @@ watch(filters, (newData) => {
   }
 })
 
-watch(isGeneration, (newData) => {
-  loadingMore.value = newData;
-})
-
 function generate() {
-
   if (person._value.id) {
     if (coastGeneration.value < person._value.credits) {
-      // generateImage(filters._value);
       generateImages();
 
-      const blockImages = document.getElementById('images')?.offsetTop;
       window.scrollTo({
-        top: blockImages,
+        top: document.getElementById('images')?.offsetTop,
         behavior: "smooth",
       })
-      toggleGeneration(true);
-      // loadingMore.value = true;
-      // setTimeout(() => {
-      //   loadingMore.value = false;
-      //   openSnackBarDone("Изображение сгенерировано")
-      // }, 2000)
     } else {
-      openSnackBarReject("Недостаточно средств");
-      isOpenBuyMoreCredits.value = true;
+      toggleSnackBarReject({isOpen:true, text:"Недостаточно средств"});
+      toggleBuyMoreCredits(true);
     }
   } else {
-    isOpenRegistrationDialog.value = true;
-  }
-}
-
-function openSnackBarDone(text) {
-  textSnackBarDone.value = text;
-  isOpenSnackBarDone.value = true;
-}
-
-function openSnackBarReject(text) {
-  textSnackBarReject.value = text;
-  isOpenSnackBarReject.value = true;
-}
-
-function buyMoreCredits(hasBuy) {
-  isOpenBuyMoreCredits.value = false;
-  if (hasBuy) {
-    openSnackBarDone("Краски пополнены");
+    toggleRegistrationDialog(true);
   }
 }
 
@@ -154,7 +84,6 @@ function buyMoreCredits(hasBuy) {
   border-top: 1px solid rgba(255, 255, 225, 0.4);
   position: relative;
   overflow: hidden;
-
 
   .wrapper-coast {
     display: flex;
@@ -184,7 +113,7 @@ function buyMoreCredits(hasBuy) {
   }
 }
 
-.wrapper-button-loader {
+.create-project.button-loader {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,14 +161,6 @@ function buyMoreCredits(hasBuy) {
 @media screen and (min-width: 1925px) {
   .main-buttons {
     min-height: 90px;
-
-    .wrapper-coast {
-
-    }
-
-    .create-project {
-
-    }
   }
 }
 
@@ -254,5 +175,4 @@ function buyMoreCredits(hasBuy) {
     }
   }
 }
-
 </style>
