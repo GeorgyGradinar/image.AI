@@ -156,7 +156,6 @@ export default function requests() {
                     changePerson({});
                     clearImages();
                     navigateTo('/');
-
                 }
             })
     }
