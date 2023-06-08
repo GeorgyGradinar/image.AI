@@ -54,7 +54,7 @@ const {toggleRegistrationDialog, toggleLoginDialog} = models;
 let hasHiddenDrawer = ref(true);
 
 onMounted(() => {
-  referralId._value = route.query.ref;
+  referralId._value = route.query.ref ? route.query.ref : true;
   initStore();
 })
 

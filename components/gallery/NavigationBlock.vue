@@ -5,19 +5,19 @@
         <img class="edit"
              src="~/assets/images/gallery/boxes.svg"
              alt="">
-        Сгенерированные
+        Все
       </button>
-      <button :class="{'active-right':isSelected === 'edit'}" @click="toggleSelected('edit')">
-        <img class="edit"
-             src="~/assets/images/text-to-image/block-images/image-details/edit.svg"
-             alt="">
-        Отредактированные
-      </button>
-      <button :class="{'active-left':isSelected === 'improve'}" @click="toggleSelected('improve')">
-        <img
-            src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">
-        Повышенное качество
-      </button>
+<!--      <button :class="{'active-right':isSelected === 'edit'}" @click="toggleSelected('edit')">-->
+<!--        <img class="edit"-->
+<!--             src="~/assets/images/text-to-image/block-images/image-details/edit.svg"-->
+<!--             alt="">-->
+<!--        Отредактированные-->
+<!--      </button>-->
+<!--      <button :class="{'active-left':isSelected === 'improve'}" @click="toggleSelected('improve')">-->
+<!--        <img-->
+<!--            src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
+<!--        Повышенное качество-->
+<!--      </button>-->
       <button :class="{'active-right':isSelected === 'like'}" @click="toggleSelected('like')">
         <svg class="like"
              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"

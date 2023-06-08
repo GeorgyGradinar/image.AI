@@ -4,8 +4,6 @@ import {ACCOUNT_STORAGE_KEY} from "~/constants";
 
 export const personStore = defineStore('store', () => {
     let person = ref({});
-
-    let imagesData = ref({images: [], newImages: []});
     let filters = ref({
         model: 'Диффузия v2.1',
         description: '',
@@ -17,12 +15,12 @@ export const personStore = defineStore('store', () => {
         },
         parameters: {
             countImages: 1,
-            step: 5,
-            navigation: 2,
+            step: 1,
+            navigation: 1,
             seed: null
         },
     });
-    let referralId = ref('');
+    let referralId = ref();
 
     function changePerson(data) {
         person.value = {
@@ -53,13 +51,9 @@ export const personStore = defineStore('store', () => {
     }
 
     return {
-        person,
-        filters,
-        imagesData,
+        person, changePerson,
+        filters, changeFilters, reuseParameters,
         referralId,
-        changeFilters,
-        reuseParameters,
         changeCredits,
-        changePerson,
     }
 })

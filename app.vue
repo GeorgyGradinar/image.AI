@@ -18,7 +18,6 @@ import Models from "~/components/Models";
 import {useRoute} from "nuxt/app";
 import {onMounted, ref, watch} from "vue";
 
-
 const route = useRoute();
 let isFooterVisible = ref(true);
 let isHeaderVisible = ref(true);
@@ -40,7 +39,6 @@ function checkRoute(to) {
   isFooterVisible.value = !urlsForFooter.some((url) => to.path.includes(url));
   isHeaderVisible.value = !urlsForHeader.some((url) => to.path.includes(url))
 }
-
 </script>
 
 <style lang="scss">

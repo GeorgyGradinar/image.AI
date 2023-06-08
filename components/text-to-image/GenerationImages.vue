@@ -19,13 +19,13 @@
       </div>
     </div>
 
-    <button class="secondary wrapper-loader" v-if="!isShowMoreImages && isShowLoaderMoreImages">
+    <button class="secondary wrapper-loader" v-if="images.length && isShowButtonMoreImages && inProgressMoreImages">
       <span>Загрузка...</span>
       <svg viewBox="25 25 50 50">
         <circle r="20" cy="50" cx="50"></circle>
       </svg>
     </button>
-    <button class="secondary" v-if="isShowMoreImages && !isShowLoaderMoreImages" @click.prevent="getGallery">
+    <button class="secondary" v-if="images.length && isShowButtonMoreImages && !inProgressMoreImages" @click.prevent="getGallery">
       <span>Загрузить больше</span>
     </button>
   </div>
@@ -42,9 +42,9 @@ import {onMounted, watch} from "vue";
 
 const {getPersonGallery} = requests();
 const store = personStore();
-const {person, imagesData} = storeToRefs(store);
+const {person} = storeToRefs(store);
 const imageStore = imageGenerationStore();
-const {images, isShowMoreImages, isShowLoaderMoreImages, isShowMainLoader} = storeToRefs(imageStore);
+const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages} = storeToRefs(imageStore);
 const models = modelsStore();
 const {toggleSnackBarDone, toggleSnackBarReject} = models;
 
@@ -52,6 +52,7 @@ onMounted(() => {
   if (person._value.id && !models.isOpenAcceptDialog) {
     if (!images.value.length) {
       getGallery()
+      console.log('test')
     }
   }
 })

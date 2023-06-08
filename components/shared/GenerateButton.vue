@@ -33,7 +33,7 @@ const models = modelsStore();
 const {toggleRegistrationDialog, toggleBuyMoreCredits, toggleSnackBarReject} = models;
 const {generateImages} = generatorImages();
 
-let coastGeneration = ref('');
+let coastGeneration = ref(1);
 let counterImage = ref(1);
 let textForCredit = ref('');
 
@@ -46,7 +46,7 @@ watch(filters, (newData) => {
     counterImage.value = `${filters._value.parameters.countImages} изображений`;
   }
 
-  coastGeneration.value = newData.parameters.countImages;
+  coastGeneration.value = Math.round(newData.parameters.countImages * 1 * (newData.parameters.step / 25) * (newData.size.width * newData.size.height / 1536));
 
   if (coastGeneration.value === 1) {
     textForCredit.value = 'краска';

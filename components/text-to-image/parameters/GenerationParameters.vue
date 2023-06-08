@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { ref, watch} from "vue"
+import {ref, watch} from "vue"
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
 
@@ -94,7 +94,7 @@ watch(parameters.value, (newData) => {
         countImages: newData.countImages,
         step: newData.step,
         navigation: newData.navigation,
-        seed: newData.seed
+        seed: newData.seed ? newData.seed : Math.floor(Math.random() * 10000)
       }
   );
 })

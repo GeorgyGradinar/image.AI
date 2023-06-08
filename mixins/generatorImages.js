@@ -2,14 +2,18 @@ import {HEADER_PARAMETERS, MAIN_URL} from "~/config";
 import {personStore} from "~/store/personStore";
 import {imageGenerationStore} from "~/store/imageGenerationStore";
 import {modelsStore} from "~/store/models";
+import request from "~/mixins/requests"
 import getRequestOptions from "~/mixins/requestOptions";
+import {navigateTo} from "nuxt/app";
 
 export default function generatorImages() {
     const store = personStore();
+    const {changeFilters, changePerson} = store;
+    const {getPersonInfo} = request();
     const imageStore = imageGenerationStore();
     const {toggleGeneration, addNewImages} = imageStore;
     const models = modelsStore();
-    const {toggleSnackBarDone, toggleSnackBarReject } = models;
+    const {toggleSnackBarDone, toggleSnackBarReject} = models;
 
     function generateImages() {
         let requestOptions = [HEADER_PARAMETERS.authorization, HEADER_PARAMETERS.accept];
@@ -30,11 +34,19 @@ export default function generatorImages() {
                     }
                     toggleGeneration(true);
                     getStatusGeneration(response.image.id);
+                    changeFilters('parameters', {
+                        ...store.filters.parameters,
+                        seed: Math.floor(Math.random() * 10000)
+                    });
                 }
             })
             .catch(error => {
-                if (error.statusCode === 500){
-                    toggleSnackBarReject({isOpen:true, text: 'Что то пошло не так'})
+
+                if (error.statusCode === 500) {
+                    toggleSnackBarReject({isOpen: true, text: 'Что то пошло не так'})
+                }else if (error.statusCode === 401){
+                    changePerson({});
+                    navigateTo('/');
                 }
             })
     }
@@ -54,6 +66,7 @@ export default function generatorImages() {
                         addNewImages([...response.images, ...images])
                         toggleGeneration(false);
                         toggleSnackBarDone({isOpen: true, text: 'Изображение сгенерированно'});
+                        getPersonInfo();
                     }
                 })
         }, 1000)

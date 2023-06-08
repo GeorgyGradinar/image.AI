@@ -1,5 +1,5 @@
 <template>
-  <v-dialog class="dialog" v-model="dialog" width="400" persistent>
+  <v-dialog class="dialog add-email-dialog" v-model="dialog" width="400" persistent>
     <v-card class="card">
       <button class="close-button" @click.prevent="closeDialog">
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close">
@@ -28,7 +28,7 @@ import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
 import {email, required} from "@vuelidate/validators";
 import {navigateTo} from "nuxt/app";
 import {storeToRefs} from "pinia";
-import {defineEmits, defineProps, ref, toRefs,} from "vue";
+import {defineEmits, defineProps, ref} from "vue";
 
 const emit = defineEmits(['closeAddEmailDialog']);
 

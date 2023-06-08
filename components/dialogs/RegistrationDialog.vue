@@ -5,7 +5,7 @@
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
       </button>
       <span class="title">Регистрация</span>
-      <span v-if="messageError" class="error-message">{{ messageError }}. <a @click.prevent="openLoginDialog">Войти</a></span>
+      <span v-if="errorMessageRegistration" class="error-message">{{ errorMessageRegistration }}. <a @click.prevent="openLoginDialog">Войти</a></span>
       <form>
         <v-text-field
             v-model="initialState.name"
@@ -74,27 +74,23 @@ import {useVuelidate} from '@vuelidate/core'
 import {email, minLength, required, sameAs} from '@vuelidate/validators'
 import requests from '~/mixins/requests'
 import validation from "~/mixins/validation";
-import {storeToRefs} from "pinia";
-import {personStore} from "~/store/personStore";
-import apiMapper from "~/mixins/apiMapper";
 import socials from "~/mixins/socials";
+import {personStore} from "~/store/personStore";
 import {modelsStore} from "~/store/models";
+import {storeToRefs} from "pinia";
 
 const store = personStore();
-const {referralId} = storeToRefs(store);
-const {changePerson} = store;
-const {registration, getPersonInfo} = requests();
+const {registration} = requests();
 const models = modelsStore();
-const {toggleAcceptDialog, toggleLoginDialog} = models;
+const {toggleLoginDialog} = models;
+const {errorMessageRegistration} = storeToRefs(models);
 const {mapErrors} = validation();
 const emit = defineEmits(['closeRegistrationBlock'])
-const {personMapper} = apiMapper();
 const {authVK, authYandex, authGoogle} = socials();
 
 let dialog = ref(true);
 let showPassword = ref(false);
 let isShowPasswordConfirmation = ref(false);
-let messageError = ref('');
 
 const initialState = ref({
   name: '',
@@ -128,38 +124,16 @@ function closeDialogClickOnAbroad(event) {
   }
 }
 
-async function submit() {
+function submit() {
   v$.value.$validate();
   if (!v$.value.$error) {
-    changeErrorMessage('');
-    await registration({
+    registration({
       email: initialState.value.email,
       password: initialState.value.password,
       name: initialState.value.name,
       passwordConfirmation: initialState.value.passwordConfirmation,
     })
-        .then(response => {
-          changePerson(personMapper(response.user, response.authorisation.token));
-
-          if (!response.user.email_verified_at) {
-            toggleAcceptDialog(true);
-            getPersonInfo();
-          }
-
-          closeRegistrationBlock();
-        })
-        .catch(error => {
-          if (error.statusCode === 422) {
-            changeErrorMessage('Пользователь с такой почтой уже существует');
-          }else {
-            changeErrorMessage('Что то пошло не так, повторите попытку');
-          }
-        })
   }
-}
-
-function changeErrorMessage(message) {
-  messageError.value = message;
 }
 
 function closeRegistrationBlock() {

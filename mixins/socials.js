@@ -1,29 +1,35 @@
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
 import {modelsStore} from "~/store/models";
+import storage from "~/mixins/storage";
+import {IS_CHEATER_STORAGE_KEY} from "~/constants";
+import {MAIN_URL} from "~/config"
 
 export default function socials() {
     const store = personStore();
     const {changePerson} = store;
     const {getPersonInfo} = requests();
+    const {getLocalStorage, getCookie} = storage();
 
     const models = modelsStore();
     const {toggleRegistrationDialog, toggleLoginDialog} = models;
 
     function authVK() {
-        let popup = window.open('https://api.neuro-holst.ru/api/v1/login/vkontakte', '', generateParams())
+        console.log(`${MAIN_URL}/api/v1/login/vkontakte?${new URLSearchParams(bodyURL())}`)
+        let popup = window.open(`${MAIN_URL}/api/v1/login/vkontakte?${new URLSearchParams(bodyURL())}`, '', generateParams())
+
         const currentURL = getPopupLocation(popup);
         checkUrlChange(popup, currentURL, '', 'login/vkontakte');
     }
 
     function authYandex() {
-        let popup = window.open('https://api.neuro-holst.ru/api/v1/login/yandex', '', generateParams())
+        let popup = window.open(`${MAIN_URL}/api/v1/login/yandex?${new URLSearchParams(bodyURL())}`, '', generateParams())
         const currentURL = getPopupLocation(popup);
         checkUrlChange(popup, currentURL, '', 'login/yandex');
     }
 
     function authGoogle() {
-        let popup = window.open('https://api.neuro-holst.ru/api/v1/login/google', '_blank', generateParams())
+        let popup = window.open(`${MAIN_URL}/api/v1/login/google?${new URLSearchParams(bodyURL())}`, '_blank', generateParams())
         const currentURL = getPopupLocation(popup);
         checkUrlChange(popup, currentURL, '', 'login/google');
     }
@@ -72,6 +78,14 @@ export default function socials() {
         } catch {
             return ''
         }
+    }
+
+    function bodyURL() {
+        let isCheater = !!getLocalStorage(IS_CHEATER_STORAGE_KEY)?.length || getCookie().includes(IS_CHEATER_STORAGE_KEY);
+        let body = {};
+        body = store.referralId ? {...body, refferal_id: store.referralId} : body;
+        body = isCheater ? {...body, is_cheater: isCheater} : body;
+        return body;
     }
 
     return {authVK, authYandex, authGoogle}

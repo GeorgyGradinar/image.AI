@@ -1,4 +1,5 @@
 import {defineStore} from "pinia";
+import {ref} from "vue";
 
 export const modelsStore = defineStore('models', () => {
     let isOpenAcceptDialog = ref(false);
@@ -21,6 +22,7 @@ export const modelsStore = defineStore('models', () => {
         isOpen: false,
         image: {}
     })
+    let errorMessageRegistration = ref('');
 
     function toggleAcceptDialog(event) {
         isOpenAcceptDialog.value = event;
@@ -35,6 +37,9 @@ export const modelsStore = defineStore('models', () => {
 
     function toggleRegistrationDialog(event) {
         isOpenRegistrationDialog.value = event;
+        if (!event){
+            changeErrorMessageRegistration('');
+        }
     }
 
     function toggleLoginDialog(event) {
@@ -66,6 +71,10 @@ export const modelsStore = defineStore('models', () => {
         }
     }
 
+    function changeErrorMessageRegistration(text) {
+        errorMessageRegistration.value = text;
+    }
+
     return {
         isOpenAcceptDialog, toggleAcceptDialog,
         isOpenAddEmailDialog, toggleAddEmailDialog,
@@ -75,5 +84,6 @@ export const modelsStore = defineStore('models', () => {
         isOpenSnackBarReject, toggleSnackBarReject,
         isOpenBuyMoreCredits, toggleBuyMoreCredits,
         isOpenImageDetails, toggleImageDetails,
+        errorMessageRegistration, changeErrorMessageRegistration,
     }
 });
