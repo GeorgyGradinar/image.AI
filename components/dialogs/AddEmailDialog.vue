@@ -43,7 +43,6 @@ const {buyRate} = billing();
 
 let props = defineProps({
   idRate: Number,
-
 });
 
 let user = ref({
@@ -60,24 +59,32 @@ async function submit() {
   v$.value.$validate();
 
   if (!v$.value.$error) {
-    await updateUserData(person.value.name, user.value.email)
-        .then(response => {
-          if (response.status === "success") {
-            changePerson(personMapper(response.user, person.value.token));
-            if (person.value.email) {
-              buyRate(props.idRate);
-              closeDialog();
-            }
-          }
-        })
-        .catch(error => {
-          if (error.status === 401) {
-            changePerson({});
-            navigateTo('/');
-          }
-        })
+    buyRate(props.idRate, user.value.email);
   }
 }
+
+// async function submit() {
+//   v$.value.$validate();
+//
+//   if (!v$.value.$error) {
+//     await updateUserData(person.value.name, user.value.email)
+//         .then(response => {
+//           if (response.status === "success") {
+//             changePerson(personMapper(response.user, person.value.token));
+//             if (person.value.email) {
+//               buyRate(props.idRate);
+//               closeDialog();
+//             }
+//           }
+//         })
+//         .catch(error => {
+//           if (error.status === 401) {
+//             changePerson({});
+//             navigateTo('/');
+//           }
+//         })
+//   }
+// }
 
 function closeDialog() {
   emit('closeAddEmailDialog');

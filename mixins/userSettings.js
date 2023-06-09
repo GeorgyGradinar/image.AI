@@ -18,7 +18,7 @@ export default function userSettings() {
                 }
             })
             .catch(error => {
-                if (error.status === 401){
+                if (error.status === 401) {
                     changePerson({});
                     navigateTo('/');
                 }
@@ -32,28 +32,30 @@ export default function userSettings() {
             getRequestOptions('PATCH', requestOptions))
     }
 
+    function forgotPassword(email) {
+        let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
+       return $fetch(`${MAIN_URL}/forgot-password?email=${email}`, getRequestOptions('POST', requestOptions))
+    }
+
+    function resetPassword(payload) {
+        let requestOptions = [HEADER_PARAMETERS.accept];
+        console.log(payload)
+        let body = {
+            token: payload.token,
+            password: payload.newPassword,
+            password_confirmation: payload.confirmation
+        }
+        $fetch(`${MAIN_URL}/reset-password?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions))
+            .then(response => {
+                console.log(response)
+            })
+    }
+
     function updateUserData(name, email) {
         let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
         return $fetch(`${MAIN_URL}/api/v1/user/profile?name=${name}&email=${email}`,
             getRequestOptions('PATCH', requestOptions))
     }
 
-    // function getRequestOptions(typeRequest, payload) {
-    //     let myHeaders = new Headers();
-    //     payload.forEach(headerElement => {
-    //         if (headerElement.key === 'Authorization') {
-    //             myHeaders.append(headerElement.key, `${headerElement.body} ${store.person.token}`);
-    //         } else {
-    //             myHeaders.append(headerElement.key, headerElement.body);
-    //         }
-    //     });
-    //
-    //     return {
-    //         method: typeRequest,
-    //         headers: myHeaders,
-    //         redirect: 'follow'
-    //     };
-    // }
-
-    return {deleteAccount, updatePassword, updateUserData}
+    return {deleteAccount, updatePassword, updateUserData, forgotPassword, resetPassword}
 }

@@ -16,11 +16,28 @@ export const imageGenerationStore = defineStore('imageStore', () => {
         images.value = [...images.value, ...oldImages];
     }
 
-    function addNewImages(newImages){
+    function addNewImages(newImages) {
         images.value = [...newImages];
     }
 
-    function clearImages(){
+    function toggleLike(selectImage) {
+        let currentImageIndex = images.value.findIndex(image => image.id === selectImage.id);
+        images.value[currentImageIndex] = {
+            ...images.value[currentImageIndex],
+            ...selectImage
+        }
+        images.value = [
+            ...images.value
+        ]
+    }
+
+    function deletedImage(id) {
+       let selectedId = images.value.findIndex(image => image.id === id);
+        images.value.splice(selectedId, 1);
+        images.value = [...images.value];
+    }
+
+    function clearImages() {
         images.value = [];
     }
 
@@ -36,18 +53,18 @@ export const imageGenerationStore = defineStore('imageStore', () => {
         isShowMainLoader.value = event;
     }
 
-    function toggleInProgressMoreImages(event){
+    function toggleInProgressMoreImages(event) {
         inProgressMoreImages.value = event;
     }
 
-    function toggleShowButtonMoreImages(event){
+    function toggleShowButtonMoreImages(event) {
         isShowButtonMoreImages.value = event;
     }
 
 
     return {
         isGeneration, toggleGeneration,
-        images, addNewImages, addOldImages, clearImages,
+        images, addNewImages, addOldImages, clearImages, toggleLike, deletedImage,
         getImagePages, changeImagePage, clearImagePage,
         isShowMainLoader, toggleShowMainLoader,
         inProgressMoreImages, toggleInProgressMoreImages,

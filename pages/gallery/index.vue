@@ -24,8 +24,7 @@
     <div class="main-block">
       <NavigationBlock @changeFilters="changeFilters"></NavigationBlock>
       <div class="wrapper-images" v-if="images?.length && !isActiveLoader">
-        <ImageElement v-for="image in images" :key="image.id"
-                      :image="image" @delete="deleteImage">
+        <ImageElement v-for="image in images" :key="image.id" :image="image">
         </ImageElement>
       </div>
       <div class="wrapper-loader" v-show="isActiveLoader">
@@ -43,31 +42,27 @@
       </div>
     </div>
   </div>
-  <DoneSnackBar
-      :openSnackBar="isOpenSnackBarDone"
-      :text-snack-bar="textSnackBarForGeneration"
-      @close="closeSnackBars">
-  </DoneSnackBar>
 </template>
 
 <script setup>
 import ImageElement from "~/components/gallery/ImageElement";
 import NavigationBlock from "../../components/gallery/NavigationBlock";
-import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {personStore} from "~/store/personStore";
-import {storeToRefs} from "pinia";
+import {imageGenerationStore} from "~/store/imageGenerationStore";
 import requests from "~/mixins/requests";
+import {storeToRefs} from "pinia";
 import {onMounted, ref, watch} from "vue";
 import {useRouter} from "nuxt/app";
 
+const {getPersonGallery} = requests();
 const store = personStore();
 const {getImages} = requests();
-const {person, imagesData} = storeToRefs(store);
+const {person} = storeToRefs(store);
+const imageStore = imageGenerationStore();
+const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages} = storeToRefs(imageStore);
 const router = useRouter();
 
-let images = ref(null);
-let textSnackBarForGeneration = ref('');
-let isOpenSnackBarDone = ref(false);
+let imagesData = ref(null);
 let currentPage = ref('generated');
 let search = ref('');
 let topical = ref('Сначала новые');
@@ -76,21 +71,21 @@ let textForAlert = ref('');
 let debounceTimeout = ref(null);
 
 onMounted(() => {
-  if (person._value.id && !imagesData._value.images.length) {
-    setTimeout(() => {
-      getImages();
-      turnOffLoader();
-    }, 2000)
-  } else if (!person._value.id) {
-    router.push('/');
-    turnOffLoader();
-  } else {
-    turnOffLoader();
-  }
-
-  setTimeout(() => {
-    images.value = imagesData._value.images;
-  })
+  // if (person._value.id && !imagesData._value.images.length) {
+  //   setTimeout(() => {
+  //     getImages();
+  //     turnOffLoader();
+  //   }, 2000)
+  // } else if (!person._value.id) {
+  //   router.push('/');
+  //   turnOffLoader();
+  // } else {
+  //   turnOffLoader();
+  // }
+  //
+  // setTimeout(() => {
+  //   images.value = imagesData._value.images;
+  // })
 })
 
 watch(person, (newDataPerson) => {
@@ -140,12 +135,7 @@ function turnOffLoader() {
   isActiveLoader.value = false;
 }
 
-function closeSnackBars() {
-  isOpenSnackBarDone.value = false;
-}
-
 function changeFilters(setting) {
-
   window.scrollTo({
     top: 0,
     behavior: "smooth",
@@ -167,10 +157,6 @@ function changeFilters(setting) {
   }
 }
 
-function deleteImage() {
-  textSnackBarForGeneration.value = "Изображение удалено";
-  isOpenSnackBarDone.value = true;
-}
 </script>
 
 <style lang="scss">

@@ -46,7 +46,8 @@ watch(filters, (newData) => {
     counterImage.value = `${filters._value.parameters.countImages} изображений`;
   }
 
-  coastGeneration.value = Math.round(newData.parameters.countImages * 1 * (newData.parameters.step / 25) * (newData.size.width * newData.size.height / 1536));
+  let coast = newData.parameters.countImages * 1 * (newData.parameters.step / 25) * ((newData.size.width + newData.size.height) / 1536);
+  coastGeneration.value = coast < 0.2 ? 0.2 : coast.toFixed(1);
 
   if (coastGeneration.value === 1) {
     textForCredit.value = 'краска';
@@ -67,7 +68,7 @@ function generate() {
         behavior: "smooth",
       })
     } else {
-      toggleSnackBarReject({isOpen:true, text:"Недостаточно средств"});
+      toggleSnackBarReject({isOpen: true, text: "Недостаточно средств"});
       toggleBuyMoreCredits(true);
     }
   } else {

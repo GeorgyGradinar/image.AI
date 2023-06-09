@@ -32,6 +32,7 @@
                 @close="toggleImageDetails({isOpen:false, image:{}})">
   </ImageDetails>
 
+  <ForgotPassword v-if="isOpenForgotPassword" @close="toggleForgotPassword(false)"></ForgotPassword>
 </template>
 
 <script setup>
@@ -46,6 +47,7 @@ import ImageDetails from "~/components/dialogs/ImageDetails";
 import {modelsStore} from "~/store/models";
 import {storeToRefs} from "pinia";
 import {watch} from "vue";
+import ForgotPassword from "./dialogs/ForgotPassword";
 
 const models = modelsStore();
 const {
@@ -56,7 +58,8 @@ const {
   isOpenSnackBarDone,
   isOpenSnackBarReject,
   isOpenBuyMoreCredits,
-  isOpenImageDetails
+  isOpenImageDetails,
+  isOpenForgotPassword
 } = storeToRefs(models);
 
 const {
@@ -67,7 +70,8 @@ const {
   toggleSnackBarDone,
   toggleSnackBarReject,
   toggleBuyMoreCredits,
-  toggleImageDetails
+  toggleImageDetails,
+  toggleForgotPassword
 } = models;
 
 let isOpenAddEmail = ref(isOpenAddEmailDialog.value.isOpen);

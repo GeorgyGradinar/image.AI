@@ -138,8 +138,12 @@ export default function requests() {
         $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=10&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 if (response.status === 'success') {
-                    addOldImages(response.images.data);
-                    toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
+                    if (response.images.data.length){
+                        console.log(response.images.data)
+                        addOldImages(response.images.data);
+                        toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
+                    }
+
 
                     if (response.images.total > imageStore.images.length) {
                         changeImagePage();

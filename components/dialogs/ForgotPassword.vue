@@ -5,6 +5,7 @@
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
       </button>
       <span class="title">Восстановление пароля</span>
+      <p class="error-message">{{ errorMessage }}</p>
       <form v-if="isFirstStep">
         <v-text-field
             v-model="initialState.email"
@@ -14,11 +15,11 @@
             @blur="v$.email.$touch"
         ></v-text-field>
         <div class="card-buttons">
-          <button class="create-account" @click.prevent="sendNewPassword">Восстановить</button>
+          <button class="secondary" @click.prevent="sendEmail">Восстановить</button>
         </div>
       </form>
       <div class="success" v-else>
-        Новый пароль отправлен!
+        Ссылка на сброс пароля была отправлена на почту
       </div>
     </v-card>
   </v-dialog>
@@ -29,10 +30,14 @@ import {ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
 import validation from "~/mixins/validation";
-const { mapErrors } = validation();
+import userSettings from "~/mixins/userSettings";
+
+const {mapErrors} = validation();
+const {forgotPassword} = userSettings();
 
 let isOpen = ref(true);
 let isFirstStep = ref(true);
+let errorMessage = ref('');
 
 const initialState = ref({
   email: '',
@@ -44,14 +49,30 @@ const rules = {
 
 const v$ = useVuelidate(rules, initialState);
 
-function sendNewPassword() {
+async function sendEmail() {
+  v$.value.$validate();
+
   if (!v$.value.$error) {
-    isFirstStep.value = false;
+    await forgotPassword(initialState.value.email)
+        .then(response => {
+          isFirstStep.value = false;
+        })
+        .catch(error => {
+          if (error.statusCode === 422) {
+            errorMessage.value = error.data.message;
+          }
+        })
   }
 }
 </script>
 
 <style scoped lang="scss">
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
 
 .dialog .v-overlay__content .card form .card-buttons {
   justify-content: flex-end;

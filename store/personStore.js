@@ -15,7 +15,7 @@ export const personStore = defineStore('store', () => {
         },
         parameters: {
             countImages: 1,
-            step: 1,
+            step: 10,
             navigation: 1,
             seed: null
         },

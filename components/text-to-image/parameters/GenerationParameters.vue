@@ -35,8 +35,8 @@
               <v-slider
                   v-model="parameters.step"
                   color="#36E2FF"
-                  :min="1"
-                  :max="10"
+                  :min="10"
+                  :max="50"
                   :step="1"
                   :thumb-size="15"
               ></v-slider>

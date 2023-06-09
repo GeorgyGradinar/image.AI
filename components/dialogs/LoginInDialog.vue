@@ -49,7 +49,6 @@
 
       </v-card>
     </v-dialog>
-    <ForgotPassword v-if="forgotPasswordDialog" @close="closeDialog"></ForgotPassword>
   </div>
 </template>
 
@@ -57,7 +56,6 @@
 import {onMounted, ref} from "vue";
 import {useVuelidate} from '@vuelidate/core';
 import {email, required} from '@vuelidate/validators';
-import ForgotPassword from "~/components/dialogs/ForgotPassword";
 import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import {personStore} from "~/store/personStore";
@@ -71,10 +69,9 @@ const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
 const store = personStore();
 const {changePerson} = store;
 const models = modelsStore()
-const {toggleAcceptDialog, toggleRegistrationDialog} = models;
+const {toggleAcceptDialog, toggleRegistrationDialog, toggleForgotPassword} = models;
 const {authVK, authYandex, authGoogle} = socials();
 const {personMapper} = apiMapper();
-
 
 const initialState = ref({
   email: '',
@@ -89,7 +86,6 @@ const rules = {
 const v$ = useVuelidate(rules, initialState);
 
 let dialog = ref(true);
-let forgotPasswordDialog = ref(false);
 let showPassword = ref(false);
 let errorMessage = ref('');
 
@@ -138,13 +134,12 @@ function changeErrorMessage(message) {
 }
 
 function openForgotPasswordDialog() {
-  dialog.value = false;
-  forgotPasswordDialog.value = true;
+  toggleForgotPassword(true);
+  closeDialog();
 }
 
 function closeDialog() {
   removeEventListener('click', closeDialogClickOnAbroad);
-  forgotPasswordDialog.value = false;
   emit('closeLoginDialog');
 }
 

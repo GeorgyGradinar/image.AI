@@ -1,9 +1,9 @@
 <template>
   <div class="photo-grid">
-    <div class="photo-wrapper" v-if="image.img">
-      <img class="main-image" :src="useAsset(image.img)"
-           alt="image example" @click.prevent="openImageDetails(image)">
-      <a class="wrapper-download" :href="useAsset(image.img)" download>
+    <div class="photo-wrapper" v-if="image.url">
+      <img class="main-image" :src="image.url"
+           alt="image example" @click.prevent="toggleImageDetails({isOpen:true, image})">
+      <a class="wrapper-download" :href="image.url" download>
         <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
         <v-tooltip activator="parent" location="bottom">Скачать</v-tooltip>
       </a>
@@ -34,27 +34,14 @@
         <v-tooltip activator="parent" location="bottom">Добавить в избранное</v-tooltip>
       </div>
     </div>
-
   </div>
-
-  <ImageDetails v-if="imageDetailsDialog"
-                :image-src="currentImage"
-                @close="closeDetailImage">
-  </ImageDetails>
-  <DoneSnackBar
-      :openSnackBar="isOpenSnackBarDone"
-      :text-snack-bar="textSnackBarForGeneration"
-      @close="closeSnackBars">
-  </DoneSnackBar>
 </template>
 
 <script setup>
-import ImageDetails from "~/components/dialogs/ImageDetails";
-import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {personStore} from "~/store/personStore";
-import {defineEmits, ref, toRefs} from "vue";
+import {modelsStore} from "~/store/models";
+import {toRefs} from "vue";
 
-// eslint-disable-next-line no-undef
 const props = defineProps({
   image: {},
 });
@@ -62,57 +49,13 @@ const props = defineProps({
 const {image} = toRefs(props);
 const store = personStore();
 const {toggleFavorite, deleteImage, reuseParameters, changeFilters} = store;
-const emit = defineEmits(['delete']);
-let imageDetailsDialog = ref(false);
-let currentImage = ref('');
-let isOpenSnackBarDone = ref(false);
-let textSnackBarForGeneration = ref('');
-
-
-function useAsset(path) {
-  const assets = import.meta.glob('~/assets/**/*', {
-    eager: true,
-    import: 'default',
-  })
-  // @ts-expect-error: wrong type info
-  return assets['/assets/images/main-page/' + path]
-}
+const models = modelsStore();
+const {toggleImageDetails} = models;
 
 function toggleLike(id) {
-  toggleFavorite(id);
-  if (image._object.image.like) {
-    textSnackBarForGeneration.value = "Добавлено в избранные";
-    isOpenSnackBarDone.value = true;
-  } else {
-    textSnackBarForGeneration.value = "Удалено из избранного";
-    isOpenSnackBarDone.value = true;
-  }
 }
 
 function deleteImg(id) {
-  emit('delete');
-  deleteImage(id);
-}
-
-function openImageDetails(image) {
-  imageDetailsDialog.value = true;
-  currentImage.value = image;
-}
-
-function closeSnackBars() {
-  isOpenSnackBarDone.value = false;
-}
-
-function closeDetailImage(text) {
-  imageDetailsDialog.value = false;
-  if (text) {
-    openSnackBar(text);
-  }
-}
-
-function openSnackBar(text) {
-  textSnackBarForGeneration.value = text;
-  isOpenSnackBarDone.value = true;
 }
 
 </script>

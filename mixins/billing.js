@@ -1,10 +1,14 @@
 import getRequestOptions from "~/mixins/requestOptions";
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config";
 import {personStore} from "~/store/personStore";
+import {modelsStore} from "~/store/models";
+import {navigateTo} from "nuxt/app";
 
 export default function billing() {
     const store = personStore();
     const {changePerson} = store;
+    const models = modelsStore();
+    const {toggleSnackBarDone, toggleSnackBarReject, toggleAddEmailDialog} = models;
 
     function getRates() {
         let requestOptions = {
@@ -14,16 +18,23 @@ export default function billing() {
         return $fetch(`${MAIN_URL}/api/v1/tariff/packages`, requestOptions)
     }
 
-    function buyRate(id) {
+    function buyRate(id, email) {
         let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
-
-        $fetch(`${MAIN_URL}/api/v1/yookassa/buy?package=${id}`, getRequestOptions('POST', requestOptions))
+        let body = {
+            package: id,
+        }
+        body = email ? {...body, email} : body;
+        $fetch(`${MAIN_URL}/api/v1/yookassa/buy?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions))
             .then(response => {
-                window.open(response.payment_url, '_blank')
+                window.open(response.payment_url, '_blank');
+                toggleAddEmailDialog({isOpen: false, idRate: null})
             })
             .catch(error => {
-                if (error.status === 401) {
+                if (error.statusCode === 401) {
                     changePerson({});
+                    navigateTo('/');
+                }else if (error.statusCode === 422){
+                    toggleSnackBarReject({isOpen:true, text: 'Пользователь с такой почтой уже зарегистрирован'})
                 }
                 console.dir(error)
             })

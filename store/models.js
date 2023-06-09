@@ -21,8 +21,9 @@ export const modelsStore = defineStore('models', () => {
     let isOpenImageDetails = ref({
         isOpen: false,
         image: {}
-    })
+    });
     let errorMessageRegistration = ref('');
+    let isOpenForgotPassword = ref(false);
 
     function toggleAcceptDialog(event) {
         isOpenAcceptDialog.value = event;
@@ -37,7 +38,7 @@ export const modelsStore = defineStore('models', () => {
 
     function toggleRegistrationDialog(event) {
         isOpenRegistrationDialog.value = event;
-        if (!event){
+        if (!event) {
             changeErrorMessageRegistration('');
         }
     }
@@ -75,6 +76,10 @@ export const modelsStore = defineStore('models', () => {
         errorMessageRegistration.value = text;
     }
 
+    function toggleForgotPassword(event) {
+        isOpenForgotPassword.value = event;
+    }
+
     return {
         isOpenAcceptDialog, toggleAcceptDialog,
         isOpenAddEmailDialog, toggleAddEmailDialog,
@@ -85,5 +90,6 @@ export const modelsStore = defineStore('models', () => {
         isOpenBuyMoreCredits, toggleBuyMoreCredits,
         isOpenImageDetails, toggleImageDetails,
         errorMessageRegistration, changeErrorMessageRegistration,
+        isOpenForgotPassword, toggleForgotPassword,
     }
 });

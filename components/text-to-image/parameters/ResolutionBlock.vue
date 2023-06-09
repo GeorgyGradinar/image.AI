@@ -115,7 +115,7 @@ let size = ref({
   height: null
 })
 
-const data = [256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960, 1024];
+const data = [512, 576, 640, 704, 768, 832, 896, 960, 1024];
 const allParameters = {
   "1:1": {
     width: data[4],
