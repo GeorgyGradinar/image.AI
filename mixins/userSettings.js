@@ -2,10 +2,13 @@ import {HEADER_PARAMETERS, MAIN_URL} from "~/config";
 import {personStore} from "~/store/personStore";
 import {navigateTo} from "nuxt/app";
 import getRequestOptions from "~/mixins/requestOptions";
+import {modelsStore} from "~/store/models";
 
 export default function userSettings() {
     let store = personStore();
     const {changePerson} = store;
+    const models = modelsStore();
+    const {toggleSnackBarDone, toggleSnackBarReject} = models;
 
     function deleteAccount() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
@@ -34,7 +37,7 @@ export default function userSettings() {
 
     function forgotPassword(email) {
         let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
-       return $fetch(`${MAIN_URL}/forgot-password?email=${email}`, getRequestOptions('POST', requestOptions))
+        return $fetch(`${MAIN_URL}/forgot-password?email=${email}`, getRequestOptions('POST', requestOptions))
     }
 
     function resetPassword(payload) {
@@ -42,12 +45,17 @@ export default function userSettings() {
         console.log(payload)
         let body = {
             token: payload.token,
+            email: payload.email,
             password: payload.newPassword,
             password_confirmation: payload.confirmation
         }
         $fetch(`${MAIN_URL}/reset-password?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions))
             .then(response => {
-                console.log(response)
+                toggleSnackBarDone({isOpen: true, text: 'Пароль успешно обновлен'});
+                navigateTo('/');
+            })
+            .catch(error => {
+                toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
             })
     }
 

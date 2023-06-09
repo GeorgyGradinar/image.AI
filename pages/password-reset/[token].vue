@@ -44,8 +44,6 @@ const {mapErrors} = validation();
 const {resetPassword} = userSettings();
 const route = useRoute();
 
-console.log(route.params.token)
-
 let isShowNewPass = ref(false);
 let isShowConfirmationPass = ref(false);
 
@@ -57,7 +55,7 @@ let password = ref({
 const newPasswordRef = computed(() => password.value.newPassword);
 
 const rules = {
-  newPassword: {required, minLength: minLength(6)},
+  newPassword: {required, minLengthEight: minLength(8)},
   confirmation: {required, sameAs: sameAs(newPasswordRef)}
 }
 
@@ -67,7 +65,12 @@ function submit() {
   v$.value.$validate();
 
   if (!v$.value.$error) {
-    resetPassword({token: route.params.token, newPassword: password.value.newPassword, confirmation: password.value.confirmation});
+    resetPassword({
+      token: route.params.token,
+      email: route.query.email,
+      newPassword: password.value.newPassword,
+      confirmation: password.value.confirmation
+    });
   }
 
 }
