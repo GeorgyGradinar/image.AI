@@ -46,14 +46,12 @@ const route = useRoute();
 
 let isShowNewPass = ref(false);
 let isShowConfirmationPass = ref(false);
-
 let password = ref({
   newPassword: null,
   confirmation: null
 })
 
 const newPasswordRef = computed(() => password.value.newPassword);
-
 const rules = {
   newPassword: {required, minLengthEight: minLength(8)},
   confirmation: {required, sameAs: sameAs(newPasswordRef)}
@@ -72,7 +70,6 @@ function submit() {
       confirmation: password.value.confirmation
     });
   }
-
 }
 
 </script>
