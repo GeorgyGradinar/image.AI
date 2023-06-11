@@ -15,9 +15,7 @@ export default function socials() {
     const {toggleRegistrationDialog, toggleLoginDialog} = models;
 
     function authVK() {
-        console.log(`${MAIN_URL}/api/v1/login/vkontakte?${new URLSearchParams(bodyURL())}`)
-        let popup = window.open(`${MAIN_URL}/api/v1/login/vkontakte`, '', generateParams())
-
+        let popup = window.open(`${MAIN_URL}/api/v1/login/vkontakte?${new URLSearchParams(bodyURL())}`, '', generateParams())
         const currentURL = getPopupLocation(popup);
         checkUrlChange(popup, currentURL, '', 'login/vkontakte');
     }

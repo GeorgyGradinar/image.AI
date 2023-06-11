@@ -134,7 +134,6 @@ export default function requests() {
     function getPersonGallery() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
         imageStore.getImagePages === 1 ? toggleShowMainLoader(true) : toggleInProgressMoreImages(true);
-
         $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=10&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 if (response.status === 'success') {

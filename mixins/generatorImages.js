@@ -63,6 +63,7 @@ export default function generatorImages() {
         let interval = setInterval(() => {
             $fetch(`${MAIN_URL}/api/v1/image/status?request_id=${id}`, getRequestOptions('POST', requestOptions))
                 .then(response => {
+                    console.log(response)
                     if (response.status === "processing") {
 
                     } else {
@@ -76,11 +77,20 @@ export default function generatorImages() {
                 })
         }, 1000)
 
-        setTimeout(() => {
-            let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
-            $fetch("https://api.neuro-holst.ru/emulate", getRequestOptions('GET', requestOptions))
-        }, 1000)
+        // setTimeout(() => {
+        //     let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
+        //     $fetch("https://api.neuro-holst.ru/emulate", getRequestOptions('GET', requestOptions))
+        // }, 1000)
     }
+
+    // function getImagesFromModel(id) {
+    //     let requestOptions = [HEADER_PARAMETERS.content];
+    //     $fetch(`https://api.neuro-holst.ru/api/v1/image/result/${id}`, getRequestOptions('POST', requestOptions))
+    //         .then(response => {
+    //
+    //         })
+    // }
+
 
     function likeImage(id) {
         let requestOptions = [HEADER_PARAMETERS.accept, HEADER_PARAMETERS.authorization];
