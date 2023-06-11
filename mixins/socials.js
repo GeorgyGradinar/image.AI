@@ -77,7 +77,7 @@ export default function socials() {
 
     function getPopupLocation(popup) {
         try {
-            console.log(popup.location.href);
+            console.dir(popup.location.href);
             return popup.location.href;
         } catch {
             return ''
