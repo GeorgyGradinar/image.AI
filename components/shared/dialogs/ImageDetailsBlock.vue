@@ -110,11 +110,8 @@ onMounted(() => {
 
 async function downloadImage(imageSrc) {
   const response = await fetch(imageSrc);
-
   const blobImage = await response.blob();
-
   const href = URL.createObjectURL(blobImage);
-
   const anchorElement = document.createElement('a');
   anchorElement.href = href;
   anchorElement.download = 'image';
