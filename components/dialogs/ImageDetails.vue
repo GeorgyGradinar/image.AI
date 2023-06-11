@@ -28,7 +28,6 @@ function close() {
 </script>
 
 <style lang="scss">
-
 .dialog.image {
   .v-overlay__content {
     margin: 50px 80px;
