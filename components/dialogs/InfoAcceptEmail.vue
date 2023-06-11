@@ -4,7 +4,7 @@
       <v-card class="card">
         <p>Подтвердите почту {{ store.person.email }}</p>
         <div class="wrapper-button">
-          <button class="secondary logout" @click="logoutFromAccount">Выход</button>
+          <button class="secondary prepareLogout" @click="logoutFromAccount">Выход</button>
         </div>
       </v-card>
     </v-dialog>
@@ -16,7 +16,7 @@ import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
 import {defineEmits, onMounted} from "vue";
 
-const {logout, initStore} = requests();
+const {prepareLogout, initStore} = requests();
 const store = personStore();
 const emit = defineEmits(['closeLoginDialog']);
 
@@ -26,7 +26,7 @@ let dialog = ref(true);
 // })
 
 function logoutFromAccount() {
-  logout();
+  prepareLogout();
   emit('closeLoginDialog');
 }
 
@@ -41,7 +41,7 @@ p {
   display: flex;
   justify-content: space-around;
   margin-top: 40px;
-  .logout {
+  .prepareLogout {
   }
 }
 

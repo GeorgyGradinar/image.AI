@@ -150,7 +150,7 @@ watch(exception, (newData) => {
       resize: none;
       white-space: pre-wrap;
       word-wrap: break-word;
-      overflow: hidden;
+      overflow: auto;
       border: 1px solid rgba(248, 248, 221, 0.2);
       padding: 10px;
       color: var(--main-light-color);

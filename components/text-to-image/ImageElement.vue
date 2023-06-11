@@ -59,6 +59,7 @@
 
 <script setup>
 import generatorImages from "~/mixins/generatorImages";
+import shareFunctions from "~/mixins/shareFunctions";
 import {personStore} from "~/store/personStore";
 import {modelsStore} from "~/store/models";
 import {onMounted, ref, toRefs} from "vue";
@@ -72,7 +73,7 @@ const {reuseParameters, changeFilters} = store;
 const models = modelsStore();
 const {toggleImageDetails} = models;
 const {likeImage, deleteImage} = generatorImages();
-
+const {reuseImageParameters} = shareFunctions();
 
 //timer
 let timer = 0;
@@ -97,6 +98,10 @@ function startTimer() {
 
 function stopTimer() {
   clearInterval(timerInterval);
+}
+
+function reuseFilterParameters() {
+  reuseImageParameters(image.value);
 }
 
 </script>

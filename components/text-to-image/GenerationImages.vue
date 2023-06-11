@@ -52,7 +52,6 @@ onMounted(() => {
   if (person._value.id && !models.isOpenAcceptDialog) {
     if (!images.value.length) {
       getGallery()
-      console.log('test')
     }
   }
 })

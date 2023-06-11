@@ -25,6 +25,31 @@ export const modelsStore = defineStore('models', () => {
     let errorMessageRegistration = ref('');
     let isOpenForgotPassword = ref(false);
 
+    function closeAllDialogs(){
+        isOpenAcceptDialog.value = false;
+        isOpenAddEmailDialog.value = {
+            isOpen: false,
+            idRate: null
+        };
+        isOpenRegistrationDialog.value = false;
+        isOpenLoginDialog.value = false;
+        isOpenSnackBarDone.value = {
+            isOpen: false,
+            text: ''
+        };
+        isOpenSnackBarReject.value = {
+            isOpen: false,
+            text: ''
+        };
+        isOpenBuyMoreCredits.value = false;
+        isOpenImageDetails.value = {
+            isOpen: false,
+            image: {}
+        };
+        errorMessageRegistration.value = '';
+        isOpenForgotPassword.value = false;
+    }
+
     function toggleAcceptDialog(event) {
         isOpenAcceptDialog.value = event;
     }
@@ -81,6 +106,7 @@ export const modelsStore = defineStore('models', () => {
     }
 
     return {
+        closeAllDialogs,
         isOpenAcceptDialog, toggleAcceptDialog,
         isOpenAddEmailDialog, toggleAddEmailDialog,
         isOpenRegistrationDialog, toggleRegistrationDialog,

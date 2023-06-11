@@ -27,8 +27,9 @@ import generatorImages from "~/mixins/generatorImages";
 const emit = defineEmits(['setNext']);
 const store = personStore();
 const {person, filters} = storeToRefs(store);
-const image = imageGenerationStore()
-const {isGeneration} = storeToRefs(image);
+const imageStore = imageGenerationStore();
+const {isGeneration} = storeToRefs(imageStore);
+const {toggleGeneration, addNewImages} = imageStore;
 const models = modelsStore();
 const {toggleRegistrationDialog, toggleBuyMoreCredits, toggleSnackBarReject} = models;
 const {generateImages} = generatorImages();
@@ -61,7 +62,15 @@ watch(filters, (newData) => {
 function generate() {
   if (person._value.id) {
     if (coastGeneration.value < person._value.credits) {
-      generateImages();
+      let randomId = Math.floor(Math.random() * 10000);
+      for (let x = 0; x < filters.value.parameters.countImages; x++) {
+        const loading = {id: randomId};
+        let loadImages = [...imageStore.images];
+        loadImages.unshift(loading);
+        addNewImages(loadImages)
+      }
+      toggleGeneration(true);
+      generateImages(randomId);
 
       window.scrollTo({
         top: document.getElementById('images')?.offsetTop,

@@ -3,10 +3,10 @@ import {modelsStore} from "~/store/models";
 import {imageGenerationStore} from "~/store/imageGenerationStore";
 import {ACCOUNT_STORAGE_KEY, IS_CHEATER_STORAGE_KEY} from "~/constants";
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config"
-import {navigateTo} from "nuxt/app";
 import apiMapper from "~/mixins/apiMapper";
 import getRequestOptions from "~/mixins/requestOptions";
 import storage from "~/mixins/storage";
+import shareFunctions from "~/mixins/shareFunctions";
 
 export default function requests() {
     const store = personStore();
@@ -22,15 +22,15 @@ export default function requests() {
     const imageStore = imageGenerationStore();
     const {
         addOldImages,
-        clearImages,
         changeImagePage,
-        clearImagePage,
         toggleShowMainLoader,
         toggleInProgressMoreImages,
         toggleShowButtonMoreImages
     } = imageStore;
     const {personMapper} = apiMapper();
     const {setLocalStorage, getLocalStorage, setCookie, getCookie} = storage();
+    const {prepareLogout} = shareFunctions();
+
     let timer;
 
     function initStore() {
@@ -51,16 +51,16 @@ export default function requests() {
         $fetch(`${MAIN_URL}/api/v1/register?${new URLSearchParams(body)}`, getRequestOptions('POST', [HEADER_PARAMETERS.accept]))
             .then(response => {
                 changePerson(personMapper(response.user, response.authorisation.token));
-
                 if (!response.user.email_verified_at) {
                     toggleAcceptDialog(true);
                     getPersonInfo();
                 }
-
                 toggleRegistrationDialog(false);
             })
             .catch(error => {
-                if (error.statusCode === 422) {
+                if (error.statusCode === 401) {
+                    prepareLogout();
+                } else if (error.statusCode === 422) {
                     changeErrorMessageRegistration('Пользователь с такой почтой уже существует');
                 } else {
                     changeErrorMessageRegistration('Что то пошло не так, повторите попытку');
@@ -82,18 +82,10 @@ export default function requests() {
         $fetch(`${MAIN_URL}/api/v1/logout`, getRequestOptions('POST', requestOptions))
             .then(request => {
                 if (request.status === 'success') {
-                    changePerson({});
-                    clearImages();
-                    clearImagePage();
-                    navigateTo('/');
+                    prepareLogout();
                 }
             })
-            .catch(error => {
-                changePerson({});
-                clearImages();
-                clearImagePage();
-                navigateTo('/');
-            });
+            .catch(() => prepareLogout());
     }
 
     function getPersonInfo() {
@@ -114,10 +106,8 @@ export default function requests() {
                 }
             })
             .catch(error => {
-                if (error.status === 401) {
-                    changePerson({});
-                    clearImages();
-                    navigateTo('/');
+                if (error.statusCode === 401) {
+                    prepareLogout();
                 }
             })
     }
@@ -134,15 +124,14 @@ export default function requests() {
     function getPersonGallery() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
         imageStore.getImagePages === 1 ? toggleShowMainLoader(true) : toggleInProgressMoreImages(true);
-        $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=10&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
+        $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=30&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 if (response.status === 'success') {
-                    if (response.images.data.length){
-                        console.log(response.images.data)
+                    if (response.images.data.length) {
                         addOldImages(response.images.data);
                         toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
+                        console.log(response.images)
                     }
-
 
                     if (response.images.total > imageStore.images.length) {
                         changeImagePage();
@@ -155,10 +144,8 @@ export default function requests() {
                 }
             })
             .catch(error => {
-                if (error.status === 401) {
-                    changePerson({});
-                    clearImages();
-                    navigateTo('/');
+                if (error.statusCode === 401) {
+                    prepareLogout();
                 }
             })
     }

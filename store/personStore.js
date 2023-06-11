@@ -18,7 +18,7 @@ export const personStore = defineStore('store', () => {
             step: 10,
             navigation: 1,
             seed: null
-        },
+        }
     });
     let referralId = ref();
 

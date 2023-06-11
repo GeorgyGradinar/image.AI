@@ -3,12 +3,14 @@ import {personStore} from "~/store/personStore";
 import {navigateTo} from "nuxt/app";
 import getRequestOptions from "~/mixins/requestOptions";
 import {modelsStore} from "~/store/models";
+import shareFunctions from "~/mixins/shareFunctions";
 
 export default function userSettings() {
     let store = personStore();
     const {changePerson} = store;
     const models = modelsStore();
     const {toggleSnackBarDone, toggleSnackBarReject} = models;
+    const {prepareLogout} = shareFunctions();
 
     function deleteAccount() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
@@ -21,11 +23,9 @@ export default function userSettings() {
                 }
             })
             .catch(error => {
-                if (error.status === 401) {
-                    changePerson({});
-                    navigateTo('/');
+                if (error.statusCode === 401) {
+                    prepareLogout();
                 }
-                console.log(error)
             });
     }
 
@@ -56,6 +56,9 @@ export default function userSettings() {
             })
             .catch(error => {
                 toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
+                if (error.statusCode === 401) {
+                    prepareLogout();
+                }
             })
     }
 

@@ -60,6 +60,7 @@
             <label class="rectangle__7-4" for="radio-7">7 : 4</label>
           </div>
         </section>
+
         <div v-if="!hasOpenSimpleMenu">
           <v-app>
             <section class="advanced">
@@ -118,32 +119,32 @@ let size = ref({
 const data = [512, 576, 640, 704, 768, 832, 896, 960, 1024];
 const allParameters = {
   "1:1": {
-    width: data[4],
-    height: data[4]
+    width: data[1],
+    height: data[1]
   },
   "4:5": {
-    width: data[4],
-    height: data[6]
+    width: data[1],
+    height: data[2]
   },
   "2:3": {
-    width: data[4],
-    height: data[8]
+    width: data[1],
+    height: data[4]
   },
   "4:7": {
-    width: data[4],
-    height: data[10]
+    width: data[1],
+    height: data[6]
   },
   "5:4": {
-    width: data[6],
-    height: data[4]
+    width: data[2],
+    height: data[1]
   },
   "3:2": {
-    width: data[8],
-    height: data[4]
+    width: data[4],
+    height: data[1]
   },
   "7:4": {
-    width: data[10],
-    height: data[4]
+    width: data[6],
+    height: data[1]
   },
 };
 const currentWidth = computed(() => data[size.value.width]);

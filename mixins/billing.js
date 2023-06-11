@@ -2,13 +2,14 @@ import getRequestOptions from "~/mixins/requestOptions";
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config";
 import {personStore} from "~/store/personStore";
 import {modelsStore} from "~/store/models";
-import {navigateTo} from "nuxt/app";
+import shareFunctions from "~/mixins/shareFunctions";
 
 export default function billing() {
     const store = personStore();
     const {changePerson} = store;
     const models = modelsStore();
     const {toggleSnackBarDone, toggleSnackBarReject, toggleAddEmailDialog} = models;
+    const {prepareLogout} = shareFunctions();
 
     function getRates() {
         let requestOptions = {
@@ -31,8 +32,7 @@ export default function billing() {
             })
             .catch(error => {
                 if (error.statusCode === 401) {
-                    changePerson({});
-                    navigateTo('/');
+                    prepareLogout();
                 }else if (error.statusCode === 422){
                     toggleSnackBarReject({isOpen:true, text: 'Пользователь с такой почтой уже зарегистрирован'})
                 }

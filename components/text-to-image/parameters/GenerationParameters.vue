@@ -43,7 +43,7 @@
             </div>
 
             <div class="guidance">
-              <span>Шкала навигации: <strong>{{ parameters.navigation }}</strong></span>
+              <span>Степень соответсвия: <strong>{{ parameters.navigation }}</strong></span>
               <v-slider
                   v-model="parameters.navigation"
                   color="#36E2FF"
@@ -56,7 +56,7 @@
           </section>
 
           <div class="seed">
-            <p>Зерно</p>
+            <p>Сид</p>
             <input v-model.lazy="parameters.seed" type="number" @keypress="restrictChars" placeholder="Зернистость"
                    :class="{'is-data-input': parameters.seed}">
           </div>
@@ -82,10 +82,10 @@ const parameters = ref({
 })
 
 watch(filters, (newData) => {
-  parameters.value.countImages = newData.parameters.countImages;
-  parameters.value.step = newData.parameters.step;
-  parameters.value.navigation = newData.parameters.navigation;
-  parameters.value.seed = newData.parameters.seed;
+  parameters.value.countImages = newData.parameters.countImages ? newData.parameters.countImages : 1;
+  parameters.value.step = newData.parameters.step ? newData.parameters.step : 10;
+  parameters.value.navigation = newData.parameters.navigation ? newData.parameters.navigation : 1;
+  parameters.value.seed = newData.parameters.seed ? newData.parameters.seed : Math.floor(Math.random() * 10000);
 })
 
 watch(parameters.value, (newData) => {

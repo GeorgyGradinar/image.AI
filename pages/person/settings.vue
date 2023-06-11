@@ -122,7 +122,7 @@ import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
 import apiMapper from "~/mixins/apiMapper";
 import AcceptDialog from "../../components/dialogs/AcceptDialog";
-import {navigateTo} from "nuxt/app";
+import shareFunctions from "../../mixins/shareFunctions";
 
 definePageMeta({
   middleware: "auth"
@@ -161,6 +161,7 @@ const rulesPass = {
   confirmation: {required, sameAs: sameAs(newPassRef)}
 };
 const vPass$ = useVuelidate(rulesPass, password);
+const {prepareLogout} = shareFunctions();
 
 let showOldPassword = ref(false);
 let showNewPassword = ref(false);
@@ -199,9 +200,8 @@ async function updateUser() {
         .catch(error => {
           if (error.status === "error") {
             console.log(error)
-          } else if (error.status === 401) {
-            changePerson({});
-            navigateTo('/');
+          } else if (error.statusCode === 401) {
+            prepareLogout();
           }
 
         })
@@ -228,9 +228,7 @@ async function updateUserPassword() {
           if (error.status === 400) {
             openSnackBarReject(error.data.message)
           } else if (error.status === 401) {
-            console.log(error.status);
-            changePerson({});
-            navigateTo('/');
+            prepareLogout();
           } else if (error.status === "error") {
             console.log(error.status);
           }

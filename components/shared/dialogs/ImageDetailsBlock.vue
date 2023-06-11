@@ -9,12 +9,12 @@
     <div class="image-details">
       <p class="details-item">
         <span class="title">Описание:</span>
-        <span class="content">{{ image?.filters?.description }}</span>
+        <span class="content">{{ image.params.prompt }}</span>
       </p>
 
       <p class="details-item with-divider">
         <span class="title" v-if="image?.filters?.exception">Исключение:</span>
-        <span class="content"> {{ image?.filters?.exception }}</span>
+        <span class="content"> {{ image?.params.negative_prompt !== 'null' ? image?.params.negative_prompt : '' }}</span>
       </p>
 
       <div class="options with-divider">
@@ -22,22 +22,22 @@
           <img src="~/assets/images/text-to-image/block-images/image-details/refresh.svg" alt="">
           <p>Переиспользовать параметры</p>
         </div>
-<!--        <NuxtLink to="/editor" class="edit">-->
-<!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
-<!--          <p>Открыть в редакторе</p>-->
-<!--        </NuxtLink>-->
-        <a class="download" :href="image.url" download target="_blank">
+        <!--        <NuxtLink to="/editor" class="edit">-->
+        <!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
+        <!--          <p>Открыть в редакторе</p>-->
+        <!--        </NuxtLink>-->
+        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url)">
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
         </a>
-<!--        <div class="reuse" @click="reuseImageParameter">-->
-<!--          <img src="~/assets/images/text-to-image/block-images/image-details/image.svg" alt="">-->
-<!--          <p>Использовать изображение</p>-->
-<!--        </div>-->
-<!--        <div class="improve-quality">-->
-<!--          <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
-<!--          <p>Повысить разрешение</p>-->
-<!--        </div>-->
+        <!--        <div class="reuse" @click="reuseImageParameter">-->
+        <!--          <img src="~/assets/images/text-to-image/block-images/image-details/image.svg" alt="">-->
+        <!--          <p>Использовать изображение</p>-->
+        <!--        </div>-->
+        <!--        <div class="improve-quality">-->
+        <!--          <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
+        <!--          <p>Повысить разрешение</p>-->
+        <!--        </div>-->
         <div class="share-button" @click="toggleShowShareDialog">
           <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">
           <strong>Поделиться</strong>
@@ -47,27 +47,27 @@
       <div class="short-details">
         <p class="details-item">
           <span class="title">Размер:</span>
-          <span class="content">{{ image?.filters?.size.width }} х {{ image?.filters?.size.height }}</span>
+          <span class="content">{{ image.params.width }} х {{ image.params.height }}</span>
         </p>
         <p class="details-item">
-          <span class="title">Шкала навигации:</span>
-          <span class="content">{{ image?.filters?.parameters.navigation }}</span>
+          <span class="title">Степень соответсвия:</span>
+          <span class="content">{{ image.params.similarity ? image.params.similarity : 1 }}</span>
         </p>
         <p class="details-item">
-          <span class="title">Seed:</span>
-          <span class="content">{{ image?.filters?.parameters.seed }}</span>
+          <span class="title">Сид:</span>
+          <span class="content">{{ image.params.seeds }}</span>
         </p>
         <p class="details-item">
           <span class="title">Шаги:</span>
-          <span class="content">{{ image?.filters?.parameters.step }}</span>
+          <span class="content">{{ image.params.steps }}</span>
         </p>
-        <p class="details-item">
-          <span class="title">Семплер:</span>
-          <span class="content">DPM-Solver++</span>
-        </p>
+        <!--        <p class="details-item">-->
+        <!--          <span class="title">Семплер:</span>-->
+        <!--          <span class="content">DPM-Solver++</span>-->
+        <!--        </p>-->
         <p class="details-item">
           <span class="title">Создано:</span>
-          <span class="content">{{ image?.date }}</span>
+          <span class="content">{{ getDate(image.created_at) }}</span>
         </p>
       </div>
     </div>
@@ -82,10 +82,12 @@
 import ShareImageDialog from "~/components/dialogs/ShareImageDialog";
 import {defineEmits, defineProps, onMounted, ref, toRefs} from "vue";
 import {personStore} from "~/store/personStore";
+import shareFunctions from "~/mixins/shareFunctions";
 import {useRouter} from "nuxt/app";
 
 const store = personStore();
 const {reuseParameters, changeFilters} = store;
+const {reuseImageParameters} = shareFunctions();
 const emit = defineEmits(['reuse']);
 const props = defineProps({
   image: Object,
@@ -106,33 +108,40 @@ onMounted(() => {
   })
 })
 
+async function downloadImage(imageSrc) {
+  const response = await fetch(imageSrc);
+
+  const blobImage = await response.blob();
+
+  const href = URL.createObjectURL(blobImage);
+
+  const anchorElement = document.createElement('a');
+  anchorElement.href = href;
+  anchorElement.download = 'image';
+
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+
+  document.body.removeChild(anchorElement);
+  window.URL.revokeObjectURL(href);
+}
+
 function checkRoute() {
   if (route.value) {
-    router.push({path: '/text-to-image'})
+    router.push({path: '/text-to-image'});
   }
 }
 
 function reuseFilterParameters() {
-  let changeFilters = {
-    description: image._object.image.filters.description,
-    exception: image._object.image.filters.exception,
-    size: {
-      width: image._object.image.filters.size.width,
-      height: image._object.image.filters.size.height
-    },
-    parameters: {
-      countImages: image._object.image.filters.parameters.countImages,
-      step: image._object.image.filters.parameters.step,
-      navigation: image._object.image.filters.parameters.navigation,
-      seed: image._object.image.filters.parameters.seed
-    },
-  }
-  reuseParameters(changeFilters);
-  checkRoute()
+  reuseImageParameters(image.value);
   emit('reuse');
 }
 
-function reuseImageParameter() {
+function getDate(time) {
+  let currentDate = new Date(time);
+  let day = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
+  let month = currentDate.getMonth() + 1 < 10 ? `0${currentDate.getMonth() + 1}` : currentDate.getMonth() + 1;
+  return `${day}.${month}.${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 }
 
 function toggleShowShareDialog() {
