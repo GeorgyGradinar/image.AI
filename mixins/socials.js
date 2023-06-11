@@ -16,7 +16,7 @@ export default function socials() {
 
     function authVK() {
         console.log(`${MAIN_URL}/api/v1/login/vkontakte?${new URLSearchParams(bodyURL())}`)
-        let popup = window.open(`${MAIN_URL}/api/v1/login/vkontakte?${new URLSearchParams(bodyURL())}`, '', generateParams())
+        let popup = window.open(`${MAIN_URL}/api/v1/login/vkontakte`, '', generateParams())
 
         const currentURL = getPopupLocation(popup);
         checkUrlChange(popup, currentURL, '', 'login/vkontakte');
@@ -49,12 +49,15 @@ export default function socials() {
         let currentOldUrl = oldUrl;
         if (currentUrl && currentUrl !== oldUrl) {
             currentOldUrl = currentUrl;
+            console.log(currentUrl)
+            console.log(partOfUrl)
             if (currentUrl.includes(partOfUrl)) {
                 const urlParams = new URLSearchParams(currentUrl);
                 const token = urlParams.get('token');
-
+                console.log(token)
                 if (token) {
                     changePerson({token});
+
                     popup.close();
                     toggleRegistrationDialog(false);
                     toggleLoginDialog(false);
@@ -74,6 +77,7 @@ export default function socials() {
 
     function getPopupLocation(popup) {
         try {
+            console.log(popup.location.href);
             return popup.location.href;
         } catch {
             return ''
