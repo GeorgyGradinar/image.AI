@@ -52,8 +52,9 @@ export default function socials() {
             console.log(currentUrl)
             console.log(partOfUrl)
             if (currentUrl.includes(partOfUrl)) {
-                const urlParams = new URLSearchParams(currentUrl);
-                const token = urlParams.get('token');
+                const regexp = new RegExp(/token=([^&]*)/, 'gmi');
+                const result = regexp.exec(currentUrl);
+                const token = result?.length ? result[1] : null;
                 console.log(token)
                 if (token) {
                     changePerson({token});
