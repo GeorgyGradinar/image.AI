@@ -176,7 +176,6 @@ watch(sizeParameters, (newData) => {
 watch(size.value, () => {
   changeFilters('size', {width: size.value.width, height: size.value.height});
 })
-
 </script>
 
 <style lang="scss">
