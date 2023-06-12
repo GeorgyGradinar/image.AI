@@ -20,14 +20,14 @@
 import {defineEmits, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
-import {imageGenerationStore} from "~/store/imageGenerationStore"
+import {imagesStore} from "~/store/imageStore"
 import {modelsStore} from "~/store/models"
 import generatorImages from "~/mixins/generatorImages";
 
 const emit = defineEmits(['setNext']);
 const store = personStore();
 const {person, filters} = storeToRefs(store);
-const imageStore = imageGenerationStore();
+const imageStore = imagesStore();
 const {isGeneration} = storeToRefs(imageStore);
 const {toggleGeneration, addNewImages} = imageStore;
 const models = modelsStore();

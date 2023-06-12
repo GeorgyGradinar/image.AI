@@ -4,14 +4,14 @@
       <h1 class="filters-header">Генерация изображений</h1>
       <div class="wrapper-filters" :class="{'remove-guide': loginIn}">
         <v-expansion-panels flat multiple variant="accordion">
-<!--          <Models></Models>-->
+          <!--          <Models></Models>-->
           <client-only>
             <DescriptionBlock @click.prevent="setNext"></DescriptionBlock>
           </client-only>
-<!--          <UploadImages></UploadImages>-->
+          <!--          <UploadImages></UploadImages>-->
           <ResolutionBlock></ResolutionBlock>
           <GenerationParameters></GenerationParameters>
-<!--          <Settings></Settings>-->
+          <!--          <Settings></Settings>-->
         </v-expansion-panels>
       </div>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup>
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
 import ResolutionBlock from "~/components/text-to-image/parameters/ResolutionBlock";
@@ -42,30 +42,30 @@ import DescriptionBlock from "~/components/text-to-image/parameters/DescriptionB
 import UploadImages from "~/components/text-to-image/parameters/UploadImages";
 import Models from "~/components/text-to-image/parameters/Models";
 import GenerateButton from "~/components/shared/GenerateButton";
+import generatorImages from "~/mixins/generatorImages"
 
 const store = personStore();
 const {person} = storeToRefs(store);
 const tour = ref(null);
 const wasGuideShowed = ref();
+const {getModel} = generatorImages();
 
 let loginIn = ref(false);
 let tourSteps = ref();
 
-setTimeout(() => {
-  wasGuideShowed.value = process.client && localStorage.getItem('vjt-tour');
-})
+onMounted(() => {
+  setTimeout(() => {
+    wasGuideShowed.value = process.client && localStorage.getItem('vjt-tour');
+  })
 
-if (process.client && window.innerWidth >= 650) {
-  setParametersTour(false);
-} else {
-  setParametersTour(true);
-}
-
-function setNext() {
-  if (!person._value.id && !wasGuideShowed.value) {
-    tour.value.nextStep();
+  if (process.client && window.innerWidth >= 650) {
+    setParametersTour(false);
+  } else {
+    setParametersTour(true);
   }
-}
+
+  getModel();
+})
 
 watch(person, (newDataPerson) => {
   if (newDataPerson.id) {
@@ -81,7 +81,13 @@ watch(person, (newDataPerson) => {
   }
 })
 
-function setParametersTour(condition){
+function setNext() {
+  if (!person._value.id && !wasGuideShowed.value) {
+    tour.value.nextStep();
+  }
+}
+
+function setParametersTour(condition) {
   if (condition) {
     tourSteps.value = [
       {
@@ -148,7 +154,7 @@ function setParametersTour(condition){
 }
 
 .filters {
-  border-radius:0 30px 30px 0;
+  border-radius: 0 30px 30px 0;
 
   .wrapper-settings-block {
   }

@@ -6,6 +6,7 @@ export default function apiMapper() {
             credits: user.credits,
             name: user.name,
             email: user.email,
+            emailVerified: user.email_verified_at,
             token: authorisationToken
         }
     }

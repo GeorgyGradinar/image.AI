@@ -27,6 +27,7 @@ const description = ref('My App Description')
 
 onMounted(() => {
   checkRoute(route);
+
 })
 
 watch(route, (to) => {

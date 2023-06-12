@@ -1,6 +1,6 @@
 import {personStore} from "~/store/personStore";
 import {modelsStore} from "~/store/models";
-import {imageGenerationStore} from "~/store/imageGenerationStore";
+import {imagesStore} from "~/store/imageStore";
 import {ACCOUNT_STORAGE_KEY, IS_CHEATER_STORAGE_KEY} from "~/constants";
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config"
 import apiMapper from "~/mixins/apiMapper";
@@ -19,13 +19,14 @@ export default function requests() {
         changeErrorMessageRegistration,
         toggleRegistrationDialog
     } = models;
-    const imageStore = imageGenerationStore();
+    const imageStore = imagesStore();
     const {
         addOldImages,
         changeImagePage,
         toggleShowMainLoader,
         toggleInProgressMoreImages,
-        toggleShowButtonMoreImages
+        toggleShowButtonMoreImages,
+        changeTotalImages
     } = imageStore;
     const {personMapper} = apiMapper();
     const {setLocalStorage, getLocalStorage, setCookie, getCookie} = storage();
@@ -35,6 +36,9 @@ export default function requests() {
 
     function initStore() {
         changePerson(getLocalStorage(ACCOUNT_STORAGE_KEY))
+        if (!store.person.emailVerified && store.person.id) {
+            getPersonInfo();
+        }
     }
 
     function registration(data) {
@@ -66,6 +70,10 @@ export default function requests() {
                     changeErrorMessageRegistration('Что то пошло не так, повторите попытку');
                 }
             })
+    }
+
+    function sendMessageToEmail() {
+
     }
 
     function loginIn(data) {
@@ -124,20 +132,20 @@ export default function requests() {
     function getPersonGallery() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
         imageStore.getImagePages === 1 ? toggleShowMainLoader(true) : toggleInProgressMoreImages(true);
-        $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=30&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
+        $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=20&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 if (response.status === 'success') {
                     if (response.images.data.length) {
                         addOldImages(response.images.data);
                         toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
-                        console.log(response.images)
-                    }
+                        changeTotalImages(response.images.total);
 
-                    if (response.images.total > imageStore.images.length) {
-                        changeImagePage();
-                        toggleShowButtonMoreImages(true);
-                    } else {
-                        toggleShowButtonMoreImages(false);
+                        if (imageStore.totalImages > imageStore.images.length) {
+                            changeImagePage();
+                            toggleShowButtonMoreImages(true);
+                        } else {
+                            toggleShowButtonMoreImages(false);
+                        }
                     }
                     toggleInProgressMoreImages(false);
                     toggleShowMainLoader(false);
@@ -152,6 +160,7 @@ export default function requests() {
 
     return {
         registration,
+        sendMessageToEmail,
         loginIn,
         logout,
         getPersonInfo,

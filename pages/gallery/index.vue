@@ -48,7 +48,7 @@
 import ImageElement from "~/components/gallery/ImageElement";
 import NavigationBlock from "../../components/gallery/NavigationBlock";
 import {personStore} from "~/store/personStore";
-import {imageGenerationStore} from "~/store/imageGenerationStore";
+import {imagesStore} from "~/store/imageStore";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
 import {onMounted, ref, watch} from "vue";
@@ -58,7 +58,7 @@ const {getPersonGallery} = requests();
 const store = personStore();
 const {getImages} = requests();
 const {person} = storeToRefs(store);
-const imageStore = imageGenerationStore();
+const imageStore = imagesStore();
 const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages} = storeToRefs(imageStore);
 const router = useRouter();
 

@@ -1,6 +1,6 @@
 import {HEADER_PARAMETERS, MAIN_URL} from "~/config";
 import {personStore} from "~/store/personStore";
-import {imageGenerationStore} from "~/store/imageGenerationStore";
+import {imagesStore} from "~/store/imageStore";
 import {modelsStore} from "~/store/models";
 import request from "~/mixins/requests"
 import getRequestOptions from "~/mixins/requestOptions";
@@ -10,13 +10,32 @@ export default function generatorImages() {
     const store = personStore();
     const {changeFilters, changePerson} = store;
     const {getPersonInfo} = request();
-    const imageStore = imageGenerationStore();
-    const {toggleGeneration, addNewImages, toggleLike, deletedImage} = imageStore;
+    const imageStore = imagesStore();
+    const {toggleGeneration, addNewImages, toggleLike, deletedImage, changeTotalImages, toggleShowButtonMoreImages, changeSizeParameters} = imageStore;
     const models = modelsStore();
     const {toggleSnackBarDone, toggleSnackBarReject} = models;
     const {prepareLogout} = shareFunctions();
 
     let interval = ref(null);
+
+    function getModel(){
+        let requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        $fetch("https://api.neuro-holst.ru/api/v1/engine/get?engine_id=1", requestOptions)
+            .then(response => {
+                let newSizeParameters = {
+                    id: response.engine.id,
+                    minWidth: response.engine.min_width,
+                    maxWidth: response.engine.max_width,
+                    minHeight: response.engine.min_height,
+                    maxHeight: response.engine.max_height
+                }
+                changeSizeParameters(newSizeParameters);
+            })
+    }
 
     function generateImages(id) {
         let requestOptions = [HEADER_PARAMETERS.authorization, HEADER_PARAMETERS.accept];
@@ -105,6 +124,13 @@ export default function generatorImages() {
             .then(() => {
                 deletedImage(id);
                 toggleSnackBarDone({isOpen: true, text: 'Изображение удалено'});
+                changeTotalImages(imageStore.totalImages - 1)
+
+                if (imageStore.totalImages > imageStore.images.length) {
+                    toggleShowButtonMoreImages(true);
+                } else {
+                    toggleShowButtonMoreImages(false);
+                }
             })
             .catch(() => {
                 toggleGeneration(false);
@@ -116,7 +142,10 @@ export default function generatorImages() {
             })
     }
 
+
+
     return {
+        getModel,
         generateImages,
         likeImage,
         deleteImage,

@@ -1,25 +1,21 @@
-import {personStore} from "~/store/personStore";
 import {navigateTo} from "nuxt/app";
-import {imageGenerationStore} from "~/store/imageGenerationStore";
+import {personStore} from "~/store/personStore";
+import {imagesStore} from "~/store/imageStore";
 import {modelsStore} from "~/store/models";
 
 export default function shareFunctions() {
     const store = personStore();
     const {changePerson, reuseParameters} = store;
-    const imageStore = imageGenerationStore();
-    const {toggleGeneration, toggleShowMainLoader} = imageStore;
+    const imageStore = imagesStore();
+    const {clearImageStore} = imageStore;
     const models = modelsStore();
     const {closeAllDialogs} = models;
-    const {clearImages, clearImagePage} = imageStore;
 
     function prepareLogout() {
         navigateTo('/');
         changePerson({});
-        toggleGeneration(false);
-        toggleShowMainLoader(false);
+        clearImageStore();
         closeAllDialogs();
-        clearImages();
-        clearImagePage();
     }
 
     function reuseImageParameters(image) {

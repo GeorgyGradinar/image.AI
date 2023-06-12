@@ -1,5 +1,5 @@
 <template>
-  <div class="images-section">
+  <div class="images-section" id="images-section">
     <span class="info-message" v-if="!person.id || !images?.length && !isShowMainLoader">
       У вас пока нет сгенерированных изображений, установите параметры и попробуйте создать свое первое изображение.
     </span>
@@ -25,7 +25,8 @@
         <circle r="20" cy="50" cx="50"></circle>
       </svg>
     </button>
-    <button class="secondary" v-if="images.length && isShowButtonMoreImages && !inProgressMoreImages" @click.prevent="getGallery">
+    <button class="secondary" v-if="images.length && isShowButtonMoreImages && !inProgressMoreImages"
+            @click.prevent="getGallery">
       <span>Загрузить больше</span>
     </button>
   </div>
@@ -34,27 +35,38 @@
 <script setup>
 import ImageElement from "~/components/text-to-image/ImageElement";
 import {personStore} from "~/store/personStore";
-import {imageGenerationStore} from "~/store/imageGenerationStore";
-import {modelsStore} from "~/store/models";
+import {imagesStore} from "~/store/imageStore";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
-import {onMounted, watch} from "vue";
+import {onMounted, onUnmounted, watch} from "vue";
+import {modelsStore} from "../../store/models";
 
 const {getPersonGallery} = requests();
 const store = personStore();
 const {person} = storeToRefs(store);
-const imageStore = imageGenerationStore();
+const imageStore = imagesStore();
 const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages} = storeToRefs(imageStore);
 const models = modelsStore();
-const {toggleSnackBarDone, toggleSnackBarReject} = models;
+const {isOpenAcceptDialog} = storeToRefs(models);
 
+let imagesBlock
 onMounted(() => {
-  if (person._value.id && !models.isOpenAcceptDialog) {
+  if (person._value.id && !isOpenAcceptDialog.value) {
     if (!images.value.length) {
       getGallery()
+      imagesBlock = document.getElementById('images-section')
+      imagesBlock.addEventListener('scroll', checkScroll)
     }
   }
 })
+
+function checkScroll(event) {
+  if (isShowButtonMoreImages.value && !inProgressMoreImages.value){
+    if (event.target.scrollTop + window.innerHeight === event.target.scrollHeight){
+      getGallery()
+    }
+  }
+}
 
 watch(person, (newDataPerson) => {
   if (newDataPerson.id && !images.value.length && !models.isOpenAcceptDialog) {
@@ -69,6 +81,10 @@ function getGallery() {
     getPersonGallery();
   }, 500);
 }
+
+onUnmounted(() => {
+  removeEventListener('scroll', imagesBlock)
+})
 </script>
 
 <style scoped lang="scss">
