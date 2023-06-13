@@ -9,8 +9,8 @@
     <v-expansion-panel-text class="expansion-panel-wrapper">
       <div class="wrapper-resolution">
         <section class="navigation">
-          <button :class="{'active': hasOpenSimpleMenu}" @click="openSimpleMenu(true)">Простой</button>
-          <button :class="{'active': !hasOpenSimpleMenu}" @click="openSimpleMenu(false)">Продвинутый</button>
+          <button :class="{'active': hasOpenSimpleMenu}" @click="hasOpenSimpleMenu = true">Простой</button>
+          <button :class="{'active': !hasOpenSimpleMenu}" @click="hasOpenSimpleMenu = false">Продвинутый</button>
         </section>
         <section class="simple" v-if="hasOpenSimpleMenu">
           <div class="form_radio_btn checked-radio">
@@ -25,12 +25,17 @@
           </div>
 
           <div class="form_radio_btn">
-            <input id="radio-2" type="radio" name="radio" value="4:5" @change="currentSize(4,5)">
+            <input id="radio-2" type="radio" name="radio" value="4:5"
+                   @change="currentSize(4,5)"
+                   :checked="size.width === getMinSize('width') && size.height === getCurrentSize(4, 5)"
+            >
             <label class="rectangle__4-5" for="radio-2">4 : 5</label>
           </div>
 
           <div class="form_radio_btn">
-            <input id="radio-3" type="radio" name="radio" value="2:3" @change="currentSize(2, 5)">
+            <input id="radio-3" type="radio" name="radio" value="2:3"
+                   @change="currentSize(2, 5)"
+                   :checked="size.width === getMinSize('width') && size.height === getCurrentSize(2, 5)" >
             <label class="rectangle__2-3" for="radio-3">2 : 3</label>
           </div>
 
@@ -40,12 +45,14 @@
           </div>
 
           <div class="form_radio_btn">
-            <input id="radio-5" type="radio" name="radio" value="5:4" @change="currentSize(5, 4)">
+            <input id="radio-5" type="radio" name="radio" value="5:4" @change="currentSize(5, 4)"
+                   :checked="size.height === getMinSize('height') && size.width === getCurrentSize(5, 4)">
             <label class="rectangle__5-4" for="radio-5">5 : 4</label>
           </div>
 
           <div class="form_radio_btn">
-            <input id="radio-6" type="radio" name="radio" value="3:2" @change="currentSize(3, 2)">
+            <input id="radio-6" type="radio" name="radio" value="3:2" @change="currentSize(3, 2)"
+                   :checked="size.height === getMinSize('height') && size.width === getCurrentSize(3, 2)">
             <label class="rectangle__3-2" for="radio-6">3 : 2</label>
           </div>
 
@@ -58,30 +65,30 @@
         <div v-if="!hasOpenSimpleMenu">
           <v-app>
             <section class="advanced">
-              <span>Ширина: {{ dataWidth[advanceParams.widthId] }}</span>
+              <span>Ширина: {{ size.width }}</span>
               <v-slider
-                  v-model="advanceParams.widthId"
+                  v-model="valueAdvanceParams.width"
                   :min="0"
                   :max="dataWidth.length-1"
                   :step="1"
                   color="#36E2FF"
                   :thumb-size="15"
-                  @end="updateAdvance(null, $event)"
+                  @update:modelValue="updateAdvance($event, null)"
               >
               </v-slider>
             </section>
 
             <section class="advanced">
-              <span>Высота: {{ dataHeight[advanceParams.heightId] }}</span>
+              <span>Высота: {{ size.height }}</span>
               <v-slider
-                  v-model="advanceParams.heightId"
+                  v-model="valueAdvanceParams.height"
                   :min="0"
                   :max="dataHeight.length-1"
                   :step="1"
                   color="#36E2FF"
                   :thumb-size="15"
                   show-ticks
-                  @end="updateAdvance($event, null)"
+                  @update:modelValue="updateAdvance(null, $event)"
               >
               </v-slider>
             </section>
@@ -114,10 +121,29 @@ let size = ref({
   height: null
 })
 
-let advanceParams = ref({
-  widthId: null,
-  heightId: null
+let valueAdvanceParams = ref({
+  width: 0,
+  height: 0
 })
+
+function getMinSize(currentSize) {
+  return currentSize === 'width' ? Math.min(...dataWidth.value) : Math.min(...dataHeight.value);
+}
+
+function getCurrentSize(width, height) {
+  let currentWidth;
+  let currentHeight;
+
+  if (width === height || width < height) {
+    currentHeight = Math.ceil(Math.min(...dataWidth.value) * height / width);
+    currentHeight = currentHeight > Math.max(...dataWidth.value) ? Math.max(...dataWidth.value) : currentHeight;
+    return currentHeight;
+  } else {
+    currentWidth = Math.ceil(Math.min(...dataHeight.value) * width / height);
+    currentWidth = currentWidth > Math.max(...dataHeight.value) ? Math.max(...dataHeight.value) : currentWidth;
+    return currentWidth
+  }
+}
 
 function currentSize(width, height) {
   let currentWidth;
@@ -128,33 +154,32 @@ function currentSize(width, height) {
     currentHeight = Math.ceil(Math.min(...dataWidth.value) * height / width);
     currentHeight = currentHeight > Math.max(...dataWidth.value) ? Math.max(...dataWidth.value) : currentHeight;
   } else {
+    currentHeight = Math.min(...dataHeight.value);
     currentWidth = Math.ceil(Math.min(...dataHeight.value) * width / height);
     currentWidth = currentWidth > Math.max(...dataHeight.value) ? Math.max(...dataHeight.value) : currentWidth;
-    currentHeight = Math.min(...dataHeight.value);
   }
+
+  valueAdvanceParams.value.width = dataWidth.value.findIndex(size => size === currentWidth)
+  valueAdvanceParams.value.height = dataHeight.value.findIndex(size => size === currentHeight)
 
   size.value.width = currentWidth;
   size.value.height = currentHeight;
 }
 
-function openSimpleMenu(isOpen) {
-  hasOpenSimpleMenu.value = isOpen;
-  if (!isOpen){
-    advanceParams.value = {
-      widthId: dataWidth.value.findIndex(width => width === size.value.width),
-      heightId: dataHeight.value.findIndex(height => height === size.value.height)
-    }
+function updateAdvance(width, height) {
+  if (width !== null) {
+    size.value.width = dataWidth.value[width];
+  } else if (height !== null) {
+    size.value.height = dataHeight.value[height];
   }
 }
 
-function updateAdvance(width, height) {
-  size.value.width = width ? dataWidth.value[width] : size.value.width;
-  size.value.height = height ? dataHeight.value[height] : size.value.height;
-}
-
 watch(filters, (newData) => {
-  size.value.width = newData.size.width;
-  size.value.height = newData.size.height;
+  size.value.width = newData.size.width > Math.min(...dataWidth.value) ? newData.size.width : Math.min(...dataWidth.value);
+  size.value.height = newData.size.height > Math.min(...dataHeight.value) ? newData.size.height : Math.min(...dataHeight.value);
+
+  valueAdvanceParams.value.width = dataWidth.value.findIndex(width => width === size.value.width)
+  valueAdvanceParams.value.height = dataHeight.value.findIndex(height => height === size.value.height)
 })
 
 watch(sizeParameters, (newData) => {
@@ -169,8 +194,8 @@ watch(sizeParameters, (newData) => {
     }
   })
 
-  size.value.width = Math.min(...dataWidth.value);
-  size.value.height = Math.min(...dataHeight.value);
+  size.value.width = dataWidth.value[0];
+  size.value.height = dataHeight.value[0];
 })
 
 watch(size.value, () => {
