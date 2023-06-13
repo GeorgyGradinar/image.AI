@@ -7,16 +7,16 @@ export const personStore = defineStore('store', () => {
     let filters = ref({
         model: 'Диффузия v2.1',
         description: '',
-        exception: null,
+        exception: '',
         image: null,
         size: {
             width: 512,
             height: 512
         },
         parameters: {
-            countImages: 1,
-            step: 10,
-            navigation: 1,
+            countImages: 3,
+            step: 25,
+            navigation: 5,
             seed: null
         }
     });

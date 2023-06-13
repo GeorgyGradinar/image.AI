@@ -39,13 +39,14 @@ import {imagesStore} from "~/store/imageStore";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
 import {onMounted, onUnmounted, watch} from "vue";
-import {modelsStore} from "../../store/models";
+import {modelsStore} from "~/store/models";
 
 const {getPersonGallery} = requests();
 const store = personStore();
 const {person} = storeToRefs(store);
 const imageStore = imagesStore();
-const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages} = storeToRefs(imageStore);
+const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages, totalImages} = storeToRefs(imageStore);
+const {changeImagePage, toggleShowButtonMoreImages} = imageStore;
 const models = modelsStore();
 const {isOpenAcceptDialog} = storeToRefs(models);
 
@@ -61,8 +62,8 @@ onMounted(() => {
 })
 
 function checkScroll(event) {
-  if (isShowButtonMoreImages.value && !inProgressMoreImages.value){
-    if (event.target.scrollTop + window.innerHeight === event.target.scrollHeight){
+  if (isShowButtonMoreImages.value && !inProgressMoreImages.value) {
+    if (event.target.scrollTop + window.innerHeight === event.target.scrollHeight) {
       getGallery()
     }
   }
@@ -71,10 +72,22 @@ function checkScroll(event) {
 watch(person, (newDataPerson) => {
   if (newDataPerson.id && !images.value.length && !models.isOpenAcceptDialog) {
     getGallery()
+    removeEventListener('scroll', imagesBlock);
+    imagesBlock = document.getElementById('images-section')
+    imagesBlock.addEventListener('scroll', checkScroll)
+  }
+})
+
+watch(totalImages, (newData) => {
+  if (newData > images.value.length){
+    toggleShowButtonMoreImages(true);
+  }else {
+    toggleShowButtonMoreImages(false);
   }
 })
 
 let timeout;
+
 function getGallery() {
   clearTimeout(timeout);
   timeout = setTimeout(() => {

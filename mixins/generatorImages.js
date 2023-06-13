@@ -11,14 +11,23 @@ export default function generatorImages() {
     const {changeFilters, changePerson} = store;
     const {getPersonInfo} = request();
     const imageStore = imagesStore();
-    const {toggleGeneration, addNewImages, toggleLike, deletedImage, changeTotalImages, toggleShowButtonMoreImages, changeSizeParameters} = imageStore;
+    const {
+        toggleGeneration,
+        addNewImages,
+        toggleLike,
+        deletedImage,
+        changeTotalImages,
+        toggleShowButtonMoreImages,
+        changeSizeParameters,
+        changeImagePage
+    } = imageStore;
     const models = modelsStore();
     const {toggleSnackBarDone, toggleSnackBarReject} = models;
     const {prepareLogout} = shareFunctions();
 
     let interval = ref(null);
 
-    function getModel(){
+    function getModel() {
         let requestOptions = {
             method: 'GET',
             redirect: 'follow'
@@ -64,6 +73,8 @@ export default function generatorImages() {
             .catch(error => {
                 toggleGeneration(false);
                 toggleSnackBarReject({isOpen: true, text: 'Что то пошло не так'})
+                let images = imageStore.images.filter(image => image.id !== id);
+                addNewImages([...images]);
                 if (error.statusCode === 401) {
                     clearInterval(interval.value);
                     prepareLogout();
@@ -126,10 +137,8 @@ export default function generatorImages() {
                 toggleSnackBarDone({isOpen: true, text: 'Изображение удалено'});
                 changeTotalImages(imageStore.totalImages - 1)
 
-                if (imageStore.totalImages > imageStore.images.length) {
-                    toggleShowButtonMoreImages(true);
-                } else {
-                    toggleShowButtonMoreImages(false);
+                if (imageStore.totalImages > imageStore.images.length && imageStore.getImagePages > 1) {
+                    changeImagePage(imageStore.getImagePages - 1);
                 }
             })
             .catch(() => {
@@ -141,7 +150,6 @@ export default function generatorImages() {
                 }
             })
     }
-
 
 
     return {

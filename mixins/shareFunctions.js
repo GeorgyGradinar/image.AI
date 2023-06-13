@@ -22,7 +22,7 @@ export default function shareFunctions() {
         let filterParameters = {
             model: 'Диффузия v2.1',
             description: image.params.prompt,
-            exception: image.params.negative_prompt !== 'null' ? image.params.negative_prompt : '' ,
+            exception: image.params.negative_prompt !== '' ? image.params.negative_prompt : '' ,
             image: null,
             size: {
                 width: image.params.width,
@@ -32,7 +32,7 @@ export default function shareFunctions() {
                 countImages: 1,
                 step: image.params.steps,
                 navigation: image.params.similarity,
-                seed: image.params.seeds
+                seed: null
             }
         }
         reuseParameters(filterParameters);

@@ -13,7 +13,7 @@
       </p>
 
       <p class="details-item with-divider">
-        <span class="title" v-if="image?.filters?.exception">Исключение:</span>
+        <span class="title" v-if="image?.params.negative_prompt">Исключение:</span>
         <span class="content"> {{ image?.params.negative_prompt !== 'null' ? image?.params.negative_prompt : '' }}</span>
       </p>
 
@@ -58,7 +58,7 @@
           <span class="content">{{ image.params.seeds }}</span>
         </p>
         <p class="details-item">
-          <span class="title">Шаги:</span>
+          <span class="title">Шагов прорисовки:</span>
           <span class="content">{{ image.params.steps }}</span>
         </p>
         <!--        <p class="details-item">-->

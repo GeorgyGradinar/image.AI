@@ -21,6 +21,7 @@ export default function requests() {
     } = models;
     const imageStore = imagesStore();
     const {
+        addNewImages,
         addOldImages,
         changeImagePage,
         toggleShowMainLoader,
@@ -131,18 +132,22 @@ export default function requests() {
 
     function getPersonGallery() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
-        imageStore.getImagePages === 1 ? toggleShowMainLoader(true) : toggleInProgressMoreImages(true);
-        $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=20&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
+        imageStore.getImagePages === 1 && !imageStore.images.length ? toggleShowMainLoader(true) : toggleInProgressMoreImages(true);
+        $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=30&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 if (response.status === 'success') {
                     if (response.images.data.length) {
-                        addOldImages(response.images.data);
                         toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
                         changeTotalImages(response.images.total);
 
+                        if (imageStore.getImagePages === 1){
+                            addNewImages(response.images.data);
+                        }else {
+                            addOldImages(response.images.data);
+                        }
+
                         if (imageStore.totalImages > imageStore.images.length) {
-                            changeImagePage();
-                            toggleShowButtonMoreImages(true);
+                            changeImagePage(imageStore.getImagePages+1);
                         } else {
                             toggleShowButtonMoreImages(false);
                         }

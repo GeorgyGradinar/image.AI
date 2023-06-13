@@ -66,8 +66,8 @@ export const imagesStore = defineStore('imageStore', () => {
         images.value = [];
     }
 
-    function changeImagePage() {
-        getImagePages.value++;
+    function changeImagePage(currentPage) {
+        getImagePages.value = currentPage;
     }
 
     function clearImagePage() {

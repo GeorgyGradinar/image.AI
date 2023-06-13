@@ -31,7 +31,7 @@
 
           <section class="wrapper-steps-and-guidance">
             <div class="steps">
-              <span>Шаг: <strong>{{ parameters.step }}</strong></span>
+              <span>Шагов прорисовки: <strong>{{ parameters.step }}</strong></span>
               <v-slider
                   v-model="parameters.step"
                   color="#36E2FF"
