@@ -94,7 +94,7 @@
 import {computed, ref, watch} from "vue";
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
-import {imagesStore} from "../../../store/imageStore";
+import {imagesStore} from "~/store/imageStore";
 
 const store = personStore();
 const {filters} = storeToRefs(store);
