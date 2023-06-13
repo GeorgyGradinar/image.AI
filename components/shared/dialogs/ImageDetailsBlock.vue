@@ -144,7 +144,6 @@ function getDate(time) {
 function toggleShowShareDialog() {
   isOpenShareDialog.value = !isOpenShareDialog.value;
 }
-
 </script>
 
 <style scoped lang="scss">
