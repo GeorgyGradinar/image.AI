@@ -62,49 +62,28 @@ const {filters} = storeToRefs(store);
 const {changeFilters} = store;
 const panels = ref([0]);
 
-const exampleTexts = [
-  {
-    text: 'планета с вулканическим ландшафтом, концепт-арт, утро, восход, ровный туман, высокое качество, арт в стиле гта, симметрия в объектах'
-  },
-  {
-    text: 'firbolg sniper, детальное освещение, высокое качество, резкий фокус, замысловатое, цифровое искусство, artstation, 4k'
-  },
-  {
-    text: 'ядовитая жаба, фотореалистичная, популярная на артстанции, авторы Баярд Ву, Анна Подедворна, Гастон Бюссьер, Грег Рутковски'
-  },
-  {
-    text: 'киберпанк-киборг-убийца-ниндзя с лазерной катаной, поза героя, угроза, темная неоновая аллея на заднем плане, идет дождь, цифровые изображения в тренде на artstation, 4k'
-  },
-  {
-    text: 'фото инстаграм. безумно подробно. by Wlop, Илья Кувшинов, Кренц Кушарт, Грег Рутковски, pixiv. zbrush лепить,октан,'
-  },
-  {
-    text: 'катаной, поза героя, угроза, темная неоновая аллея на заднем плане, идет дождь,'
-  },
-];
+const subject = ['Автомобиль', 'Рыба', 'Дерево', 'Женщина', 'Стол', 'Виноград', 'Компьютер', 'Земля', 'Фонарь', 'Кот'];
+const environment = ['в горах', 'возле моря', 'на природе', 'на дороге', 'на деревянном столе', 'возле парка', 'на пляже', 'солнечный день возле озера', 'в океане', 'на шоссе'];
+const style = ['фото', 'кино', 'мультфильм', 'аниме', 'черное-белый', 'глубокий'];
+const quality = ['ультра', 'градиент', 'фокусировка', 'интенсивность', ' различимость градаций', 'частотно-контрастные'];
 
 let description = ref('');
-let exception = ref('');
+let exception = ref();
 let index;
 let isShowSearch = ref(hasShowSearch._object ? hasShowSearch : false);
 
 onMounted(() => {
-  if (filters.value.description){
+  if (filters.value.description) {
     description.value = filters.value.description;
     exception.value = filters.value.exception;
-  }else {
+  } else {
     random();
   }
 })
 
 function random() {
-  let randomIndex = Math.floor(Math.random() * 5)
-  if (randomIndex === index) {
-    random();
-  } else {
-    index = randomIndex;
-    changeFilters('description', exampleTexts[index].text);
-  }
+  let text = `${subject[Math.floor(Math.random() * 10)]} ${environment[Math.floor(Math.random() * 10)]} ${style[Math.floor(Math.random() * 5)]} ${quality[Math.floor(Math.random() * 5)]}`
+  changeFilters('description', text);
 }
 
 watch(filters, (newData) => {

@@ -68,12 +68,19 @@ export default function requests() {
                 } else if (error.statusCode === 422) {
                     changeErrorMessageRegistration('Пользователь с такой почтой уже существует');
                 } else {
-                    changeErrorMessageRegistration('Что то пошло не так, повторите попытку');
+                    changeErrorMessageRegistration('Что-то пошло не так, повторите попытку');
                 }
             })
     }
 
     function sendMessageToEmail() {
+        $fetch(`${MAIN_URL}/email/verification-notification`,  getRequestOptions('POST', [HEADER_PARAMETERS.authorization]))
+            .then(() => {
+                toggleSnackBarDone({isOpen: true, text: 'Сообщение отправлено'});
+            })
+            .catch(() => {
+                toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'})
+            })
 
     }
 

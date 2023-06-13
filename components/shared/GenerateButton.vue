@@ -28,7 +28,7 @@ const emit = defineEmits(['setNext']);
 const store = personStore();
 const {person, filters} = storeToRefs(store);
 const imageStore = imagesStore();
-const {isGeneration} = storeToRefs(imageStore);
+const {isGeneration, sizeParameters} = storeToRefs(imageStore);
 const {toggleGeneration, addNewImages} = imageStore;
 const models = modelsStore();
 const {toggleRegistrationDialog, toggleBuyMoreCredits, toggleSnackBarReject} = models;
@@ -47,7 +47,7 @@ watch(filters, (newData) => {
     counterImage.value = `${filters._value.parameters.countImages} изображений`;
   }
 
-  let coast = newData.parameters.countImages * 1 * (newData.parameters.step / 25) * ((newData.size.width + newData.size.height) / 1536);
+  let coast = newData.parameters.countImages * sizeParameters.value.costFactor * (newData.parameters.step / 25) * ((newData.size.width + newData.size.height) / 1536);
   coastGeneration.value = coast < 0.2 ? 0.2 : coast.toFixed(1);
 
   if (coastGeneration.value === 1) {

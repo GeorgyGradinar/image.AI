@@ -10,6 +10,7 @@ export const imagesStore = defineStore('imageStore', () => {
     let totalImages = ref(null);
     let sizeParameters = ref({
         id: null,
+        costFactor: 2,
         minWidth: null,
         maxWidth: null,
         minHeight: null,
@@ -26,6 +27,7 @@ export const imagesStore = defineStore('imageStore', () => {
         totalImages.value = null;
         sizeParameters.value = {
             id: null,
+            costFactor: 2,
             minWidth: null,
             maxWidth: null,
             minHeight: null,

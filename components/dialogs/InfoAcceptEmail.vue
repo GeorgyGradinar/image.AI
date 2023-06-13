@@ -21,7 +21,7 @@ import requests from "~/mixins/requests";
 import {defineEmits, onMounted, onUnmounted} from "vue";
 import shareFunctions from "../../mixins/shareFunctions";
 
-const {initStore} = requests();
+const {initStore, sendMessageToEmail} = requests();
 const {prepareLogout} = shareFunctions();
 const store = personStore();
 const emit = defineEmits(['closeLoginDialog']);
@@ -57,6 +57,7 @@ function sendToEmail() {
   seconds.value = 10;
   timer();
   isShowButtonSendMore.value = false;
+  sendMessageToEmail();
 }
 
 onUnmounted(() => {

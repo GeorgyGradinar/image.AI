@@ -28,15 +28,11 @@ export default function generatorImages() {
     let interval = ref(null);
 
     function getModel() {
-        let requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
-
-        $fetch("https://api.neuro-holst.ru/api/v1/engine/get?engine_id=1", requestOptions)
+        $fetch(`${MAIN_URL}/api/v1/engine/get?engine_id=1`, { method: 'GET',  redirect: 'follow'})
             .then(response => {
                 let newSizeParameters = {
                     id: response.engine.id,
+                    costFactor: response.engine.cost_factor,
                     minWidth: response.engine.min_width,
                     maxWidth: response.engine.max_width,
                     minHeight: response.engine.min_height,
@@ -72,7 +68,7 @@ export default function generatorImages() {
             })
             .catch(error => {
                 toggleGeneration(false);
-                toggleSnackBarReject({isOpen: true, text: 'Что то пошло не так'})
+                toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'})
                 let images = imageStore.images.filter(image => image.id !== id);
                 addNewImages([...images]);
                 if (error.statusCode === 401) {
@@ -88,6 +84,7 @@ export default function generatorImages() {
             $fetch(`${MAIN_URL}/api/v1/image/status?request_id=${responseId}`, getRequestOptions('POST', requestOptions))
                 .then(response => {
                     if (response.status !== "processing") {
+                        console.log(response)
                         clearInterval(interval.value);
                         let images = imageStore.images.filter(image => image.id !== generateId);
                         addNewImages([...response.images, ...images]);
@@ -98,7 +95,7 @@ export default function generatorImages() {
                 })
                 .catch(error => {
                     toggleGeneration(false);
-                    toggleSnackBarReject({isOpen: true, text: 'Что то пошло не так'});
+                    toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                     if (error.statusCode === 401) {
                         clearInterval(interval.value);
                         prepareLogout();
@@ -120,7 +117,7 @@ export default function generatorImages() {
             })
             .catch(() => {
                 toggleGeneration(false);
-                toggleSnackBarReject({isOpen: true, text: 'Что то пошло не так'});
+                toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                 if (error.statusCode === 401) {
                     clearInterval(interval.value);
                     prepareLogout();
@@ -143,7 +140,7 @@ export default function generatorImages() {
             })
             .catch(() => {
                 toggleGeneration(false);
-                toggleSnackBarReject({isOpen: true, text: 'Что то пошло не так'});
+                toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                 if (error.statusCode === 401) {
                     clearInterval(interval.value);
                     prepareLogout();

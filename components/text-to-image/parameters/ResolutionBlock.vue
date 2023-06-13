@@ -40,11 +40,6 @@
           </div>
 
           <div class="form_radio_btn">
-            <input id="radio-4" type="radio" name="radio" value="4:7" @change="currentSize(4, 7)">
-            <label class="rectangle__4-7" for="radio-4">4 : 7</label>
-          </div>
-
-          <div class="form_radio_btn">
             <input id="radio-5" type="radio" name="radio" value="5:4" @change="currentSize(5, 4)"
                    :checked="size.height === getMinSize('height') && size.width === getCurrentSize(5, 4)">
             <label class="rectangle__5-4" for="radio-5">5 : 4</label>
@@ -56,10 +51,6 @@
             <label class="rectangle__3-2" for="radio-6">3 : 2</label>
           </div>
 
-          <div class="form_radio_btn">
-            <input id="radio-7" type="radio" name="radio" value="7:4" @change="currentSize(7, 4)">
-            <label class="rectangle__7-4" for="radio-7">7 : 4</label>
-          </div>
         </section>
 
         <div v-if="!hasOpenSimpleMenu">
@@ -117,8 +108,8 @@ let dataHeight = ref([]);
 
 let hasOpenSimpleMenu = ref(true);
 let size = ref({
-  width: null,
-  height: null
+  width: 512,
+  height: 512
 })
 
 let valueAdvanceParams = ref({
