@@ -148,7 +148,6 @@ export default function generatorImages() {
             })
     }
 
-
     return {
         getModel,
         generateImages,
