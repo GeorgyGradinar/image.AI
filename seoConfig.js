@@ -5,6 +5,7 @@ export const link = [
 ]
 
 export const scripts = [
+    '<script src="//code.jivo.ru/widget/7fOszgj1A4" async></script>',
 ]
 
 export const metaMainPage = {
