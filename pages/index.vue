@@ -43,5 +43,4 @@ const frequentlyAsked = [
 </script>
 
 <style scoped lang="scss">
-
 </style>
