@@ -87,7 +87,6 @@ watch(totalImages, (newData) => {
 })
 
 let timeout;
-
 function getGallery() {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
@@ -96,7 +95,8 @@ function getGallery() {
 }
 
 onUnmounted(() => {
-  removeEventListener('scroll', imagesBlock)
+  removeEventListener('scroll', imagesBlock);
+  clearTimeout(timeout);
 })
 </script>
 

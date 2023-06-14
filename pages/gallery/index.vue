@@ -27,7 +27,7 @@
         <ImageElement v-for="image in images" :key="image.id" :image="image">
         </ImageElement>
       </div>
-      <div class="wrapper-loader" v-show="isActiveLoader">
+      <div class="wrapper-loader" v-show="isShowMainLoader">
         <div class="loader">
           <div class="circle"></div>
           <div class="circle"></div>
@@ -37,9 +37,14 @@
           <div class="shadow"></div>
         </div>
       </div>
-      <div class="wrapper-text" v-if="!images?.length && !isActiveLoader">
+
+      <div class="wrapper-text" v-if="false">
         <p> {{ textForAlert }} </p>
       </div>
+
+      <span class="info-message" v-if="!person.id || !images?.length && !isShowMainLoader">
+         У вас пока нет сгенерированных изображений.
+      </span>
     </div>
   </div>
 </template>
@@ -51,8 +56,9 @@ import {personStore} from "~/store/personStore";
 import {imagesStore} from "~/store/imageStore";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
-import {onMounted, ref, watch} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 import {useRouter} from "nuxt/app";
+import {modelsStore} from "~/store/models";
 
 const {getPersonGallery} = requests();
 const store = personStore();
@@ -61,43 +67,41 @@ const {person} = storeToRefs(store);
 const imageStore = imagesStore();
 const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages} = storeToRefs(imageStore);
 const router = useRouter();
+const models = modelsStore();
+const {isOpenAcceptDialog} = storeToRefs(models);
 
-let imagesData = ref(null);
+let imagesData = ref([]);
 let currentPage = ref('generated');
 let search = ref('');
 let topical = ref('Сначала новые');
-let isActiveLoader = ref(true);
 let textForAlert = ref('');
 let debounceTimeout = ref(null);
 
+let imagesBlock
 onMounted(() => {
-  // if (person._value.id && !imagesData._value.images.length) {
-  //   setTimeout(() => {
-  //     getImages();
-  //     turnOffLoader();
-  //   }, 2000)
-  // } else if (!person._value.id) {
-  //   router.push('/');
-  //   turnOffLoader();
-  // } else {
-  //   turnOffLoader();
-  // }
-  //
-  // setTimeout(() => {
-  //   images.value = imagesData._value.images;
-  // })
-})
-
-watch(person, (newDataPerson) => {
-  if (newDataPerson.id && !images.value?.length) {
-    getImages();
-  } else if (!newDataPerson.id) {
-    router.push('/');
+  if (person._value.id && !isOpenAcceptDialog.value) {
+    if (!images.value.length) {
+      getGallery()
+      // imagesBlock = document.getElementById('images-section')
+      // imagesBlock.addEventListener('scroll', checkScroll)
+    }
   }
 })
 
-watch(imagesData, (newDataImages) => {
-  images.value = newDataImages.images;
+watch(person, (newDataPerson) => {
+  if (newDataPerson.id && !images.value.length && !models.isOpenAcceptDialog) {
+    getGallery()
+    // removeEventListener('scroll', imagesBlock);
+    // imagesBlock = document.getElementById('images-section')
+    // imagesBlock.addEventListener('scroll', checkScroll)
+  }
+})
+
+watch(images, (newData) => {
+  imagesData.value = newData;
+  if (!newData.length) {
+    textForAlert.value = 'У вас пока нет сгенерированных изображений'
+  }
 })
 
 watch(search, (newData) => {
@@ -105,6 +109,23 @@ watch(search, (newData) => {
     debounceSearch(newData)
   }
 })
+
+function checkScroll(event) {
+  if (isShowButtonMoreImages.value && !inProgressMoreImages.value) {
+    if (event.target.scrollTop + window.innerHeight === event.target.scrollHeight) {
+      getGallery()
+    }
+  }
+}
+
+let timeout;
+
+function getGallery() {
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    getPersonGallery();
+  }, 500);
+}
 
 function debounceSearch() {
   if (debounceTimeout) {
@@ -131,10 +152,6 @@ function searchImage(data) {
   textForAlert.value = !images?.value.length ? "Изображение не найдено" : textForAlert.value;
 }
 
-function turnOffLoader() {
-  isActiveLoader.value = false;
-}
-
 function changeFilters(setting) {
   window.scrollTo({
     top: 0,
@@ -157,6 +174,10 @@ function changeFilters(setting) {
   }
 }
 
+onUnmounted(() => {
+  removeEventListener('scroll', imagesBlock);
+  clearTimeout(timeout);
+})
 </script>
 
 <style lang="scss">
@@ -229,6 +250,15 @@ function changeFilters(setting) {
     min-height: calc(100vh - 140px);
     display: flex;
     overflow: hidden;
+
+    .info-message {
+      width: 100%;
+      color: var(--main-light-color);
+      font-size: 20px;
+      text-align: center;
+      opacity: 0.4;
+      padding-top: 100px;
+    }
 
     .wrapper-images {
       width: 100%;
