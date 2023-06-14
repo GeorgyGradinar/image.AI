@@ -5,12 +5,13 @@
     </div>
 </template>
 <script setup>
-import GenerateParameters from "~/components/text-to-image/GenerateParameters"
+import GenerateParameters from "~/components/text-to-image/GenerateParameters";
 import GenerationImages from "~/components/text-to-image/GenerationImages";
 import seo from "~/mixins/seo";
+import {metaGenerateImage, meta, link, scripts} from "~/seoConfig";
 
 const {setProperty} = seo();
-setProperty('Генерация изображений онлайн | НейроХолст', 'Генерируй изображения с помощью нейросети онлайн. Задавай запрос на русском языке. Попробуй сгенерировать изображение на НейроХолсте бесплатно!');
+setProperty(metaGenerateImage.title, [...meta, ...metaGenerateImage.meta], link, scripts);
 
 </script>
 

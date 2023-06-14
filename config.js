@@ -14,3 +14,5 @@ export const HEADER_PARAMETERS = {
         body : 'Bearer'
     }
 }
+
+

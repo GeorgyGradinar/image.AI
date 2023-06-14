@@ -7,9 +7,10 @@
 <script setup>
 import PricingBlock from "~/components/pricing/PricingBlock";
 import seo from "~/mixins/seo";
+import {metaPricing, meta, link, scripts} from "~/seoConfig";
 
 const {setProperty} = seo();
-setProperty('Цены на генерацию изображений | НейроХолст', 'Узнайте сколько стоит нейросеть, которая рисует изображения по словам. Вы платите только за то, что используете. Никаких подписок, а попробовать можно бесплатно. Узнайте подробнее про НейроХолст!');
+setProperty(metaPricing.title, [...meta, ...metaPricing.meta], link, scripts);
 
 </script>
 

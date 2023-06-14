@@ -19,7 +19,8 @@
       </p>
       <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти
       </p>
-      <p @click="routeTo('/referrals')"><img src="~/assets/images/details-person/invite.svg" alt="invite">Пригласить
+      <p @click="routeTo('/referrals')" class="secondary"><img src="~/assets/images/details-person/invite.svg"
+                                                               alt="invite">Пригласить
         другей</p>
     </section>
   </div>
@@ -33,7 +34,7 @@ import requests from "~/mixins/requests";
 import {useRouter} from "nuxt/app";
 
 const router = useRouter();
-const {logout, } = requests();
+const {logout, getPersonInfo} = requests();
 const emit = defineEmits(['closeMainDialog']);
 const store = personStore();
 const {person} = storeToRefs(store);
@@ -62,16 +63,13 @@ watch(props, (newValue) => {
 });
 
 let timeout;
-function getPerson(){
-  clearTimeout(timeout);
-  timeout = setTimeout(() => {
-    console.log('getPerson')
-  }, 500);
+
+function getPerson() {
+  getPersonInfo();
 }
 
 function routeTo(route) {
   router.push({path: route});
-  clearTimeout(timeout);
 }
 </script>
 
@@ -153,7 +151,6 @@ function routeTo(route) {
   z-index: -10;
   transition: right 0.5s;
 
-
   & p {
     display: flex;
     align-items: center;
@@ -162,11 +159,16 @@ function routeTo(route) {
     line-height: 12px;
     cursor: pointer;
     padding: 10px 5px 10px 10px;
-    border-radius: 10px;
+    border-radius: 50px;
 
     &:hover {
       background-color: var(--main-backgground-color);
     }
+  }
+
+  .secondary {
+    margin-top: 10px;
+    padding: 5px;
   }
 
   .rotate {

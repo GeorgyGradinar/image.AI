@@ -46,7 +46,7 @@ h1,
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  animation: autoscroll 10s linear 0s infinite forwards;
+  animation: autoscroll 15s linear 0s infinite forwards;
 
   span {
     white-space: nowrap;
@@ -63,14 +63,23 @@ h1,
   from {
     @include transformY(56px);
   }
-  5%, 25% {
+  5%, 15% {
     @include transformY(0);
   }
-  30%, 55% {
+  20%, 30% {
     @include transformY(-56px);
   }
-  60%, 95% {
+  35%, 45% {
     @include transformY(-112px);
+  }
+  50%, 60% {
+    @include transformY(-168px);
+  }
+  65%, 75% {
+    @include transformY(-224px);
+  }
+  80%, 95% {
+    @include transformY(-280px);
   }
   to {
     @include transformY(-100%);
@@ -81,14 +90,23 @@ h1,
   from {
     @include transformY(35px);
   }
-  5%, 25% {
+  5%, 15% {
     @include transformY(0);
   }
-  30%, 55% {
+  20%, 30% {
     @include transformY(-40px);
   }
-  60%, 95% {
+  35%, 45% {
     @include transformY(-80px);
+  }
+  50%, 60% {
+    @include transformY(-120px);
+  }
+  65%, 75% {
+    @include transformY(-160px);
+  }
+  80%, 95% {
+    @include transformY(-195px);
   }
   to {
     @include transformY(-100%);
@@ -102,7 +120,7 @@ h1,
   }
 
   .list {
-    animation: autoscrollSmallScreen 10s linear 0s infinite forwards;
+    animation: autoscrollSmallScreen 15s linear 0s infinite forwards;
   }
 
   .animation-wrapper {

@@ -125,6 +125,7 @@ async function submit() {
           if (!response.user.email_verified_at) {
             toggleAcceptDialog(true);
             getPersonInfo();
+            console.log('testLogin')
           }
           closeDialog();
         })

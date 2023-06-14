@@ -88,9 +88,10 @@
 import requests from "~/mixins/requests";
 import {onMounted} from "vue";
 import seo from "~/mixins/seo";
+import {metaTransactions, meta, link, scripts} from "~/seoConfig";
 
 const {setProperty} = seo();
-setProperty('История транзакций| НейроХолст', 'На этой странице вы можете увидеть всю историю пополнений и покупок');
+setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
 
 definePageMeta({
   middleware: "auth"

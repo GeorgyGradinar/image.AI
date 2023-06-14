@@ -1,7 +1,7 @@
 <template>
   <header :class="{'header-open': !hasHiddenDrawer}">
     <NuxtLink to="/" class="logo">НейроХолст</NuxtLink>
-    <nav class="main-header">
+    <nav class="main-header" v-if="showFullHeader">
       <!--      <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>-->
       <NuxtLink to="/text-to-image" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
         описанию
@@ -14,11 +14,11 @@
       <NuxtLink to="" class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">
         Регистрация
       </NuxtLink>
-      <AccountCard ></AccountCard>
+      <AccountCard v-if="person.id"></AccountCard>
     </nav>
 
-    <nav class="mini-header">
-      <AccountCard @closeMainDialog="closeDrawer" :hasCloseDrawer="hasHiddenDrawer"></AccountCard>
+    <nav class="mini-header" v-if="!showFullHeader">
+      <AccountCard v-if="person.id" @closeMainDialog="closeDrawer" :hasCloseDrawer="hasHiddenDrawer"></AccountCard>
       <v-app-bar-nav-icon :color="'rgba(255, 255, 225, 0.91)'" variant="text"
                           @click.stop="toggleDrawer"></v-app-bar-nav-icon>
     </nav>
@@ -52,11 +52,21 @@ const models = modelsStore();
 const {toggleRegistrationDialog, toggleLoginDialog} = models;
 
 let hasHiddenDrawer = ref(true);
+let showFullHeader = ref(true);
 
 onMounted(() => {
   referralId._value = route.query.ref ? route.query.ref : true;
   initStore();
+  window.addEventListener('resize', getCurrentWidth)
+  if (window.innerWidth < 900) {
+    showFullHeader.value = false;
+  }
+
 })
+
+function getCurrentWidth(event) {
+  showFullHeader.value = event.target.innerWidth > 900;
+}
 
 function toggleDrawer() {
   hasHiddenDrawer.value = !hasHiddenDrawer.value;

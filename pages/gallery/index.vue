@@ -60,10 +60,10 @@ import {onMounted, onUnmounted, ref, watch} from "vue";
 import {useRouter} from "nuxt/app";
 import {modelsStore} from "~/store/models";
 import seo from "~/mixins/seo";
+import {metaGallery, meta, link, scripts} from "~/seoConfig";
 
 const {setProperty} = seo();
-setProperty('Галерея | НейроХолст', 'Галерея пользователя, в которой есть возможность просмотреть все сгенерированные изображения');
-
+setProperty(metaGallery.title, [...meta, ...metaGallery.meta], link, scripts);
 
 const {getPersonGallery} = requests();
 const store = personStore();

@@ -34,6 +34,7 @@
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import {ref} from "vue";
 import seo from "~/mixins/seo";
+import {metaReferral, meta, link, scripts} from "~/seoConfig";
 
 definePageMeta({
   middleware: "auth"
@@ -41,7 +42,7 @@ definePageMeta({
 
 const referral = ref(null);
 const {setProperty} = seo();
-setProperty('Пригласить друзей | НейроХолст', 'На этой странице вы можете получить свою реферальную ссылку');
+setProperty(metaReferral.title, [...meta, ...metaReferral.meta], link, scripts);
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');

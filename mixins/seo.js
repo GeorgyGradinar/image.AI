@@ -1,15 +1,14 @@
 
 export default function seo() {
-    function setProperty(title, descriptionContent){
+    function setProperty(title, meta, links, scripts){
         useHead({
             htmlAttrs: {
                 lang: 'ru'
             },
             title: title,
-            meta: [
-                { name: 'description', content: descriptionContent }
-            ],
-
+            meta: [...meta],
+            link:[...links],
+            script: [...scripts],
         })
     }
 

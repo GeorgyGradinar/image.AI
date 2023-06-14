@@ -112,9 +112,10 @@ import apiMapper from "~/mixins/apiMapper";
 import AcceptDialog from "~/components/dialogs/AcceptDialog";
 import shareFunctions from "~/mixins/shareFunctions";
 import seo from "~/mixins/seo";
+import {metaSettings, meta, link, scripts} from "~/seoConfig";
 
 const {setProperty} = seo();
-setProperty('Настройки аккаунта| НейроХолст', 'Настройки аккаунта');
+setProperty(metaSettings.title, [...meta, ...metaSettings.meta], link, scripts);
 
 definePageMeta({
   middleware: "auth"
@@ -161,8 +162,6 @@ let textSnackBarDone = ref('');
 let isOpenSnackBarReject = ref(false);
 let textSnackBarReject = ref('');
 
-setProperty('Аккаунт-настройки');
-
 onMounted(() => {
   getPersonInfo();
   user.value.name = person.value.name;
@@ -171,10 +170,6 @@ onMounted(() => {
 watch(person, (newData) => {
   user.value.name = newData.name;
 })
-
-function reset() {
-
-}
 
 async function updateUser() {
   if (!vUser$.value.$error) {

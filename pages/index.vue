@@ -14,10 +14,11 @@ import FeaturesBlock from "~/components/main-page/FeaturesBlock";
 import DescriptionBlock from "~/components/main-page/DescriptionBlock";
 import FrequentlyAsked from "~/components/main-page/FrequentlyAsked";
 import ReadyToGet from "~/components/main-page/ReadyToGet";
+import {metaMainPage, meta, link, scripts} from "~/seoConfig"
 import seo from "~/mixins/seo";
 
 const {setProperty} = seo();
-setProperty('Нейросеть, которая рисует по словам онлайн | НейроХолст', 'Рисуй изображения с помощью нейросети онлайн. Пиши описания картинок на русском языке, гибко настраивай параметры рисунка, чтобы получить наилучшее качество. Попробуй НейроХолст бесплатно!');
+setProperty(metaMainPage.title, [...meta, ...metaMainPage.meta], link, scripts);
 
 const frequentlyAsked = [
   {
