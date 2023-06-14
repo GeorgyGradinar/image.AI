@@ -5,7 +5,7 @@
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
       </button>
       <span class="title">Регистрация</span>
-      <span v-if="errorMessageRegistration" class="error-message">{{ errorMessageRegistration }}. <a @click.prevent="openLoginDialog">Войти</a></span>
+      <span v-if="errorMessageRegistration" class="error-message">{{ errorMessageRegistration }}</span>
       <form>
         <v-text-field
             v-model="initialState.name"
@@ -53,13 +53,20 @@
         <div class="socials">
           <p>Регистрация с помощю</p>
           <div class="wrapper-socials">
-            <img @click="authVK" src="~/assets/images/vk.svg" alt="вконтакте">
-            <img @click="authYandex" src="~/assets/images/yandex.svg" alt="яндекс">
-            <img @click="authGoogle" src="~/assets/images/google.svg" alt="гугл">
+            <img @click="vk" src="~/assets/images/vk.svg" alt="вконтакте">
+            <img @click="yandex" src="~/assets/images/yandex.svg" alt="яндекс">
+            <img @click="google" src="~/assets/images/google.svg" alt="гугл">
           </div>
         </div>
 
-        <div class="card-buttons">
+        <div class="card-buttons login-button">
+          <div class="wrapper-accept-policy">
+            <input type="checkbox" id="vehicle1" name="vehicle1" v-model="policyPrivacy" value="false">
+            <label for="vehicle1">Я принимаю условия
+              <NuxtLink to="/legal/terms-of-service" @click="closeRegistrationBlock">Пользовательского соглашения
+              </NuxtLink>
+            </label>
+          </div>
           <button class="create-account no-hover" @click.prevent="submit">Регистрация</button>
         </div>
       </form>
@@ -82,7 +89,7 @@ import {storeToRefs} from "pinia";
 const store = personStore();
 const {registration} = requests();
 const models = modelsStore();
-const {toggleLoginDialog} = models;
+const {toggleLoginDialog, changeErrorMessageRegistration} = models;
 const {errorMessageRegistration} = storeToRefs(models);
 const {mapErrors} = validation();
 const emit = defineEmits(['closeRegistrationBlock'])
@@ -91,6 +98,7 @@ const {authVK, authYandex, authGoogle} = socials();
 let dialog = ref(true);
 let showPassword = ref(false);
 let isShowPasswordConfirmation = ref(false);
+let policyPrivacy = ref(true);
 
 const initialState = ref({
   name: '',
@@ -126,13 +134,45 @@ function closeDialogClickOnAbroad(event) {
 
 function submit() {
   v$.value.$validate();
-  if (!v$.value.$error) {
-    registration({
-      email: initialState.value.email,
-      password: initialState.value.password,
-      name: initialState.value.name,
-      passwordConfirmation: initialState.value.passwordConfirmation,
-    })
+  changeErrorMessageRegistration('');
+  if (policyPrivacy.value){
+    if (!v$.value.$error) {
+      registration({
+        email: initialState.value.email,
+        password: initialState.value.password,
+        name: initialState.value.name,
+        passwordConfirmation: initialState.value.passwordConfirmation,
+      })
+    }
+  }else {
+    changeErrorMessageRegistration('Примите условия пользовательского соглашения');
+  }
+}
+
+function vk() {
+  changeErrorMessageRegistration('');
+  if (policyPrivacy.value) {
+    authVK();
+  } else {
+    changeErrorMessageRegistration('Примите условия пользовательского соглашения');
+  }
+}
+
+function yandex() {
+  changeErrorMessageRegistration('')
+  if (policyPrivacy.value) {
+    authYandex();
+  } else {
+    changeErrorMessageRegistration('Примите условия пользовательского соглашения')
+  }
+}
+
+function google() {
+  changeErrorMessageRegistration('')
+  if (policyPrivacy.value) {
+    authGoogle();
+  } else {
+    changeErrorMessageRegistration('Примите условия пользовательского соглашения')
   }
 }
 
@@ -143,7 +183,6 @@ function closeRegistrationBlock() {
 </script>
 
 <style scoped lang="scss">
-
 .dialog .v-overlay__content .card form .card-buttons {
   justify-content: flex-end;
 }
@@ -156,6 +195,28 @@ function closeRegistrationBlock() {
     color: var(--light-blue);
     text-decoration: underline;
     cursor: pointer;
+  }
+}
+
+.login-button {
+  display: flex;
+  flex-direction: column;
+
+  .wrapper-accept-policy {
+    margin-bottom: 20px;
+    display: flex;
+
+    input {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    label {
+      a {
+        color: var(--light-blue);
+      }
+    }
   }
 }
 </style>

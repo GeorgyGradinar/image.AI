@@ -3,10 +3,10 @@
     <div class="block-wrapper">
       <div class="wrapper-description">
         <HeroTitle></HeroTitle>
-        <span>Получить img.AI — это набор волшебных инструментов искусственного интеллекта. Создавайте исходные изображения в масштабе, изменяйте фотографии, расширяйте изображения за их первоначальные границы или создавайте собственные модели AI.</span>
-        <button class="create-project">Начать проект
+        <span>НейроХолст - это уникальный сайт, на котором вы можете генерировать любые изображения с помощью нейросети. Выбирайте из большого списка нейросетей, редактируйте, дорисовывайте и создавайте изображения с нуля. Попробовать нейросеть, которая рисует по вашему описанию можно бесплатно!</span>
+        <NuxtLink to="text-to-image" class="create-project">Нарисовать бесплатно
           <v-icon end icon="mdi-arrow-right"></v-icon>
-        </button>
+        </NuxtLink>
       </div>
       <ImagesGrid></ImagesGrid>
     </div>
@@ -60,6 +60,10 @@ import HeroTitle from "~/components/main-page/HeroTitle";
       height: 60px;
       width: 100%;
       max-width: 300px;
+
+      &:link {
+        text-decoration: none;
+      }
     }
   }
 }

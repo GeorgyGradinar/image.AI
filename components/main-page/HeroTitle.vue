@@ -1,14 +1,16 @@
 <template>
   <div>
-    <h1>Создавайте потрясающие</h1>
+    <h1>Нейросеть, которая рисует по словам онлайн</h1>
     <div class="animation-wrapper">
       <div class="list">
-        <span class="gradient animate animate-1">арт объекты</span>
-        <span class="gradient animate animate-2">картинки</span>
-        <span class="gradient animate animate-3">аватары</span>
+        <span class="gradient animate animate-1">Картинки</span>
+        <span class="gradient animate animate-2">Логотипы</span>
+        <span class="gradient animate animate-3">Аватары</span>
+        <span class="gradient animate animate-4">Изображения</span>
+        <span class="gradient animate animate-5">Аниме</span>
+        <span class="gradient animate animate-6">Персонажей</span>
       </div>
     </div>
-    <h1>с помощью <span class="gradient">AI</span>.</h1>
   </div>
 </template>
 

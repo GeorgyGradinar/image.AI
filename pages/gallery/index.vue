@@ -23,8 +23,8 @@
     </div>
     <div class="main-block">
       <NavigationBlock @changeFilters="changeFilters"></NavigationBlock>
-      <div class="wrapper-images" v-if="images?.length && !isActiveLoader">
-        <ImageElement v-for="image in images" :key="image.id" :image="image">
+      <div class="wrapper-images" v-if="imagesData?.length">
+        <ImageElement v-for="image in imagesData" :key="image.id" :image="image">
         </ImageElement>
       </div>
       <div class="wrapper-loader" v-show="isShowMainLoader">
@@ -38,13 +38,13 @@
         </div>
       </div>
 
-      <div class="wrapper-text" v-if="false">
-        <p> {{ textForAlert }} </p>
-      </div>
-
-      <span class="info-message" v-if="!person.id || !images?.length && !isShowMainLoader">
+      <span class="info-message" v-if="!images?.length && !isShowMainLoader">
          У вас пока нет сгенерированных изображений.
       </span>
+
+      <div class="wrapper-text" v-if="textForAlert && !imagesData.length && !isShowMainLoader && images?.length">
+        <p> {{ textForAlert }} </p>
+      </div>
     </div>
   </div>
 </template>
@@ -59,6 +59,11 @@ import {storeToRefs} from "pinia";
 import {onMounted, onUnmounted, ref, watch} from "vue";
 import {useRouter} from "nuxt/app";
 import {modelsStore} from "~/store/models";
+import seo from "~/mixins/seo";
+
+const {setProperty} = seo();
+setProperty('Галерея | НейроХолст', 'Галерея пользователя, в которой есть возможность просмотреть все сгенерированные изображения');
+
 
 const {getPersonGallery} = requests();
 const store = personStore();
@@ -84,6 +89,8 @@ onMounted(() => {
       getGallery()
       // imagesBlock = document.getElementById('images-section')
       // imagesBlock.addEventListener('scroll', checkScroll)
+    }else {
+      imagesData.value = images.value;
     }
   }
 })
@@ -98,10 +105,11 @@ watch(person, (newDataPerson) => {
 })
 
 watch(images, (newData) => {
-  imagesData.value = newData;
-  if (!newData.length) {
-    textForAlert.value = 'У вас пока нет сгенерированных изображений'
-  }
+  changeFilters();
+  // imagesData.value = newData;
+  // if (!newData.length) {
+  //   textForAlert.value = 'У вас пока нет сгенерированных изображений'
+  // }
 })
 
 watch(search, (newData) => {
@@ -119,7 +127,6 @@ function checkScroll(event) {
 }
 
 let timeout;
-
 function getGallery() {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
@@ -158,18 +165,12 @@ function changeFilters(setting) {
     behavior: "smooth",
   })
 
-  currentPage.value = setting;
+  currentPage.value = setting ? setting : currentPage.value;
   if (currentPage.value === 'generated') {
-    images.value = imagesData._value.images;
+    imagesData.value = images.value;
     textForAlert.value = 'У вас нет сгенерированных изображений';
-  } else if (currentPage.value === 'edit') {
-    images.value = [];
-    textForAlert.value = 'У вас нет отредактированных изображений';
-  } else if (currentPage.value === 'improve') {
-    images.value = [];
-    textForAlert.value = 'У вас нет улучшеных изображений';
   } else if (currentPage.value === 'like') {
-    images.value = imagesData._value.images.filter(image => image.like);
+    imagesData.value = images.value.filter(image => image.is_liked);
     textForAlert.value = 'У вас нет избранных изображений';
   }
 }
@@ -202,7 +203,6 @@ onUnmounted(() => {
     .v-input__control {
       display: flex;
       justify-content: flex-end;
-
 
       .v-field--variant-solo, .v-field--variant-solo-filled {
         width: 400px;
@@ -379,7 +379,6 @@ onUnmounted(() => {
         text-align: center;
       }
     }
-
   }
 }
 
@@ -425,6 +424,7 @@ onUnmounted(() => {
     }
 
     .main-block {
+      width: 100%;
       flex-direction: column;
 
       .wrapper-images {

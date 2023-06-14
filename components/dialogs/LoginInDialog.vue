@@ -36,13 +36,19 @@
           <div class="socials">
             <p>Войти с помощью</p>
             <div class="wrapper-socials">
-              <img @click="authVK()" src="~/assets/images/vk.svg" alt="вконтакте">
-              <img @click="authYandex()" src="~/assets/images/yandex.svg" alt="яндекс">
-              <img @click="authGoogle()" src="~/assets/images/google.svg" alt="гугл">
+              <img @click="vk" src="~/assets/images/vk.svg" alt="вконтакте">
+              <img @click="yandex" src="~/assets/images/yandex.svg" alt="яндекс">
+              <img @click="google" src="~/assets/images/google.svg" alt="гугл">
             </div>
           </div>
 
-          <div class="card-buttons">
+          <div class="card-buttons login-button">
+            <div class="wrapper-accept-policy">
+              <input type="checkbox" id="vehicle1" name="vehicle1" v-model="policyPrivacy" value="false">
+              <label for="vehicle1">Я принимаю условия
+                <NuxtLink to="/legal/terms-of-service" @click="closeDialog">Пользовательского соглашения</NuxtLink>
+              </label>
+            </div>
             <button class="create-account no-hover" @click.prevent="submit">Войти</button>
           </div>
         </form>
@@ -88,6 +94,7 @@ const v$ = useVuelidate(rules, initialState);
 let dialog = ref(true);
 let showPassword = ref(false);
 let errorMessage = ref('');
+let policyPrivacy = ref(true);
 
 onMounted(() => {
   document.addEventListener('click', closeDialogClickOnAbroad)
@@ -129,6 +136,33 @@ async function submit() {
   }
 }
 
+function vk() {
+  changeErrorMessage('')
+  if (policyPrivacy.value) {
+    authVK();
+  } else {
+    changeErrorMessage('Примите условия пользовательского соглашения')
+  }
+}
+
+function yandex() {
+  changeErrorMessage('')
+  if (policyPrivacy.value) {
+    authYandex();
+  } else {
+    changeErrorMessage('Примите условия пользовательского соглашения')
+  }
+}
+
+function google() {
+  changeErrorMessage('')
+  if (policyPrivacy.value) {
+    authGoogle();
+  } else {
+    changeErrorMessage('Примите условия пользовательского соглашения')
+  }
+}
+
 function changeErrorMessage(message) {
   errorMessage.value = message;
 }
@@ -139,6 +173,7 @@ function openForgotPasswordDialog() {
 }
 
 function closeDialog() {
+  changeErrorMessage('')
   removeEventListener('click', closeDialogClickOnAbroad);
   emit('closeLoginDialog');
 }
@@ -163,6 +198,28 @@ function closeDialog() {
 .error-message {
   color: red;
   margin-bottom: 10px;
+}
+
+.login-button {
+  display: flex;
+  flex-direction: column;
+
+  .wrapper-accept-policy {
+    margin-bottom: 20px;
+
+    input {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    label {
+      cursor: pointer;
+
+      a {
+        color: var(--light-blue);
+      }
+    }
+  }
 }
 
 </style>

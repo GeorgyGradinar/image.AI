@@ -12,13 +12,10 @@
 
       <p @click="routeTo('/gallery')"><img src="~/assets/images/details-person/gallery.svg" alt="gallery">Моя галерея
       </p>
-      <p @click="routeTo('/person/settings')" ><img src="~/assets/images/details-person/settings.svg" alt="settings">Настройки
+      <p @click="routeTo('/person/settings')"><img src="~/assets/images/details-person/settings.svg" alt="settings">Настройки
       </p>
-      <p @click="routeTo('/legal/privacy-policy')"><img src="~/assets/images/details-person/security.svg" alt="privacy">Конфиденциальность
-      </p>
-      <p @click="routeTo('/legal/terms-of-service')"><img src="~/assets/images/details-person/terms.svg" alt="terms">Условия
-        использования</p>
-      <p @click="routeTo('/transactions')"><img src="~/assets/images/details-person/history.svg" alt="history">История покупок
+      <p @click="routeTo('/transactions')"><img src="~/assets/images/details-person/history.svg" alt="history">История
+        транзакций
       </p>
       <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти
       </p>
@@ -31,22 +28,26 @@
 <script setup>
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import requests from "~/mixins/requests";
 import {useRouter} from "nuxt/app";
 
 const router = useRouter();
-const {logout} = requests();
+const {logout, } = requests();
 const emit = defineEmits(['closeMainDialog']);
 const store = personStore();
 const {person} = storeToRefs(store);
 const firstLater = 0;
+
 let hasOpenDetail = ref(false);
 
-// eslint-disable-next-line no-undef
 const props = defineProps({
   hasCloseDrawer: Boolean,
 });
+
+onMounted(() => {
+  getPerson();
+})
 
 watch(hasOpenDetail, (newValue) => {
   if (newValue) {
@@ -60,8 +61,17 @@ watch(props, (newValue) => {
   }
 });
 
+let timeout;
+function getPerson(){
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    console.log('getPerson')
+  }, 500);
+}
+
 function routeTo(route) {
-  router.push({path: route})
+  router.push({path: route});
+  clearTimeout(timeout);
 }
 </script>
 

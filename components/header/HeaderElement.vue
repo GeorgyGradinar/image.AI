@@ -14,7 +14,7 @@
       <NuxtLink to="" class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">
         Регистрация
       </NuxtLink>
-      <AccountCard></AccountCard>
+      <AccountCard ></AccountCard>
     </nav>
 
     <nav class="mini-header">

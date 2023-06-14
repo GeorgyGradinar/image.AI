@@ -3,19 +3,21 @@
     <div class="wrapper-footer">
       <div class="logo">
         <h3>НейроХолст</h3>
+        <p>На нашей платформе вы можете создавать шедевры с помощью современных достижений в нейросетевых
+          технологиях.</p>
         <div class="social">
-<!--          <img src="~/assets/images/footer/instagram.svg" alt="">-->
-<!--          <img src="~/assets/images/footer/twitter.svg" alt="">-->
+          <!--          <img src="~/assets/images/footer/instagram.svg" alt="">-->
+          <!--          <img src="~/assets/images/footer/twitter.svg" alt="">-->
           <img src="~/assets/images/footer/vk.svg" alt="">
         </div>
       </div>
 
       <section class="item">
-        <h3>Продукт</h3>
-<!--        <button>Арт генератор</button>-->
-<!--        <button>AI редактор</button>-->
-<!--        <button>Сеть управления</button>-->
-<!--        <button>ФотоМечты</button>-->
+        <h3>Функции</h3>
+        <!--        <button>Арт генератор</button>-->
+        <!--        <button>AI редактор</button>-->
+        <!--        <button>Сеть управления</button>-->
+        <!--        <button>ФотоМечты</button>-->
         <NuxtLink to="/text-to-image">Изображение по описанию</NuxtLink>
         <NuxtLink to="/pricing">Цены</NuxtLink>
         <NuxtLink to="" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
@@ -23,31 +25,25 @@
         </NuxtLink>
       </section>
 
-<!--      <section class="item">-->
-<!--        <h3>Виды</h3>-->
-<!--        <button>Аналоговая Диффузия</button>-->
-<!--        <button>Аниме Диффузия</button>-->
-<!--        <button>Дисней Диффузия</button>-->
-<!--        <button>Гибли Диффузия</button>-->
-<!--        <button>Inkpunk Диффузия</button>-->
-<!--        <button>ван Гог Диффузия</button>-->
-<!--      </section>-->
-
       <section class="item">
-        <h3>Ресурсы</h3>
+        <h3>Информация</h3>
         <NuxtLink to="/legal/privacy-policy">Политика конфиденциальности</NuxtLink>
-        <NuxtLink to="/legal/terms-of-service">Условия использования</NuxtLink>
-        <NuxtLink to="/legal/restrictions">Ограничения</NuxtLink>
-        <NuxtLink to="/legal/subprocessors">Подпроцессоры</NuxtLink>
-        <NuxtLink to="/legal/cancellation-policy">Политика отмены</NuxtLink>
+        <NuxtLink to="/legal/terms-of-service">Пользовательское соглашение</NuxtLink>
+        <NuxtLink to="/legal/restrictions">Условия возврата</NuxtLink>
       </section>
 
-<!--      <section class="item">-->
-<!--        <h3>О нас</h3>-->
-<!--        <button>Инфо</button>-->
-<!--        <button>FAQ</button>-->
-<!--        <button>Email</button>-->
-<!--      </section>-->
+      <section class="item">
+        <h3>Контакты</h3>
+        <p>neuro-holst@neuro-holst.ru</p>
+        <p>ИНН: 616109874836</p>
+      </section>
+
+      <!--      <section class="item">-->
+      <!--        <h3>О нас</h3>-->
+      <!--        <button>Инфо</button>-->
+      <!--        <button>FAQ</button>-->
+      <!--        <button>Email</button>-->
+      <!--      </section>-->
     </div>
   </footer>
 </template>
@@ -88,6 +84,19 @@ footer {
       padding: 0 15px;
       color: #f9f6e0;
       font-weight: 400;
+
+      p {
+        display: flex;
+        font-size: 13px;
+        line-height: 1.4;
+        color: #807a7a;
+        font-weight: 600;
+        text-align: start;
+        background-color: #232426;
+        border: none;
+        text-decoration: none;
+        cursor: pointer;
+      }
     }
 
     .social {
@@ -114,6 +123,7 @@ footer {
       }
 
       a,
+      p,
       button {
         display: flex;
         font-size: 15px;

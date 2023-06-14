@@ -2,10 +2,10 @@
   <div class="wrapper">
     <section>
       <h2>Готовы начать?</h2>
-      <p>Изучите наши инструменты или создайте учетную запись.</p>
-      <button class="create-project">Начать проект
+      <p>Попробуйте нейросеть НейроХолст прямо сейчас!</p>
+      <NuxtLink to="text-to-image" class="create-project">Нарисовать бесплатно
         <v-icon end icon="mdi-arrow-right"></v-icon>
-      </button>
+      </NuxtLink>
     </section>
   </div>
 </template>
@@ -47,7 +47,11 @@
 
     .create-project {
       height: 60px;
-      width: 270px;
+      width: 300px;
+
+      &:link {
+        text-decoration: none;
+      }
     }
   }
 }

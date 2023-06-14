@@ -48,7 +48,6 @@ export default function generatorImages() {
             height: store.filters.size.height,
             width: store.filters.size.width,
             prompt: store.filters.description,
-            negative_prompt: store.filters.exception,
             is_upscaled: 0,
             count: store.filters.parameters.countImages,
             steps: store.filters.parameters.step,
@@ -56,6 +55,7 @@ export default function generatorImages() {
             seeds: store.filters.parameters.seed,
             similarity: store.filters.parameters.navigation
         }
+        body = store.filters.exception ? {...body, negative_prompt: store.filters.exception} : body;
         $fetch(`${MAIN_URL}/api/v1/image/processing?${new URLSearchParams(body)}`, getRequestOptions('POST', requestOptions))
             .then(response => {
                 if (response.status === 'success') {

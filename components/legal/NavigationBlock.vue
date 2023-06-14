@@ -1,20 +1,13 @@
 <template>
   <nav>
     <button @click="routeTo('/legal/privacy-policy')"
-            :class="{'currentPage': router.currentRoute._value.path === '/legal/privacy-policy'}">Конфиденциальность
+            :class="{'currentPage': router.currentRoute._value.path === '/legal/privacy-policy'}">Политика конфиденциальности
     </button>
     <button @click="routeTo('/legal/terms-of-service')"
-            :class="{'currentPage': router.currentRoute._value.path === '/legal/terms-of-service'}">Условия
-      использования
+            :class="{'currentPage': router.currentRoute._value.path === '/legal/terms-of-service'}">Пользовательское соглашение
     </button>
     <button @click="routeTo('/legal/restrictions')"
-            :class="{'currentPage': router.currentRoute._value.path === '/legal/restrictions'}">Ограничения
-    </button>
-    <button @click="routeTo('/legal/subprocessors')"
-            :class="{'currentPage': router.currentRoute._value.path === '/legal/subprocessors'}">Подпроцессоры
-    </button>
-    <button @click="routeTo('/legal/cancellation-policy')"
-            :class="{'currentPage': router.currentRoute._value.path === '/legal/cancellation-policy'}">Политика отмены
+            :class="{'currentPage': router.currentRoute._value.path === '/legal/restrictions'}">Условия возврата
     </button>
   </nav>
 </template>
@@ -31,7 +24,7 @@ function routeTo(route) {
 
 <style scoped lang="scss">
 nav {
-  width: 350px;
+  width: 360px;
   height: 100%;
   display: flex;
   flex-direction: column;

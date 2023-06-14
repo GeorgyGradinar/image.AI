@@ -54,6 +54,8 @@ function toggleSelected(selected) {
   nav {
     position: fixed;
     top: 140px;
+    width: 100%;
+    max-width: 300px;
 
     button {
       width: 100%;
@@ -125,9 +127,11 @@ function toggleSelected(selected) {
       display: flex;
       flex-wrap: wrap;
       margin-bottom: 10px;
+      max-width: 100%;
+      justify-content: space-between;
 
       button {
-        width: 50%;
+        width: 48%;
         font-size: 10px;
       }
 

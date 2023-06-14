@@ -6,16 +6,6 @@
         <span>Здесь вы можете управлять данными своей учетной записи.</span>
       </div>
 
-      <div class="billing">
-        <h3>Выставление счетов</h3>
-        <span>В настоящее время вы используете бесплатный план. Это означает, что вы ежемесячно получаете 100
-          красок на изображения бесплатно. Прямо сейчас у вас есть 95 красок, которые вы можете использовать
-          до 28 мая 23:37, в этот день ваши краски будут сброшены до 100. Перейдите на платный план здесь, чтобы
-          получать больше красок ежемесячно.
-        </span>
-        <p>У вас также есть 0 дополнительных красок (срок действия которых не истекает). Купить больше здесь.</p>
-      </div>
-
       <div class="account">
         <h3>Аккаунт</h3>
         <form>
@@ -26,16 +16,15 @@
               @input="vUser$.name.$touch"
               @blur="vUser$.name.$touch"
           ></v-text-field>
-          <v-text-field
-              v-model="user.email"
-              label="Почта"
-              :error-messages="mapErrors(vUser$.email.$errors)"
-              @input="vUser$.email.$touch"
-              @blur="vUser$.email.$touch"
-          ></v-text-field>
+<!--          <v-text-field-->
+<!--              v-model="user.email"-->
+<!--              label="Почта"-->
+<!--              :error-messages="mapErrors(vUser$.email.$errors)"-->
+<!--              @input="vUser$.email.$touch"-->
+<!--              @blur="vUser$.email.$touch"-->
+<!--          ></v-text-field>-->
 
           <div class="wrapper-account-button">
-            <button class="cancel" @click.prevent="reset">Отменить</button>
             <button class="secondary no-hover" @click.prevent="updateUser">Обновить данные</button>
           </div>
         </form>
@@ -84,7 +73,7 @@
       <div class="delete-account">
         <h3>Удалить свой аккаунт</h3>
         <span>Удалив свою учетную запись, вы не сможете создавать новые изображения,
-          ваши подписки будут отменены, а все данные, связанные с вашей учетной записью,
+          ваши краски будут потеряны, а все данные, связанные с вашей учетной записью,
           будут безвозвратно утеряны. Это действие необратимо!
         </span>
         <div class="button-delete-account">
@@ -115,14 +104,17 @@ import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
 import userSettings from "~/mixins/userSettings";
 import validation from "~/mixins/validation";
-import seo from "~/mixins/seo";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
 import {minLength, required, email, sameAs} from "@vuelidate/validators";
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
 import RejectSnackBar from "~/components/sneckbars/RejectSnackBar";
 import apiMapper from "~/mixins/apiMapper";
-import AcceptDialog from "../../components/dialogs/AcceptDialog";
-import shareFunctions from "../../mixins/shareFunctions";
+import AcceptDialog from "~/components/dialogs/AcceptDialog";
+import shareFunctions from "~/mixins/shareFunctions";
+import seo from "~/mixins/seo";
+
+const {setProperty} = seo();
+setProperty('Настройки аккаунта| НейроХолст', 'Настройки аккаунта');
 
 definePageMeta({
   middleware: "auth"
@@ -130,7 +122,6 @@ definePageMeta({
 
 const {getPersonInfo} = requests();
 const {deleteAccount, updatePassword, updateUserData} = userSettings();
-const {setProperty} = seo();
 const {mapErrors} = validation();
 const store = personStore();
 const {person} = storeToRefs(store)
@@ -138,13 +129,11 @@ const {changePerson} = store;
 const {personMapper} = apiMapper();
 
 const user = ref({
-  name: '',
-  email: '',
+  name: ''
 })
 
 const rulesUser = {
-  name: {required},
-  email:{email}
+  name: {required}
 };
 const vUser$ = useVuelidate(rulesUser, user);
 
@@ -177,7 +166,6 @@ setProperty('Аккаунт-настройки');
 onMounted(() => {
   getPersonInfo();
   user.value.name = person.value.name;
-  user.value.email = person.value.email;
 });
 
 watch(person, (newData) => {
@@ -190,7 +178,7 @@ function reset() {
 
 async function updateUser() {
   if (!vUser$.value.$error) {
-    await updateUserData(user.value.name, user.value.email)
+    await updateUserData(user.value.name, person.value.email)
         .then(response => {
           if (response.status === "success") {
             changePerson(personMapper(response.user, person.value.token));
@@ -282,7 +270,6 @@ function deletePerson(isAccept) {
     color: var(--main-light-color);
 
     .title,
-    .billing,
     .account,
     .change-password,
     .delete-account {
@@ -298,15 +285,6 @@ function deletePerson(isAccept) {
         color: hsla(180, 7%, 97%, .6);
         font-size: 13px;
         line-height: 24px;
-      }
-    }
-
-    .billing {
-      p {
-        color: hsla(180, 7%, 97%, .6);
-        font-size: 13px;
-        line-height: 24px;
-        margin-top: 15px;
       }
     }
 

@@ -10,7 +10,7 @@ import GenerationImages from "~/components/text-to-image/GenerationImages";
 import seo from "~/mixins/seo";
 
 const {setProperty} = seo();
-setProperty('НейроХолст-Генерация по описанию', '');
+setProperty('Генерация изображений онлайн | НейроХолст', 'Генерируй изображения с помощью нейросети онлайн. Задавай запрос на русском языке. Попробуй сгенерировать изображение на НейроХолсте бесплатно!');
 
 </script>
 

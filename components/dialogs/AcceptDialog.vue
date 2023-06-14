@@ -9,8 +9,8 @@
         <p>Вы уверены, что хотите удалить аккаунт?</p>
       </div>
       <section class="wrapper-button">
-        <button class="reject" @click="closeDialog(false)">нет</button>
-        <button class="secondary accept" @click="closeDialog(true)">да</button>
+        <button class="reject" @click="closeDialog(false)">Нет</button>
+        <button class="secondary accept" @click="closeDialog(true)">Да</button>
       </section>
     </v-card>
   </v-dialog>
@@ -78,7 +78,7 @@ function closeDialog(isAccept) {
         .reject,
         .accept {
           padding: 5px;
-          width: 30%;
+          width: 40%;
           transition: all 0.2s;
         }
 

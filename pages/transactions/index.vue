@@ -87,6 +87,14 @@
 <script setup>
 import requests from "~/mixins/requests";
 import {onMounted} from "vue";
+import seo from "~/mixins/seo";
+
+const {setProperty} = seo();
+setProperty('История транзакций| НейроХолст', 'На этой странице вы можете увидеть всю историю пополнений и покупок');
+
+definePageMeta({
+  middleware: "auth"
+})
 
 const {getPersonTransaction} = requests();
 let data = ref('Дата');

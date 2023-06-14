@@ -7,13 +7,12 @@
       <h2>{{ price.name }}</h2>
       <span class="price">₽ {{ price.price }}</span>
       <div class="detail">
-        <!--            <span class="count-images">{{ price.countImage }} изображений</span>-->
         <span class="count-credits"><span class="painting">{{ price.countCredits }} красок</span> <span
             class="equal">≈</span> <span>{{ price.countImages }} изображений</span> </span>
       </div>
     </div>
     <div class="wrapper-button">
-      <button class="buy" @click="buy(price.id)">Выбрать пакет</button>
+      <button class="buy" @click="buy(price.id)">Купить пакет</button>
     </div>
   </section>
 </template>
