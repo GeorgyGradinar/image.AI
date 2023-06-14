@@ -61,7 +61,6 @@ onMounted(() => {
   if (window.innerWidth < 900) {
     showFullHeader.value = false;
   }
-
 })
 
 function getCurrentWidth(event) {
