@@ -65,7 +65,6 @@ function copyLink() {
   width: 100vw;
   height: 100%;
   min-height: 100vh;
-  background-color: var(--main-backgground-color);
   padding : 150px 0 50px 0;
 
   .referrals {
