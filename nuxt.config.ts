@@ -4,10 +4,8 @@ import {resolve} from "path";
 export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
+        'nuxt-simple-robots'
     ],
-    alias: {
-        "@": resolve(__dirname, "/"),
-    },
     ssr: true,
     css: [
         'vuetify/lib/styles/main.sass',
@@ -18,5 +16,14 @@ export default defineNuxtConfig({
         transpile: ['vuetify'],
     },
     serverMiddleware: ['~/server-middleware/check-spa'],
+    router: {
+        trailingSlash:  true
+    },
+    robots: {
+        siteUrl: 'https://neuro-holst.ru',
+        disallow: [
+            '/social', '/gallery', '/legal', '/person', '/guides',
+            '/transactions', '/referrals', '/dream-booth', '/editor'],
+    }
 
 })
