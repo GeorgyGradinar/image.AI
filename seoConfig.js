@@ -6,7 +6,7 @@ export const link = [
 
 export const scripts = [
     {src: "//code.jivo.ru/widget/7f0szgj1A4", async: true },
-    {children: "  (function(m,e,t,r,i,k,a){m[i]=m[i]function(){(m[i].a=m[i].a[]).push(arguments)};\n" +
+    {children: "(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};\n" +
             "   m[i].l=1*new Date();\n" +
             "   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}\n" +
             "   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})\n" +
