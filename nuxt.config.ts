@@ -4,7 +4,6 @@ import {resolve} from "path";
 export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
-        "@nuxtjs/robots",
     ],
     alias: {
         "@": resolve(__dirname, "/"),
@@ -19,8 +18,5 @@ export default defineNuxtConfig({
         transpile: ['vuetify'],
     },
     serverMiddleware: ['~/server-middleware/check-spa'],
-    router: {
-        trailingSlash:  true
-    }
 
 })
