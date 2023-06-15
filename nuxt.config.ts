@@ -18,6 +18,4 @@ export default defineNuxtConfig({
         transpile: ['vuetify'],
     },
     serverMiddleware: ['~/server-middleware/check-spa']
-
-
 })
