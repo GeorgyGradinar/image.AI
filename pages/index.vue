@@ -40,7 +40,6 @@ const frequentlyAsked = [
         ' очень хорошего качества. В любом случае вы можете попробовать бесплатно!'
   },
 ]
-
 </script>
 
 <style scoped lang="scss">
