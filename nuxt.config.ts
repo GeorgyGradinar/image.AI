@@ -17,10 +17,7 @@ export default defineNuxtConfig({
     build: {
         transpile: ['vuetify'],
     },
-    serverMiddleware: ['~/server-middleware/check-spa'],
-    router: {
-        trailingSlash:  true
-    }
+    serverMiddleware: ['~/server-middleware/check-spa']
 
 
 })
