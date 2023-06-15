@@ -2,23 +2,13 @@
 import {resolve} from "path";
 
 export default defineNuxtConfig({
-
     modules: [
-        // ['@nuxtjs/robots', { /* module options */ }],
         '@pinia/nuxt',
     ],
-    // robots: process.env.NODE_ENV !== 'production' ? {
-    //     UserAgent: '*',
-    //     Disallow: '/',
-    //     } : {
-    //     UserAgent: '*',
-    //     Disallow: '/search',
-    //     Allow: '*'
-    // },
     alias: {
         "@": resolve(__dirname, "/"),
     },
-    router: {trailingSlash: true},
+    ssr: true,
     css: [
         'vuetify/lib/styles/main.sass',
         '@mdi/font/css/materialdesignicons.min.css',
