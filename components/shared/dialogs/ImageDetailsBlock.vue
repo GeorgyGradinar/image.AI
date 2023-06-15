@@ -130,6 +130,7 @@ function checkRoute() {
   }
 }
 
+
 function reuseFilterParameters() {
   reuseImageParameters(image.value);
   emit('reuse');
