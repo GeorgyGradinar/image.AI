@@ -66,6 +66,10 @@ definePageMeta({
   middleware: "auth"
 })
 
+definePageMeta({
+  middleware: "auth"
+})
+
 const {setProperty} = seo();
 setProperty(metaGallery.title, [...meta, ...metaGallery.meta], link, scripts);
 
