@@ -2,9 +2,9 @@
   <section class="main-content" persistent>
     <div class="image-wrapper">
       <img class="background-image" alt="generated image"
-           :src="image.share_id">
+           :src="image.url">
       <img class="main-image" alt="generated image"
-           :src="image.share_id">
+           :src="image.url">
     </div>
     <div class="image-details">
       <p class="details-item">
@@ -26,8 +26,7 @@
         <!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
         <!--          <p>Открыть в редакторе</p>-->
         <!--        </NuxtLink>-->
-        <a class="download" :href="`https://api.neuro-holst.ru/api/v1/image/render/${image.share_id}`"
-           @click.prevent="downloadImage(`https://api.neuro-holst.ru/api/v1/image/render/${image.share_id}`)">
+        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url)">
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
         </a>

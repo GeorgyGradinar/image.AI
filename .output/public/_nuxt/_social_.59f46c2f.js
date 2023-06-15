@@ -1,1 +1,0 @@
-import{a as _,b as a,o as c,p as t,i as d,f as s,G as n}from"./entry.85e81008.js";const p={},o=e=>(t("data-v-2a284a7d"),e=e(),d(),e),r=o(()=>s("div",{class:"wrapper-done"},[s("img",{src:n,alt:"done"})],-1)),i=o(()=>s("p",null,"Готово",-1)),l=[r,i];function u(e,f){return c(),a("section",null,l)}const m=_(p,[["render",u],["__scopeId","data-v-2a284a7d"]]);export{m as default};
