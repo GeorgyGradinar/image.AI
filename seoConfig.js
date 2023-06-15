@@ -5,6 +5,7 @@ export const link = [
 ]
 
 export const scripts = [
+    {src: "//code.jivo.ru/widget/7f0szgj1A4" }
 ]
 
 export const metaMainPage = {
@@ -40,7 +41,22 @@ export const metaTransactions = {
 export const metaReferral = {
     title: 'Пригласить друзей | НейроХолст',
     meta: [{ name: 'description', content: 'На этой странице вы можете получить свою реферальную ссылку'}]
-
 }
+
+export const metaPrivacyPolicy = {
+    title: 'Политика конфиденциальности | НейроХолст',
+    meta: [{ name: 'description', content: 'На этой странице вы можете узнать о политике конфиденциальности'}]
+}
+
+export const metaRestrictions = {
+    title: 'Условия возврата | НейроХолст',
+    meta: [{ name: 'description', content: 'На этой странице вы можете узнать о возможности и правилах возврата'}]
+}
+
+export const metaTermsOfService = {
+    title: 'Пользовательское соглашение | НейроХолст',
+    meta: [{ name: 'description', content: 'Узнайте детальнее о правилах пользовательского соглашения'}]
+}
+
 
 

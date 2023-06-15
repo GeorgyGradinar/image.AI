@@ -4,7 +4,7 @@
       <span v-if="price.sale">{{ price.sale }}</span>
     </div>
     <div class="wrapper-detail">
-      <h2>{{ price.name }}</h2>
+      <h3>{{ price.name }}</h3>
       <span class="price">₽ {{ price.price }}</span>
       <div class="detail">
         <span class="count-credits"><span class="painting">{{ price.countCredits }} красок</span> <span

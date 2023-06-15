@@ -8,7 +8,7 @@
       </NuxtLink>
       <!--      <NuxtLink to="/dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>-->
       <!--      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>-->
-      <NuxtLink class="no-hover"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
+      <NuxtLink class="no-hover" to="https://vk.com/public221126162" target="_blank"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
       <NuxtLink to="/pricing" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
       <NuxtLink to="" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
       <NuxtLink to="" class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">

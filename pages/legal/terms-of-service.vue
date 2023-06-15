@@ -95,9 +95,11 @@
 import Legal from "~/components/legal/Legal";
 import InfoWrapper from "~/components/legal/InfoWrapper";
 import seo from "~/mixins/seo";
+import {metaTermsOfService, meta, link, scripts} from "~/seoConfig"
 
 const {setProperty} = seo();
-setProperty('Пользовательское соглашение | НейроХолст', '');
+setProperty(metaTermsOfService.title, [...meta, ...metaTermsOfService.meta], link, scripts);
+
 </script>
 
 <style scoped lang="scss">

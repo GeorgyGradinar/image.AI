@@ -52,7 +52,6 @@
 import {modelsStore} from "~/store/models";
 import {storeToRefs} from "pinia";
 import {personStore} from "../store/personStore";
-import {ref} from "vue";
 
 const store = personStore();
 const {person} = storeToRefs(store);

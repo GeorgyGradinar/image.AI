@@ -1,8 +1,8 @@
 <template>
-  <div class="photo-grid">
-    <div class="photo-wrapper" v-if="image.url">
+  <div class="photo-grid" >
+    <div class="photo-wrapper" v-if="image.share_id">
 
-      <img class="main-image" :src="image.url"
+      <img class="main-image" :src="`https://api.neuro-holst.ru/api/v1/image/render/${image.share_id}`"
            alt="image example" @click.prevent="toggleImageDetails({isOpen:true, image})">
 
       <div class="wrapper-reuse" @click="reuseFilterParameters">
@@ -41,7 +41,7 @@
       </div>
     </div>
 
-    <div v-if="!image.url" class="loader-block">
+    <div v-if="!image.share_id" class="loader-block">
       <div class="wrapper-text">
         <p class="seconds">
           <span v-if="minute">{{ minute }}.</span>
@@ -113,6 +113,7 @@ function reuseFilterParameters() {
   display: flex;
   width: calc(13% + 20px);
   height: 300px;
+  user-select:none;
 
   .photo-wrapper {
     width: 100%;

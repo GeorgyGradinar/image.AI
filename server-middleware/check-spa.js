@@ -1,5 +1,5 @@
 export default function(req, res, next) {
-    const paths = ['/text-to-image']
+    const paths = ['text-to-image', 'gallery', '/person/settings', 'transactions', 'referrals']
     if (paths.includes(req.originalUrl)) {
         // Will trigger the "traditional SPA mode"
         res.spa = true

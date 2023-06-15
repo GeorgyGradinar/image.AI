@@ -37,9 +37,6 @@ export default function requests() {
 
     function initStore() {
         changePerson(getLocalStorage(ACCOUNT_STORAGE_KEY))
-        if (!store.person.emailVerified && store.person.id) {
-            getPersonInfo();
-        }
     }
 
     function registration(data) {
@@ -56,10 +53,10 @@ export default function requests() {
         $fetch(`${MAIN_URL}/api/v1/register?${new URLSearchParams(body)}`, getRequestOptions('POST', [HEADER_PARAMETERS.accept]))
             .then(response => {
                 changePerson(personMapper(response.user, response.authorisation.token));
-                if (!response.user.email_verified_at) {
-                    toggleAcceptDialog(true);
-                    getPersonInfo();
-                }
+                // if (!response.user.email_verified_at) {
+                //     toggleAcceptDialog(true);
+                //     getPersonInfo();
+                // }
                 toggleRegistrationDialog(false);
             })
             .catch(error => {
@@ -81,7 +78,6 @@ export default function requests() {
             .catch(() => {
                 toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'})
             })
-
     }
 
     function loginIn(data) {
@@ -133,24 +129,21 @@ export default function requests() {
         return $fetch(`${MAIN_URL}/api/v1/user/transactions`, getRequestOptions('GET', requestOptions))
     }
 
-    function getImageShared(id) {
-        return imagesData.find(image => image.img === `${id}.jpeg`)
-    }
-
     function getPersonGallery() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
         imageStore.getImagePages === 1 && !imageStore.images.length ? toggleShowMainLoader(true) : toggleInProgressMoreImages(true);
         $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=30&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 if (response.status === 'success') {
-                    if (response.images.data.length) {
+                    console.log(response)
+                    if (response.gallery.data.length) {
                         toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
-                        changeTotalImages(response.images.total);
+                        changeTotalImages(response.gallery.total);
 
                         if (imageStore.getImagePages === 1){
-                            addNewImages(response.images.data);
+                            addNewImages(response.gallery.data);
                         }else {
-                            addOldImages(response.images.data);
+                            addOldImages(response.gallery.data);
                         }
 
                         if (imageStore.totalImages > imageStore.images.length) {
@@ -166,6 +159,8 @@ export default function requests() {
             .catch(error => {
                 if (error.statusCode === 401) {
                     prepareLogout();
+                }else {
+                    toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                 }
             })
     }
@@ -177,7 +172,6 @@ export default function requests() {
         logout,
         getPersonInfo,
         initStore,
-        getImageShared,
         getPersonTransaction,
         getPersonGallery
     };

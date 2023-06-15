@@ -2,7 +2,7 @@
   <div class="person" :class="{'opened': hasOpenDetail}" v-if="person.name" @click="hasOpenDetail = !hasOpenDetail">
     <div class="info-person">
       <span :title="person.name">{{ person.name }}</span>
-      <span>краски: {{ person.credits }}</span>
+      <span>Краски: <span>{{ person.credits }}</span></span>
     </div>
     <div class="wrapper-name-person">
       <span class="name-person">{{ person.name[firstLater] }}</span>
@@ -65,6 +65,7 @@ watch(props, (newValue) => {
 let timeout;
 
 function getPerson() {
+  console.log('test')
   getPersonInfo();
 }
 

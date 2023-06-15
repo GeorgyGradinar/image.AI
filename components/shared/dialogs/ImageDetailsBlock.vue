@@ -2,19 +2,19 @@
   <section class="main-content" persistent>
     <div class="image-wrapper">
       <img class="background-image" alt="generated image"
-           :src="image.url">
+           :src="image.share_id">
       <img class="main-image" alt="generated image"
-           :src="image.url">
+           :src="image.share_id">
     </div>
     <div class="image-details">
       <p class="details-item">
         <span class="title">Описание:</span>
-        <span class="content">{{ image.params.prompt }}</span>
+        <span class="content">{{ image.params?.prompt }}</span>
       </p>
 
       <p class="details-item with-divider">
-        <span class="title" v-if="image?.params.negative_prompt">Исключение:</span>
-        <span class="content"> {{ image?.params.negative_prompt !== 'null' ? image?.params.negative_prompt : '' }}</span>
+        <span class="title" v-if="image?.params?.negative_prompt">Исключение:</span>
+        <span class="content"> {{ image?.params?.negative_prompt !== 'null' ? image?.params.negative_prompt : '' }}</span>
       </p>
 
       <div class="options with-divider">
@@ -26,7 +26,8 @@
         <!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
         <!--          <p>Открыть в редакторе</p>-->
         <!--        </NuxtLink>-->
-        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url)">
+        <a class="download" :href="`https://api.neuro-holst.ru/api/v1/image/render/${image.share_id}`"
+           @click.prevent="downloadImage(`https://api.neuro-holst.ru/api/v1/image/render/${image.share_id}`)">
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
         </a>
@@ -38,10 +39,10 @@
         <!--          <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
         <!--          <p>Повысить разрешение</p>-->
         <!--        </div>-->
-        <div class="share-button" @click="toggleShowShareDialog">
-          <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">
-          <strong>Поделиться</strong>
-        </div>
+<!--        <div class="share-button" @click="toggleShowShareDialog">-->
+<!--          <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">-->
+<!--          <strong>Поделиться</strong>-->
+<!--        </div>-->
       </div>
 
       <div class="short-details">

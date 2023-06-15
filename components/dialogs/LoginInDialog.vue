@@ -122,16 +122,13 @@ async function submit() {
     })
         .then(response => {
           changePerson(personMapper(response.user, response.authorisation.token));
-          if (!response.user.email_verified_at) {
-            toggleAcceptDialog(true);
-            getPersonInfo();
-            console.log('testLogin')
-          }
           closeDialog();
         })
         .catch(error => {
           if (error.statusCode === 401) {
-            changeErrorMessage('Некорректная почта или пароль')
+            changeErrorMessage('Некорректная почта или пароль');
+          }else {
+            changeErrorMessage('Что-то пошло не так');
           }
         })
   }
@@ -207,8 +204,11 @@ function closeDialog() {
 
   .wrapper-accept-policy {
     margin-bottom: 20px;
+    display: flex;
 
     input {
+      width: 20px;
+      height: 20px;
       margin-right: 10px;
       cursor: pointer;
     }

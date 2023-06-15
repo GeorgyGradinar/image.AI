@@ -62,6 +62,10 @@ import {modelsStore} from "~/store/models";
 import seo from "~/mixins/seo";
 import {metaGallery, meta, link, scripts} from "~/seoConfig";
 
+definePageMeta({
+  middleware: "auth"
+})
+
 const {setProperty} = seo();
 setProperty(metaGallery.title, [...meta, ...metaGallery.meta], link, scripts);
 

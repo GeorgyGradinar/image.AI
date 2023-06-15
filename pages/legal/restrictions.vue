@@ -18,9 +18,11 @@
 import Legal from "~/components/legal/Legal";
 import InfoWrapper from "~/components/legal/InfoWrapper";
 import seo from "~/mixins/seo";
+import {metaRestrictions, meta, link, scripts} from "~/seoConfig"
 
 const {setProperty} = seo();
-setProperty('Условия возврата | НейроХолст', '');
+setProperty(metaRestrictions.title, [...meta, ...metaRestrictions.meta], link, scripts);
+
 </script>
 
 <style scoped lang="scss">

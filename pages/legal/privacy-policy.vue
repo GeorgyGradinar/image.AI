@@ -318,9 +318,10 @@
 import Legal from "~/components/legal/Legal";
 import InfoWrapper from "~/components/legal/InfoWrapper";
 import seo from "~/mixins/seo";
+import {metaPrivacyPolicy, meta, link, scripts} from "~/seoConfig"
 
 const {setProperty} = seo();
-setProperty('Политика конфиденциальности | НейроХолст', '');
+setProperty(metaPrivacyPolicy.title, [...meta, ...metaPrivacyPolicy.meta], link, scripts);
 </script>
 
 <style scoped lang="scss">

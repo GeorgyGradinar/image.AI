@@ -90,12 +90,12 @@ import {onMounted} from "vue";
 import seo from "~/mixins/seo";
 import {metaTransactions, meta, link, scripts} from "~/seoConfig";
 
-const {setProperty} = seo();
-setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
-
 definePageMeta({
   middleware: "auth"
 })
+
+const {setProperty} = seo();
+setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
 
 const {getPersonTransaction} = requests();
 let data = ref('Дата');

@@ -46,8 +46,7 @@ setProperty(metaReferral.title, [...meta, ...metaReferral.meta], link, scripts);
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
-let referralLink = ref('https://image-ai-git-master-heorhiig.vercel.app/?ref=1521');
-
+let referralLink = ref('https://neuro-holst.ru?ref=1521');
 
 function copyLink() {
   textSnackBarForGeneration.value = "Ссылка скопирована";

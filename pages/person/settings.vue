@@ -33,7 +33,7 @@
       <div class="change-password">
         <h3>Сменить пароль</h3>
         <v-text-field
-            v-model="user.oldPassword"
+            v-model="password.oldPassword"
             label="Старый пароль"
             :error-messages="mapErrors(vPass$.oldPassword.$errors)"
             :append-inner-icon="showOldPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -44,7 +44,7 @@
         ></v-text-field>
 
         <v-text-field
-            v-model="user.newPassword"
+            v-model="password.newPassword"
             label="Новый пароль"
             :error-messages="mapErrors(vPass$.newPassword.$errors)"
             :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -55,7 +55,7 @@
         ></v-text-field>
 
         <v-text-field
-            v-model="user.confirmation"
+            v-model="password.confirmation"
             label="Повторите новый пароль"
             :error-messages="mapErrors(vPass$.confirmation.$errors)"
             :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -144,7 +144,7 @@ const password = ref({
   confirmation: ''
 })
 
-const newPassRef = computed(() => user.value.newPassword);
+const newPassRef = computed(() => password.value.newPassword);
 const rulesPass = {
   oldPassword: {required, minLength: minLength(6)},
   newPassword: {required, minLength: minLength(6)},
@@ -195,11 +195,11 @@ async function updateUserPassword() {
   vPass$.value.$validate();
 
   if (!vPass$.value.$error) {
-    await updatePassword(user.value.newPassword, user.value.confirmation, user.value.oldPassword,)
+    await updatePassword(password.value.newPassword, password.value.confirmation, password.value.oldPassword,)
         .then(response => {
           if (response.status === "success") {
             openSnackBarDone(response.message);
-            user.value = {
+            password.value = {
               oldPassword: '',
               newPassword: '',
               confirmation: ''
@@ -212,8 +212,8 @@ async function updateUserPassword() {
             openSnackBarReject(error.data.message)
           } else if (error.status === 401) {
             prepareLogout();
-          } else if (error.status === "error") {
-            console.log(error.status);
+          } else {
+            openSnackBarReject('Что-то пошло не так')
           }
         })
   } else {

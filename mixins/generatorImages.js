@@ -25,7 +25,7 @@ export default function generatorImages() {
     const {toggleSnackBarDone, toggleSnackBarReject} = models;
     const {prepareLogout} = shareFunctions();
 
-    let interval = ref(null);
+    let interval;
 
     function getModel() {
         $fetch(`${MAIN_URL}/api/v1/engine/get?engine_id=1`, { method: 'GET',  redirect: 'follow'})
@@ -67,41 +67,47 @@ export default function generatorImages() {
                 }
             })
             .catch(error => {
-                toggleGeneration(false);
-                toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'})
-                let images = imageStore.images.filter(image => image.id !== id);
-                addNewImages([...images]);
                 if (error.statusCode === 401) {
-                    clearInterval(interval.value);
+                    clearTimeout(interval.value);
                     prepareLogout();
+                }else {
+                    toggleGeneration(false);
+                    toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'})
+                    let images = imageStore.images.filter(image => image.id !== id);
+                    addNewImages([...images]);
                 }
             })
     }
 
     function getStatusGeneration(responseId, generateId) {
         let requestOptions = [HEADER_PARAMETERS.authorization, HEADER_PARAMETERS.accept];
-        interval.value = setInterval(() => {
             $fetch(`${MAIN_URL}/api/v1/image/status?request_id=${responseId}`, getRequestOptions('POST', requestOptions))
                 .then(response => {
                     if (response.status !== "processing") {
-                        console.log(response)
-                        clearInterval(interval.value);
+                        clearTimeout(interval);
                         let images = imageStore.images.filter(image => image.id !== generateId);
                         addNewImages([...response.images, ...images]);
                         toggleGeneration(false);
                         toggleSnackBarDone({isOpen: true, text: 'Изображение сгенерированно'});
                         getPersonInfo();
+                    }else {
+                        clearTimeout(interval)
+                        interval = setTimeout(()=> getStatusGeneration(responseId, generateId), 1000);
                     }
                 })
                 .catch(error => {
-                    toggleGeneration(false);
-                    toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                     if (error.statusCode === 401) {
-                        clearInterval(interval.value);
+                        clearTimeout(interval.value);
                         prepareLogout();
+                    }else {
+
+                        toggleGeneration(false);
+                        toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'})
+                        let images = imageStore.images.filter(image => image.id !== generateId);
+                        addNewImages([...images])
                     }
                 })
-        }, 1000);
+
     }
 
     function likeImage(id) {
@@ -119,7 +125,7 @@ export default function generatorImages() {
                 toggleGeneration(false);
                 toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                 if (error.statusCode === 401) {
-                    clearInterval(interval.value);
+                    clearTimeout(interval.value);
                     prepareLogout();
                 }
             })
@@ -142,7 +148,7 @@ export default function generatorImages() {
                 toggleGeneration(false);
                 toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                 if (error.statusCode === 401) {
-                    clearInterval(interval.value);
+                    clearTimeout(interval.value);
                     prepareLogout();
                 }
             })
