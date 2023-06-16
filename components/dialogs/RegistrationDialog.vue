@@ -53,9 +53,9 @@
         <div class="socials">
           <p>Регистрация с помощю</p>
           <div class="wrapper-socials">
-            <img @click="vk" src="~/assets/images/vk.svg" alt="вконтакте">
-            <img @click="yandex" src="~/assets/images/yandex.svg" alt="яндекс">
-            <img @click="google" src="~/assets/images/google.svg" alt="гугл">
+            <img @click="vk(true)" src="~/assets/images/vk.svg" alt="вконтакте">
+            <img @click="yandex(true)" src="~/assets/images/yandex.svg" alt="яндекс">
+            <img @click="google(true)" src="~/assets/images/google.svg" alt="гугл">
           </div>
         </div>
 

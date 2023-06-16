@@ -85,7 +85,7 @@
 </template>
 
 <script setup>
-import requests from "~/mixins/requests";
+import transactions from "~/mixins/transactions";
 import {onMounted} from "vue";
 import seo from "~/mixins/seo";
 import {metaTransactions, meta, link, scripts} from "~/seoConfig";
@@ -97,7 +97,7 @@ definePageMeta({
 const {setProperty} = seo();
 setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
 
-const {getPersonTransaction} = requests();
+const {getPersonTransaction} = transactions();
 let data = ref('Дата');
 let status = ref('Статус');
 let search = ref('');
@@ -150,10 +150,7 @@ onMounted(() => {
 })
 
 async function getTransaction() {
-  await getPersonTransaction()
-      .then(response => {
-        console.log(response)
-      })
+  getPersonTransaction();
 }
 
 function typeTransaction(type) {

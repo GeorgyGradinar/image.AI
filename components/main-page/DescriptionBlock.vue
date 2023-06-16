@@ -6,7 +6,7 @@
         <h2>{{ description.title }}</h2>
         <p>{{ description.description }}</p>
       </section>
-      <video class="pre-show" :src="useAsset(description.url)" autoplay loop playsinline muted></video>
+      <img class="pre-show" :src="useAsset(description.url)"  alt="">
     </div>
   </section>
 </template>
@@ -19,21 +19,21 @@ const descriptions = [
     description: "С помощью НейроХолста вы можете нарисовать любые изображения. Вы можете сами настроить высоту и ширину" +
         " вашего рисунка. Также можете разрешить быть нейросети более вольной в рисовании или попросить максимальное соответствие вашему " +
         "описанию. Хотите что-то исключить из изображения? Не проблема - можете написать об этом и нейросеть нарисует как надо!",
-    url: "ai-generator-2.mp4"
+    url: "main-image1.png"
   },
   {
     part: "Галерея картинок",
     title: "Сгенерированные изображения хранятся в одном месте",
     description: "Все ваши изображения, которые были нарисованы нейросетью, хранятся в одном месте. Вы не потеряете свои картины и " +
         "сможете заново использовать удачно подобранные описания и параметры. Идеально подойдёт тем, кто любит эксперементировать.",
-    url: "outpainting-simple-photo.mp4"
+    url: "main-image2.png"
   },
   {
     part: "Бесплатно",
     title: "Начните генерировать картинки с помощью нейросети бесплатно",
     description: "Для того, чтобы начать рисовать с помощью нейросети не нужно платить. Просто зарегистрируйтесь и сможете" +
         " создать до 50 изображений бесплатно и оценить качество нейросети НейроХолст.",
-    url: "inpainting.mp4"
+    url: "main-image3.png"
   }
 ];
 
@@ -42,7 +42,7 @@ function useAsset(path) {
     eager: true,
     import: 'default',
   })
-  return assets['/assets/main-videos/' + path]
+  return assets['/assets/main-page/' + path]
 }
 </script>
 
@@ -90,7 +90,7 @@ function useAsset(path) {
 
     .pre-show {
       width: 47%;
-      border-radius: 50px;
+      border-radius: 30px;
       object-fit: cover;
     }
 

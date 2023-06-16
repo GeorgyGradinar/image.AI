@@ -4,20 +4,65 @@
 <!--      <img v-for="image in column" :key="image.id"-->
 <!--           :src="image[image]" alt="image example">-->
 <!--    </div>-->
-    <div class="grid-column" v-for="one of 4">
-      <img src="~/assets/images/main-page/img-i77g0LU68dD7As1cNlm7gR.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-aHbNRGbgmNutEKIOHdTQ2t.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-56NIBOvrjSaKS45vxomR6n.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-5lxSExuwWStJCuwd4OjIn6.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-YkfgHICXA8YFGEzbWC36kS.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-WIBwVTR1rF74J3tVc8C2dE.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-q9tOtcskhqYjxvpFdvE5c2.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-kWY1RGIowDFHObYWrqKEuX.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-9jjtCkXWwKjZe9wElBEly2.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-Azk6WKhpgaMAoMweR2HkUy.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-DjVseuFs8N2CikjWGgXM0T.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-hoT72XlOTiNoUcWPamhr9v.jpeg" alt="image example">
-      <img src="~/assets/images/main-page/img-i77g0LU68dD7As1cNlm7gR.jpeg" alt="image example">
+    <div class="grid-column" >
+      <img src="~/assets/images/main-page/first.webp" alt="image example">
+      <img src="~/assets/images/main-page/image.webp" alt="image example">
+      <img src="~/assets/images/main-page/image(43).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(23).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(1).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(47).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(15).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(29).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(2).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(35).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(30).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(9).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(38).webp" alt="image example">
+    </div>
+    <div class="grid-column">
+      <img src="~/assets/images/main-page/image(3).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(39).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(11).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(31).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(4).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(22).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(34).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(10).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(16).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(42).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(7).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(46).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(24).webp" alt="image example">
+    </div>
+    <div class="grid-column">
+      <img src="~/assets/images/main-page/image(50).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(17).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(5).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(36).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(6).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(32).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(25).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(8).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(44).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(18).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(41).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(14).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(26).webp" alt="image example">
+    </div>
+    <div class="grid-column">
+      <img src="~/assets/images/main-page/image(48).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(27).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(40).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(12).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(33).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(19).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(49).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(20).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(37).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(13).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(45).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(21).webp" alt="image example">
+      <img src="~/assets/images/main-page/image(28).webp" alt="image example">
     </div>
   </div>
 </template>

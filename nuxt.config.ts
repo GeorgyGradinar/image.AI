@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     },
     serverMiddleware: ['~/server-middleware/check-spa'],
     router: {
-        trailingSlash:  true
+        trailingSlash: false
     },
     robots: {
         siteUrl: 'https://neuro-holst.ru',

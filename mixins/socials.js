@@ -14,22 +14,22 @@ export default function socials() {
     const models = modelsStore();
     const {toggleRegistrationDialog, toggleLoginDialog} = models;
 
-    function authVK() {
+    function authVK(isRegistration) {
         let popup = window.open(`${MAIN_URL}/api/v1/login/vkontakte?${new URLSearchParams(bodyURL())}`, '', generateParams())
         const currentURL = getPopupLocation(popup);
-        checkUrlChange(popup, currentURL, '', 'login/vkontakte');
+        checkUrlChange(popup, currentURL, '', isRegistration, 'login/vkontakte');
     }
 
-    function authYandex() {
+    function authYandex(isRegistration) {
         let popup = window.open(`${MAIN_URL}/api/v1/login/yandex?${new URLSearchParams(bodyURL())}`, '', generateParams())
         const currentURL = getPopupLocation(popup);
-        checkUrlChange(popup, currentURL, '', 'login/yandex');
+        checkUrlChange(popup, currentURL, '', isRegistration, 'login/yandex');
     }
 
-    function authGoogle() {
+    function authGoogle(isRegistration) {
         let popup = window.open(`${MAIN_URL}/api/v1/login/google?${new URLSearchParams(bodyURL())}`, '_blank', generateParams())
         const currentURL = getPopupLocation(popup);
-        checkUrlChange(popup, currentURL, '', 'login/google');
+        checkUrlChange(popup, currentURL, '', isRegistration, 'login/google');
     }
 
     function generateParams() {
@@ -42,7 +42,7 @@ export default function socials() {
 
     let checkUrlTimeout;
 
-    function checkUrlChange(popup, currentUrl, oldUrl, partOfUrl) {
+    function checkUrlChange(popup, currentUrl, oldUrl, isRegistration, partOfUrl) {
         if (checkUrlTimeout) clearTimeout(checkUrlTimeout);
         let currentOldUrl = oldUrl;
         if (currentUrl && currentUrl !== oldUrl) {
@@ -61,6 +61,11 @@ export default function socials() {
                     toggleRegistrationDialog(false);
                     toggleLoginDialog(false);
                     getPersonInfo();
+                    clearTimeout(checkUrlTimeout);
+                    if (isRegistration){
+                        console.log('yangex reg')
+                        window.ym(93987528,'reachGoal','632235');
+                    }
 
                     return;
                 }

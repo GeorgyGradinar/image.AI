@@ -57,6 +57,7 @@ export default function requests() {
                 //     toggleAcceptDialog(true);
                 //     getPersonInfo();
                 // }
+                window.ym(93987528,'reachGoal','632235');
                 toggleRegistrationDialog(false);
             })
             .catch(error => {
@@ -124,11 +125,6 @@ export default function requests() {
             })
     }
 
-    function getPersonTransaction() {
-        let requestOptions = [HEADER_PARAMETERS.authorization];
-        return $fetch(`${MAIN_URL}/api/v1/user/transactions`, getRequestOptions('GET', requestOptions))
-    }
-
     function getPersonGallery() {
         let requestOptions = [HEADER_PARAMETERS.authorization];
         imageStore.getImagePages === 1 && !imageStore.images.length ? toggleShowMainLoader(true) : toggleInProgressMoreImages(true);
@@ -172,7 +168,6 @@ export default function requests() {
         logout,
         getPersonInfo,
         initStore,
-        getPersonTransaction,
         getPersonGallery
     };
 }
