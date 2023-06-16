@@ -86,9 +86,11 @@
 
 <script setup>
 import transactions from "~/mixins/transactions";
+import {transactionStore} from "~/store/transactionStore";
 import {onMounted} from "vue";
 import seo from "~/mixins/seo";
 import {metaTransactions, meta, link, scripts} from "~/seoConfig";
+import {storeToRefs} from "pinia/dist/pinia";
 
 definePageMeta({
   middleware: "auth"
@@ -98,6 +100,8 @@ const {setProperty} = seo();
 setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
 
 const {getPersonTransaction} = transactions();
+const transactionsStore = transactionStore();
+const {} = storeToRefs(transactionsStore);
 let data = ref('Дата');
 let status = ref('Статус');
 let search = ref('');
@@ -165,7 +169,7 @@ function date(data) {
   let currentDate = new Date(data);
   let day = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : currentDate.getDate();
   let month = currentDate.getMonth() + 1 < 10 ? `0${currentDate.getMonth() + 1}` : currentDate.getMonth() + 1;
-  return `${day}.${month}.${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}`
+  return `${day}.${month}.${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 }
 
 function sum(beforeSum, currentSum) {
