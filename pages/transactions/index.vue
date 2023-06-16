@@ -87,10 +87,10 @@
 <script setup>
 import transactions from "~/mixins/transactions";
 import {transactionStore} from "~/store/transactionStore";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import seo from "~/mixins/seo";
 import {metaTransactions, meta, link, scripts} from "~/seoConfig";
-import {storeToRefs} from "pinia/dist/pinia";
+import {storeToRefs} from "pinia";
 
 definePageMeta({
   middleware: "auth"
@@ -153,7 +153,7 @@ onMounted(() => {
   getTransaction();
 })
 
-async function getTransaction() {
+function getTransaction() {
   getPersonTransaction();
 }
 

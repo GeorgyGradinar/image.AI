@@ -9,10 +9,7 @@
     </div>
 
     <div class="main-image">
-      <img src="~assets/images/main-page/img-9jjtCkXWwKjZe9wElBEly2.jpeg" alt="">
-      <img src="~assets/images/main-page/img-aHbNRGbgmNutEKIOHdTQ2t.jpeg" alt="">
-      <img src="~assets/images/main-page/img-GgOSvUjkqVGiJoacFvZNsG.jpeg" alt="">
-      <img src="~assets/images/main-page/img-jYjnraZM46IaWERJsWQEw5.jpeg" alt="">
+
     </div>
   </section>
 </template>
