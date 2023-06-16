@@ -54,7 +54,7 @@ function timer() {
 }
 
 function sendToEmail() {
-  seconds.value = 10;
+  seconds.value = 60;
   timer();
   isShowButtonSendMore.value = false;
   sendMessageToEmail();

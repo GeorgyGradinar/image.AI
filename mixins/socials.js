@@ -47,13 +47,10 @@ export default function socials() {
         let currentOldUrl = oldUrl;
         if (currentUrl && currentUrl !== oldUrl) {
             currentOldUrl = currentUrl;
-            console.log(currentUrl)
-            console.log(partOfUrl)
             if (currentUrl.includes(partOfUrl)) {
                 const regexp = new RegExp(/token=([^&]*)/, 'gmi');
                 const result = regexp.exec(currentUrl);
                 const token = result?.length ? result[1] : null;
-                console.log(token)
                 if (token) {
                     changePerson({token});
 
@@ -72,7 +69,6 @@ export default function socials() {
         }
 
         currentOldUrl = getPopupLocation(popup);
-
         checkUrlTimeout = window.setTimeout(() => {
             const newUrl = getPopupLocation(popup);
 

@@ -131,7 +131,6 @@ export default function requests() {
         $fetch(`${MAIN_URL}/api/v1/user/gallery?items_per_page=30&page=${imageStore.getImagePages}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 if (response.status === 'success') {
-                    console.log(response)
                     if (response.gallery.data.length) {
                         toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
                         changeTotalImages(response.gallery.total);

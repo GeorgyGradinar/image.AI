@@ -85,7 +85,7 @@ function closeBlock() {
         justify-content: center;
         flex-direction: row;
         flex-wrap: wrap;
-        overflow: hidden;
+        overflow-y: auto;
         gap: 60px;
       }
     }

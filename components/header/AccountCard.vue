@@ -17,14 +17,14 @@
       <p @click="routeTo('/transactions')"><img src="~/assets/images/details-person/history.svg" alt="history">История
         транзакций
       </p>
-      <p @click="routeTo('/payments')"><img src="~/assets/images/details-person/history.svg" alt="history">История
+      <p @click="routeTo('/payments')"><img src="~/assets/images/details-person/paymentHistory.svg" alt="history">История
         покупок
       </p>
       <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти
       </p>
-      <p @click="routeTo('/referrals')" class="secondary"><img src="~/assets/images/details-person/invite.svg"
-                                                               alt="invite">Пригласить
-        другей</p>
+<!--      <p @click="routeTo('/referrals')" class="secondary"><img src="~/assets/images/details-person/invite.svg"-->
+<!--                                                               alt="invite">Пригласить-->
+<!--        другей</p>-->
     </section>
   </div>
 </template>
@@ -68,7 +68,6 @@ watch(props, (newValue) => {
 let timeout;
 
 function getPerson() {
-  console.log('test')
   getPersonInfo();
 }
 

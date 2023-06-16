@@ -42,7 +42,6 @@ export default function userSettings() {
 
     function resetPassword(payload) {
         let requestOptions = [HEADER_PARAMETERS.accept];
-        console.log(payload)
         let body = {
             token: payload.token,
             email: payload.email,

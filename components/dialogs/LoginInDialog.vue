@@ -32,7 +32,7 @@
             <p>Еще нет аккаунта?</p>
             <a @click.prevent="openRegistrationBlock">Зарегистрироваться</a>
           </div>
-          <p class="forgot-password">Забыли пароль? <a @click.prevent="openForgotPasswordDialog">Восстановить</a></p>
+<!--          <p class="forgot-password">Забыли пароль? <a @click.prevent="openForgotPasswordDialog">Восстановить</a></p>-->
           <div class="socials">
             <p>Войти с помощью</p>
             <div class="wrapper-socials">
