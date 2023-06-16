@@ -63,7 +63,6 @@ export default function socials() {
                     getPersonInfo();
                     clearTimeout(checkUrlTimeout);
                     if (isRegistration){
-                        console.log('yangex reg')
                         window.ym(93987528,'reachGoal','632235');
                     }
 
@@ -77,13 +76,12 @@ export default function socials() {
         checkUrlTimeout = window.setTimeout(() => {
             const newUrl = getPopupLocation(popup);
 
-            checkUrlChange(popup, newUrl, currentOldUrl, partOfUrl);
+            checkUrlChange(popup, newUrl, currentOldUrl, isRegistration, partOfUrl);
         }, 1000);
     }
 
     function getPopupLocation(popup) {
         try {
-            console.dir(popup.location.href);
             return popup.location.href;
         } catch {
             return ''
