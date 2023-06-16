@@ -1,0 +1,13 @@
+# START nuxt-simple-robots (indexable: true)
+User-agent: *
+Disallow: /social
+Disallow: /gallery
+Disallow: /legal
+Disallow: /person
+Disallow: /guides
+Disallow: /transactions
+Disallow: /referrals
+Disallow: /dream-booth
+Disallow: /editor
+
+# END nuxt-simple-robots

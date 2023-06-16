@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html >
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style id="vuetify-theme-stylesheet">:root {
+      --v-theme-background: 255,255,255;
+      --v-theme-background-overlay-multiplier: 1;
+      --v-theme-surface: 255,255,255;
+      --v-theme-surface-overlay-multiplier: 1;
+      --v-theme-surface-variant: 66,66,66;
+      --v-theme-surface-variant-overlay-multiplier: 2;
+      --v-theme-on-surface-variant: 238,238,238;
+      --v-theme-primary: 98,0,238;
+      --v-theme-primary-overlay-multiplier: 2;
+      --v-theme-primary-darken-1: 55,0,179;
+      --v-theme-primary-darken-1-overlay-multiplier: 2;
+      --v-theme-secondary: 3,218,198;
+      --v-theme-secondary-overlay-multiplier: 1;
+      --v-theme-secondary-darken-1: 1,135,134;
+      --v-theme-secondary-darken-1-overlay-multiplier: 1;
+      --v-theme-error: 176,0,32;
+      --v-theme-error-overlay-multiplier: 2;
+      --v-theme-info: 33,150,243;
+      --v-theme-info-overlay-multiplier: 1;
+      --v-theme-success: 76,175,80;
+      --v-theme-success-overlay-multiplier: 1;
+      --v-theme-warning: 251,140,0;
+      --v-theme-warning-overlay-multiplier: 1;
+      --v-theme-on-background: 0,0,0;
+      --v-theme-on-surface: 0,0,0;
+      --v-theme-on-primary: 255,255,255;
+      --v-theme-on-primary-darken-1: 255,255,255;
+      --v-theme-on-secondary: 0,0,0;
+      --v-theme-on-secondary-darken-1: 255,255,255;
+      --v-theme-on-error: 255,255,255;
+      --v-theme-on-info: 255,255,255;
+      --v-theme-on-success: 255,255,255;
+      --v-theme-on-warning: 255,255,255;
+      --v-border-color: 0, 0, 0;
+      --v-border-opacity: 0.12;
+      --v-high-emphasis-opacity: 0.87;
+      --v-medium-emphasis-opacity: 0.6;
+      --v-disabled-opacity: 0.38;
+      --v-idle-opacity: 0.04;
+      --v-hover-opacity: 0.04;
+      --v-focus-opacity: 0.12;
+      --v-selected-opacity: 0.08;
+      --v-activated-opacity: 0.12;
+      --v-pressed-opacity: 0.12;
+      --v-dragged-opacity: 0.08;
+      --v-theme-kbd: 33, 37, 41;
+      --v-theme-on-kbd: 255, 255, 255;
+      --v-theme-code: 245, 245, 245;
+      --v-theme-on-code: 0, 0, 0;
+    }
+    .v-theme--light {
+      color-scheme: normal;
+      --v-theme-background: 255,255,255;
+      --v-theme-background-overlay-multiplier: 1;
+      --v-theme-surface: 255,255,255;
+      --v-theme-surface-overlay-multiplier: 1;
+      --v-theme-surface-variant: 66,66,66;
+      --v-theme-surface-variant-overlay-multiplier: 2;
+      --v-theme-on-surface-variant: 238,238,238;
+      --v-theme-primary: 98,0,238;
+      --v-theme-primary-overlay-multiplier: 2;
+      --v-theme-primary-darken-1: 55,0,179;
+      --v-theme-primary-darken-1-overlay-multiplier: 2;
+      --v-theme-secondary: 3,218,198;
+      --v-theme-secondary-overlay-multiplier: 1;
+      --v-theme-secondary-darken-1: 1,135,134;
+      --v-theme-secondary-darken-1-overlay-multiplier: 1;
+      --v-theme-error: 176,0,32;
+      --v-theme-error-overlay-multiplier: 2;
+      --v-theme-info: 33,150,243;
+      --v-theme-info-overlay-multiplier: 1;
+      --v-theme-success: 76,175,80;
+      --v-theme-success-overlay-multiplier: 1;
+      --v-theme-warning: 251,140,0;
+      --v-theme-warning-overlay-multiplier: 1;
+      --v-theme-on-background: 0,0,0;
+      --v-theme-on-surface: 0,0,0;
+      --v-theme-on-primary: 255,255,255;
+      --v-theme-on-primary-darken-1: 255,255,255;
+      --v-theme-on-secondary: 0,0,0;
+      --v-theme-on-secondary-darken-1: 255,255,255;
+      --v-theme-on-error: 255,255,255;
+      --v-theme-on-info: 255,255,255;
+      --v-theme-on-success: 255,255,255;
+      --v-theme-on-warning: 255,255,255;
+      --v-border-color: 0, 0, 0;
+      --v-border-opacity: 0.12;
+      --v-high-emphasis-opacity: 0.87;
+      --v-medium-emphasis-opacity: 0.6;
+      --v-disabled-opacity: 0.38;
+      --v-idle-opacity: 0.04;
+      --v-hover-opacity: 0.04;
+      --v-focus-opacity: 0.12;
+      --v-selected-opacity: 0.08;
+      --v-activated-opacity: 0.12;
+      --v-pressed-opacity: 0.12;
+      --v-dragged-opacity: 0.08;
+      --v-theme-kbd: 33, 37, 41;
+      --v-theme-on-kbd: 255, 255, 255;
+      --v-theme-code: 245, 245, 245;
+      --v-theme-on-code: 0, 0, 0;
+    }
+    .v-theme--dark {
+      color-scheme: dark;
+      --v-theme-background: 18,18,18;
+      --v-theme-background-overlay-multiplier: 1;
+      --v-theme-surface: 33,33,33;
+      --v-theme-surface-overlay-multiplier: 1;
+      --v-theme-surface-variant: 189,189,189;
+      --v-theme-surface-variant-overlay-multiplier: 2;
+      --v-theme-on-surface-variant: 66,66,66;
+      --v-theme-primary: 187,134,252;
+      --v-theme-primary-overlay-multiplier: 2;
+      --v-theme-primary-darken-1: 55,0,179;
+      --v-theme-primary-darken-1-overlay-multiplier: 1;
+      --v-theme-secondary: 3,218,197;
+      --v-theme-secondary-overlay-multiplier: 2;
+      --v-theme-secondary-darken-1: 3,218,197;
+      --v-theme-secondary-darken-1-overlay-multiplier: 2;
+      --v-theme-error: 207,102,121;
+      --v-theme-error-overlay-multiplier: 2;
+      --v-theme-info: 33,150,243;
+      --v-theme-info-overlay-multiplier: 2;
+      --v-theme-success: 76,175,80;
+      --v-theme-success-overlay-multiplier: 2;
+      --v-theme-warning: 251,140,0;
+      --v-theme-warning-overlay-multiplier: 2;
+      --v-theme-on-background: 255,255,255;
+      --v-theme-on-surface: 255,255,255;
+      --v-theme-on-primary: 255,255,255;
+      --v-theme-on-primary-darken-1: 255,255,255;
+      --v-theme-on-secondary: 0,0,0;
+      --v-theme-on-secondary-darken-1: 0,0,0;
+      --v-theme-on-error: 255,255,255;
+      --v-theme-on-info: 255,255,255;
+      --v-theme-on-success: 255,255,255;
+      --v-theme-on-warning: 255,255,255;
+      --v-border-color: 255, 255, 255;
+      --v-border-opacity: 0.12;
+      --v-high-emphasis-opacity: 1;
+      --v-medium-emphasis-opacity: 0.7;
+      --v-disabled-opacity: 0.5;
+      --v-idle-opacity: 0.1;
+      --v-hover-opacity: 0.04;
+      --v-focus-opacity: 0.12;
+      --v-selected-opacity: 0.08;
+      --v-activated-opacity: 0.12;
+      --v-pressed-opacity: 0.16;
+      --v-dragged-opacity: 0.08;
+      --v-theme-kbd: 33, 37, 41;
+      --v-theme-on-kbd: 255, 255, 255;
+      --v-theme-code: 52, 52, 52;
+      --v-theme-on-code: 204, 204, 204;
+    }
+    .bg-background {
+      --v-theme-overlay-multiplier: var(--v-theme-background-overlay-multiplier);
+      background-color: rgb(var(--v-theme-background)) !important;
+      color: rgb(var(--v-theme-on-background)) !important;
+    }
+    .bg-surface {
+      --v-theme-overlay-multiplier: var(--v-theme-surface-overlay-multiplier);
+      background-color: rgb(var(--v-theme-surface)) !important;
+      color: rgb(var(--v-theme-on-surface)) !important;
+    }
+    .bg-surface-variant {
+      --v-theme-overlay-multiplier: var(--v-theme-surface-variant-overlay-multiplier);
+      background-color: rgb(var(--v-theme-surface-variant)) !important;
+      color: rgb(var(--v-theme-on-surface-variant)) !important;
+    }
+    .bg-primary {
+      --v-theme-overlay-multiplier: var(--v-theme-primary-overlay-multiplier);
+      background-color: rgb(var(--v-theme-primary)) !important;
+      color: rgb(var(--v-theme-on-primary)) !important;
+    }
+    .bg-primary-darken-1 {
+      --v-theme-overlay-multiplier: var(--v-theme-primary-darken-1-overlay-multiplier);
+      background-color: rgb(var(--v-theme-primary-darken-1)) !important;
+      color: rgb(var(--v-theme-on-primary-darken-1)) !important;
+    }
+    .bg-secondary {
+      --v-theme-overlay-multiplier: var(--v-theme-secondary-overlay-multiplier);
+      background-color: rgb(var(--v-theme-secondary)) !important;
+      color: rgb(var(--v-theme-on-secondary)) !important;
+    }
+    .bg-secondary-darken-1 {
+      --v-theme-overlay-multiplier: var(--v-theme-secondary-darken-1-overlay-multiplier);
+      background-color: rgb(var(--v-theme-secondary-darken-1)) !important;
+      color: rgb(var(--v-theme-on-secondary-darken-1)) !important;
+    }
+    .bg-error {
+      --v-theme-overlay-multiplier: var(--v-theme-error-overlay-multiplier);
+      background-color: rgb(var(--v-theme-error)) !important;
+      color: rgb(var(--v-theme-on-error)) !important;
+    }
+    .bg-info {
+      --v-theme-overlay-multiplier: var(--v-theme-info-overlay-multiplier);
+      background-color: rgb(var(--v-theme-info)) !important;
+      color: rgb(var(--v-theme-on-info)) !important;
+    }
+    .bg-success {
+      --v-theme-overlay-multiplier: var(--v-theme-success-overlay-multiplier);
+      background-color: rgb(var(--v-theme-success)) !important;
+      color: rgb(var(--v-theme-on-success)) !important;
+    }
+    .bg-warning {
+      --v-theme-overlay-multiplier: var(--v-theme-warning-overlay-multiplier);
+      background-color: rgb(var(--v-theme-warning)) !important;
+      color: rgb(var(--v-theme-on-warning)) !important;
+    }
+    .text-background {
+      color: rgb(var(--v-theme-background)) !important;
+    }
+    .border-background {
+      --v-border-color: var(--v-theme-background);
+    }
+    .text-surface {
+      color: rgb(var(--v-theme-surface)) !important;
+    }
+    .border-surface {
+      --v-border-color: var(--v-theme-surface);
+    }
+    .text-surface-variant {
+      color: rgb(var(--v-theme-surface-variant)) !important;
+    }
+    .border-surface-variant {
+      --v-border-color: var(--v-theme-surface-variant);
+    }
+    .on-surface-variant {
+      color: rgb(var(--v-theme-on-surface-variant)) !important;
+    }
+    .text-primary {
+      color: rgb(var(--v-theme-primary)) !important;
+    }
+    .border-primary {
+      --v-border-color: var(--v-theme-primary);
+    }
+    .text-primary-darken-1 {
+      color: rgb(var(--v-theme-primary-darken-1)) !important;
+    }
+    .border-primary-darken-1 {
+      --v-border-color: var(--v-theme-primary-darken-1);
+    }
+    .text-secondary {
+      color: rgb(var(--v-theme-secondary)) !important;
+    }
+    .border-secondary {
+      --v-border-color: var(--v-theme-secondary);
+    }
+    .text-secondary-darken-1 {
+      color: rgb(var(--v-theme-secondary-darken-1)) !important;
+    }
+    .border-secondary-darken-1 {
+      --v-border-color: var(--v-theme-secondary-darken-1);
+    }
+    .text-error {
+      color: rgb(var(--v-theme-error)) !important;
+    }
+    .border-error {
+      --v-border-color: var(--v-theme-error);
+    }
+    .text-info {
+      color: rgb(var(--v-theme-info)) !important;
+    }
+    .border-info {
+      --v-border-color: var(--v-theme-info);
+    }
+    .text-success {
+      color: rgb(var(--v-theme-success)) !important;
+    }
+    .border-success {
+      --v-border-color: var(--v-theme-success);
+    }
+    .text-warning {
+      color: rgb(var(--v-theme-warning)) !important;
+    }
+    .border-warning {
+      --v-border-color: var(--v-theme-warning);
+    }
+    .on-background {
+      color: rgb(var(--v-theme-on-background)) !important;
+    }
+    .on-surface {
+      color: rgb(var(--v-theme-on-surface)) !important;
+    }
+    .on-primary {
+      color: rgb(var(--v-theme-on-primary)) !important;
+    }
+    .on-primary-darken-1 {
+      color: rgb(var(--v-theme-on-primary-darken-1)) !important;
+    }
+    .on-secondary {
+      color: rgb(var(--v-theme-on-secondary)) !important;
+    }
+    .on-secondary-darken-1 {
+      color: rgb(var(--v-theme-on-secondary-darken-1)) !important;
+    }
+    .on-error {
+      color: rgb(var(--v-theme-on-error)) !important;
+    }
+    .on-info {
+      color: rgb(var(--v-theme-on-info)) !important;
+    }
+    .on-success {
+      color: rgb(var(--v-theme-on-success)) !important;
+    }
+    .on-warning {
+      color: rgb(var(--v-theme-on-warning)) !important;
+    }
+</style><link rel="preload" as="fetch" crossorigin="anonymous" href="/guides/_payload.json"><link rel="modulepreload" as="script" crossorigin href="/_nuxt/entry.c06b1dca.js"><link rel="preload" as="style" href="/_nuxt/entry.e22fbe93.css"><link rel="modulepreload" as="script" crossorigin href="/_nuxt/guides.d95be318.js"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/vk.6740c91f.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/vk.2c5b301a.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/gallery.9eac55a7.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/settings.7ca488d8.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/history.0249baef.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/logOut.d1c59565.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/invite.05dbe109.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/close.8be44f1b.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/yandex.2f3cbc90.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/google.673dca55.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/done.426c345c.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/close.2b0daa79.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/refresh.8d2bb1d0.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/download.cc6e6737.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/instagram.6feff48d.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/class-mates.141dbae0.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/zen.9d0d6025.svg"><link rel="prefetch" as="image" type="image/svg+xml" href="/_nuxt/copy.51523031.svg"><link rel="prefetch" as="script" crossorigin href="/_nuxt/auth.c5ff80e8.js"><link rel="prefetch" as="script" crossorigin href="/_nuxt/error-component.29ebd7b0.js"><link rel="stylesheet" href="/_nuxt/entry.e22fbe93.css"><style>.pages{background-color:#150d46;display:flex;flex-direction:column;justify-content:space-between;width:100vw}main{min-height:100vh}</style><style>.layout{display:block;width:100vw}header{align-items:center;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);background-color:transparent;display:flex;height:70px;justify-content:space-between;padding:15px 30px 15px 20px;position:fixed;top:0;width:100%;z-index:10}header .logo{color:var(--main-light-color);cursor:pointer;font-size:20px;margin-right:10px}header .logo:link{text-decoration:none}header .main-header{display:flex;gap:20px}header .main-header a{align-items:center;color:var(--main-light-color);cursor:pointer;display:flex;font-size:14px;font-weight:600;position:relative;transition:all .2s}header .main-header a:link{text-decoration:none}header .main-header a:not(.no-hover):after{background:linear-gradient(to left,var(--light-blue),var(--light-pink));border-radius:50%;bottom:8px;content:"";height:2px;left:0;position:absolute;transform:scaleX(0);transform-origin:bottom right;transition:transform .25s ease-out;width:100%}header .main-header a:hover:after{transform:scaleX(1);transform-origin:bottom left}header .main-header a:active{transform:scale(.95)}header .main-header .create-account{font-weight:700;width:140px}header .main-header .select-page:not(.no-hover):after{background:linear-gradient(to left,var(--light-blue),var(--light-pink));border-radius:50%;bottom:8px;content:"";height:2px;left:0;position:absolute;transform:scaleX(1);transform-origin:bottom left;transition:transform .25s ease-out;width:100%}header .mini-header{display:none;gap:20px}header .mini-header a{align-items:center;color:var(--main-light-color);display:flex;font-size:14px;font-weight:600;position:relative}header .navigation-drawer{background-color:#21154d;display:none;flex-direction:column;height:100vh;left:0;padding:20px;position:absolute;top:70px;transition:all .3s;width:100vw;z-index:10}header .navigation-drawer a{align-items:center;border-bottom:1px solid hsla(53,68%,93%,.1);color:var(--main-light-color);display:flex;height:80px;width:100%}header .navigation-drawer a:link{text-decoration:none}header .navigation-drawer .create-account{height:60px;margin-top:20px}header .drawer-hidden{left:-100vw}.header-open{background-color:#21154d}@media screen and (max-width:900px){header .main-header{display:none}header .mini-header,header .navigation-drawer{display:flex}}@media screen and (max-width:500px){header .mini-header{gap:5px}}</style><style>footer[data-v-bd55b284]{background-color:#232426;display:flex;justify-content:center;width:100%;z-index:3}footer .wrapper-footer[data-v-bd55b284]{display:flex;justify-content:space-between;padding:64px 0;width:1200px}footer .wrapper-footer .logo[data-v-bd55b284]{color:#f9f6e0;display:flex;flex-direction:column;font-weight:400;justify-content:space-between;padding:0 15px;width:100%}footer .wrapper-footer .logo p[data-v-bd55b284]{background-color:#232426;border:none;color:#807a7a;cursor:pointer;display:flex;font-size:13px;font-weight:600;line-height:1.4;text-align:start;text-decoration:none}footer .wrapper-footer .social[data-v-bd55b284]{align-items:center;display:flex;gap:15px}footer .wrapper-footer .social img[data-v-bd55b284]{cursor:pointer}footer .wrapper-footer .item[data-v-bd55b284]{display:flex;flex-direction:column;gap:15px;padding:0 15px;width:100%}footer .wrapper-footer .item h3[data-v-bd55b284]{color:#f9f6e0;font-size:14px;font-weight:500}footer .wrapper-footer .item a[data-v-bd55b284],footer .wrapper-footer .item button[data-v-bd55b284],footer .wrapper-footer .item p[data-v-bd55b284]{background-color:#232426;border:none;color:#807a7a;cursor:pointer;display:flex;font-size:15px;font-weight:600;text-align:start;text-decoration:none}footer .wrapper-footer .item a[data-v-bd55b284]:hover,footer .wrapper-footer .item button[data-v-bd55b284]:hover{color:#f9f6e0}@media screen and (max-width:800px){footer .wrapper-footer[data-v-bd55b284]{flex-direction:column;gap:35px}footer .wrapper-footer .logo[data-v-bd55b284]{gap:10px}footer .wrapper-footer .item[data-v-bd55b284],footer .wrapper-footer .logo[data-v-bd55b284]{padding:0 25px}}</style><style>.v-snackbar__wrapper{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:10px;bottom:20px!important;left:unset!important;overflow:hidden;position:fixed;right:0;transform:unset!important}.v-snackbar__wrapper .v-snackbar__content{padding:unset}.v-snackbar__wrapper .v-snackbar__content .wrapper-done{align-items:center;background-color:rgba(3,179,138,.6);display:flex;font-size:16px;gap:10px;padding:14px}.image-done{align-items:center;background-color:#fff;border-radius:50%;display:flex;height:26px;justify-content:center;width:26px}@media screen and (max-width:1920px){.v-snackbar__wrapper .v-snackbar__content{font-size:14px}}</style><style>.v-snackbar__wrapper{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:10px;bottom:20px!important;left:unset!important;overflow:hidden;position:fixed;right:0;transform:unset!important}.v-snackbar__wrapper .v-snackbar__content{padding:unset}.v-snackbar__wrapper .v-snackbar__content .wrapper-reject{align-items:center;background-color:rgba(239,0,0,.6);display:flex;font-size:16px;gap:10px;padding:14px}.image-done{align-items:center;background-color:#fff;border-radius:50%;display:flex;height:26px;justify-content:center;width:26px}.image-done img{width:15px}@media screen and (max-width:1920px){.v-snackbar__wrapper .v-snackbar__content{font-size:14px}}</style></head>
+<body ><div id="__nuxt"><!--[--><!--[--><section class="pages"><header class=""><a href="/" class="logo">НейроХолст</a><nav class="main-header"><a href="/text-to-image" class="">Изображение по описанию </a><a href="https://vk.com/public221126162" rel="noopener noreferrer" target="_blank" class="no-hover"><img src="/_nuxt/vk.2c5b301a.svg" alt="vk icon"></a><a href="/pricing" class="">Цены</a><a>Войти</a><a class="create-account no-hover"> Регистрация </a><!----></nav><!----><section class="drawer-hidden navigation-drawer"><a href="/text-to-image" class="">Изображение по описанию</a><a href="/pricing" class="">Цены</a><button>Войти</button><button class="create-account no-hover">Регистрация </button></section></header><main><p>Guides</p></main><footer data-v-bd55b284><div class="wrapper-footer" data-v-bd55b284><div class="logo" data-v-bd55b284><h3 data-v-bd55b284>НейроХолст</h3><p data-v-bd55b284>На нашей платформе вы можете создавать шедевры с помощью современных достижений в нейросетевых технологиях.</p><div class="social" data-v-bd55b284><img src="/_nuxt/vk.6740c91f.svg" alt="" data-v-bd55b284></div></div><section class="item" data-v-bd55b284><h3 data-v-bd55b284>Функции</h3><a href="/text-to-image" class="" data-v-bd55b284>Изображение по описанию</a><a href="/pricing" class="" data-v-bd55b284>Цены</a><a data-v-bd55b284>Войти</a><a data-v-bd55b284>Регистрация </a></section><section class="item" data-v-bd55b284><h3 data-v-bd55b284>Информация</h3><a href="/legal/privacy-policy" class="" data-v-bd55b284>Политика конфиденциальности</a><a href="/legal/terms-of-service" class="" data-v-bd55b284>Пользовательское соглашение</a><a href="/legal/restrictions" class="" data-v-bd55b284>Условия возврата</a></section><section class="item" data-v-bd55b284><h3 data-v-bd55b284>Контакты</h3><p data-v-bd55b284>neuro-holst@neuro-holst.ru</p><p data-v-bd55b284>ИНН: 616109874836</p></section></div></footer></section><!--]--><!--[--><!----><!----><!----><!----><!--[--><!----><!----><!--]--><!--[--><!----><!----><!--]--><!----><!----><!----><!--]--><!--]--></div><script type="application/json" id="__NUXT_DATA__" data-ssr="true" data-src="/guides/_payload.json">[{"state":1,"_errors":3,"serverRendered":5,"pinia":6,"prerenderedAt":66},["Reactive",2],{},["Reactive",4],{},true,["Reactive",7],{"store":8,"models":27,"imageStore":50},{"person":9,"filters":12,"referralId":25},["Ref",10],["Reactive",11],{},["Ref",13],["Reactive",14],{"model":15,"description":16,"exception":17,"image":18,"size":19,"parameters":21},"Диффузия v2.1","","Блюр, размытость, мультик",null,{"width":20,"height":20},512,{"countImages":22,"step":23,"navigation":24,"seed":18},3,25,5,["EmptyRef",26],"_",{"isOpenAcceptDialog":28,"isOpenAddEmailDialog":30,"isOpenRegistrationDialog":34,"isOpenLoginDialog":35,"isOpenSnackBarDone":36,"isOpenSnackBarReject":39,"isOpenBuyMoreCredits":42,"isOpenImageDetails":43,"errorMessageRegistration":47,"isOpenForgotPassword":49},["EmptyRef",29],"false",["Ref",31],["Reactive",32],{"isOpen":33,"idRate":18},false,["EmptyRef",29],["EmptyRef",29],["Ref",37],["Reactive",38],{"isOpen":33,"text":16},["Ref",40],["Reactive",41],{"isOpen":33,"text":16},["EmptyRef",29],["Ref",44],["Reactive",45],{"isOpen":33,"image":46},{},["EmptyRef",48],"\"\"",["EmptyRef",29],{"isGeneration":51,"images":52,"getImagePages":55,"isShowMainLoader":57,"inProgressMoreImages":58,"isShowButtonMoreImages":59,"totalImages":60,"sizeParameters":62},["EmptyRef",29],["Ref",53],["Reactive",54],[],["Ref",56],1,["EmptyRef",29],["EmptyRef",29],["EmptyRef",29],["EmptyRef",61],"null",["Ref",63],["Reactive",64],{"id":18,"costFactor":65,"minWidth":18,"maxWidth":18,"minHeight":18,"maxHeight":18},2,1686925752106]</script><script>window.__NUXT__={};window.__NUXT__.config={public:{"nuxt-simple-robots":{enabled:true,siteUrl:"https://neuro-holst.ru",disallow:["/social","/gallery","/legal","/person","/guides","/transactions","/referrals","/dream-booth","/editor"],sitemap:[],indexable:true,robotsEnabledValue:"index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",robotsDisabledValue:"noindex, nofollow",disallowNonIndexableRoutes:false}},app:{baseURL:"/",buildAssetsDir:"/_nuxt/",cdnURL:""}}</script><script type="module" src="/_nuxt/entry.c06b1dca.js" crossorigin></script></body>
+</html>
