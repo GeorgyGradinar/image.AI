@@ -106,9 +106,11 @@ function date(data) {
 
 function checkStatus(status) {
   if (status === 'accepted') {
-    return 'Успешно'
+    return 'Успешно';
   } else if (status === 'error') {
-    return 'Ошибка'
+    return 'Ошибка';
+  } else if (status === 'waiting') {
+    return 'В ожидании';
   }
 }
 
