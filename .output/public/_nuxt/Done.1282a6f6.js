@@ -1,0 +1,1 @@
+import{a as _,o as t,b as c,p as a,i as n,f as o,G as p}from"./entry.64022890.js";const d={},s=e=>(a("data-v-5b98b9f7"),e=e(),n(),e),r=s(()=>o("div",{class:"wrapper-done"},[o("img",{src:p,alt:"done"})],-1)),i=s(()=>o("p",null,"Готово",-1)),l=[r,i];function f(e,b){return t(),c("section",null,l)}const h=_(d,[["render",f],["__scopeId","data-v-5b98b9f7"]]);export{h as D};
