@@ -13,7 +13,7 @@
       </p>
 
       <p class="details-item with-divider">
-        <span class="title" v-if="image?.params?.negative_prompt">Исключение:</span>
+        <span class="title" v-if="image?.params?.negative_prompt">Исключения:</span>
         <span class="content"> {{ image?.params?.negative_prompt !== 'null' ? image?.params.negative_prompt : '' }}</span>
       </p>
 
@@ -26,7 +26,7 @@
         <!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
         <!--          <p>Открыть в редакторе</p>-->
         <!--        </NuxtLink>-->
-        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url)">
+        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url, image.params?.prompt)">
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
         </a>
@@ -50,13 +50,13 @@
           <span class="content">{{ image.params.width }} х {{ image.params.height }}</span>
         </p>
         <p class="details-item">
-          <span class="title">Степень соответсвия:</span>
+          <span class="title">Степень соответствия:</span>
           <span class="content">{{ image.params.similarity ? image.params.similarity : 1 }}</span>
         </p>
-        <p class="details-item">
-          <span class="title">Сид:</span>
-          <span class="content">{{ image.params.seeds }}</span>
-        </p>
+<!--        <p class="details-item">-->
+<!--          <span class="title">Сид:</span>-->
+<!--          <span class="content">{{ image.params.seeds }}</span>-->
+<!--        </p>-->
         <p class="details-item">
           <span class="title">Шагов прорисовки:</span>
           <span class="content">{{ image.params.steps }}</span>
@@ -108,13 +108,13 @@ onMounted(() => {
   })
 })
 
-async function downloadImage(imageSrc) {
+async function downloadImage(imageSrc, imageName) {
   const response = await fetch(imageSrc);
   const blobImage = await response.blob();
   const href = URL.createObjectURL(blobImage);
   const anchorElement = document.createElement('a');
   anchorElement.href = href;
-  anchorElement.download = 'image';
+  anchorElement.download = imageName || 'image';
 
   document.body.appendChild(anchorElement);
   anchorElement.click();
@@ -133,6 +133,7 @@ function checkRoute() {
 function reuseFilterParameters() {
   reuseImageParameters(image.value);
   emit('reuse');
+  router.push({path: '/text-to-image'});
 }
 
 function getDate(time) {
@@ -188,6 +189,7 @@ function toggleShowShareDialog() {
     display: flex;
     flex-direction: column;
     width: 30%;
+    min-width: 350px;
 
     .details-item {
       display: flex;

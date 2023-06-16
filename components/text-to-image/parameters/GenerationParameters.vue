@@ -43,7 +43,7 @@
             </div>
 
             <div class="guidance">
-              <span>Степень соответсвия: <strong>{{ parameters.navigation }}</strong></span>
+              <span>Степень соответствия: <strong>{{ parameters.navigation }}</strong></span>
               <v-slider
                   v-model="parameters.navigation"
                   color="#36E2FF"

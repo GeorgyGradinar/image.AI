@@ -8,7 +8,7 @@
         <div class="social">
           <!--          <img src="~/assets/images/footer/instagram.svg" alt="">-->
           <!--          <img src="~/assets/images/footer/twitter.svg" alt="">-->
-          <img src="~/assets/images/footer/vk.svg" alt="">
+          <NuxtLink class="no-hover" to="https://vk.com/public221126162" target="_blank"><img src="~/assets/images/footer/vk.svg" alt="vk icon"></NuxtLink>
         </div>
       </div>
 
@@ -20,8 +20,8 @@
         <!--        <button>ФотоМечты</button>-->
         <NuxtLink to="/text-to-image">Изображение по описанию</NuxtLink>
         <NuxtLink to="/pricing">Цены</NuxtLink>
-        <NuxtLink to="" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
-        <NuxtLink to="" v-if="!person.name" @click="toggleRegistrationDialog(true)">Регистрация
+        <NuxtLink to="#" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
+        <NuxtLink to="#" v-if="!person.name" @click="toggleRegistrationDialog(true)">Регистрация
         </NuxtLink>
       </section>
 

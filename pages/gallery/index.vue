@@ -1,26 +1,26 @@
 <template>
   <div class="wrapper-gallery">
-    <div class="wrapper-search">
-      <v-select
-          class="drop-down"
-          v-model="topical"
-          :items="['Сначала новые', 'Сначала старые']"
-          variant="outlined"
-          return-object
-          persistent-hint
-          label="Поиск"
-          :class="'rounded-lg'"
-      ></v-select>
-      <v-text-field
-          v-model.trim="search"
-          density="compact"
-          variant="solo"
-          label="Поиск"
-          append-inner-icon="mdi-magnify"
-          single-line
-          hide-details
-      ></v-text-field>
-    </div>
+<!--    <div class="wrapper-search">-->
+<!--      <v-select-->
+<!--          class="drop-down"-->
+<!--          v-model="topical"-->
+<!--          :items="['Сначала новые', 'Сначала старые']"-->
+<!--          variant="outlined"-->
+<!--          return-object-->
+<!--          persistent-hint-->
+<!--          label="Поиск"-->
+<!--          :class="'rounded-lg'"-->
+<!--      ></v-select>-->
+<!--      <v-text-field-->
+<!--          v-model.trim="search"-->
+<!--          density="compact"-->
+<!--          variant="solo"-->
+<!--          label="Поиск"-->
+<!--          append-inner-icon="mdi-magnify"-->
+<!--          single-line-->
+<!--          hide-details-->
+<!--      ></v-text-field>-->
+<!--    </div>-->
     <div class="main-block">
       <NavigationBlock @changeFilters="changeFilters"></NavigationBlock>
       <div class="wrapper-images" v-if="imagesData?.length">

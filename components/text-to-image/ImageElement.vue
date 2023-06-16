@@ -44,7 +44,6 @@
     <div v-if="!image.url" class="loader-block">
       <div class="wrapper-text">
         <p class="seconds">
-          <span v-if="minute">{{ minute }}.</span>
           <span>{{ second }}.</span>
           <span>{{ ms }}s</span>
         </p>
@@ -80,7 +79,6 @@ let timer = 0;
 let timerInterval;
 let ms = ref(0);
 let second = ref(0);
-let minute = ref(0);
 
 onMounted(() => {
   startTimer();
@@ -91,8 +89,7 @@ function startTimer() {
   timerInterval = setInterval(function () {
     timer += 1 / 60;
     ms.value = Math.floor((timer - Math.floor(timer)) * 10);
-    second.value = Math.floor(timer) - Math.floor(timer / 60) * 60;
-    minute.value = Math.floor(timer / 60);
+    second.value = Math.floor(timer);
   }, 1000 / 60);
 }
 

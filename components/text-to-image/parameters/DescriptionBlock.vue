@@ -27,7 +27,7 @@
             <textarea autofocus
                       placeholder="Опишите то, что хотели бы сгенерировать"
                       :class="{'is-data-input': description}"
-                      v-model.lazy="description">
+                      v-model="description">
             </textarea>
             <button class="random-button" @click="random">
               <img class="random-img"
@@ -39,7 +39,7 @@
             <p>Исключения</p>
             <input placeholder="Что хотите исключить"
                    :class="{'is-data-input': exception}"
-                   v-model.lazy="exception">
+                   v-model="exception">
           </section>
         </div>
       </v-expansion-panel-text>
@@ -70,6 +70,7 @@ let description = ref('');
 let exception = ref();
 let index;
 let isShowSearch = ref(hasShowSearch._object ? hasShowSearch : false);
+let debounceTimeout = ref(null);
 
 onMounted(() => {
   if (filters.value.description) {
@@ -91,12 +92,21 @@ watch(filters, (newData) => {
 })
 
 watch(description, (newData) => {
-  changeFilters('description', newData);
+  debounceChangeFilters('description', newData);
 })
 
 watch(exception, (newData) => {
-  changeFilters('exception', newData);
+  debounceChangeFilters('exception', newData);
 })
+
+function debounceChangeFilters(filterName, data) {
+  if (debounceTimeout) {
+    clearTimeout(debounceTimeout);
+  }
+  debounceTimeout = setTimeout(() => {
+    changeFilters(filterName, data);
+  }, 200);
+}
 
 </script>
 

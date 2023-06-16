@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import {defineEmits} from "vue";
+import {defineEmits, ref} from "vue";
 
 const emit = defineEmits(['changeFilters']);
 let isSelected = ref('generated');
@@ -53,7 +53,6 @@ function toggleSelected(selected) {
 
   nav {
     position: fixed;
-    top: 140px;
     width: 100%;
     max-width: 300px;
 

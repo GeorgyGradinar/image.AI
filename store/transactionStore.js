@@ -1,31 +1,34 @@
 import {defineStore} from "pinia";
+import {ref} from "vue";
 
 export const transactionStore = defineStore('transactionsStore', () => {
-    let transactions = ref([]);
+    let allTransactions = ref([]);
+    let allPayments = ref([]);
     let pages = ref(1);
-    let isShowButtonMoreTransactions = ref(false);
 
-    function clearStore() {
-        transactions.value = [];
+    function clearTransactionStore() {
+        allTransactions.value = [];
+        allPayments.value = [];
         pages.value = 1;
     }
 
     function addTransactions(newTransactions) {
-        transactions.value = [...transactions.value, ...newTransactions];
+        allTransactions.value = [...allTransactions.value, ...newTransactions];
+    }
+
+    function addPayments(newPayments) {
+        allPayments.value = [... allPayments.value, ...newPayments];
     }
 
     function changePages(currentPage) {
         pages.value = currentPage;
     }
 
-    function toggleShowButtonMoreTransactions(isShow){
-        isShowButtonMoreTransactions.value = isShow;
-    }
-
     return {
-        clearStore,
-        transactions, addTransactions,
+        clearTransactionStore,
+        allTransactions, addTransactions,
+        allPayments, addPayments,
         pages, changePages,
-        isShowButtonMoreTransactions, toggleShowButtonMoreTransactions,
+
     }
 })

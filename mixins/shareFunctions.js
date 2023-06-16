@@ -2,6 +2,7 @@ import {navigateTo} from "nuxt/app";
 import {personStore} from "~/store/personStore";
 import {imagesStore} from "~/store/imageStore";
 import {modelsStore} from "~/store/models";
+import {transactionStore} from "~/store/transactionStore";
 
 export default function shareFunctions() {
     const store = personStore();
@@ -10,12 +11,15 @@ export default function shareFunctions() {
     const {clearImageStore} = imageStore;
     const models = modelsStore();
     const {closeAllDialogs} = models;
+    const transactionsStore = transactionStore();
+    const {clearTransactionStore} = transactionsStore;
 
     function prepareLogout() {
         navigateTo('/');
         changePerson({});
         clearImageStore();
         closeAllDialogs();
+        clearTransactionStore();
     }
 
     function reuseImageParameters(image) {

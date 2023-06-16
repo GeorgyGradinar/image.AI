@@ -101,7 +101,7 @@ onMounted(() => {
 });
 
 function closeDialogClickOnAbroad(event) {
-  if (Array.from(event.target.classList).includes('v-overlay__scrim')) {
+  if (Array.from(event.target.classList).includes('v-overlay__scrim') || event.target.nodeName === "JDIV") {
     closeDialog();
   }
 }

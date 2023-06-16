@@ -1,32 +1,31 @@
 <template>
   <div class="wrapper-history">
     <div class="header-history">
-      <h1>История транзакций</h1>
-<!--      <div class="wrapper-search">-->
+      <h1>История покупок</h1>
+      <!--      <div class="wrapper-search">-->
 
-<!--        <v-select-->
-<!--            class="drop-down"-->
-<!--            v-model="status"-->
-<!--            :items="['Успешно', 'Отмена', 'Ожидание']"-->
-<!--            variant="outlined"-->
-<!--            return-object-->
-<!--            persistent-hint-->
-<!--            :class="'rounded-lg'"-->
-<!--        ></v-select>-->
-<!--        <v-text-field-->
-<!--            v-model.trim="search"-->
-<!--            density="compact"-->
-<!--            variant="solo"-->
-<!--            label="Поиск"-->
-<!--            append-inner-icon="mdi-magnify"-->
-<!--            single-line-->
-<!--            hide-details-->
-<!--        ></v-text-field>-->
-<!--      </div>-->
+      <!--        <v-select-->
+      <!--            class="drop-down"-->
+      <!--            v-model="status"-->
+      <!--            :items="['Успешно', 'Отмена', 'Ожидание']"-->
+      <!--            variant="outlined"-->
+      <!--            return-object-->
+      <!--            persistent-hint-->
+      <!--            :class="'rounded-lg'"-->
+      <!--        ></v-select>-->
+      <!--        <v-text-field-->
+      <!--            v-model.trim="search"-->
+      <!--            density="compact"-->
+      <!--            variant="solo"-->
+      <!--            label="Поиск"-->
+      <!--            append-inner-icon="mdi-magnify"-->
+      <!--            single-line-->
+      <!--            hide-details-->
+      <!--        ></v-text-field>-->
+      <!--      </div>-->
     </div>
     <section class="history">
-      <NavigationBlock @changeFilters="changeFilters"></NavigationBlock>
-      <div class="wrapper-message" v-if="!currentTransactions.length">
+      <div class="wrapper-message" v-if="!allPayments.length">
         <p>На данный момент история пуста</p>
       </div>
       <div class="wrapper-transactions" v-else>
@@ -40,32 +39,27 @@
               Сумма
             </th>
             <th class="text-left">
-              Тип
-            </th>
-            <th class="text-left">
               Статус
             </th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="item in currentTransactions" :key="item.id">
+          <tr v-for="item in allPayments" :key="item.id">
             <td>{{ date(item.created_at) }}</td>
-            <td>{{ sum(item.credits_old, item.credits_new) }}</td>
-            <td>{{ type(item.action) }}</td>
-            <td>Успешно</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ checkStatus(item.status) }}</td>
           </tr>
           </tbody>
         </v-table>
-        <div class="mobile-transactions" v-for="item in currentTransactions" :key="item.id">
+        <div class="mobile-transactions" v-for="item in allPayments" :key="item.id">
           <div class="top-block">
-            <p>Успешно</p>
+            <p>{{ checkStatus(item.status) }}</p>
           </div>
           <div class="bottom-block">
             <div class="mobile-sum">
-              <p>Кол-во</p>
-              <p class="sum">{{ sum(item.credits_old, item.credits_new) }}</p>
+              <p>Сумма</p>
+              <p class="sum">{{ item.amount }}</p>
             </div>
-            <p class="mobile-type">{{ type(item.action) }}</p>
             <div class="mobile-date">
               <p>Дата</p>
               <p class="date">{{ date(item.created_at) }}</p>
@@ -80,11 +74,10 @@
 <script setup>
 import transactions from "~/mixins/transactions";
 import {transactionStore} from "~/store/transactionStore";
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import {onMounted, onUnmounted} from "vue";
 import seo from "~/mixins/seo";
 import {metaTransactions, meta, link, scripts} from "~/seoConfig";
 import {storeToRefs} from "pinia";
-import NavigationBlock from "~/components/transactions/NavigationBlock"
 
 definePageMeta({
   middleware: "auth"
@@ -93,37 +86,14 @@ definePageMeta({
 const {setProperty} = seo();
 setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
 
-const {getPersonTransaction} = transactions();
+const {getPersonPayments} = transactions();
 const transactionsStore = transactionStore();
 const {clearTransactionStore} = transactionsStore;
-const {allTransactions} = storeToRefs(transactionsStore);
-
-let currentTransactions = ref([]);
-let currentPage = ref('spend');
-let status = ref('Статус');
-let search = ref('');
+const {allPayments} = storeToRefs(transactionsStore);
 
 onMounted(() => {
-  getPersonTransaction();
+  getPersonPayments();
 })
-
-watch(allTransactions, () => {
-  changeFilters(currentPage.value);
-})
-
-function changeFilters(settings) {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  })
-
-  currentPage.value = settings;
-  if (currentPage.value === 'refill') {
-    currentTransactions.value = allTransactions.value.filter(transaction => type(transaction.action) === 'Депозит');
-  } else if (currentPage.value === 'spend') {
-    currentTransactions.value = allTransactions.value.filter(transaction => type(transaction.action) === 'Генерация');
-  }
-}
 
 function date(data) {
   let currentDate = new Date(data);
@@ -134,28 +104,20 @@ function date(data) {
   return `${day}.${month}.${currentDate.getFullYear()} ${hour}:${minutes}`;
 }
 
-function sum(beforeSum, currentSum) {
-  let bigger = beforeSum > currentSum ? beforeSum : currentSum;
-  let less = beforeSum < currentSum ? beforeSum : currentSum;
-  return (bigger - less).toFixed(1);
-}
-
-function type(type) {
-  if (type === 'start_credits' || type === 'refill' || type === 'referral_credits') {
-    return 'Депозит';
-  } else if (type === 'make_request') {
-    return 'Генерация';
+function checkStatus(status) {
+  if (status === 'accepted') {
+    return 'Успешно'
+  } else if (status === 'error') {
+    return 'Ошибка'
   }
 }
 
 onUnmounted(() => {
   clearTransactionStore();
 })
-
 </script>
 
-<style lang="scss">
-
+<style scoped lang="scss">
 .wrapper-history {
   width: 100vw;
   height: 100%;
@@ -238,6 +200,7 @@ onUnmounted(() => {
 
   .history {
     display: flex;
+    justify-content: center;
 
     .v-table > .v-table__wrapper > table {
       background-color: var(--main-backgground-color);
@@ -263,7 +226,8 @@ onUnmounted(() => {
     }
 
     .wrapper-transactions {
-      width: 100%;
+      width: 80%;
+      margin-top: 20px;
     }
 
     .mobile-transactions {
@@ -274,7 +238,7 @@ onUnmounted(() => {
       .top-block {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
       }
 
       .bottom-block {
@@ -366,6 +330,10 @@ onUnmounted(() => {
 
     .history {
       flex-direction: column;
+
+      .wrapper-transactions {
+        width: 100%;
+      }
     }
   }
 }

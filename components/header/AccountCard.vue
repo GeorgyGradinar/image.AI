@@ -17,6 +17,9 @@
       <p @click="routeTo('/transactions')"><img src="~/assets/images/details-person/history.svg" alt="history">История
         транзакций
       </p>
+      <p @click="routeTo('/payments')"><img src="~/assets/images/details-person/history.svg" alt="history">История
+        покупок
+      </p>
       <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти
       </p>
       <p @click="routeTo('/referrals')" class="secondary"><img src="~/assets/images/details-person/invite.svg"
@@ -115,6 +118,7 @@ function routeTo(route) {
 
     span:last-child {
       font-size: 10px;
+      font-weight: bold;
     }
   }
 

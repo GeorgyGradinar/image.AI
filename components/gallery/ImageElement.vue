@@ -3,7 +3,7 @@
     <div class="photo-wrapper" v-if="image.url">
       <img class="main-image" :src="image.url"
            alt="image example" @click.prevent="toggleImageDetails({isOpen:true, image})">
-      <a class="wrapper-download" :href="image.url" @click.prevent="downloadImage(image.url)">
+      <a class="wrapper-download" :href="image.url" @click.prevent="downloadImage(image.url, image.params?.prompt)">
         <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
         <v-tooltip activator="parent" location="bottom">Скачать</v-tooltip>
       </a>
@@ -54,13 +54,13 @@ const models = modelsStore();
 const {toggleImageDetails} = models;
 const {likeImage, deleteImage} = generatorImages();
 
-async function downloadImage(imageSrc) {
+async function downloadImage(imageSrc, imageName) {
   const response = await fetch(imageSrc);
   const blobImage = await response.blob();
   const href = URL.createObjectURL(blobImage);
   const anchorElement = document.createElement('a');
   anchorElement.href = href;
-  anchorElement.download = 'image';
+  anchorElement.download = imageName || 'image';
 
   document.body.appendChild(anchorElement);
   anchorElement.click();

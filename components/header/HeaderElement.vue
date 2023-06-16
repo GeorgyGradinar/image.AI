@@ -10,8 +10,8 @@
       <!--      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>-->
       <NuxtLink class="no-hover" to="https://vk.com/public221126162" target="_blank"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
       <NuxtLink to="/pricing" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
-      <NuxtLink to="" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
-      <NuxtLink to="" class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">
+      <NuxtLink to="#" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
+      <NuxtLink to="#" class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">
         Регистрация
       </NuxtLink>
       <AccountCard v-if="person.id"></AccountCard>
@@ -246,6 +246,10 @@ header {
 
 @media screen and (max-width: 500px) {
   header {
+    .logo {
+      font-size: 14px;
+    }
+
     .mini-header {
       gap: 5px;
     }
