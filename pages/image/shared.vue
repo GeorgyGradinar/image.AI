@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper-shared-image">
-    <ImageDetailsBlock v-if="image && !notFind" :image="image" :route="route.params.id"></ImageDetailsBlock>
+    <ImageDetailsBlock v-if="image" :image="image" :route="route.query.id"></ImageDetailsBlock>
     <div v-if="notFind" class="not-find">
       <p>Изображение не найдено</p>
       <NuxtLink to="/" class="secondary">Перейти на главную</NuxtLink>
@@ -10,20 +10,30 @@
 
 <script setup>
 import {onMounted} from "vue";
-import {useRoute} from "nuxt/app";
+import {useRoute, useRouter} from "nuxt/app";
 import requests from "~/mixins/requests";
 import ImageDetailsBlock from "~/components/shared/dialogs/ImageDetailsBlock";
 
-const {getImageShared} = requests();
 const route = useRoute();
-
-let image = ref();
+const router = useRouter();
+const {getSharedImage} = requests();
+let image = ref(null);
 let notFind = ref(false);
 
 onMounted(() => {
-  image.value = getImageShared(route.params.id);
-  notFind.value = !image.value;
+  if (route.query.id) {
+    getImage(route.query.id)
+  } else {
+    router.push({path: '/'})
+  }
 })
+
+async function getImage(id){
+  await getSharedImage(id)
+      .then(response =>{
+        image.value = response.image;
+      })
+}
 
 </script>
 

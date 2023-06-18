@@ -5,7 +5,8 @@
       <p>Каждый зарегистрировавшийся по ваше ссылке становится вашим рефералом.</p>
 
       <h3>Получай 20% красок с каждой покупки твоего реферала</h3>
-      <p>Каждый раз, когда твой реферал покупает краски, на твой баланс будет добавляться 20% от красок, которые он купил.</p>
+      <p>Каждый раз, когда твой реферал покупает краски, на твой баланс будет добавляться 20% от красок, которые он
+        купил.</p>
       <p>Скопируйте свою реферальную ссылку и поделитесь ей с друзьями и подписчиками!</p>
 
       <div class="wrapper-input">
@@ -32,21 +33,29 @@
 
 <script setup>
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
-import {ref} from "vue";
+import {ref, watch} from "vue";
 import seo from "~/mixins/seo";
 import {metaReferral, meta, link, scripts} from "~/seoConfig";
+import {personStore} from "~/store/personStore";
+import {storeToRefs} from "pinia";
 
 definePageMeta({
   middleware: "auth"
 })
 
+const store = personStore();
+const {person} = storeToRefs(store);
 const referral = ref(null);
 const {setProperty} = seo();
 setProperty(metaReferral.title, [...meta, ...metaReferral.meta], link, scripts);
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
-let referralLink = ref('https://neuro-holst.ru?ref=1521');
+let referralLink = ref(`https://neuro-holst.ru?ref=${person.value.id}`);
+
+watch(person, (newData) => {
+  referralLink.value = `https://neuro-holst.ru?ref=${newData.id}`
+})
 
 function copyLink() {
   textSnackBarForGeneration.value = "Ссылка скопирована";
@@ -64,7 +73,7 @@ function copyLink() {
   width: 100vw;
   height: 100%;
   min-height: 100vh;
-  padding : 150px 0 50px 0;
+  padding: 150px 0 50px 0;
 
   .referrals {
     width: 100%;
@@ -130,7 +139,7 @@ function copyLink() {
 
 @media screen and (max-width: 700px) {
   .wrapper-referrals {
-    padding : 100px 20px 20px 20px;
+    padding: 100px 20px 20px 20px;
   }
 }
 </style>

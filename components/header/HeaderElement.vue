@@ -55,7 +55,7 @@ let hasHiddenDrawer = ref(true);
 let showFullHeader = ref(true);
 
 onMounted(() => {
-  referralId._value = route.query.ref ? route.query.ref : true;
+  referralId.value = route.query.ref ? route.query.ref : null;
   initStore();
   window.addEventListener('resize', getCurrentWidth)
   if (window.innerWidth < 900) {

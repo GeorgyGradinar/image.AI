@@ -32,27 +32,35 @@
             <p>Еще нет аккаунта?</p>
             <a @click.prevent="openRegistrationBlock">Зарегистрироваться</a>
           </div>
-<!--          <p class="forgot-password">Забыли пароль? <a @click.prevent="openForgotPasswordDialog">Восстановить</a></p>-->
-          <div class="socials">
-            <p>Войти с помощью</p>
-            <div class="wrapper-socials">
-              <img @click="vk" src="~/assets/images/vk.svg" alt="вконтакте">
-              <img @click="yandex" src="~/assets/images/yandex.svg" alt="яндекс">
-              <img @click="google" src="~/assets/images/google.svg" alt="гугл">
-            </div>
+          <!--          <p class="forgot-password">Забыли пароль? <a @click.prevent="openForgotPasswordDialog">Восстановить</a></p>-->
+          <div class="card-buttons login-button">
+            <button class="create-account no-hover" @click.prevent="submit">Войти</button>
           </div>
 
-          <div class="card-buttons login-button">
+          <div class="socials">
             <div class="wrapper-accept-policy">
               <input type="checkbox" id="vehicle1" name="vehicle1" v-model="policyPrivacy" value="false">
               <label for="vehicle1">Я принимаю условия
                 <NuxtLink to="/legal/terms-of-service" @click="closeDialog">Пользовательского соглашения</NuxtLink>
               </label>
             </div>
-            <button class="create-account no-hover" @click.prevent="submit">Войти</button>
+
+            <div class="wrapper-socials">
+              <button class="secondary vk" @click.prevent="vk">
+                <p>Войти с помощью ВК</p>
+                <img src="~/assets/images/vk.svg" alt="вконтакте">
+              </button>
+              <button class="secondary yandex" @click.prevent="yandex">
+                <p>Войти с помощью Яндекс</p>
+                <img src="~/assets/images/yandex.svg" alt="яндекс">
+              </button>
+              <button class="secondary google" @click.prevent="google">
+                <p>Войти с помощью Google</p>
+                <img src="~/assets/images/google.svg" alt="гугл">
+              </button>
+            </div>
           </div>
         </form>
-
       </v-card>
     </v-dialog>
   </div>
@@ -74,7 +82,7 @@ const {loginIn, getPersonInfo} = requests();
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
 const store = personStore();
 const {changePerson} = store;
-const models = modelsStore()
+const models = modelsStore();
 const {toggleAcceptDialog, toggleRegistrationDialog, toggleForgotPassword} = models;
 const {authVK, authYandex, authGoogle} = socials();
 const {personMapper} = apiMapper();
@@ -115,7 +123,7 @@ async function submit() {
   v$.value.$validate();
 
   if (!v$.value.$error) {
-    changeErrorMessage('')
+    changeErrorMessage('');
     await loginIn({
       email: initialState.value.email,
       password: initialState.value.password
@@ -127,7 +135,7 @@ async function submit() {
         .catch(error => {
           if (error.statusCode === 401) {
             changeErrorMessage('Некорректная почта или пароль');
-          }else {
+          } else {
             changeErrorMessage('Что-то пошло не так');
           }
         })
@@ -135,29 +143,29 @@ async function submit() {
 }
 
 function vk() {
-  changeErrorMessage('')
+  changeErrorMessage('');
   if (policyPrivacy.value) {
     authVK();
   } else {
-    changeErrorMessage('Примите условия пользовательского соглашения')
+    changeErrorMessage('Примите условия пользовательского соглашения');
   }
 }
 
 function yandex() {
-  changeErrorMessage('')
+  changeErrorMessage('');
   if (policyPrivacy.value) {
     authYandex();
   } else {
-    changeErrorMessage('Примите условия пользовательского соглашения')
+    changeErrorMessage('Примите условия пользовательского соглашения');
   }
 }
 
 function google() {
-  changeErrorMessage('')
+  changeErrorMessage('');
   if (policyPrivacy.value) {
     authGoogle();
   } else {
-    changeErrorMessage('Примите условия пользовательского соглашения')
+    changeErrorMessage('Примите условия пользовательского соглашения');
   }
 }
 
@@ -171,7 +179,7 @@ function openForgotPasswordDialog() {
 }
 
 function closeDialog() {
-  changeErrorMessage('')
+  changeErrorMessage('');
   removeEventListener('click', closeDialogClickOnAbroad);
   emit('closeLoginDialog');
 }
@@ -198,28 +206,47 @@ function closeDialog() {
   margin-bottom: 10px;
 }
 
-.login-button {
+.wrapper-accept-policy {
+  margin-bottom: 20px;
   display: flex;
-  flex-direction: column;
 
-  .wrapper-accept-policy {
-    margin-bottom: 20px;
-    display: flex;
+  input {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
 
-    input {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-      cursor: pointer;
+  label {
+    cursor: pointer;
+
+    a {
+      color: var(--light-blue);
     }
+  }
+}
 
-    label {
-      cursor: pointer;
+.secondary.vk {
+  border: 1px solid rgba(25, 118, 210, 1);
 
-      a {
-        color: var(--light-blue);
-      }
-    }
+  &:hover {
+    box-shadow: 0 0 10px rgba(25, 118, 210, 0.5);
+  }
+}
+
+.secondary.yandex {
+  border: 1px solid rgba(237, 31, 36, 1);
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(237, 31, 36, 0.5);
+  }
+}
+
+.secondary.google {
+  border: 1px solid rgba(52, 168, 83, 1);
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(52, 168, 83, 0.5);
   }
 }
 

@@ -47,6 +47,7 @@ export default function requests() {
             name: data.name,
             password_confirmation: data.passwordConfirmation,
         }
+        console.log(store.referralId)
         body = store.referralId ? {...body, refferal_id: store.referralId} : body;
         body = isCheater ? {...body, is_cheater: isCheater} : body;
 
@@ -57,7 +58,7 @@ export default function requests() {
                 //     toggleAcceptDialog(true);
                 //     getPersonInfo();
                 // }
-                window.ym(93987528,'reachGoal','632235');
+                window.ym(93987528, 'reachGoal', '632235');
                 toggleRegistrationDialog(false);
             })
             .catch(error => {
@@ -72,7 +73,7 @@ export default function requests() {
     }
 
     function sendMessageToEmail() {
-        $fetch(`${MAIN_URL}/email/verification-notification`,  getRequestOptions('POST', [HEADER_PARAMETERS.authorization]))
+        $fetch(`${MAIN_URL}/email/verification-notification`, getRequestOptions('POST', [HEADER_PARAMETERS.authorization]))
             .then(() => {
                 toggleSnackBarDone({isOpen: true, text: 'Сообщение отправлено'});
             })
@@ -135,14 +136,14 @@ export default function requests() {
                         toggleSnackBarDone({isOpen: true, text: 'Изображения загружены'});
                         changeTotalImages(response.gallery.total);
 
-                        if (imageStore.getImagePages === 1){
+                        if (imageStore.getImagePages === 1) {
                             addNewImages(response.gallery.data);
-                        }else {
+                        } else {
                             addOldImages(response.gallery.data);
                         }
 
                         if (imageStore.totalImages > imageStore.images.length) {
-                            changeImagePage(imageStore.getImagePages+1);
+                            changeImagePage(imageStore.getImagePages + 1);
                         } else {
                             toggleShowButtonMoreImages(false);
                         }
@@ -154,10 +155,14 @@ export default function requests() {
             .catch(error => {
                 if (error.statusCode === 401) {
                     prepareLogout();
-                }else {
+                } else {
                     toggleSnackBarReject({isOpen: true, text: 'Что-то пошло не так'});
                 }
             })
+    }
+
+    function getSharedImage(id) {
+       return $fetch(`https://api.neuro-holst.ru/api/v1/image/share/get/?share_id=${id}`, [HEADER_PARAMETERS.accept])
     }
 
     return {
@@ -167,6 +172,7 @@ export default function requests() {
         logout,
         getPersonInfo,
         initStore,
-        getPersonGallery
+        getPersonGallery,
+        getSharedImage
     };
 }

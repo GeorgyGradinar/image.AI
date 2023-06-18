@@ -22,9 +22,9 @@
       </p>
       <p @click.prevent="logout"><img class="rotate" src="~/assets/images/details-person/logOut.svg" alt="log out">Выйти
       </p>
-<!--      <p @click="routeTo('/referrals')" class="secondary"><img src="~/assets/images/details-person/invite.svg"-->
-<!--                                                               alt="invite">Пригласить-->
-<!--        другей</p>-->
+      <p @click="routeTo('/referrals')" class="secondary"><img src="~/assets/images/details-person/invite.svg"
+                                                               alt="invite">Пригласить
+        другей</p>
     </section>
   </div>
 </template>

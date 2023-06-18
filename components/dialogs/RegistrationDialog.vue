@@ -50,24 +50,33 @@
           <a @click.prevent="openLoginDialog">Войти</a>
         </div>
 
-        <div class="socials">
-          <p>Регистрация с помощю</p>
-          <div class="wrapper-socials">
-            <img @click="vk" src="~/assets/images/vk.svg" alt="вконтакте">
-            <img @click="yandex" src="~/assets/images/yandex.svg" alt="яндекс">
-            <img @click="google" src="~/assets/images/google.svg" alt="гугл">
-          </div>
+        <div class="wrapper-accept-policy">
+          <input type="checkbox" id="vehicle1" name="vehicle1" v-model="policyPrivacy" value="false">
+          <label for="vehicle1">Я принимаю условия
+            <NuxtLink to="/legal/terms-of-service" @click="closeRegistrationBlock">Пользовательского соглашения
+            </NuxtLink>
+          </label>
         </div>
 
         <div class="card-buttons login-button">
-          <div class="wrapper-accept-policy">
-            <input type="checkbox" id="vehicle1" name="vehicle1" v-model="policyPrivacy" value="false">
-            <label for="vehicle1">Я принимаю условия
-              <NuxtLink to="/legal/terms-of-service" @click="closeRegistrationBlock">Пользовательского соглашения
-              </NuxtLink>
-            </label>
-          </div>
           <button class="create-account no-hover" @click.prevent="submit">Регистрация</button>
+        </div>
+
+        <div class="socials">
+          <div class="wrapper-socials">
+            <button class="secondary vk" @click.prevent="vk">
+              <p>Войти с помощью ВК</p>
+              <img src="~/assets/images/vk.svg" alt="вконтакте">
+            </button>
+            <button class="secondary yandex" @click.prevent="yandex">
+              <p>Войти с помощью Яндекс</p>
+              <img src="~/assets/images/yandex.svg" alt="яндекс">
+            </button>
+            <button class="secondary google" @click.prevent="google">
+              <p>Войти с помощью Google</p>
+              <img src="~/assets/images/google.svg" alt="гугл">
+            </button>
+          </div>
         </div>
       </form>
 
@@ -135,7 +144,7 @@ function closeDialogClickOnAbroad(event) {
 function submit() {
   v$.value.$validate();
   changeErrorMessageRegistration('');
-  if (policyPrivacy.value){
+  if (policyPrivacy.value) {
     if (!v$.value.$error) {
       registration({
         email: initialState.value.email,
@@ -144,7 +153,7 @@ function submit() {
         passwordConfirmation: initialState.value.passwordConfirmation,
       })
     }
-  }else {
+  } else {
     changeErrorMessageRegistration('Примите условия пользовательского соглашения');
   }
 }
@@ -198,25 +207,50 @@ function closeRegistrationBlock() {
   }
 }
 
-.login-button {
+.wrapper-accept-policy {
+  margin: 20px 0;
   display: flex;
-  flex-direction: column;
 
-  .wrapper-accept-policy {
-    margin-bottom: 20px;
-    display: flex;
+  input {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
 
-    input {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-    }
-
-    label {
-      a {
-        color: var(--light-blue);
-      }
+  label {
+    a {
+      color: var(--light-blue);
     }
   }
 }
+
+.login-button {
+  display: flex;
+  flex-direction: column;
+}
+
+.secondary.vk {
+  border: 1px solid rgba(25, 118, 210, 1);
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(25, 118, 210, 0.5);
+  }
+}
+
+.secondary.yandex {
+  border: 1px solid rgba(237, 31, 36, 1);
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(237, 31, 36, 0.5);
+  }
+}
+
+.secondary.google {
+  border: 1px solid rgba(52, 168, 83, 1);
+
+  &:hover {
+    box-shadow: 0 0 10px rgba(52, 168, 83, 0.5);
+  }
+}
+
 </style>

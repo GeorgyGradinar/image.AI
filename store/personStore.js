@@ -20,7 +20,7 @@ export const personStore = defineStore('store', () => {
             seed: null
         }
     });
-    let referralId = ref();
+    let referralId = ref(null);
 
     function changePerson(data) {
         person.value = {

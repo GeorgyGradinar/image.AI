@@ -2,9 +2,9 @@
   <section class="main-content" persistent>
     <div class="image-wrapper">
       <img class="background-image" alt="generated image"
-           :src="image.url">
+           :src="image.url || image.share_url">
       <img class="main-image" alt="generated image"
-           :src="image.url">
+           :src="image.url || image.share_url">
     </div>
     <div class="image-details">
       <p class="details-item">
@@ -14,7 +14,7 @@
 
       <p class="details-item with-divider">
         <span class="title" v-if="image?.params?.negative_prompt">Исключения:</span>
-        <span class="content"> {{ image?.params?.negative_prompt !== 'null' ? image?.params.negative_prompt : '' }}</span>
+        <span class="content"> {{ image?.params?.negative_prompt !== 'null' ? image?.params?.negative_prompt : '' }}</span>
       </p>
 
       <div class="options with-divider">
@@ -26,7 +26,7 @@
         <!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
         <!--          <p>Открыть в редакторе</p>-->
         <!--        </NuxtLink>-->
-        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url, image.params?.prompt)">
+        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url || image.share_url, image.params?.prompt)">
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
           <p>Скачать</p>
         </a>
@@ -38,20 +38,20 @@
         <!--          <img src="~/assets/images/text-to-image/block-images/duble-arrows.svg" alt="">-->
         <!--          <p>Повысить разрешение</p>-->
         <!--        </div>-->
-<!--        <div class="share-button" @click="toggleShowShareDialog">-->
-<!--          <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">-->
-<!--          <strong>Поделиться</strong>-->
-<!--        </div>-->
+        <div class="share-button" @click="toggleShowShareDialog">
+          <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">
+          <strong>Поделиться</strong>
+        </div>
       </div>
 
       <div class="short-details">
         <p class="details-item">
           <span class="title">Размер:</span>
-          <span class="content">{{ image.params.width }} х {{ image.params.height }}</span>
+          <span class="content">{{ image.params?.width }} х {{ image.params?.height }}</span>
         </p>
         <p class="details-item">
           <span class="title">Степень соответствия:</span>
-          <span class="content">{{ image.params.similarity ? image.params.similarity : 1 }}</span>
+          <span class="content">{{ image.params?.similarity ? image.params?.similarity : 1 }}</span>
         </p>
 <!--        <p class="details-item">-->
 <!--          <span class="title">Сид:</span>-->
@@ -59,7 +59,7 @@
 <!--        </p>-->
         <p class="details-item">
           <span class="title">Шагов прорисовки:</span>
-          <span class="content">{{ image.params.steps }}</span>
+          <span class="content">{{ image.params?.steps }}</span>
         </p>
         <!--        <p class="details-item">-->
         <!--          <span class="title">Семплер:</span>-->
@@ -73,7 +73,7 @@
     </div>
   </section>
 
-  <ShareImageDialog v-if="isOpenShareDialog" :image-src="image.url" :imageSharedUrl="image"
+  <ShareImageDialog v-if="isOpenShareDialog" :image-src="image.url || image.share_url" :imageSharedUrl="image"
                     @close="toggleShowShareDialog">
   </ShareImageDialog>
 </template>
@@ -128,7 +128,6 @@ function checkRoute() {
     router.push({path: '/text-to-image'});
   }
 }
-
 
 function reuseFilterParameters() {
   reuseImageParameters(image.value);

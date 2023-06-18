@@ -11,17 +11,26 @@
         <h3>Поделитесь изображением в своих социальных сетях</h3>
 
         <div class="wrapper-share-social">
-          <div class="wrapper-vk"  @click="vk">
+          <div class="wrapper-vk" @click="vk">
             <img src="~/assets/images/vk.svg" alt="vk icon">
           </div>
           <div @click="share" class="wrapper-instagram">
             <img src="~/assets/images/instagram.svg" alt="instagram icon">
           </div>
           <div class="wrapper-class-mates">
-            <img class="class-mates" src="~/assets/images/class-mates.svg" alt="class-mates icon">
+            <a :href="`https://connect.ok.ru/offer?url=${props.imageSharedUrl.url}&imageUrl=${props.imageSharedUrl.url}`" target="_blank">
+              <img class="class-mates" src="~/assets/images/class-mates.svg" alt="class-mates icon">
+            </a>
           </div>
           <div class="wrapper-zen">
-            <img class="class-mates" src="~/assets/images/zen.svg" alt="class-mates icon">
+            <a :href="`https://t.me/share/url?url=${props.imageSharedUrl.url }`">
+              <img src="~/assets/images/zen.svg" alt="class-mates icon">
+            </a>
+          </div>
+          <div class="wrapper-telegram">
+            <a :href="`https://t.me/share/url?url=${props.imageSharedUrl.url }&text=${imageLink}`" target="_blank">
+              <img src="~/assets/images/telegram.svg" alt="class-mates icon">
+            </a>
           </div>
         </div>
         <div class="wrapper-input">
@@ -51,10 +60,10 @@ const props = defineProps({
 });
 const referral = ref(null);
 const emit = defineEmits(['close']);
-
+console.log()
 let isOpenSnackBarDone = ref(false);
 let isOpen = ref(true);
-let imageLink = ref(`https://neuro-holst.ru/image/${props.imageSharedUrl.url.toString().slice(0, -5)}`);
+let imageLink = ref(`https://neuro-holst.ru/image/shared?id=${props.imageSharedUrl.share_id}`);
 let textSnackBarForGeneration = ref('');
 
 function copyLink() {
@@ -75,11 +84,11 @@ function share() {
 function vk() {
   let url = 'http://vk.com/share.php?';
   url += 'url=' + encodeURIComponent(imageLink.value);
-  url += '&image=' + encodeURIComponent(`https://image-ai-liard.vercel.app/_nuxt/${props.imageSharedUrl}`);
+  url += '&image=' + encodeURIComponent(props.imageSharedUrl.url || props.imageSharedUrl.share_id);
   url += '&noparse=true';
-
   window.open(url, '', 'toolbar=0,status=0,width=626,height=436');
 }
+
 
 </script>
 
@@ -152,7 +161,8 @@ function vk() {
           .wrapper-vk,
           .wrapper-instagram,
           .wrapper-class-mates,
-          .wrapper-zen {
+          .wrapper-zen,
+          .wrapper-telegram {
             display: flex;
             justify-content: center;
             width: 75px;
@@ -167,6 +177,14 @@ function vk() {
 
             .class-mates {
               width: 35px;
+            }
+
+            a {
+              display: flex;
+
+              img {
+                width: 30px;
+              }
             }
           }
 
@@ -199,6 +217,14 @@ function vk() {
 
             &:hover {
               background-color: rgba(0, 0, 0, 0.5);
+            }
+          }
+
+          .wrapper-telegram {
+            background-color: rgba(64, 179, 224, 0.2);
+
+            &:hover {
+              background-color: rgba(64, 179, 224, 0.5);
             }
           }
         }
