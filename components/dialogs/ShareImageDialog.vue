@@ -14,17 +14,13 @@
           <div class="wrapper-vk" @click="vk">
             <img src="~/assets/images/vk.svg" alt="vk icon">
           </div>
-          <div @click="share" class="wrapper-instagram">
+          <div v-if="hasShowInstagram" @click="share" class="wrapper-instagram">
             <img src="~/assets/images/instagram.svg" alt="instagram icon">
           </div>
           <div class="wrapper-class-mates">
-            <a :href="`https://connect.ok.ru/offer?url=${props.imageSharedUrl.url}&imageUrl=${props.imageSharedUrl.url}`" target="_blank">
+            <a :href="`https://connect.ok.ru/offer?url=${props.imageSharedUrl.url}&imageUrl=${props.imageSharedUrl.url}`"
+               target="_blank">
               <img class="class-mates" src="~/assets/images/class-mates.svg" alt="class-mates icon">
-            </a>
-          </div>
-          <div class="wrapper-zen">
-            <a :href="`https://t.me/share/url?url=${props.imageSharedUrl.url }`">
-              <img src="~/assets/images/zen.svg" alt="class-mates icon">
             </a>
           </div>
           <div class="wrapper-telegram">
@@ -32,6 +28,13 @@
               <img src="~/assets/images/telegram.svg" alt="class-mates icon">
             </a>
           </div>
+
+          <div class="wrapper-whats-app">
+            <a :href="`whatsapp://send?text=${imageLink}`" data-action="share/whatsapp/share" target="_blank">
+              <img src="~/assets/images/whats-app.svg" alt="class-mates icon">
+            </a>
+          </div>
+
         </div>
         <div class="wrapper-input">
           <input v-model="imageLink" ref="referral" readonly>
@@ -43,41 +46,45 @@
       </div>
     </v-card>
   </v-dialog>
-  <DoneSnackBar
-      :openSnackBar="isOpenSnackBarDone"
-      :text-snack-bar="textSnackBarForGeneration"
-      @close="isOpenSnackBarDone = false">
-  </DoneSnackBar>
 </template>
 
 <script setup>
-import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
-import {defineEmits, defineProps, ref} from "vue";
+import {defineEmits, defineProps, onMounted, ref} from "vue";
+import {modelsStore} from "~/store/models";
 
 const props = defineProps({
-  imageSrc: {},
+  imageSrc: Object,
   imageSharedUrl: String
 });
 const referral = ref(null);
 const emit = defineEmits(['close']);
-console.log()
-let isOpenSnackBarDone = ref(false);
+const models = modelsStore();
+const {toggleSnackBarDone} = models;
+
 let isOpen = ref(true);
 let imageLink = ref(`https://neuro-holst.ru/image/shared?id=${props.imageSharedUrl.share_id}`);
-let textSnackBarForGeneration = ref('');
+let hasShowInstagram = ref(true);
+
+onMounted(() => {
+  window.addEventListener('resize', getCurrentWidth)
+  if (window.innerWidth > 1300) {
+    hasShowInstagram.value = false;
+  }
+})
+
+function getCurrentWidth(event) {
+  hasShowInstagram.value = event.target.innerWidth < 1300;
+}
 
 function copyLink() {
-  textSnackBarForGeneration.value = "Ссылка скопирована";
-  isOpenSnackBarDone.value = true;
+  toggleSnackBarDone({isOpen: true, text: "Ссылка скопирована"})
   referral.value.select();
   document.execCommand("copy");
 }
 
 function share() {
   navigator.share({
-    title: 'test title',
-    text: 'dvfs sdf  ds',
-    url: 'https://www.google.com/'
+    url: imageLink.value
   })
 }
 
@@ -88,7 +95,6 @@ function vk() {
   url += '&noparse=true';
   window.open(url, '', 'toolbar=0,status=0,width=626,height=436');
 }
-
 
 </script>
 
@@ -161,8 +167,8 @@ function vk() {
           .wrapper-vk,
           .wrapper-instagram,
           .wrapper-class-mates,
-          .wrapper-zen,
-          .wrapper-telegram {
+          .wrapper-telegram,
+          .wrapper-whats-app {
             display: flex;
             justify-content: center;
             width: 75px;
@@ -212,19 +218,19 @@ function vk() {
             }
           }
 
-          .wrapper-zen {
-            background-color: rgba(0, 0, 0, 0.2);
-
-            &:hover {
-              background-color: rgba(0, 0, 0, 0.5);
-            }
-          }
-
           .wrapper-telegram {
             background-color: rgba(64, 179, 224, 0.2);
 
             &:hover {
               background-color: rgba(64, 179, 224, 0.5);
+            }
+          }
+
+          .wrapper-whats-app {
+            background-color: rgba(37, 211, 102, 0.2);
+
+            &:hover {
+              background-color: rgba(37, 211, 102, 0.5);
             }
           }
         }
@@ -293,6 +299,27 @@ function vk() {
         .block-share-info {
           gap: 10px;
           padding: 20px;
+
+          .wrapper-share-social {
+            .wrapper-vk,
+            .wrapper-instagram,
+            .wrapper-class-mates,
+            .wrapper-telegram,
+            .wrapper-whats-app {
+              width: 50px;
+              height: 50px;
+
+              img {
+                width: 25px;
+              }
+            }
+          }
+        }
+
+        .wrapper-input {
+          input {
+            font-size: 12px;
+          }
         }
       }
     }
@@ -329,20 +356,6 @@ function vk() {
         .block-share-info {
           h3 {
             font-size: 15px;
-          }
-
-          .wrapper-share-social {
-            .wrapper-vk,
-            .wrapper-instagram,
-            .wrapper-class-mates,
-            .wrapper-zen {
-              width: 50px;
-              height: 50px;
-
-              img {
-                width: 25px;
-              }
-            }
           }
         }
       }

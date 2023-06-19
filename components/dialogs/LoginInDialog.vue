@@ -44,21 +44,7 @@
                 <NuxtLink to="/legal/terms-of-service" @click="closeDialog">Пользовательского соглашения</NuxtLink>
               </label>
             </div>
-
-            <div class="wrapper-socials">
-              <button class="secondary vk" @click.prevent="vk">
-                <p>Войти с помощью ВК</p>
-                <img src="~/assets/images/vk.svg" alt="вконтакте">
-              </button>
-              <button class="secondary yandex" @click.prevent="yandex">
-                <p>Войти с помощью Яндекс</p>
-                <img src="~/assets/images/yandex.svg" alt="яндекс">
-              </button>
-              <button class="secondary google" @click.prevent="google">
-                <p>Войти с помощью Google</p>
-                <img src="~/assets/images/google.svg" alt="гугл">
-              </button>
-            </div>
+            <SocialsBlock :policyPrivacy="policyPrivacy" @errorMessage="changeErrorMessage"></SocialsBlock>
           </div>
         </form>
       </v-card>
@@ -74,8 +60,8 @@ import requests from "~/mixins/requests";
 import validation from "~/mixins/validation";
 import {personStore} from "~/store/personStore";
 import apiMapper from "~/mixins/apiMapper";
-import socials from "~/mixins/socials";
 import {modelsStore} from "~/store/models";
+import SocialsBlock from "../header/SocialsBlock";
 
 const {mapErrors} = validation();
 const {loginIn, getPersonInfo} = requests();
@@ -84,7 +70,6 @@ const store = personStore();
 const {changePerson} = store;
 const models = modelsStore();
 const {toggleAcceptDialog, toggleRegistrationDialog, toggleForgotPassword} = models;
-const {authVK, authYandex, authGoogle} = socials();
 const {personMapper} = apiMapper();
 
 const initialState = ref({
@@ -142,33 +127,6 @@ async function submit() {
   }
 }
 
-function vk() {
-  changeErrorMessage('');
-  if (policyPrivacy.value) {
-    authVK();
-  } else {
-    changeErrorMessage('Примите условия пользовательского соглашения');
-  }
-}
-
-function yandex() {
-  changeErrorMessage('');
-  if (policyPrivacy.value) {
-    authYandex();
-  } else {
-    changeErrorMessage('Примите условия пользовательского соглашения');
-  }
-}
-
-function google() {
-  changeErrorMessage('');
-  if (policyPrivacy.value) {
-    authGoogle();
-  } else {
-    changeErrorMessage('Примите условия пользовательского соглашения');
-  }
-}
-
 function changeErrorMessage(message) {
   errorMessage.value = message;
 }
@@ -183,7 +141,6 @@ function closeDialog() {
   removeEventListener('click', closeDialogClickOnAbroad);
   emit('closeLoginDialog');
 }
-
 </script>
 
 <style scoped lang="scss">
@@ -225,29 +182,4 @@ function closeDialog() {
     }
   }
 }
-
-.secondary.vk {
-  border: 1px solid rgba(25, 118, 210, 1);
-
-  &:hover {
-    box-shadow: 0 0 10px rgba(25, 118, 210, 0.5);
-  }
-}
-
-.secondary.yandex {
-  border: 1px solid rgba(237, 31, 36, 1);
-
-  &:hover {
-    box-shadow: 0 0 10px rgba(237, 31, 36, 0.5);
-  }
-}
-
-.secondary.google {
-  border: 1px solid rgba(52, 168, 83, 1);
-
-  &:hover {
-    box-shadow: 0 0 10px rgba(52, 168, 83, 0.5);
-  }
-}
-
 </style>
