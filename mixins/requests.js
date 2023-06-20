@@ -161,8 +161,28 @@ export default function requests() {
             })
     }
 
-    function getSharedImage(id) {
+    function getSharedImage() {
        return $fetch(`https://api.neuro-holst.ru/api/v1/image/share/get/?share_id=${id}`, [HEADER_PARAMETERS.accept])
+    }
+
+    function getSortImages(param){
+        let requestOptions = [HEADER_PARAMETERS.authorization];
+        let body = {
+            items_per_page: 30,
+            sort: param,
+        }
+        $fetch(`${MAIN_URL}/api/v1/user/gallery?${new URLSearchParams(body)}`, getRequestOptions('GET', requestOptions))
+            .then(response => {
+                addNewImages(response.gallery.data);
+                changeTotalImages(response.gallery.total);
+            })
+            .catch(error => {
+                if (error.statusCode === 401) {
+                    prepareLogout();
+                } else {
+                    toggleSnackBarReject({isOpen: true, text: "Что-то пошло не так"});
+                }
+            })
     }
 
     return {
@@ -173,6 +193,7 @@ export default function requests() {
         getPersonInfo,
         initStore,
         getPersonGallery,
-        getSharedImage
+        getSharedImage,
+        getSortImages
     };
 }

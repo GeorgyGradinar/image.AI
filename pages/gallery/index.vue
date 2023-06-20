@@ -1,31 +1,30 @@
 <template>
   <div class="wrapper-gallery">
-<!--    <div class="wrapper-search">-->
-<!--      <v-select-->
-<!--          class="drop-down"-->
-<!--          v-model="topical"-->
-<!--          :items="['Сначала новые', 'Сначала старые']"-->
-<!--          variant="outlined"-->
-<!--          return-object-->
-<!--          persistent-hint-->
-<!--          label="Поиск"-->
-<!--          :class="'rounded-lg'"-->
-<!--      ></v-select>-->
-<!--      <v-text-field-->
-<!--          v-model.trim="search"-->
-<!--          density="compact"-->
-<!--          variant="solo"-->
-<!--          label="Поиск"-->
-<!--          append-inner-icon="mdi-magnify"-->
-<!--          single-line-->
-<!--          hide-details-->
-<!--      ></v-text-field>-->
-<!--    </div>-->
+    <div class="wrapper-search">
+      <v-select
+          class="drop-down"
+          v-model="topical"
+          :items="['Сначала новые', 'Сначала старые']"
+          variant="outlined"
+          persistent-hint
+          label="Поиск"
+          :class="'rounded-lg'"
+          @update:modelValue="sortImages()"
+      ></v-select>
+      <!--      <v-text-field-->
+      <!--          v-model.trim="search"-->
+      <!--          density="compact"-->
+      <!--          variant="solo"-->
+      <!--          label="Поиск"-->
+      <!--          append-inner-icon="mdi-magnify"-->
+      <!--          single-line-->
+      <!--          hide-details-->
+      <!--      ></v-text-field>-->
+    </div>
     <div class="main-block">
       <NavigationBlock @changeFilters="changeFilters"></NavigationBlock>
       <div class="wrapper-images" v-if="imagesData?.length">
-        <ImageElement v-for="image in imagesData" :key="image.id" :image="image">
-        </ImageElement>
+        <ImageElement v-for="image in imagesData" :key="image.id" :image="image"></ImageElement>
       </div>
       <div class="wrapper-loader" v-show="isShowMainLoader">
         <div class="loader">
@@ -45,6 +44,19 @@
       <div class="wrapper-text" v-if="textForAlert && !imagesData.length && !isShowMainLoader && images?.length">
         <p> {{ textForAlert }} </p>
       </div>
+
+    </div>
+    <div class="wrapper-button-more-images">
+      <button class="secondary wrapper-loader" v-if="images.length && isShowButtonMoreImages && inProgressMoreImages">
+        <span>Загрузка...</span>
+        <svg viewBox="25 25 50 50">
+          <circle r="20" cy="50" cx="50"></circle>
+        </svg>
+      </button>
+      <button class="secondary" v-if="images.length && isShowButtonMoreImages && !inProgressMoreImages"
+              @click.prevent="getGallery">
+        <span>Загрузить больше</span>
+      </button>
     </div>
   </div>
 </template>
@@ -56,7 +68,7 @@ import {personStore} from "~/store/personStore";
 import {imagesStore} from "~/store/imageStore";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import {computed, onMounted, onUnmounted, ref, watch} from "vue";
 import {useRouter} from "nuxt/app";
 import {modelsStore} from "~/store/models";
 import seo from "~/mixins/seo";
@@ -73,12 +85,20 @@ definePageMeta({
 const {setProperty} = seo();
 setProperty(metaGallery.title, [...meta, ...metaGallery.meta], link, scripts);
 
-const {getPersonGallery} = requests();
+const {getPersonGallery, getSortImages} = requests();
 const store = personStore();
 const {getImages} = requests();
 const {person} = storeToRefs(store);
 const imageStore = imagesStore();
-const {images, isShowMainLoader, inProgressMoreImages, isShowButtonMoreImages} = storeToRefs(imageStore);
+const {
+  images,
+  isShowMainLoader,
+  inProgressMoreImages,
+  isShowButtonMoreImages,
+  getImagePages,
+  totalImages
+} = storeToRefs(imageStore);
+const {toggleShowButtonMoreImages} = imageStore;
 const router = useRouter();
 const models = modelsStore();
 const {isOpenAcceptDialog} = storeToRefs(models);
@@ -95,9 +115,7 @@ onMounted(() => {
   if (person._value.id && !isOpenAcceptDialog.value) {
     if (!images.value.length) {
       getGallery()
-      // imagesBlock = document.getElementById('images-section')
-      // imagesBlock.addEventListener('scroll', checkScroll)
-    }else {
+    } else {
       imagesData.value = images.value;
     }
   }
@@ -106,18 +124,11 @@ onMounted(() => {
 watch(person, (newDataPerson) => {
   if (newDataPerson.id && !images.value.length && !models.isOpenAcceptDialog) {
     getGallery()
-    // removeEventListener('scroll', imagesBlock);
-    // imagesBlock = document.getElementById('images-section')
-    // imagesBlock.addEventListener('scroll', checkScroll)
   }
 })
 
 watch(images, (newData) => {
   changeFilters();
-  // imagesData.value = newData;
-  // if (!newData.length) {
-  //   textForAlert.value = 'У вас пока нет сгенерированных изображений'
-  // }
 })
 
 watch(search, (newData) => {
@@ -126,15 +137,22 @@ watch(search, (newData) => {
   }
 })
 
-function checkScroll(event) {
-  if (isShowButtonMoreImages.value && !inProgressMoreImages.value) {
-    if (event.target.scrollTop + window.innerHeight === event.target.scrollHeight) {
-      getGallery()
-    }
+watch(totalImages, (newData) => {
+  if (newData > images.value.length) {
+    toggleShowButtonMoreImages(true);
+  } else {
+    toggleShowButtonMoreImages(false);
   }
+})
+
+
+function sortImages() {
+  let sortParameter = topical.value === 'Сначала новые' ? 'desc' : 'asc';
+  getSortImages(sortParameter);
 }
 
 let timeout;
+
 function getGallery() {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
@@ -233,7 +251,7 @@ onUnmounted(() => {
       align-items: center;
       height: 40px;
       width: 100%;
-      min-width: 200px;
+      min-width: 240px;
       padding-inline-end: 5px;
       color: var(--light-blue);
 
@@ -275,6 +293,50 @@ onUnmounted(() => {
       align-content: flex-start;
       gap: 5px;
       padding: 0 30px 30px 30px;
+    }
+
+    .wrapper-loader {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      svg {
+        width: 30px;
+        transform-origin: center;
+        animation: rotate4 2s linear infinite;
+      }
+
+      circle {
+        fill: none;
+        stroke: var(--light-blue);;
+        stroke-width: 2;
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        stroke-linecap: round;
+        animation: dash4 1.5s ease-in-out infinite;
+      }
+
+      @keyframes rotate4 {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes dash4 {
+        0% {
+          stroke-dasharray: 1, 200;
+          stroke-dashoffset: 0;
+        }
+
+        50% {
+          stroke-dasharray: 90, 200;
+          stroke-dashoffset: -35px;
+        }
+
+        100% {
+          stroke-dashoffset: -125px;
+        }
+      }
     }
 
     //loader
@@ -385,6 +447,63 @@ onUnmounted(() => {
 
       p {
         text-align: center;
+      }
+    }
+  }
+
+  .wrapper-button-more-images {
+    display: flex;
+    justify-content: center;
+    width: calc(100vw - 300px);
+    margin: 0 0 20px 300px;
+
+    .secondary {
+      height: 100%;
+      min-width: 200px;
+      max-height: 40px;
+    }
+
+    .wrapper-loader {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      svg {
+        width: 30px;
+        transform-origin: center;
+        animation: rotate4 2s linear infinite;
+      }
+
+      circle {
+        fill: none;
+        stroke: var(--light-blue);;
+        stroke-width: 2;
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+        stroke-linecap: round;
+        animation: dash4 1.5s ease-in-out infinite;
+      }
+
+      @keyframes rotate4 {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes dash4 {
+        0% {
+          stroke-dasharray: 1, 200;
+          stroke-dashoffset: 0;
+        }
+
+        50% {
+          stroke-dasharray: 90, 200;
+          stroke-dashoffset: -35px;
+        }
+
+        100% {
+          stroke-dashoffset: -125px;
+        }
       }
     }
   }
