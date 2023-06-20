@@ -71,7 +71,7 @@ export default function socials() {
         currentOldUrl = getPopupLocation(popup);
         checkUrlTimeout = window.setTimeout(() => {
             const newUrl = getPopupLocation(popup);
-
+            console.log(newUrl)
             checkUrlChange(popup, newUrl, currentOldUrl, isRegistration, partOfUrl);
         }, 1000);
     }
