@@ -2,44 +2,62 @@
   <div class="wrapper-history">
     <div class="header-history">
       <h1>История покупок</h1>
-      <!--      <div class="wrapper-search">-->
-
-      <!--        <v-select-->
-      <!--            class="drop-down"-->
-      <!--            v-model="status"-->
-      <!--            :items="['Успешно', 'Отмена', 'Ожидание']"-->
-      <!--            variant="outlined"-->
-      <!--            return-object-->
-      <!--            persistent-hint-->
-      <!--            :class="'rounded-lg'"-->
-      <!--        ></v-select>-->
-      <!--        <v-text-field-->
-      <!--            v-model.trim="search"-->
-      <!--            density="compact"-->
-      <!--            variant="solo"-->
-      <!--            label="Поиск"-->
-      <!--            append-inner-icon="mdi-magnify"-->
-      <!--            single-line-->
-      <!--            hide-details-->
-      <!--        ></v-text-field>-->
-      <!--      </div>-->
+      <div class="wrapper-button">
+        <div class="wrapper-search">
+          <v-select
+              v-model="currentDate"
+              label="Дата"
+              class="drop-down"
+              :items="['От новых к старым', 'От старых к новым']"
+              persistent-hint
+              hide-details
+          ></v-select>
+          <v-select
+              v-model="currentType"
+              class="drop-down"
+              :items="['Все', 'Успешно', 'В ожидании', 'Не выполнено']"
+              label="Статус"
+              persistent-hint
+              :class="'rounded-lg'"
+              hide-details
+          ></v-select>
+        </div>
+        <!--        <button class="secondary clear-filters"-->
+        <!--                @click="clearFilters"-->
+        <!--                v-if="isShowClearButton">-->
+        <!--          Очистить фильтры-->
+        <!--        </button>-->
+      </div>
     </div>
     <section class="history">
-      <div class="wrapper-message" v-if="!allPayments.length">
-        <p>На данный момент история пуста</p>
-      </div>
-      <div class="wrapper-transactions" v-else>
+      <div class="wrapper-transactions">
         <v-table class="transactions">
           <thead>
           <tr>
             <th class="text-left">
-              Дата
+              <v-select
+                  v-model="currentDate"
+                  label="Дата"
+                  class="drop-down"
+                  :items="['От новых к старым', 'От старых к новым']"
+                  persistent-hint
+                  :class="'rounded-lg'"
+                  hide-details
+              ></v-select>
             </th>
-            <th class="text-left">
+            <th class="input-price">
               Сумма
             </th>
             <th class="text-left">
-              Статус
+              <v-select
+                  v-model="currentType"
+                  class="drop-down"
+                  :items="['Все', 'Успешно', 'В ожидании', 'Не выполнено']"
+                  label="Статус"
+                  persistent-hint
+                  :class="'rounded-lg'"
+                  hide-details
+              ></v-select>
             </th>
           </tr>
           </thead>
@@ -51,6 +69,11 @@
           </tr>
           </tbody>
         </v-table>
+
+        <div class="wrapper-message" v-if="!allPayments.length">
+          <p>На данный момент история пуста</p>
+        </div>
+
         <div class="mobile-transactions" v-for="item in allPayments" :key="item.id">
           <div class="top-block">
             <p>{{ checkStatus(item.status) }}</p>
@@ -66,6 +89,15 @@
             </div>
           </div>
         </div>
+
+        <v-pagination
+            class="pagination"
+            v-if="allPages > 1"
+            v-model="currentPage"
+            :length="allPages"
+            :total-visible="7"
+            @update:modelValue="changePage()"
+        ></v-pagination>
       </div>
     </section>
   </div>
@@ -74,7 +106,7 @@
 <script setup>
 import transactions from "~/mixins/transactions";
 import {transactionStore} from "~/store/transactionStore";
-import {onMounted, onUnmounted} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import seo from "~/mixins/seo";
 import {metaTransactions, meta, link, scripts} from "~/seoConfig";
 import {storeToRefs} from "pinia";
@@ -86,14 +118,62 @@ definePageMeta({
 const {setProperty} = seo();
 setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
 
-const {getPersonPayments} = transactions();
+const {getPersonPayments, sortDataPayments} = transactions();
 const transactionsStore = transactionStore();
-const {clearTransactionStore} = transactionsStore;
-const {allPayments} = storeToRefs(transactionsStore);
+const {clearTransactionStore, changePages} = transactionsStore;
+const {allPayments, pages, allPages} = storeToRefs(transactionsStore);
+
+let currentPage = ref(1);
+let currentDate = ref('От новых к старым');
+let currentType = ref(null);
+
+let dateForRequest = ref('');
+let typeForRequest = ref('');
+
+let isShowClearButton = computed(() => {
+  if (currentDate.value === 'От новых к старым' && currentType.value !== null) {
+    return true;
+  } else {
+    return false;
+  }
+})
 
 onMounted(() => {
+  clearTransactionStore();
   getPersonPayments();
 })
+
+watch(pages, (newData) => {
+  currentPage.value = newData;
+})
+
+watch(currentDate, () => {
+  dateForRequest.value = currentDate.value === 'От новых к старым' ? 'desc' : 'asc';
+  prepareRequest();
+})
+
+watch(currentType, () => {
+  if (currentType.value === 'Успешно') {
+    typeForRequest.value = 'accepted';
+  } else if (currentType.value === 'Не выполнено') {
+    typeForRequest.value = 'error';
+  } else if (currentType.value === 'В ожидании') {
+    typeForRequest.value = 'waiting';
+  } else if (currentType.value === 'Все') {
+    typeForRequest.value = null;
+  }
+  prepareRequest();
+})
+
+function changePage() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  })
+
+  changePages(currentPage.value);
+  getPersonPayments();
+}
 
 function date(data) {
   let currentDate = new Date(data);
@@ -108,18 +188,36 @@ function checkStatus(status) {
   if (status === 'accepted') {
     return 'Успешно';
   } else if (status === 'error') {
-    return 'Ошибка';
+    return 'Не выполнено';
   } else if (status === 'waiting') {
     return 'В ожидании';
   }
 }
 
-onUnmounted(() => {
-  clearTransactionStore();
-})
+let timeOut;
+
+function prepareRequest() {
+  if (timeOut) {
+    clearTimeout(timeOut);
+  }
+  timeOut = setTimeout(() => {
+    if (typeForRequest.value === null && dateForRequest.value === 'desc') {
+      clearTransactionStore();
+      getPersonPayments();
+    } else {
+      sortDataPayments(dateForRequest.value, typeForRequest.value);
+    }
+  }, 100)
+}
+
+function clearFilters() {
+  currentDate.value = 'От новых к старым';
+  currentType.value = null;
+}
+
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .wrapper-history {
   width: 100vw;
   height: 100%;
@@ -130,8 +228,10 @@ onUnmounted(() => {
 
   .header-history {
     width: 100%;
+    height: 46px;
     display: flex;
-    padding: 0 0 0 20px;
+    justify-content: space-between;
+    padding: 0 20px;
 
     h1 {
       display: flex;
@@ -139,62 +239,18 @@ onUnmounted(() => {
       white-space: nowrap;
     }
 
-    .wrapper-search {
-      width: 100%;
-      height: 70px;
+    .wrapper-button {
       display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      padding: 15px 30px;
 
-      .v-input {
-        flex: unset;
-      }
-
-      .v-input__control {
-        display: flex;
-        justify-content: flex-end;
-
-        .v-field--variant-solo, .v-field--variant-solo-filled {
-          width: 400px;
-          max-width: 400px;
-          min-width: 200px;
-          background: var(--main-backgground-color);
-          color: var(--light-blue);
-        }
-
-        .v-field {
-          border-radius: 10px;
-          border: 1px solid var(--light-blue);
-        }
-      }
-
-      .v-field--variant-outlined .v-field__outline {
+      .wrapper-search {
+        width: 100vw;
         display: none;
-      }
+        justify-content: flex-end;
+        gap: 10px;
 
-      .v-select .v-field.v-field {
-        display: flex;
-        align-items: center;
-        height: 40px;
-        width: 200px;
-        max-width: 200px;
-        min-width: 120px;
-        padding-inline-end: 5px;
-        color: var(--light-blue);
-
-        .v-field__overlay {
-          display: none;
-        }
-
-        .v-field__append-inner {
-          padding-top: 0;
-        }
-
-        .v-field__input {
-          display: flex;
-          align-items: center;
-          font-size: 14px;
+        .v-input__control {
+          width: 90%;
+          margin-bottom: 20px;
         }
       }
     }
@@ -202,34 +258,86 @@ onUnmounted(() => {
 
   .history {
     display: flex;
-    justify-content: center;
-
-    .v-table > .v-table__wrapper > table {
-      background-color: var(--main-backgground-color);
-      color: var(--main-light-color);
-    }
-
-    .v-table--density-default > .v-table__wrapper > table > thead > tr > th {
-      color: var(--main-light-color);
-    }
 
     .v-table .v-table__wrapper > table > tbody > tr:not(:last-child) > td,
     .v-table--density-default > .v-table__wrapper > table > thead > tr > th {
       border-bottom: 1px solid var(--border-light-color);
     }
 
-    .wrapper-message {
-      width: 100%;
-      margin-top: 70px;
-
-      p {
-        text-align: center;
-      }
-    }
-
     .wrapper-transactions {
-      width: 80%;
-      margin-top: 20px;
+      width: 100%;
+
+      .transactions {
+        padding: 0 10%;
+        color: var(--main-light-color);
+        background-color: var(--main-backgground-color);
+
+        .input-price {
+          color: var(--main-light-color);
+
+          .v-input__control {
+            .v-field {
+              width: 220px;
+              max-width: 220px;
+              min-width: 200px;
+              border-bottom: 1px solid var(--main-light-color);
+            }
+          }
+        }
+
+        .text-left {
+          .v-input__control {
+            display: flex;
+
+            .v-field--variant-solo, .v-field--variant-solo-filled {
+              width: 220px;
+              max-width: 220px;
+              min-width: 200px;
+            }
+
+            .v-field {
+              border-radius: 0;
+              border-bottom: 1px solid var(--main-light-color);
+            }
+          }
+
+          .v-select .v-field.v-field {
+            display: flex;
+            align-items: center;
+            height: 40px;
+            width: 220px;
+            max-width: 220px;
+            min-width: 120px;
+            padding-inline-end: 5px;
+            color: var(--main-light-color);
+
+            .v-field__overlay {
+              display: none;
+            }
+
+            .v-field__append-inner {
+              padding-top: 0;
+            }
+
+            .v-field__input {
+              display: flex;
+              align-items: center;
+              font-size: 14px;
+            }
+          }
+        }
+      }
+
+      .wrapper-message {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 60px;
+      }
+
+      .pagination {
+        margin: 30px 0;
+      }
     }
 
     .mobile-transactions {
@@ -286,20 +394,40 @@ onUnmounted(() => {
 
 .v-menu > .v-overlay__content > .v-list {
   background-color: var(--main-backgground-color);
-  backdrop-filter: blur(5px);
-  color: var(--light-blue) !important;
-  border-radius: 10px;
 
   .v-list-item-title {
     font-size: 13px;
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
   .wrapper-history {
+    .history {
 
+      .wrapper-transactions {
+        display: block;
+
+        .transactions {
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .wrapper-history {
     .header-history {
+      height: 200px;
       flex-direction: column;
+
+      .wrapper-button {
+        flex-direction: column;
+
+        .wrapper-search {
+          display: block;
+        }
+      }
     }
 
     .history {
@@ -309,32 +437,6 @@ onUnmounted(() => {
 
       .mobile-transactions {
         display: block;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .wrapper-history {
-
-    .header-history {
-      flex-direction: column;
-      padding: 0 20px;
-
-      .wrapper-search {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 20px 0;
-      }
-    }
-
-    .history {
-      flex-direction: column;
-
-      .wrapper-transactions {
-        width: 100%;
       }
     }
   }

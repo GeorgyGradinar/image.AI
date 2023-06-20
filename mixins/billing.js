@@ -35,8 +35,10 @@ export default function billing() {
                     prepareLogout();
                 }else if (error.statusCode === 422){
                     toggleSnackBarReject({isOpen:true, text: 'Пользователь с такой почтой уже зарегистрирован'})
+                }else {
+                    toggleSnackBarReject({isOpen:true, text: 'Что-то пошло не так'})
+
                 }
-                console.dir(error)
             })
     }
 

@@ -20,13 +20,18 @@
       </form>
       <div class="success" v-else>
         Ссылка на сброс пароля была отправлена на почту
+        <p class="sendAfter"  v-if="!isShowButtonSendMore">Отправить повторно через
+          <span>00 : {{ seconds }}</span>
+        </p>
+        <a href="" v-else class="send-more" @click.prevent="sendToEmail">Отправить повторно</a>
+
       </div>
     </v-card>
   </v-dialog>
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {onUnmounted, ref} from "vue";
 import {email, required} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
 import validation from "~/mixins/validation";
@@ -38,6 +43,8 @@ const {forgotPassword} = userSettings();
 let isOpen = ref(true);
 let isFirstStep = ref(true);
 let errorMessage = ref('');
+let seconds = ref(60);
+let isShowButtonSendMore = ref(false);
 
 const initialState = ref({
   email: '',
@@ -53,17 +60,46 @@ async function sendEmail() {
   v$.value.$validate();
 
   if (!v$.value.$error) {
+    errorMessage.value = '';
+    isFirstStep.value = false;
     await forgotPassword(initialState.value.email)
         .then(response => {
-          isFirstStep.value = false;
+          timer();
         })
         .catch(error => {
+          isFirstStep.value = true;
           if (error.statusCode === 422) {
             errorMessage.value = error.data.message;
           }
         })
   }
 }
+
+let secondTimer
+function timer() {
+  secondTimer = setInterval(() => {
+    seconds.value = seconds.value > 10 ? `${seconds.value - 1}` : `0${seconds.value - 1}`;
+    checkSeconds();
+  }, 1000);
+
+  function checkSeconds() {
+    if (+seconds.value === 0) {
+      clearInterval(secondTimer);
+      isShowButtonSendMore.value = true;
+    }
+  }
+}
+
+function sendToEmail() {
+  seconds.value = 60;
+  timer();
+  isShowButtonSendMore.value = false;
+  sendEmail();
+}
+
+onUnmounted(() => {
+  clearInterval(secondTimer);
+})
 </script>
 
 <style scoped lang="scss">
@@ -88,5 +124,11 @@ async function sendEmail() {
     justify-content: flex-end;
     margin-top: 20px;
   }
+}
+
+.send-more {
+  font-size: 12px;
+  color: var(--light-blue);
+  text-align: center;
 }
 </style>
