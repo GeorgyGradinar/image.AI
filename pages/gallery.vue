@@ -65,14 +65,14 @@ import {imagesStore} from "~/store/imageStore";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
 import {onMounted, onUnmounted, ref, watch} from "vue";
-import {useRouter} from "nuxt/app";
+import {navigateTo, useRouter} from "nuxt/app";
 import {modelsStore} from "~/store/models";
 import seo from "~/mixins/seo";
 import {metaGallery, meta, link, scripts} from "~/seoConfig";
 
-definePageMeta({
-  middleware: "auth"
-})
+// definePageMeta({
+//   middleware: "auth"
+// })
 
 const {setProperty} = seo();
 setProperty(metaGallery.title, [...meta, ...metaGallery.meta], link, scripts);
@@ -104,6 +104,10 @@ let textForAlert = ref('У вас пока нет сгенерированных
 
 let imagesBlock
 onMounted(() => {
+  if (!person._value.id){
+    navigateTo('/');
+  }
+
   clearImageStore();
   if (person._value.id && !isOpenAcceptDialog.value) {
     if (!images.value.length) {

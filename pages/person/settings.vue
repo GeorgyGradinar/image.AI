@@ -16,13 +16,13 @@
               @input="vUser$.name.$touch"
               @blur="vUser$.name.$touch"
           ></v-text-field>
-<!--          <v-text-field-->
-<!--              v-model="user.email"-->
-<!--              label="Почта"-->
-<!--              :error-messages="mapErrors(vUser$.email.$errors)"-->
-<!--              @input="vUser$.email.$touch"-->
-<!--              @blur="vUser$.email.$touch"-->
-<!--          ></v-text-field>-->
+          <!--          <v-text-field-->
+          <!--              v-model="user.email"-->
+          <!--              label="Почта"-->
+          <!--              :error-messages="mapErrors(vUser$.email.$errors)"-->
+          <!--              @input="vUser$.email.$touch"-->
+          <!--              @blur="vUser$.email.$touch"-->
+          <!--          ></v-text-field>-->
 
           <div class="wrapper-account-button">
             <button class="secondary no-hover" @click.prevent="updateUser">Обновить данные</button>
@@ -113,13 +113,14 @@ import AcceptDialog from "~/components/dialogs/AcceptDialog";
 import shareFunctions from "~/mixins/shareFunctions";
 import seo from "~/mixins/seo";
 import {metaSettings, meta, link, scripts} from "~/seoConfig";
+import {navigateTo} from "nuxt/app";
 
 const {setProperty} = seo();
 setProperty(metaSettings.title, [...meta, ...metaSettings.meta], link, scripts);
 
-definePageMeta({
-  middleware: "auth"
-})
+// definePageMeta({
+//   middleware: "auth"
+// })
 
 const {getPersonInfo} = requests();
 const {deleteAccount, updatePassword, updateUserData} = userSettings();
@@ -163,6 +164,10 @@ let isOpenSnackBarReject = ref(false);
 let textSnackBarReject = ref('');
 
 onMounted(() => {
+  if (!person.value.id) {
+    navigateTo('/');
+  }
+
   getPersonInfo();
   user.value.name = person.value.name;
 });

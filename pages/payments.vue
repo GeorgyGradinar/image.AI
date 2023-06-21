@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper-history">
     <div class="header-history">
-      <h1>История транзакций</h1>
+      <h1>История покупок</h1>
       <div class="wrapper-button">
         <div class="wrapper-search">
           <v-select
@@ -15,8 +15,8 @@
           <v-select
               v-model="currentType"
               class="drop-down"
-              :items="['Все', 'Генерация', 'Реферальные', 'Депозит']"
-              label="Тип"
+              :items="['Все', 'Успешно', 'В ожидании', 'Не выполнено']"
+              label="Статус"
               persistent-hint
               :class="'rounded-lg'"
               hide-details
@@ -46,23 +46,14 @@
               ></v-select>
             </th>
             <th class="input-price">
-              <p>Стоимость</p>
-              <!--              <v-text-field-->
-              <!--                  v-model.trim.lazy="price"-->
-              <!--                  density="compact"-->
-              <!--                  label="Стоимость"-->
-              <!--                  type="number"-->
-              <!--                  append-inner-icon="mdi-magnify"-->
-              <!--                  hide-details-->
-              <!--                  @keypress="restrictChars"-->
-              <!--              ></v-text-field>-->
+              Сумма
             </th>
             <th class="text-left">
               <v-select
                   v-model="currentType"
                   class="drop-down"
-                  :items="['Все', 'Генерация', 'Реферальные', 'Депозит']"
-                  label="Тип"
+                  :items="['Все', 'Успешно', 'В ожидании', 'Не выполнено']"
+                  label="Статус"
                   persistent-hint
                   :class="'rounded-lg'"
                   hide-details
@@ -70,30 +61,28 @@
             </th>
           </tr>
           </thead>
-
-          <tbody v-if="allTransactions.length">
-          <tr v-for="item in allTransactions" :key="item.id">
+          <tbody>
+          <tr v-for="item in allPayments" :key="item.id">
             <td>{{ date(item.created_at) }}</td>
-            <td>{{ sum(item.credits_old, item.credits_new) }}</td>
-            <td>{{ getType(item.action) }}</td>
+            <td>{{ item.amount }}</td>
+            <td>{{ checkStatus(item.status) }}</td>
           </tr>
           </tbody>
         </v-table>
 
-        <div class="wrapper-message" v-if="!allTransactions.length">
+        <div class="wrapper-message" v-if="!allPayments.length">
           <p>На данный момент история пуста</p>
         </div>
 
-        <div class="mobile-transactions" v-for="item in allTransactions" :key="item.id">
+        <div class="mobile-transactions" v-for="item in allPayments" :key="item.id">
           <div class="top-block">
-            <p>Успешно</p>
+            <p>{{ checkStatus(item.status) }}</p>
           </div>
           <div class="bottom-block">
             <div class="mobile-sum">
-              <p>Кол-во</p>
-              <p class="sum">{{ sum(item.credits_old, item.credits_new) }}</p>
+              <p>Сумма</p>
+              <p class="sum">{{ item.amount }}</p>
             </div>
-            <p class="mobile-type">{{ getType(item.action) }}</p>
             <div class="mobile-date">
               <p>Дата</p>
               <p class="date">{{ date(item.created_at) }}</p>
@@ -109,7 +98,6 @@
             :total-visible="7"
             @update:modelValue="changePage()"
         ></v-pagination>
-
       </div>
     </section>
   </div>
@@ -117,34 +105,34 @@
 
 <script setup>
 import transactions from "~/mixins/transactions";
-import seo from "~/mixins/seo";
 import {transactionStore} from "~/store/transactionStore";
 import {computed, onMounted, ref, watch} from "vue";
+import seo from "~/mixins/seo";
 import {metaTransactions, meta, link, scripts} from "~/seoConfig";
 import {storeToRefs} from "pinia";
+import {personStore} from "~/store/personStore";
+import {navigateTo} from "nuxt/app";
 
-definePageMeta({
-  middleware: "auth"
-})
+// definePageMeta({
+//   middleware: "auth"
+// })
 
 const {setProperty} = seo();
 setProperty(metaTransactions.title, [...meta, ...metaTransactions.meta], link, scripts);
 
-const {getPersonTransaction, sortDataTransactions} = transactions();
+const {getPersonPayments, sortDataPayments} = transactions();
 const transactionsStore = transactionStore();
 const {clearTransactionStore, changePages} = transactionsStore;
-const {allTransactions, pages, allPages} = storeToRefs(transactionsStore);
+const {allPayments, pages, allPages} = storeToRefs(transactionsStore);
+const store = personStore();
+const {person} = storeToRefs(store);
 
 let currentPage = ref(1);
-
 let currentDate = ref('От новых к старым');
 let currentType = ref(null);
 
 let dateForRequest = ref('');
-let priceForRequest = ref(null);
 let typeForRequest = ref('');
-
-let debounceTimeout = ref(null);
 
 let isShowClearButton = computed(() => {
   if (currentDate.value === 'От новых к старым' && currentType.value !== null) {
@@ -155,8 +143,12 @@ let isShowClearButton = computed(() => {
 })
 
 onMounted(() => {
+  if (!person.value.id) {
+    navigateTo('/');
+  }
+
   clearTransactionStore();
-  getPersonTransaction();
+  getPersonPayments();
 })
 
 watch(pages, (newData) => {
@@ -169,12 +161,12 @@ watch(currentDate, () => {
 })
 
 watch(currentType, () => {
-  if (currentType.value === 'Генерация') {
-    typeForRequest.value = 'make_request';
-  } else if (currentType.value === 'Реферальные') {
-    typeForRequest.value = 'referral_credits';
-  } else if (currentType.value === 'Депозит') {
-    typeForRequest.value = 'start_credits';
+  if (currentType.value === 'Успешно') {
+    typeForRequest.value = 'accepted';
+  } else if (currentType.value === 'Не выполнено') {
+    typeForRequest.value = 'error';
+  } else if (currentType.value === 'В ожидании') {
+    typeForRequest.value = 'waiting';
   } else if (currentType.value === 'Все') {
     typeForRequest.value = null;
   }
@@ -188,24 +180,7 @@ function changePage() {
   })
 
   changePages(currentPage.value);
-    getPersonTransaction();
-}
-
-let timeOut;
-function prepareRequest() {
-  if (timeOut) {
-    clearTimeout(timeOut);
-  }
-  timeOut = setTimeout(() => {
-
-    if (typeForRequest.value === null && dateForRequest.value === 'desc') {
-      clearTransactionStore();
-      getPersonTransaction();
-
-    } else {
-      sortDataTransactions(dateForRequest.value, priceForRequest.value, typeForRequest.value);
-    }
-  }, 100)
+  getPersonPayments();
 }
 
 function date(data) {
@@ -217,16 +192,29 @@ function date(data) {
   return `${day}.${month}.${currentDate.getFullYear()} ${hour}:${minutes}`;
 }
 
-function sum(beforeSum, currentSum) {
-  return (currentSum - beforeSum).toFixed(1);
+function checkStatus(status) {
+  if (status === 'accepted') {
+    return 'Успешно';
+  } else if (status === 'error') {
+    return 'Не выполнено';
+  } else if (status === 'waiting') {
+    return 'В ожидании';
+  }
 }
 
-function getType(type) {
-  if (type === 'start_credits' || type === 'refill' || type === 'referral_credits') {
-    return 'Депозит';
-  } else if (type === 'make_request') {
-    return 'Генерация';
+let timeOut;
+function prepareRequest() {
+  if (timeOut) {
+    clearTimeout(timeOut);
   }
+  timeOut = setTimeout(() => {
+    if (typeForRequest.value === null && dateForRequest.value === 'desc') {
+      clearTransactionStore();
+      getPersonPayments();
+    } else {
+      sortDataPayments(dateForRequest.value, typeForRequest.value);
+    }
+  }, 100)
 }
 
 function clearFilters() {
@@ -234,17 +222,9 @@ function clearFilters() {
   currentType.value = null;
 }
 
-function restrictChars($event) {
-  if ($event.charCode === 0 || /\d/.test(String.fromCharCode($event.charCode))) {
-    return true
-  } else {
-    $event.preventDefault();
-  }
-}
 </script>
 
 <style lang="scss">
-
 .wrapper-history {
   width: 100vw;
   height: 100%;
@@ -375,7 +355,7 @@ function restrictChars($event) {
       .top-block {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 30px;
+        margin-bottom: 15px;
       }
 
       .bottom-block {
@@ -446,7 +426,6 @@ function restrictChars($event) {
   .wrapper-history {
     .header-history {
       height: 200px;
-
       flex-direction: column;
 
       .wrapper-button {
@@ -466,27 +445,6 @@ function restrictChars($event) {
       .mobile-transactions {
         display: block;
       }
-    }
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .wrapper-history {
-
-    .header-history {
-      flex-direction: column;
-
-      .wrapper-search {
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 0 0 0;
-      }
-    }
-
-    .history {
-      flex-direction: column;
     }
   }
 }

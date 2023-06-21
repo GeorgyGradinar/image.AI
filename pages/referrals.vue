@@ -33,15 +33,16 @@
 
 <script setup>
 import DoneSnackBar from "~/components/sneckbars/DoneSnackBar";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import seo from "~/mixins/seo";
 import {metaReferral, meta, link, scripts} from "~/seoConfig";
 import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
+import {navigateTo} from "nuxt/app";
 
-definePageMeta({
-  middleware: "auth"
-})
+// definePageMeta({
+//   middleware: "auth"
+// })
 
 const store = personStore();
 const {person} = storeToRefs(store);
@@ -51,10 +52,20 @@ setProperty(metaReferral.title, [...meta, ...metaReferral.meta], link, scripts);
 
 let isOpenSnackBarDone = ref(false);
 let textSnackBarForGeneration = ref('');
-let referralLink = ref(`https://neuro-holst.ru?ref=${person.value.id}`);
+let referralLink = ref('');
+
+onMounted(() => {
+  if (!person.value.id) {
+    navigateTo('/');
+  } else {
+    referralLink.value = `https://neuro-holst.ru?ref=${person.value.id}`
+  }
+})
 
 watch(person, (newData) => {
-  referralLink.value = `https://neuro-holst.ru?ref=${newData.id}`
+  if (newData.id) {
+    referralLink.value = `https://neuro-holst.ru?ref=${newData.id}`
+  }
 })
 
 function copyLink() {
