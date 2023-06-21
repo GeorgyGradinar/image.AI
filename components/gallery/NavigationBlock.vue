@@ -42,7 +42,10 @@ let isSelected = ref('generated');
 function toggleSelected(selected) {
   isSelected.value = selected;
   emit('changeFilters', selected);
+
 }
+
+
 
 </script>
 

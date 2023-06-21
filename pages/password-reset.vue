@@ -64,7 +64,7 @@ function submit() {
 
   if (!v$.value.$error) {
     resetPassword({
-      token: route.params.token,
+      token: route.query.token,
       email: route.query.email,
       newPassword: password.value.newPassword,
       confirmation: password.value.confirmation

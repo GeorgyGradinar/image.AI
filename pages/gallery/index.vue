@@ -9,7 +9,7 @@
           persistent-hint
           label="Поиск"
           :class="'rounded-lg'"
-          @update:modelValue="sortImages()"
+          @update:modelValue="changeFilters()"
       ></v-select>
       <!--      <v-text-field-->
       <!--          v-model.trim="search"-->
@@ -23,8 +23,8 @@
     </div>
     <div class="main-block">
       <NavigationBlock @changeFilters="changeFilters"></NavigationBlock>
-      <div class="wrapper-images" v-if="imagesData?.length">
-        <ImageElement v-for="image in imagesData" :key="image.id" :image="image"></ImageElement>
+      <div class="wrapper-images" v-if="images?.length">
+        <ImageElement v-for="image in images" :key="image.id" :image="image"></ImageElement>
       </div>
       <div class="wrapper-loader" v-show="isShowMainLoader">
         <div class="loader">
@@ -38,12 +38,8 @@
       </div>
 
       <span class="info-message" v-if="!images?.length && !isShowMainLoader">
-         У вас пока нет сгенерированных изображений.
+            {{ textForAlert }}
       </span>
-
-      <div class="wrapper-text" v-if="textForAlert && !imagesData.length && !isShowMainLoader && images?.length">
-        <p> {{ textForAlert }} </p>
-      </div>
 
     </div>
     <div class="wrapper-button-more-images">
@@ -63,20 +59,16 @@
 
 <script setup>
 import ImageElement from "~/components/gallery/ImageElement";
-import NavigationBlock from "../../components/gallery/NavigationBlock";
+import NavigationBlock from "~/components/gallery/NavigationBlock";
 import {personStore} from "~/store/personStore";
 import {imagesStore} from "~/store/imageStore";
 import requests from "~/mixins/requests";
 import {storeToRefs} from "pinia";
-import {computed, onMounted, onUnmounted, ref, watch} from "vue";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 import {useRouter} from "nuxt/app";
 import {modelsStore} from "~/store/models";
 import seo from "~/mixins/seo";
 import {metaGallery, meta, link, scripts} from "~/seoConfig";
-
-definePageMeta({
-  middleware: "auth"
-})
 
 definePageMeta({
   middleware: "auth"
@@ -98,7 +90,7 @@ const {
   getImagePages,
   totalImages
 } = storeToRefs(imageStore);
-const {toggleShowButtonMoreImages} = imageStore;
+const {toggleShowButtonMoreImages, clearImageStore} = imageStore;
 const router = useRouter();
 const models = modelsStore();
 const {isOpenAcceptDialog} = storeToRefs(models);
@@ -107,11 +99,12 @@ let imagesData = ref([]);
 let currentPage = ref('generated');
 let search = ref('');
 let topical = ref('Сначала новые');
-let textForAlert = ref('');
 let debounceTimeout = ref(null);
+let textForAlert = ref('У вас пока нет сгенерированных изображений');
 
 let imagesBlock
 onMounted(() => {
+  clearImageStore();
   if (person._value.id && !isOpenAcceptDialog.value) {
     if (!images.value.length) {
       getGallery()
@@ -125,10 +118,6 @@ watch(person, (newDataPerson) => {
   if (newDataPerson.id && !images.value.length && !models.isOpenAcceptDialog) {
     getGallery()
   }
-})
-
-watch(images, (newData) => {
-  changeFilters();
 })
 
 watch(search, (newData) => {
@@ -145,14 +134,7 @@ watch(totalImages, (newData) => {
   }
 })
 
-
-function sortImages() {
-  let sortParameter = topical.value === 'Сначала новые' ? 'desc' : 'asc';
-  getSortImages(sortParameter);
-}
-
 let timeout;
-
 function getGallery() {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
@@ -190,13 +172,13 @@ function changeFilters(setting) {
     top: 0,
     behavior: "smooth",
   })
-
+  let sortParameter = topical.value === 'Сначала новые' ? 'desc' : 'asc';
   currentPage.value = setting ? setting : currentPage.value;
   if (currentPage.value === 'generated') {
-    imagesData.value = images.value;
+    getSortImages(sortParameter);
     textForAlert.value = 'У вас нет сгенерированных изображений';
   } else if (currentPage.value === 'like') {
-    imagesData.value = images.value.filter(image => image.is_liked);
+    getSortImages(sortParameter, 1);
     textForAlert.value = 'У вас нет избранных изображений';
   }
 }
@@ -204,6 +186,7 @@ function changeFilters(setting) {
 onUnmounted(() => {
   removeEventListener('scroll', imagesBlock);
   clearTimeout(timeout);
+  clearImageStore();
 })
 </script>
 

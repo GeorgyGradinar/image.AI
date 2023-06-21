@@ -53,11 +53,12 @@ const {isOpenAcceptDialog} = storeToRefs(models);
 let imagesBlock
 onMounted(() => {
   if (person._value.id && !isOpenAcceptDialog.value) {
-    if (!images.value.length) {
-      getGallery()
-      imagesBlock = document.getElementById('images-section')
-      imagesBlock.addEventListener('scroll', checkScroll)
-    }
+    // if (!images.value.length) {
+    //
+    // }
+    getGallery()
+    imagesBlock = document.getElementById('images-section')
+    imagesBlock.addEventListener('scroll', checkScroll)
   }
 })
 

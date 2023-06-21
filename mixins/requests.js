@@ -165,12 +165,13 @@ export default function requests() {
        return $fetch(`https://api.neuro-holst.ru/api/v1/image/share/get/?share_id=${id}`, [HEADER_PARAMETERS.accept])
     }
 
-    function getSortImages(param){
+    function getSortImages(param, isLike){
         let requestOptions = [HEADER_PARAMETERS.authorization];
         let body = {
             items_per_page: 30,
-            sort: param,
         }
+        body = param ? {...body, sort: param} : body;
+        body = isLike ? {...body, is_liked: isLike} : body;
         $fetch(`${MAIN_URL}/api/v1/user/gallery?${new URLSearchParams(body)}`, getRequestOptions('GET', requestOptions))
             .then(response => {
                 addNewImages(response.gallery.data);

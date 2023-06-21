@@ -1,8 +1,8 @@
 <template>
-    <div class="wrapper__text-to-image">
-      <GenerateParameters></GenerateParameters>
-      <GenerationImages></GenerationImages>
-    </div>
+  <div class="wrapper__text-to-image">
+    <GenerateParameters></GenerateParameters>
+    <GenerationImages></GenerationImages>
+  </div>
 </template>
 <script setup>
 import GenerateParameters from "~/components/text-to-image/GenerateParameters";
