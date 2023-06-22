@@ -28,7 +28,7 @@
             <g></g>
 </svg>
         </button>
-        <button class="hand" @click="selection('gap')" :class="{'selected': selectedTool === 'gap'}">
+        <button class="hand" @click="toggleHasSelectElement" :class="{'selected': isSelectElement}">
           <svg id="Icons" x="0px" y="0px"
                viewBox="0 0 32 32" xml:space="preserve">
             <path class="st2" d="M15,17V7c0-1.1-0.9-2-2-2h0c-1.1,0-2,0.9-2,2v13l-3-5.2c-0.6-1-1.8-1.3-2.8-0.6l0,0c-0.7,0.5-1.1,1.4-0.7,2.3
@@ -48,7 +48,7 @@
 </svg>
         </button>
         <label class="upload">
-          <input type="file">
+          <input type="file" @change="fileUpload($event, 'target')">
           <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <g id="Image">
               <path
@@ -57,7 +57,7 @@
             </g>
           </svg>
         </label>
-        <button class="eraser" @click="selection('eraser')" :class="{'selected': selectedTool === 'eraser'}">
+        <button class="eraser" @click="toggleActiveEraser" :class="{'selected': hasActiveEraser}">
           <svg id="Icons" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve">
             <line class="st0" x1="5" y1="29" x2="27" y2="29"/>
             <line class="st0" x1="12" y1="10" x2="22" y2="20"/>
@@ -66,13 +66,13 @@
 </svg>
         </button>
         <v-app>
-          <div class="slider" v-if="selectedTool === 'eraser'" :class="{'show-slider': selectedTool === 'eraser'}">
+          <div class="slider" v-if="hasActiveEraser" :class="{'show-slider': hasActiveEraser}">
             <v-slider
-                v-model="sizeEraser"
+                v-model="currentWidthEraser"
                 color="#36E2FF"
-                :min="1"
-                :max="10"
-                :step="1"
+                :min="10"
+                :max="50"
+                :step="10"
                 :thumb-size="15"
             ></v-slider>
           </div>
@@ -121,14 +121,12 @@
 </template>
 
 <script setup>
-
-
 import {onMounted, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {projectStore} from "~/store/projects";
 import {personStore} from "~/store/personStore";
+import {editorStore} from "~/store/editorStore";
 import {useRouter} from "nuxt/app";
-
 
 const router = useRouter();
 const project = projectStore();
@@ -136,6 +134,9 @@ const {projects} = storeToRefs(project);
 const {updateParameters} = project;
 const store = personStore();
 const {person} = storeToRefs(store);
+const editor = editorStore();
+const {updateImageUpload, toggleActiveEraser, toggleHasSelectElement} = editor;
+const {hasActiveEraser, currentWidthEraser, isSelectElement} = storeToRefs(editor);
 
 const increaseParameters = ['x1', 'x2', 'x3', 'x4', 'x8'];
 const increasePercent = ['10%', '25%', '50%', '100%', '150%', '200%'];
@@ -159,6 +160,11 @@ onMounted(() => {
 watch(selectedProject, (newData) => {
   updateParameters({name: selectedProject.name, id: selectedProject.id});
 })
+
+function fileUpload(event) {
+  const url = URL.createObjectURL(event.target.files[0]);
+  updateImageUpload({name: null, url, file: event.target.files[0]});
+}
 
 function isOpenShowName(event) {
   isShowEditName.value = event;

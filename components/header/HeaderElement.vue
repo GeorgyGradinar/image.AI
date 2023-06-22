@@ -2,7 +2,7 @@
   <header :class="{'header-open': !hasHiddenDrawer}">
     <NuxtLink to="/" class="logo">НейроХолст</NuxtLink>
     <nav class="main-header" v-if="showFullHeader">
-      <!--      <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>-->
+            <NuxtLink to="/editor" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>
       <NuxtLink to="/text-to-image" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
         описанию
       </NuxtLink>

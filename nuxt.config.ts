@@ -13,7 +13,7 @@ export default defineNuxtConfig({
         "~/assets/main.scss",
     ],
     build: {
-        transpile: ['vuetify'],
+        transpile: ['vuetify']
     },
     serverMiddleware: ['~/server-middleware/check-spa'],
     router: {
