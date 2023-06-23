@@ -37,6 +37,7 @@ function toggleParameters(event) {
 <style scoped lang="scss">
 .filters {
   border-radius: 30px 0 0 30px;
+  z-index: 10;
 
   .wrapper-settings-block {
 

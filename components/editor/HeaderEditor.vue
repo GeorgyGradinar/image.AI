@@ -3,7 +3,7 @@
     <div class="wrapper-logo-tools">
       <NuxtLink to="/editor" class="logo">Лого</NuxtLink>
       <div class="tools">
-        <button class="cursor" @click="selection('cursor')" :class="{'selected': selectedTool === 'cursor'}">
+        <button class="cursor" @click="toggleIsActiveMoveElement" :class="{'selected': isActiveMoveNewImages}">
           <svg id="Capa_1" x="0px" y="0px" viewBox="0 0 297 297" xml:space="preserve">
 <g>
 	<path d="M128.835,297c-4.015,0-7.646-2.395-9.227-6.092L1.295,13.976C-0.317,10.202,0.531,5.827,3.436,2.93
@@ -135,14 +135,13 @@ const {updateParameters} = project;
 const store = personStore();
 const {person} = storeToRefs(store);
 const editor = editorStore();
-const {updateImageUpload, toggleActiveEraser, toggleHasSelectElement} = editor;
-const {hasActiveEraser, currentWidthEraser, isSelectElement} = storeToRefs(editor);
+const {updateImageUpload, toggleActiveEraser, toggleHasSelectElement, addNewImages, toggleIsActiveMoveElement} = editor;
+const {hasActiveEraser, currentWidthEraser, isSelectElement, isActiveMoveNewImages} = storeToRefs(editor);
 
 const increaseParameters = ['x1', 'x2', 'x3', 'x4', 'x8'];
 const increasePercent = ['10%', '25%', '50%', '100%', '150%', '200%'];
 
 let selectedProject = ref('');
-let selectedTool = ref('');
 let selectedIncreaseParameters = ref(increaseParameters[0]);
 let selectedIncreasePercent = ref(increasePercent[0]);
 let sizeEraser = ref(1);
@@ -163,15 +162,24 @@ watch(selectedProject, (newData) => {
 
 function fileUpload(event) {
   const url = URL.createObjectURL(event.target.files[0]);
-  updateImageUpload({name: null, url, file: event.target.files[0]});
+  let image = new Image();
+  image.src = url;
+  image.onload = () => {
+    console.log(image.naturalHeight)
+    addNewImages({
+      id: Math.floor(Math.random() * 10000),
+      url,
+      file: event.target.files[0],
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+      positionX:  Math.ceil((window.innerWidth / 2) - (image.naturalWidth / 2)),
+      positionY: Math.ceil((window.innerHeight / 2) - (image.naturalHeight / 4))
+    });
+  }
 }
 
 function isOpenShowName(event) {
   isShowEditName.value = event;
-}
-
-function selection(nameButton) {
-  selectedTool.value = nameButton;
 }
 
 </script>

@@ -28,6 +28,7 @@ definePageMeta({
   width: 100vw;
   height: 100vh;
   background-color: var(--main-backgground-color);
+  overflow: hidden;
 
   .wrapper-main-block-edit {
     display: flex;

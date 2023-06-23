@@ -1,27 +1,41 @@
 <template>
-  <div class="editor">
-    <canvas ref='myCanvas' id="myCanvas" :width="widthCanvas" :height="heightCanvas" tabindex='0'
-
-    ></canvas>
+  <div class="editor" ref="editorPlace">
+    <div v-for="image in tempImages" :key="image.id">
+      <TempCanvas :image="image"></TempCanvas>
+    </div>
+    <canvas ref='myCanvas' :width="widthCanvas" :height="heightCanvas" tabindex='0'></canvas>
   </div>
 </template>
 
 <script setup>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {editorStore} from "~/store/editorStore";
 import {storeToRefs} from "pinia";
+import TempCanvas from "~/components/editor/editor-place/TempCanvas";
 
 const editor = editorStore();
-const {} = editor;
-const {imageUpload, hasActiveEraser, currentWidthEraser, isSelectElement} = storeToRefs(editor);
+const {changePositionNewImage, clearTempImages} = editor;
+const {
+  imageUpload,
+  hasActiveEraser,
+  currentWidthEraser,
+  isSelectElement,
+  tempImages,
+  isActiveMoveNewImages
+} = storeToRefs(editor);
+
+let editorPlace = ref(null);
+let myCanvas = ref(null);
 
 let widthCanvas = ref();
 let heightCanvas = ref();
 
-let myCanvas = ref(null);
 let ctx;
 let images = ref();
 let widthEraser = ref();
+let selectNewImageId = ref(null);
+let firstPositionX = ref(null);
+let firstPositionY = ref(null);
 
 onMounted(() => {
   ctx = myCanvas.value.getContext('2d');
@@ -38,10 +52,6 @@ watch(hasActiveEraser, (newData) => {
   }
 })
 
-watch(imageUpload, (newData) => {
-  fileUpload(newData)
-})
-
 watch(currentWidthEraser, (newData) => {
   widthEraser.value = newData;
 })
@@ -54,22 +64,38 @@ watch(isSelectElement, (newData) => {
   }
 })
 
-function fileUpload(image) {
-  let bg = new Image();
-  bg.src = image.url
-  bg.onload = () => {
-    ctx.drawImage(bg, 0, 0, bg.naturalWidth / 2, bg.naturalHeight / 2);
+watch(isActiveMoveNewImages, (newData) => {
+  if (newData) {
+    editorPlace.value.addEventListener('mousedown', mouseDown)
+  } else {
+
   }
+})
+
+function fileUpload() {
+  tempImages.value.forEach(image => {
+    let bg = new Image();
+    bg.src = image.url
+    bg.onload = () => {
+      ctx.drawImage(bg, image.positionX, image.positionY - 70, bg.naturalWidth / 2, bg.naturalHeight / 2);
+    }
+  })
+  clearTempImages();
 }
 
 function mouseDown(event) {
-  myCanvas.value.addEventListener('mousemove', mouseMove);
+  document.addEventListener('mousemove', mouseMove);
   document.addEventListener('mouseup', mouseUp);
-  console.log(hasActiveEraser.value)
+
   if (hasActiveEraser.value) {
+    fileUpload();
     clearBackground();
   } else if (isSelectElement.value) {
     moveElement();
+  } else if (isActiveMoveNewImages.value) {
+    selectNewImageId.value = event.target.parentNode.__vnode.key;
+    firstPositionX.value = event.clientX;
+    firstPositionY.value = event.clientY;
   }
 }
 
@@ -79,12 +105,23 @@ function mouseMove(event) {
     clearBackground();
   } else if (isSelectElement.value) {
     moveElement();
+  } else if (isActiveMoveNewImages.value) {
+    changePositionNewImage(
+        selectNewImageId.value,
+        event.clientY - firstPositionY.value,
+        event.clientX - firstPositionX.value
+    )
+    firstPositionX.value = event.clientX;
+    firstPositionY.value = event.clientY;
   }
 }
 
+
 function mouseUp(event) {
-  myCanvas.value.removeEventListener('mousemove', mouseMove);
+  document.removeEventListener('mousemove', mouseMove);
   document.removeEventListener('mouseup', mouseUp);
+  firstPositionY.value = null;
+  firstPositionX.value = null;
 }
 
 function clearBackground() {
@@ -99,13 +136,15 @@ function moveElement() {
 
 <style scoped lang="scss">
 .editor {
+  position: relative;
   min-width: calc(100vw - 356px);
   height: 100vh;
-  padding-top: 61px;
+  padding-top: 70px;
   background-image: url("assets/images/editor/background-dot.svg");
   background-repeat: repeat;
 
   canvas {
+    position: absolute;
   }
 }
 </style>
