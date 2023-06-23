@@ -5,7 +5,6 @@
 </template>
 
 <script setup>
-
 import {computed, onMounted, ref, toRefs} from "vue";
 
 const props = defineProps({
