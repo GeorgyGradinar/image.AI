@@ -3,7 +3,7 @@
     <div v-for="image in tempImages" :key="image.id">
       <TempCanvas :image="image"></TempCanvas>
     </div>
-    <canvas ref='myCanvas' :width="widthCanvas" :height="heightCanvas" tabindex='0'></canvas>
+    <canvas ref='mainCanvas' :width="widthCanvas" :height="heightCanvas" tabindex='0'></canvas>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ const {
 } = storeToRefs(editor);
 
 let editorPlace = ref(null);
-let myCanvas = ref(null);
+let mainCanvas = ref(null);
 
 let widthCanvas = ref();
 let heightCanvas = ref();
@@ -38,7 +38,7 @@ let firstPositionX = ref(null);
 let firstPositionY = ref(null);
 
 onMounted(() => {
-  ctx = myCanvas.value.getContext('2d');
+  ctx = mainCanvas.value.getContext('2d');
   widthCanvas.value = window.innerWidth - 350;
   heightCanvas.value = window.innerHeight - 70;
   widthEraser.value = currentWidthEraser.value;
@@ -46,9 +46,9 @@ onMounted(() => {
 
 watch(hasActiveEraser, (newData) => {
   if (newData) {
-    myCanvas.value.addEventListener('mousedown', mouseDown);
+    mainCanvas.value.addEventListener('mousedown', mouseDown);
   } else {
-    myCanvas.value.removeEventListener('mousedown', mouseDown);
+    mainCanvas.value.removeEventListener('mousedown', mouseDown);
   }
 })
 
@@ -58,9 +58,9 @@ watch(currentWidthEraser, (newData) => {
 
 watch(isSelectElement, (newData) => {
   if (newData) {
-    myCanvas.value.addEventListener('mousedown', mouseDown);
+    mainCanvas.value.addEventListener('mousedown', mouseDown);
   } else {
-    myCanvas.value.removeEventListener('mousedown', mouseDown);
+    mainCanvas.value.removeEventListener('mousedown', mouseDown);
   }
 })
 
@@ -81,6 +81,13 @@ function fileUpload() {
     }
   })
   clearTempImages();
+  let link = document.createElement('a');
+  link.href = mainCanvas.value.toDataURL();
+  link.download = 'picture.png';
+  link.style.display = 'none';
+  document.body.appendChild(link);
+  link.click();
+  link.parentNode.removeChild(link);
 }
 
 function mouseDown(event) {
@@ -88,7 +95,9 @@ function mouseDown(event) {
   document.addEventListener('mouseup', mouseUp);
 
   if (hasActiveEraser.value) {
-    fileUpload();
+    if (tempImages.value) {
+      fileUpload();
+    }
     clearBackground();
   } else if (isSelectElement.value) {
     moveElement();
@@ -105,7 +114,7 @@ function mouseMove(event) {
     clearBackground();
   } else if (isSelectElement.value) {
     moveElement();
-  } else if (isActiveMoveNewImages.value) {
+  } else if (isActiveMoveNewImages.value && selectNewImageId.value) {
     changePositionNewImage(
         selectNewImageId.value,
         event.clientY - firstPositionY.value,

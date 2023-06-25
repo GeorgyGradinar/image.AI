@@ -3,7 +3,7 @@
     <div class="wrapper-logo-tools">
       <NuxtLink to="/editor" class="logo">Лого</NuxtLink>
       <div class="tools">
-        <button class="cursor" @click="toggleIsActiveMoveElement" :class="{'selected': isActiveMoveNewImages}">
+        <button class="cursor" @click="toggleIsActiveMoveElement(!isActiveMoveNewImages)" :class="{'selected': isActiveMoveNewImages}">
           <svg id="Capa_1" x="0px" y="0px" viewBox="0 0 297 297" xml:space="preserve">
 <g>
 	<path d="M128.835,297c-4.015,0-7.646-2.395-9.227-6.092L1.295,13.976C-0.317,10.202,0.531,5.827,3.436,2.93
@@ -57,7 +57,7 @@
             </g>
           </svg>
         </label>
-        <button class="eraser" @click="toggleActiveEraser" :class="{'selected': hasActiveEraser}">
+        <button class="eraser" @click="toggleActiveEraser(!hasActiveEraser)" :class="{'selected': hasActiveEraser}">
           <svg id="Icons" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve">
             <line class="st0" x1="5" y1="29" x2="27" y2="29"/>
             <line class="st0" x1="12" y1="10" x2="22" y2="20"/>
@@ -165,7 +165,6 @@ function fileUpload(event) {
   let image = new Image();
   image.src = url;
   image.onload = () => {
-    console.log(image.naturalHeight)
     addNewImages({
       id: Math.floor(Math.random() * 10000),
       url,

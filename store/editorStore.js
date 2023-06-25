@@ -25,6 +25,7 @@ export const editorStore = defineStore('editor', () => {
     }
 
     function addNewImages(newImage) {
+        isActiveMoveNewImages.value = true;
         tempImages.value = [...tempImages.value, newImage];
     }
 
@@ -46,9 +47,9 @@ export const editorStore = defineStore('editor', () => {
         imageUpload.value = data;
     }
 
-    function toggleActiveEraser() {
+    function toggleActiveEraser(isActive) {
         takeOffAllButton();
-        hasActiveEraser.value = !hasActiveEraser.value;
+        hasActiveEraser.value = isActive;
     }
 
     function changeCurrentWidthEraser(width) {
@@ -60,9 +61,9 @@ export const editorStore = defineStore('editor', () => {
         isSelectElement.value = !isSelectElement.value;
     }
 
-    function toggleIsActiveMoveElement() {
+    function toggleIsActiveMoveElement(isActive) {
         takeOffAllButton();
-        isActiveMoveNewImages.value = !isActiveMoveNewImages.value;
+        isActiveMoveNewImages.value = isActive;
     }
 
     return {
