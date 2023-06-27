@@ -305,7 +305,6 @@ function moveElement() {
   currentHeightMainCanvas.value = event.clientY - firstPositionY.value;
 }
 
-
 </script>
 
 <style scoped lang="scss">
