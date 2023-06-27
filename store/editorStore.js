@@ -6,27 +6,24 @@ export const editorStore = defineStore('editor', () => {
     let imageUpload = ref();
     let hasActiveEraser = ref(false);
     let currentWidthEraser = ref(10);
-    let isSelectElement = ref(false);
-    let isActiveMoveNewImages = ref(false);
+    let isSelectedAllElement = ref(false);
 
     function clearEditorStore() {
-        tempImages.value = [];
+        tempImages.value = null;
         imageUpload.value = null;
         hasActiveEraser.value = false;
         currentWidthEraser.value = 10;
-        isSelectElement.value = false;
-        isActiveMoveNewImages.value = false;
+        isSelectedAllElement.value = false;
     }
 
     function takeOffAllButton() {
         hasActiveEraser.value = false;
-        isSelectElement.value = false;
-        isActiveMoveNewImages.value = false;
+        isSelectedAllElement.value = false;
     }
 
     function addNewImages(newImage) {
-        isActiveMoveNewImages.value = true;
-        tempImages.value = [...tempImages.value, newImage];
+        takeOffAllButton();
+        tempImages.value =  newImage;
     }
 
     function changePositionNewImage(id, y, x) {
@@ -40,7 +37,7 @@ export const editorStore = defineStore('editor', () => {
     }
 
     function clearTempImages() {
-        tempImages.value = [];
+        tempImages.value = null;
     }
 
     function updateImageUpload(data) {
@@ -56,14 +53,9 @@ export const editorStore = defineStore('editor', () => {
         currentWidthEraser.value = width;
     }
 
-    function toggleHasSelectElement() {
+    function toggleHasSelectElement(isActive) {
         takeOffAllButton();
-        isSelectElement.value = !isSelectElement.value;
-    }
-
-    function toggleIsActiveMoveElement(isActive) {
-        takeOffAllButton();
-        isActiveMoveNewImages.value = isActive;
+        isSelectedAllElement.value = isActive;
     }
 
     return {
@@ -72,7 +64,6 @@ export const editorStore = defineStore('editor', () => {
         imageUpload, updateImageUpload,
         hasActiveEraser, toggleActiveEraser,
         currentWidthEraser, changeCurrentWidthEraser,
-        isSelectElement, toggleHasSelectElement,
-        isActiveMoveNewImages, toggleIsActiveMoveElement,
+        isSelectedAllElement, toggleHasSelectElement,
     }
 })

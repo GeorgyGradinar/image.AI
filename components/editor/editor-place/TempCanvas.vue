@@ -44,5 +44,6 @@ canvas {
   position: absolute;
   cursor: pointer;
   z-index: 1;
+  border: 1px solid green !important;
 }
 </style>

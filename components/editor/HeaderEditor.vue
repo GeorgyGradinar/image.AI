@@ -3,32 +3,7 @@
     <div class="wrapper-logo-tools">
       <NuxtLink to="/editor" class="logo">Лого</NuxtLink>
       <div class="tools">
-        <button class="cursor" @click="toggleIsActiveMoveElement(!isActiveMoveNewImages)" :class="{'selected': isActiveMoveNewImages}">
-          <svg id="Capa_1" x="0px" y="0px" viewBox="0 0 297 297" xml:space="preserve">
-<g>
-	<path d="M128.835,297c-4.015,0-7.646-2.395-9.227-6.092L1.295,13.976C-0.317,10.202,0.531,5.827,3.436,2.93
-		c2.907-2.898,7.285-3.734,11.052-2.112l275.956,118.729c3.715,1.599,6.107,5.271,6.068,9.314c-0.04,4.044-2.504,7.67-6.248,9.194
-		L182.059,182.13l-43.921,108.598c-1.52,3.758-5.15,6.233-9.203,6.273C128.901,297,128.868,297,128.835,297z M29.609,29.17
-		l98.974,231.661l36.462-90.156c1.017-2.513,3.006-4.508,5.517-5.53L260.5,128.51L29.609,29.17z"/>
-</g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-            <g></g>
-</svg>
-        </button>
-        <button class="hand" @click="toggleHasSelectElement" :class="{'selected': isSelectElement}">
+        <button class="hand" @click="toggleHasSelectElement(!isSelectedAllElement)" :class="{'selected': isSelectedAllElement}">
           <svg id="Icons" x="0px" y="0px"
                viewBox="0 0 32 32" xml:space="preserve">
             <path class="st2" d="M15,17V7c0-1.1-0.9-2-2-2h0c-1.1,0-2,0.9-2,2v13l-3-5.2c-0.6-1-1.8-1.3-2.8-0.6l0,0c-0.7,0.5-1.1,1.4-0.7,2.3
@@ -121,7 +96,7 @@
 </template>
 
 <script setup>
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {projectStore} from "~/store/projects";
 import {personStore} from "~/store/personStore";
@@ -135,8 +110,8 @@ const {updateParameters} = project;
 const store = personStore();
 const {person} = storeToRefs(store);
 const editor = editorStore();
-const {updateImageUpload, toggleActiveEraser, toggleHasSelectElement, addNewImages, toggleIsActiveMoveElement} = editor;
-const {hasActiveEraser, currentWidthEraser, isSelectElement, isActiveMoveNewImages} = storeToRefs(editor);
+const {updateImageUpload, toggleActiveEraser, toggleHasSelectElement, addNewImages} = editor;
+const {hasActiveEraser, currentWidthEraser, isSelectedAllElement} = storeToRefs(editor);
 
 const increaseParameters = ['x1', 'x2', 'x3', 'x4', 'x8'];
 const increasePercent = ['10%', '25%', '50%', '100%', '150%', '200%'];
@@ -162,19 +137,10 @@ watch(selectedProject, (newData) => {
 
 function fileUpload(event) {
   const url = URL.createObjectURL(event.target.files[0]);
-  let image = new Image();
+  const image = new Image();
   image.src = url;
-  image.onload = () => {
-    addNewImages({
-      id: Math.floor(Math.random() * 10000),
-      url,
-      file: event.target.files[0],
-      width: image.naturalWidth,
-      height: image.naturalHeight,
-      positionX:  Math.ceil((window.innerWidth / 2) - (image.naturalWidth / 2)),
-      positionY: Math.ceil((window.innerHeight / 2) - (image.naturalHeight / 4))
-    });
-  }
+  image.onload = () => addNewImages(url);
+  event.target.value = null;
 }
 
 function isOpenShowName(event) {

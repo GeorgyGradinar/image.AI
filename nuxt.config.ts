@@ -24,6 +24,12 @@ export default defineNuxtConfig({
         disallow: [
             '/social', '/gallery', '/legal', '/person', '/guides',
             '/transactions', '/referrals', '/dream-booth', '/editor'],
-    }
+    },
+    plugins: [
+        {
+            src: '@/plugins/fabric',
+            mode: 'client'
+        }
+    ],
 
 })
