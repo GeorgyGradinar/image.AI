@@ -3,7 +3,8 @@
     <div class="wrapper-logo-tools">
       <NuxtLink to="/editor" class="logo">Лого</NuxtLink>
       <div class="tools">
-        <button class="hand" @click="toggleHasSelectElement(!isSelectedAllElement)" :class="{'selected': isSelectedAllElement}">
+        <button class="hand" @click="toggleHasSelectElement(!isSelectedAllElement)"
+                :class="{'selected': isSelectedAllElement}">
           <svg id="Icons" x="0px" y="0px"
                viewBox="0 0 32 32" xml:space="preserve">
             <path class="st2" d="M15,17V7c0-1.1-0.9-2-2-2h0c-1.1,0-2,0.9-2,2v13l-3-5.2c-0.6-1-1.8-1.3-2.8-0.6l0,0c-0.7,0.5-1.1,1.4-0.7,2.3
@@ -13,7 +14,7 @@
             <path class="st2" d="M23,17V9c0-1.1,0.9-2,2-2h0c1.1,0,2,0.9,2,2v8v0c0,4-0.8,7.9-2.4,11.5"/>
 </svg>
         </button>
-        <button class="focus">
+        <button class="focus" @click="toggleCenter">
           <svg id="Icons" x="0px" y="0px" viewBox="0 0 32 32" xml:space="preserve">
             <circle class="st0" cx="16" cy="16" r="4"/>
             <path class="st0" d="M3,11V6c0-1.1,0.9-2,2-2h5"/>
@@ -62,23 +63,23 @@
     </div>
 
     <div class="editor-parameters">
-      <v-select
-          class="drop-down parameters"
-          v-model="selectedIncreaseParameters"
-          :items="increaseParameters"
-          variant="outlined"
-          return-object
-          persistent-hint
-          :class="'rounded-lg'"
-      ></v-select>
-      <button class="download">
+<!--      <v-select-->
+<!--          class="drop-down parameters"-->
+<!--          v-model="selectedIncreaseParameters"-->
+<!--          :items="increaseParameters"-->
+<!--          variant="outlined"-->
+<!--          return-object-->
+<!--          persistent-hint-->
+<!--          :class="'rounded-lg'"-->
+<!--      ></v-select>-->
+      <button class="download" @click="callFunctionDownload">
         <img src="~assets/images/editor/download.svg" alt="download">
         Скачать
       </button>
-      <button class="editor-button-plus">
+      <button class="editor-button-plus" @click="increaseZoom">
         <img src="~assets/images/editor/plus-editor.svg" alt="plus">
       </button>
-      <button class="editor-button-minus">
+      <button class="editor-button-minus" @click="decreaseZoom">
         <img src="~assets/images/editor/minus.svg" alt="minus">
       </button>
       <v-select
@@ -86,9 +87,9 @@
           v-model="selectedIncreasePercent"
           :items="increasePercent"
           variant="outlined"
-          return-object
-          persistent-hint
           :class="'rounded-lg'"
+          @update:modelValue="changeZoom($event)"
+
       ></v-select>
     </div>
 
@@ -96,7 +97,7 @@
 </template>
 
 <script setup>
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {projectStore} from "~/store/projects";
 import {personStore} from "~/store/personStore";
@@ -110,17 +111,33 @@ const {updateParameters} = project;
 const store = personStore();
 const {person} = storeToRefs(store);
 const editor = editorStore();
-const {updateImageUpload, toggleActiveEraser, toggleHasSelectElement, addNewImages} = editor;
-const {hasActiveEraser, currentWidthEraser, isSelectedAllElement} = storeToRefs(editor);
+const {
+  updateImageUpload,
+  toggleActiveEraser,
+  toggleHasSelectElement,
+  addNewImages,
+  increaseZoom,
+  decreaseZoom,
+  changeCurrentZoom,
+  callFunctionDownload,
+  toggleCenter
+} = editor;
+const {
+  hasActiveEraser,
+  currentWidthEraser,
+  isSelectedAllElement,
+  currentZoom
+} = storeToRefs(editor);
 
 const increaseParameters = ['x1', 'x2', 'x3', 'x4', 'x8'];
 const increasePercent = ['10%', '25%', '50%', '100%', '150%', '200%'];
 
 let selectedProject = ref('');
 let selectedIncreaseParameters = ref(increaseParameters[0]);
-let selectedIncreasePercent = ref(increasePercent[0]);
+let selectedIncreasePercent = ref('100%');
 let sizeEraser = ref(1);
 let isShowEditName = ref(false);
+
 
 onMounted(() => {
   if (person._value.id && projects.value.length) {
@@ -131,9 +148,29 @@ onMounted(() => {
   }
 })
 
+watch(currentZoom, (newData) => {
+  selectedIncreasePercent.value = `${Math.round(newData * 100)}%`;
+})
+
 watch(selectedProject, (newData) => {
   updateParameters({name: selectedProject.name, id: selectedProject.id});
 })
+
+function changeZoom(event) {
+  if (selectedIncreasePercent.value === '100%') {
+    changeCurrentZoom(1);
+  } else if (selectedIncreasePercent.value === '10%') {
+    changeCurrentZoom(0.1);
+  } else if (selectedIncreasePercent.value === '25%') {
+    changeCurrentZoom(0.25);
+  } else if (selectedIncreasePercent.value === '50%') {
+    changeCurrentZoom(0.5);
+  } else if (selectedIncreasePercent.value === '150%') {
+    changeCurrentZoom(1.5);
+  } else if (selectedIncreasePercent.value === '200%') {
+    changeCurrentZoom(2);
+  }
+}
 
 function fileUpload(event) {
   const url = URL.createObjectURL(event.target.files[0]);
