@@ -543,7 +543,6 @@ function mouseWheel() {
         canvas.requestRenderAll();
       }
     }
-
     updateMove();
   })
 
