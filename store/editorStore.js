@@ -4,18 +4,20 @@ import {ref} from "vue";
 export const editorStore = defineStore('editor', () => {
     let tempImages = ref(null);
     let imageUpload = ref();
+    let generateImages = ref([]);
     let hasActiveEraser = ref(false);
     let currentWidthEraser = ref(10);
     let isSelectedAllElement = ref(false);
-    let currentZoom = ref(10);
+    let currentZoom = ref(1);
     let download = ref(false);
     let setCenter = ref(false);
 
     function clearEditorStore() {
         tempImages.value = null;
         imageUpload.value = null;
+        generateImages.value = [];
         hasActiveEraser.value = false;
-        currentWidthEraser.value = 10;
+        currentWidthEraser.value = 1;
         isSelectedAllElement.value = false;
         currentZoom.value = 10;
     }
@@ -30,22 +32,20 @@ export const editorStore = defineStore('editor', () => {
         tempImages.value = newImage;
     }
 
-    // function changePositionNewImage(id, y, x) {
-    //     let moveImageId = tempImages.value.findIndex(image => image.id === id);
-    //     tempImages.value[moveImageId] = {
-    //         ...tempImages.value[moveImageId],
-    //         positionX: tempImages.value[moveImageId].positionX + x,
-    //         positionY: tempImages.value[moveImageId].positionY + y,
-    //     }
-    //     tempImages.value = [...tempImages.value]
-    // }
-
     function clearTempImages() {
         tempImages.value = null;
     }
 
     function updateImageUpload(data) {
         imageUpload.value = data;
+    }
+
+    function addGeneratedImages(images) {
+        generateImages.value = images;
+    }
+
+    function cleanGeneratedImages() {
+        generateImages.value = [];
     }
 
     function toggleActiveEraser(isActive) {
@@ -86,6 +86,7 @@ export const editorStore = defineStore('editor', () => {
         clearEditorStore,
         tempImages, addNewImages, clearTempImages,
         imageUpload, updateImageUpload,
+        generateImages, addGeneratedImages, cleanGeneratedImages,
         hasActiveEraser, toggleActiveEraser,
         currentWidthEraser, changeCurrentWidthEraser,
         isSelectedAllElement, toggleHasSelectElement,

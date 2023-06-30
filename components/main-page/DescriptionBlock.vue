@@ -42,7 +42,7 @@ function useAsset(path) {
     eager: true,
     import: 'default',
   })
-  return assets['/assets/main-page/' + path]
+  return assets['/assets/images/main-page/' + path]
 }
 </script>
 

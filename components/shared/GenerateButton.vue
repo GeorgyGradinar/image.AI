@@ -23,6 +23,8 @@ import {personStore} from "~/store/personStore";
 import {imagesStore} from "~/store/imageStore"
 import {modelsStore} from "~/store/models"
 import generatorImages from "~/mixins/generatorImages";
+import requestsEditor from "~/mixins/requestsEditor";
+import {useRouter} from "nuxt/app";
 
 const emit = defineEmits(['setNext']);
 const store = personStore();
@@ -33,6 +35,9 @@ const {toggleGeneration, addNewImages} = imageStore;
 const models = modelsStore();
 const {toggleRegistrationDialog, toggleBuyMoreCredits, toggleSnackBarReject} = models;
 const {generateImages} = generatorImages();
+const {generateImage} = requestsEditor();
+
+const router = useRouter();
 
 let coastGeneration = ref(1);
 let counterImage = ref(1);
@@ -60,28 +65,32 @@ watch(filters, (newData) => {
 })
 
 function generate() {
-  if (person._value.id) {
-    if (coastGeneration.value < person._value.credits) {
-      let randomId = Math.floor(Math.random() * 10000);
-      for (let x = 0; x < filters.value.parameters.countImages; x++) {
-        const loading = {id: randomId};
-        let loadImages = [...imageStore.images];
-        loadImages.unshift(loading);
-        addNewImages(loadImages)
-      }
-      toggleGeneration(true);
-      generateImages(randomId);
-
-      window.scrollTo({
-        top: document.getElementById('images')?.offsetTop,
-        behavior: "smooth",
-      })
-    } else {
-      toggleSnackBarReject({isOpen: true, text: "Недостаточно средств"});
-      toggleBuyMoreCredits(true);
-    }
+  if (router.currentRoute.value.path.includes('editor')) {
+    generateImage();
   } else {
-    toggleRegistrationDialog(true);
+    if (person._value.id) {
+      if (coastGeneration.value < person._value.credits) {
+        let randomId = Math.floor(Math.random() * 10000);
+        for (let x = 0; x < filters.value.parameters.countImages; x++) {
+          const loading = {id: randomId};
+          let loadImages = [...imageStore.images];
+          loadImages.unshift(loading);
+          addNewImages(loadImages)
+        }
+        toggleGeneration(true);
+        generateImages(randomId);
+
+        window.scrollTo({
+          top: document.getElementById('images')?.offsetTop,
+          behavior: "smooth",
+        })
+      } else {
+        toggleSnackBarReject({isOpen: true, text: "Недостаточно средств"});
+        toggleBuyMoreCredits(true);
+      }
+    } else {
+      toggleRegistrationDialog(true);
+    }
   }
 }
 

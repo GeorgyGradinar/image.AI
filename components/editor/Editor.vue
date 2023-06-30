@@ -316,6 +316,11 @@ function moveElement() {
   background-image: url("assets/images/editor/background-dot.svg");
   background-repeat: repeat;
 
+  .pre-show-generate-images {
+    position: absolute;
+    background-color: red;
+  }
+
   canvas {
     position: absolute;
     border: 1px solid red;
