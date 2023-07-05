@@ -3,7 +3,7 @@
     <v-card class="card">
       <div class="header">
         <button @click.prevent="close">
-          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
+          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
         </button>
       </div>
       <ImageDetailsBlock :image="imageSrc" @reuse="close"></ImageDetailsBlock>

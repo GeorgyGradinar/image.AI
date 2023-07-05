@@ -3,7 +3,7 @@
     <v-dialog class="dialog" v-model="dialog" width="600">
       <v-card class="card">
         <button class="close-button" @click.prevent="closeDialog">
-          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close">
+          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
         </button>
         <span class="title">Вход</span>
         <span class="error-message">{{ errorMessage }}</span>
@@ -34,7 +34,7 @@
           </div>
 
           <p class="forgot-password">Забыли пароль? <a @click.prevent="openForgotPasswordDialog">Восстановить</a></p>
-          
+
           <div class="card-buttons login-button">
             <button class="create-account no-hover" @click.prevent="submit">Войти</button>
           </div>

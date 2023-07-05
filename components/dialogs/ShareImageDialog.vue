@@ -3,7 +3,7 @@
     <v-card class="card-share">
       <div class="image-share">
         <button @click.prevent="$emit('close')">
-          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
+          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
         </button>
         <img :src="imageSrc" alt="share image">
       </div>

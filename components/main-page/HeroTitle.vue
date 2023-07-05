@@ -3,12 +3,12 @@
     <h1>Нейросеть, которая рисует по словам онлайн</h1>
     <div class="animation-wrapper">
       <div class="list">
-        <span class="gradient animate animate-1">Картинки</span>
-        <span class="gradient animate animate-2">Логотипы</span>
-        <span class="gradient animate animate-3">Аватары</span>
-        <span class="gradient animate animate-4">Изображения</span>
-        <span class="gradient animate animate-5">Аниме</span>
-        <span class="gradient animate animate-6">Персонажей</span>
+        <strong class="gradient animate animate-1">Картинки</strong>
+        <strong class="gradient animate animate-2">Логотипы</strong>
+        <strong class="gradient animate animate-3">Аватары</strong>
+        <strong class="gradient animate animate-4">Изображения</strong>
+        <strong class="gradient animate animate-5">Аниме</strong>
+        <strong class="gradient animate animate-6">Персонажей</strong>
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@ h1,
   align-items: flex-start;
   animation: autoscroll 15s linear 0s infinite forwards;
 
-  span {
+  strong {
     white-space: nowrap;
   }
 }

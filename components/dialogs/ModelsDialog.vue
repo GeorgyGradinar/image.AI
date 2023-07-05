@@ -16,7 +16,7 @@
         ></v-text-field>
 
         <button @click.prevent="$emit('close', currentModel)">
-          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
+          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
         </button>
       </div>
 

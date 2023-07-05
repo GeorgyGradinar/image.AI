@@ -6,7 +6,7 @@
   >
     <div class="wrapper-reject">
       <div class="image-done">
-        <img src="~/assets/images/price/close.svg" alt="">
+        <img src="~/assets/images/price/close.svg" alt="close icon">
       </div>
       <span>{{ textSnackBar }}</span>
     </div>

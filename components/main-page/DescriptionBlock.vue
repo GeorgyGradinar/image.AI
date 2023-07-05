@@ -6,7 +6,7 @@
         <h2>{{ description.title }}</h2>
         <p>{{ description.description }}</p>
       </section>
-      <img class="pre-show" :src="useAsset(description.url)"  alt="">
+      <img class="pre-show" :src="useAsset(description.url)"  alt="upload image">
     </div>
   </section>
 </template>

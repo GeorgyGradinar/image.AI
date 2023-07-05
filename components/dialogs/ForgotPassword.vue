@@ -2,7 +2,7 @@
   <v-dialog class="dialog" v-model="isOpen" width="600" persistent>
     <v-card class="card">
       <button class="close-button" @click.prevent="$emit('close')">
-        <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
+        <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
       </button>
       <span class="title">Восстановление пароля</span>
       <p class="error-message">{{ errorMessage }}</p>

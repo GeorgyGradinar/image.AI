@@ -11,6 +11,7 @@ export const editorStore = defineStore('editor', () => {
     let currentZoom = ref(1);
     let download = ref(false);
     let setCenter = ref(false);
+    let isActiveGenerationLoader = ref(false);
 
     function clearEditorStore() {
         tempImages.value = null;
@@ -19,7 +20,10 @@ export const editorStore = defineStore('editor', () => {
         hasActiveEraser.value = false;
         currentWidthEraser.value = 1;
         isSelectedAllElement.value = false;
-        currentZoom.value = 10;
+        currentZoom.value = 1;
+        download.value = false;
+        setCenter.value = false;
+        isActiveGenerationLoader.value = false;
     }
 
     function takeOffAllButton() {
@@ -82,6 +86,10 @@ export const editorStore = defineStore('editor', () => {
         setCenter.value = !setCenter.value;
     }
 
+    function toggleActiveGenerationLoader(isActive) {
+        isActiveGenerationLoader.value = isActive;
+    }
+
     return {
         clearEditorStore,
         tempImages, addNewImages, clearTempImages,
@@ -92,6 +100,7 @@ export const editorStore = defineStore('editor', () => {
         isSelectedAllElement, toggleHasSelectElement,
         currentZoom, increaseZoom, decreaseZoom, changeCurrentZoom,
         download, callFunctionDownload,
-        setCenter, toggleCenter
+        setCenter, toggleCenter,
+        isActiveGenerationLoader, toggleActiveGenerationLoader,
     }
 })

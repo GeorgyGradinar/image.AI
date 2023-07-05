@@ -2,7 +2,7 @@
   <v-dialog class="dialog" v-model="dialog" width="600">
     <v-card class="card">
       <button class="close-button" @click.prevent="closeRegistrationBlock">
-        <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
+        <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
       </button>
       <span class="title">Регистрация</span>
       <span v-if="errorMessageRegistration" class="error-message">{{ errorMessageRegistration }}</span>

@@ -25,6 +25,7 @@ import DescriptionBlock from "~/components/text-to-image/parameters/DescriptionB
 import GenerationParameters from "~/components/text-to-image/parameters/GenerationParameters";
 import GenerateButton from "~/components/shared/GenerateButton";
 import Advanced from "../shared/parameters-filter/Advanced";
+import {ref} from "vue";
 
 let isOpenEdit = ref(false);
 
@@ -36,7 +37,7 @@ function toggleParameters(event) {
 
 <style scoped lang="scss">
 .filters {
-  border-radius: 30px 0 0 30px;
+  border-radius: 0 30px 30px 0;
   z-index: 10;
 
   .wrapper-settings-block {

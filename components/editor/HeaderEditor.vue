@@ -141,8 +141,9 @@ let isShowEditName = ref(false);
 
 onMounted(() => {
   if (person._value.id && projects.value.length) {
-    const id = router.currentRoute.value.params.id;
-    selectedProject.value = projects._value.find(project => project.id === id);
+    const id = router.currentRoute.value.query.id;
+    selectedProject.value = projects.value.find(project => project.id === id);
+    console.log(selectedProject.value)
   } else {
     router.push({path: '/'})
   }

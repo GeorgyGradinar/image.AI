@@ -3,7 +3,7 @@
     <v-card class="card">
       <div class="wrapper-close">
         <p class="warning">У вас недостаточно красок, выберите пакет</p>
-        <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt=""
+        <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon"
              @click.prevent="$emit('close')">
       </div>
       <div class="wrapper-prices">

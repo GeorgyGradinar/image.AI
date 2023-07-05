@@ -6,7 +6,7 @@
   >
     <div class="wrapper-done">
       <div class="image-done">
-        <img src="~/assets/images/snack-bars/done.svg" alt="">
+        <img src="~/assets/images/snack-bars/done.svg" alt="done">
       </div>
       <span>{{ textSnackBar }}</span>
     </div>

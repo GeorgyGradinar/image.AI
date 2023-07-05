@@ -2,7 +2,7 @@
   <footer>
     <div class="wrapper-footer">
       <div class="logo">
-        <h3>НейроХолст</h3>
+        <h2>НейроХолст</h2>
         <p>На нашей платформе вы можете создавать шедевры с помощью современных достижений в нейросетевых
           технологиях.</p>
         <div class="social">
@@ -34,7 +34,7 @@
 
       <section class="item">
         <h3>Контакты</h3>
-        <p>neuro-holst@neuro-holst.ru</p>
+        <a :href="'mailto:neuro-holst@neuro-holst.ru'">neuro-holst@neuro-holst.ru</a>
         <p>ИНН: 616109874836</p>
       </section>
 

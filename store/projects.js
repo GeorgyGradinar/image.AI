@@ -1,26 +1,12 @@
 import {defineStore} from "pinia";
+import {ref} from "vue";
 
 export const projectStore = defineStore('project', () => {
     let projects = ref([
         {
-            id: '-efrefwf5wf',
-            name: 'test',
-            date: '12.03.2022',
-        },
-        {
-            id: '-sdgvrghnyu5542',
-            name: 'test1',
-            date: '12.10.2022',
-        },
-        {
-            id: '-qqqweert998874',
-            name: 'test2',
-            date: '03.03.2022',
-        },
-        {
-            id: '-56cds48787',
-            name: 'test3',
-            date: '06.07.2022',
+            id: '2983',
+            name: 'test proj',
+            date: '20.03.2022'
         }
     ])
 

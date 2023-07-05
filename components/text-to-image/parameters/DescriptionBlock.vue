@@ -32,7 +32,7 @@
             <button class="random-button" @click="random">
               <img class="random-img"
                    src="~/assets/images/text-to-image/settings/random.svg"
-                   alt="">Рандом
+                   alt="random text">Рандом
             </button>
           </section>
           <section class="negative-description">

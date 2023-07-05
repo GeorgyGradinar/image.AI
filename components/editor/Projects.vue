@@ -2,7 +2,7 @@
   <section class="wrapper-projects">
     <div class="add-project" @click="createNewProject">
       <div class="wrapper-image">
-        <img src="~/assets/images/editor/plus-project.svg" alt="">
+        <img src="~/assets/images/editor/plus-project.svg" alt="add new project">
       </div>
       <div class="wrapper-text">
         <p class="create-text">Создайте новый проект</p>
@@ -12,6 +12,7 @@
 
     <div class="project" v-for="project of projects" :key="project.id">
       <div class="pre-show-project" @click="routeTo(project.id)">
+        <img src="~/assets/images/background.png" alt="thumbnail">
       </div>
       <div class="description-project" @click.self="routeTo(project.id)">
         <div class="wrapper-text" @click="routeTo(project.id)">
@@ -28,6 +29,7 @@
 
 <script setup>
 import {projectStore} from "~/store/projects";
+import requestsProjects from "~/mixins/requestsProjects";
 import {storeToRefs} from "pinia";
 import {useRouter} from "nuxt/app";
 
@@ -35,19 +37,30 @@ const router = useRouter();
 const project = projectStore();
 const {projects} = storeToRefs(project);
 const {addNewProject, deleteProject} = project;
+const {saveProjects} = requestsProjects();
 
 function routeTo(id) {
-  router.push({path: `/editor/project${id}`});
+  router.push({path: `/editor/project`, query: {id: `${id}`}});
+}
+
+function useAsset(path) {
+  const assets = import.meta.glob('~/assets/**/*', {
+    eager: true,
+    import: 'default',
+  })
+  return assets['/assets/images/editor/' + path]
 }
 
 function createNewProject() {
   const date = new Date();
   const newProject = {
-    id: `-${Math.floor(Math.random() * 10000)}`,
+    id: `${Math.floor(Math.random() * 10000)}`,
     name: 'Untitled',
-    date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+    date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`,
+    thumbnailURL: useAsset('plus-project.svg')
   }
   addNewProject(newProject);
+  saveProjects(projects.value);
   routeTo(newProject.id);
 }
 
@@ -146,6 +159,8 @@ function deletedProject(id) {
     transition: all 0.2s;
 
     .pre-show-project {
+      display: flex;
+      justify-content: center;
       width: 100%;
       height: 100%;
       min-height: 60%;
@@ -155,7 +170,8 @@ function deletedProject(id) {
       border-bottom: 1px solid rgba(255, 255, 225, 0.2);
 
       img {
-        width: 100%;
+        width: 50%;
+        margin-top: 20px;
       }
     }
 

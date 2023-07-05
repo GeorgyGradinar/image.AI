@@ -1,10 +1,9 @@
 <template>
   <div class="photo-grid">
     <div class="photo-wrapper" v-if="image.url">
-      <img class="main-image" :src="image.url"
-           alt="image example" @click.prevent="toggleImageDetails({isOpen:true, image})">
+      <img class="main-image" :src="image.url" @click.prevent="toggleImageDetails({isOpen:true, image})" alt="image example">
       <a class="wrapper-download" :href="image.url" @click.prevent="downloadImage(image.url, image.params?.prompt)">
-        <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
+        <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="download">
         <v-tooltip activator="parent" location="bottom">Скачать</v-tooltip>
       </a>
 <!--      <div class="wrapper-arrows">-->

@@ -4,7 +4,7 @@
       <button :class="{'active-left':isSelected === 'generated'}" @click="toggleSelected('generated')">
         <img class="edit"
              src="~/assets/images/gallery/boxes.svg"
-             alt="">
+             alt="four boxes">
         Все
       </button>
 <!--      <button :class="{'active-right':isSelected === 'edit'}" @click="toggleSelected('edit')">-->

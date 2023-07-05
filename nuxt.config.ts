@@ -4,7 +4,8 @@ import {resolve} from "path";
 export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
-        'nuxt-simple-robots'
+        'nuxt-simple-robots',
+        'nuxt-simple-sitemap',
     ],
     ssr: true,
     css: [
@@ -25,11 +26,22 @@ export default defineNuxtConfig({
             '/social', '/gallery', '/legal', '/person', '/guides',
             '/transactions', '/referrals', '/dream-booth', '/editor'],
     },
+    sitemap: {
+        siteUrl: 'https://neuro-holst.ru',
+    },
     plugins: [
         {
             src: '@/plugins/fabric',
             mode: 'client'
         }
     ],
+    app: {
+        head: {
+            link: [
+                { rel: 'icon', type: 'ico/png', href: '/favicon.ico' },
+                { rel: 'apple-touch-icon', type: 'ico/png', href: '/favicon.ico' }
+            ]
+        }
+    },
 
 })

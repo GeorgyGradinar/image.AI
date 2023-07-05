@@ -1,7 +1,7 @@
 <template>
   <div class="editor" ref="editorPlace">
     <div class="pre-show-generate-images" ref="frameControls" v-show="generateImages.length">
-      <img :src="useAsset(generateImages[currentIndexGeneratedImages -1 ])" alt="">
+      <img :src="useAsset(generateImages[currentIndexGeneratedImages -1 ])" alt="generated images">
 
       <div class="nav-block-images">
         <button @click="decreaseIndex()">{{ "<" }}</button>
@@ -14,15 +14,20 @@
         </button>
       </div>
     </div>
+    <div class="generation-loader" v-if="isActiveGenerationLoader">
+      <MainGenerationLoader></MainGenerationLoader>
+    </div>
     <canvas id="canvasTest" :width="widthCanvas" :height="heightCanvas"></canvas>
   </div>
 </template>
 
 <script setup>
 import {editorStore} from "~/store/editorStore";
+import requestsEditor from "~/mixins/requestsEditor";
 import {storeToRefs} from "pinia";
 import {onMounted, ref, watch} from "vue";
 import {fabric} from "fabric"
+import MainGenerationLoader from "~/components/editor/editor-place/MainGenerationLoader"
 
 const editor = editorStore();
 const {clearTempImages, changeCurrentZoom, callFunctionDownload, cleanGeneratedImages} = editor;
@@ -34,10 +39,12 @@ const {
   currentZoom,
   download,
   setCenter,
-  generateImages
+  generateImages,
+  isActiveGenerationLoader
 } = storeToRefs(editor);
+const {saveCanvas, getCanvasData} = requestsEditor();
 
-let canvas;
+let canvas = null;
 let frame = ref();
 let frameLoader = ref();
 let frameRelLoader = ref();
@@ -69,14 +76,22 @@ function useAsset(path) {
 
 onMounted(() => {
   canvas = new fabric.Canvas('canvasTest');
-  frame = new fabric.Object(canvas)
+  frame.value = new fabric.Object(canvas)
   canvas.freeDrawingBrush.color = "#1f2023";
   canvas.freeDrawingBrush.width = 5;
   canvas.on("path:created", handlePathCreated);
 
-  changeViewPort();
-  mouseWheel();
-  addFrame();
+  fabric.Group.prototype._controlsVisibility = {
+    ml: false,
+    mt: false,
+    mr: false,
+    mb: false,
+    mtr: false
+  };
+
+
+  saveByHotKey();
+  loadProject();
 })
 
 watch(tempImages, () => {
@@ -122,8 +137,12 @@ watch(isSelectedAllElement, (isSelected) => {
 
 watch(hasActiveEraser, (newData) => {
   canvas.isDrawingMode = newData;
-  frame.value.set('visible', !newData)
-  canvas.add(frame.value);
+  if (newData) {
+    hideFrame();
+  } else {
+    showFrame();
+    autoSaveCanvas();
+  }
 })
 
 watch(currentWidthEraser, (newData) => {
@@ -145,6 +164,92 @@ watch(generateImages, (newData) => {
   }
 })
 
+
+function loadProject() {
+  let saved = getCanvasData();
+  if (!saved) {
+    changeViewPort();
+    mouseWheel();
+    addFrame();
+    return
+  }
+
+  const content = JSON.parse(saved);
+
+  // if (content && content.__state) {
+  //   if (content.__state.mode) setMode(content.__state.mode)
+  //   if (content.__state.model) setModel(content.__state.model)
+  //   if (content.__state.editModel) setEditModel(content.__state.editModel)
+  //   setState(content.__state);
+  //   delete content.__state
+  // }
+  if (content?.objects?.length) {
+    canvas.loadFromJSON(content, () => {
+      console.dir(canvas);
+      canvas.renderAll();
+      const objects = canvas?.getObjects();
+      // const fr = objects.find(o => o._type === 'frame');
+      // const fl = objects.find(o => o._type === 'frame_loader');
+      //
+      // // init frame
+      // if (fr && canvas.contains(fr)) canvas.remove(fr)
+      // if (fl && canvas.contains(fl)) canvas.remove(fl)
+      // addFrame()
+      // if (fr) {
+      //   frame.value.left = fr.left
+      //   frame.value.top = fr.top
+      // }
+      const im = objects.filter(o => o.type === 'image');
+      if (im) images.value = im
+
+      let left;
+      let right;
+      let top;
+      let bottom;
+
+      for (const image of images.value) {
+        let il = image.left - image.getScaledWidth() / 2
+        if (left === undefined || il < left) {
+          left = il
+        }
+        let ir = il + image.getScaledWidth()
+        if (right === undefined || ir > right) {
+          right = ir;
+        }
+        let it = image.top - image.getScaledHeight() / 2
+        if (top === undefined || it < top) {
+          top = it
+        }
+        let ib = it + image.getScaledHeight()
+        if (bottom === undefined || ib > bottom) {
+          bottom = ib
+        }
+
+        // load images from html element
+        const imgHtml = document.createElement('img');
+        imgHtml.src = image.get('src');
+        imgHtml.crossOrigin = "anonymous"
+        imgHtml.onload = function () {
+          image.setElement(imgHtml);
+        }
+
+        // zoom to fit image
+        const zoomW = canvas.width / (right - left)
+        const zoomH = canvas.height / (bottom - top)
+        console.log(zoomW)
+        console.log(zoomH)
+        changeCurrentZoom(Math.min(zoomW, zoomH) * 0.6)
+        canvas.renderAll()
+      }
+      console.log('open add frame')
+      addFrame();
+      updateMove()
+      changeViewPort();
+      mouseWheel();
+    })
+  }
+}
+
 function increaseIndex() {
 
   if (currentIndexGeneratedImages.value < generateImages.value.length) {
@@ -163,10 +268,9 @@ function decreaseIndex() {
 }
 
 function addFrame() {
-  if (!canvas) return
-
-  if (frame.value) return
-
+  // if (!canvas.objects) return
+  if (!frame.value) return
+  console.log('test')
   frame.value = new fabric.Rect({
     _type: 'frame',
     stroke: "rgb(54, 226, 255)",
@@ -224,7 +328,6 @@ function addFrame() {
     strokeUniform: true
   });
 
-
   canvas.calcOffset()
   canvas.add(frame.value, frameLoader.value);
   canvas.sendToBack(frameLoader.value)
@@ -245,7 +348,7 @@ function addFrame() {
 
 function updateFrameModel() {
   // update model
-  if (!canvas) return
+  // if (!canvas.objects) return
   if (!frame.value) return
   const vpt = canvas.viewportTransform;
   const isFrameVisible = frame.value.visible
@@ -254,11 +357,11 @@ function updateFrameModel() {
   const ctx = canvas.getContext();
   ctx.fillStyle = 'rgba(255, 255, 255, 0)'
   if (isFrameVisible) hideFrame()
-  const w = frame.getScaledWidth()
-  const h = frame.getScaledHeight()
+  const w = frame.value.getScaledWidth()
+  const h = frame.value.getScaledHeight()
   const pixels = ctx.getImageData(
-      ((frame.left - w / 2) * vpt[0] + vpt[4]) * (window.devicePixelRatio || 1.0),
-      ((frame.top - h / 2) * vpt[3] + vpt[5]) * (window.devicePixelRatio || 1.0),
+      ((frame.value.left - w / 2) * vpt[0] + vpt[4]) * (window.devicePixelRatio || 1.0),
+      ((frame.value.top - h / 2) * vpt[3] + vpt[5]) * (window.devicePixelRatio || 1.0),
       (w * vpt[0]) * (window.devicePixelRatio || 1.0),
       (h * vpt[3]) * (window.devicePixelRatio || 1.0)
   ).data;
@@ -271,6 +374,7 @@ function updateFrameModel() {
       }
     }
   }
+
   // if (countAlpha === total) {
   //   setMode('generate')
   // } else if (countAlpha === 0) {
@@ -281,7 +385,7 @@ function updateFrameModel() {
 }
 
 function changeFrameVisibility(visible) {
-  if (!canvas) return
+  // if (!canvas.objects) return
   if (!canvas.width || !canvas.height) return
   if (frame.value && frameLoader.value) {
     canvas.setActiveObject(frame.value)
@@ -305,9 +409,8 @@ function hideFrame() {
 }
 
 function updateMove() {
-  if (!frameLoader.value) return
-  if (!frame.value) return
-  if (!canvas || !frame.value) return
+  // if (!frame.value) return
+  // if (!canvas || !frame.value) return
 
   frame.value.left = Math.round(frame.value.left)
   frame.value.top = Math.round(frame.value.top)
@@ -355,13 +458,13 @@ function updateMove() {
   const h = frame.value.height * vpt[3] * optLoader.scaleY;
   // gc.style.width = (w < 30 ? 300 : w) + 'px'
 
-  gc.style.top = optLoader.translateY * vpt[3] + vpt[5] - h + 70 + 'px';
-  gc.style.left = optLoader.translateX * vpt[0] + vpt[4] - (w - w) + 'px'
+  gc.style.top = optLoader.translateY * vpt[3] + vpt[5] - h + 70 + 2 + 'px';
+  gc.style.left = optLoader.translateX * vpt[0] + vpt[4] - (w - w) - 2 + 'px'
   gc.style.width = `${w}px`
   gc.style.height = `${h}px`
 
-  generatedImageTop = optLoader.translateY * vpt[3] + vpt[5] - h + 70 ;
-  generatedImageLeft = optLoader.translateX * vpt[0] + vpt[4] - (w - w) ;
+  generatedImageTop = optLoader.translateY * vpt[3] + vpt[5] - h + 70;
+  generatedImageLeft = optLoader.translateX * vpt[0] + vpt[4] - (w - w);
   generatedImageWidth = w;
   generatedImageHeight = h;
 
@@ -384,8 +487,8 @@ function updateMove() {
 }
 
 function focusFrame() {
-  if (!canvas) return
-  addFrame();
+  // if (!canvas.objects) return
+  // addFrame();
 
   // const zoomW = canvas.width / frame.value.getScaledHeight()
   // const zoomH = canvas.height / frame.value.getScaledHeight()
@@ -414,38 +517,50 @@ function addImageToCanvas() {
     })
     images.value.push(image);
     canvas.add(image);
+    autoSaveCanvas();
+    canvas.renderAll();
   });
+
   clearTempImages();
+
 }
 
 function addGeneratedImageToCanvas(generateImage) {
+  const multiply = fabric.util.multiplyTransformMatrices;
+  const frameMatrix = frame.value.calcTransformMatrix();
+  const newTransformLoader = multiply(
+      frameMatrix,
+      frameRelLoader.value
+  );
+  const vpt = canvas.viewportTransform
+  const optLoader = fabric.util.qrDecompose(newTransformLoader);
+  const w = frame.value.getScaledWidth();
+  const h = frame.value.getScaledHeight()
   fabric.Image.fromURL(generateImage, image => {
+    image.scaleToWidth(w);
+    image.scaleToHeight(h);
+
     image.set({
-      hoverCursor: 'pointer',
-      moveCursor: 'move'
+      selectable: false,
+      hoverCursor: 'default',
+      moveCursor: 'default'
     })
     images.value.push(image);
     canvas.add(image);
+    autoSaveCanvas();
+    canvas.renderAll();
   }, {
-    top: generatedImageTop,
-    left: generatedImageLeft,
-    width: generatedImageWidth,
-    height: generatedImageHeight
+    top: frame.value.top - (h / 2),
+    left: frame.value.left - (w / 2),
   });
-  clearTempImages();
-  console.log(generatedImageTop)
-  console.log(generatedImageLeft)
-  console.log(generatedImageWidth)
-  console.log(generatedImageHeight)
-}
 
-function findCanvasCenter() {
-  changeCurrentZoom(1);
-  canvas.absolutePan({x: widthCanvas.value / 4 * -1, y: 0});
+  frame.value.bringToFront();
+  cleanGeneratedImages();
 }
 
 function handlePathCreated(opt) {
-  if (!canvas) return
+
+  if (!canvas._objects.length) return
   opt.path.globalCompositeOperation = 'destination-out';
   opt.path.set({
     '_type': 'path',
@@ -464,7 +579,6 @@ function handlePathCreated(opt) {
         moveCursor: 'default',
       })
     }
-
   })
   canvas.renderAll();
 }
@@ -545,10 +659,10 @@ function mouseWheel() {
     }
     updateMove();
   })
-
 }
 
 function imageDownload() {
+  hideFrame();
   const fileName = `НейроХолст.png`;
   const link = document.createElement("a");
   link.href = getDataUrl();
@@ -556,7 +670,7 @@ function imageDownload() {
   document.body.appendChild(link);
   link.click();
   link.remove();
-  // posthog.capture("Download Canvas")
+  showFrame();
 }
 
 function getDataUrl(thumbnail = false, multiplier = 1) {
@@ -603,6 +717,49 @@ function getDataUrl(thumbnail = false, multiplier = 1) {
   return dataURL;
 }
 
+function saveByHotKey() {
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      autoSaveCanvas();
+    }
+  });
+}
+
+function autoSaveCanvas() {
+  let currentDataCanvas = getCanvasJSON();
+  let snapShotURL = getDataUrl(true);
+
+  if (!currentDataCanvas) {
+    return
+  }
+  console.log('save')
+  saveCanvas(currentDataCanvas);
+}
+
+function getCanvasJSON() {
+  let json = canvas?.toJSON([
+    'lockMovementX', 'lockMovementY', 'lockRotation', 'lockScalingX', 'lockScalingY', 'lockUniScaling',
+    "hasRotatingPoint", "erasable", "hoverCursor", "_controlsVisibility", "hoverCursor", "moveCursor",
+    "scaleX", "scaleY", "selectable", "evented", "borderColor", "cornerColor", "cornerSize", "cornerStrokeColor", "cornerStyle",
+    "b", "stroke", "fill", "opacity", "selectionBackgroundColor", "strokeWidth", "transparentCorners", "visible", "_type",
+    "_task_id", "_img_id", "lockScalingFlip", "minScaleLimit", "strokeUniform"
+  ])
+  console.log(json)
+  // filter lines for more optimal size
+  json.objects = json.objects.filter(o => o.type !== 'line');
+  json.objects = json.objects.filter(o => o._type !== 'frame');
+  json.objects = json.objects.filter(o => o._type !== 'frame_loader');
+
+  // return JSON.stringify(json)
+  if (json.objects.length) {
+    console.log(json)
+    return JSON.stringify(json);
+  } else {
+    return null;
+  }
+}
+
 </script>
 
 <style scoped lang="scss">
@@ -617,6 +774,8 @@ function getDataUrl(thumbnail = false, multiplier = 1) {
   .pre-show-generate-images {
     position: absolute;
     background-color: red;
+    display: flex;
+    justify-content: center;
     z-index: 10;
 
     img {
@@ -668,6 +827,17 @@ function getDataUrl(thumbnail = false, multiplier = 1) {
         padding: 0 10px;
       }
     }
+  }
+
+  .generation-loader {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(36, 36, 36, 0.5);
+    z-index: 1000;
   }
 
   canvas {

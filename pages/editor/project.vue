@@ -3,8 +3,9 @@
     <HeaderEditor></HeaderEditor>
     <div class="wrapper-main-block-edit">
 <!--      <Editor></Editor>-->
-      <ImageEditor></ImageEditor>
+
       <GenerateParameters></GenerateParameters>
+      <ImageEditor></ImageEditor>
     </div>
   </div>
   <div class="mobile-block">
@@ -17,7 +18,7 @@ import HeaderEditor from "~/components/editor/HeaderEditor"
 import GenerateParameters from "~/components/editor/GenerateParameters";
 import Editor from "~/components/editor/Editor";
 import MobileBlock from "~/components/editor/MobileBlock";
-import ImageEditor from "../../components/editor/ImageEditor";
+import ImageEditor from "~/components/editor/ImageEditor";
 
 definePageMeta({
   middleware: "auth"

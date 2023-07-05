@@ -3,7 +3,7 @@
     <v-card class="card">
       <div v-if="!hasLoader && !hasShowAcceptMessage && !hasShowRejectMessage">
         <button class="close-button" @click.prevent="$emit('closeDialog')">
-          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="">
+          <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close">
         </button>
 
         <span class="title">Подтверждение почты</span>
@@ -33,11 +33,11 @@
       </section>
 
       <div class="accept" v-if="hasShowAcceptMessage">
-        <img src="~/assets/images/accept.svg" alt="">
+        <img src="~/assets/images/accept.svg" alt="check mark">
       </div>
 
       <div class="accept" v-if="hasShowRejectMessage">
-        <img src="~/assets/images/reject.svg" alt="">
+        <img src="~/assets/images/reject.svg" alt="reject icon">
       </div>
 
     </v-card>

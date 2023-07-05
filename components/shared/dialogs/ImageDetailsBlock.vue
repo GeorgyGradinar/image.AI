@@ -19,7 +19,7 @@
 
       <div class="options with-divider">
         <div class="refresh" @click="reuseFilterParameters">
-          <img src="~/assets/images/text-to-image/block-images/image-details/refresh.svg" alt="">
+          <img src="~/assets/images/text-to-image/block-images/image-details/refresh.svg" alt="refresh">
           <p>Переиспользовать параметры</p>
         </div>
         <!--        <NuxtLink to="/editor" class="edit">-->
@@ -27,7 +27,7 @@
         <!--          <p>Открыть в редакторе</p>-->
         <!--        </NuxtLink>-->
         <a class="download" :href="image.url" @click.prevent="downloadImage(image.url || image.share_url, image.params?.prompt)">
-          <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="">
+          <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="download">
           <p>Скачать</p>
         </a>
         <!--        <div class="reuse" @click="reuseImageParameter">-->
@@ -39,7 +39,7 @@
         <!--          <p>Повысить разрешение</p>-->
         <!--        </div>-->
         <div class="share-button" @click="toggleShowShareDialog">
-          <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="">
+          <img src="~/assets/images/text-to-image/block-images/image-details/share.svg" alt="share">
           <strong>Поделиться</strong>
         </div>
       </div>
