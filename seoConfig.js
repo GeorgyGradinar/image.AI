@@ -1,5 +1,7 @@
 export const meta = [
-
+    {
+        'http-equiv':"Content-Security-Policy"
+    }
 ]
 
 export const link = [
