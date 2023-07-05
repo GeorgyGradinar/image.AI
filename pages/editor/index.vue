@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-import Projects from "../../components/editor/Projects";
+import Projects from "~/components/editor/Projects";
 
 </script>
 

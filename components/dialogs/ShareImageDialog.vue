@@ -49,20 +49,20 @@
 </template>
 
 <script setup>
-import {defineEmits, defineProps, onMounted, ref} from "vue";
+import {defineEmits, defineProps, onMounted, onUnmounted, ref} from "vue";
 import {modelsStore} from "~/store/models";
 
 const props = defineProps({
-  imageSrc: Object,
-  imageSharedUrl: String
-});
+  imageSrc: String,
+  imageSharedUrl: Object
+})
 const referral = ref(null);
 const emit = defineEmits(['close']);
 const models = modelsStore();
 const {toggleSnackBarDone} = models;
 
 let isOpen = ref(true);
-let imageLink = ref(`https://neuro-holst.ru/image/shared?id=${props.imageSharedUrl.share_id}`);
+let imageLink = ref('');
 let hasShowInstagram = ref(true);
 
 onMounted(() => {
@@ -70,6 +70,7 @@ onMounted(() => {
   if (window.innerWidth > 1300) {
     hasShowInstagram.value = false;
   }
+  imageLink.value = `https://neuro-holst.ru/image/shared?id=${props.imageSharedUrl.share_id}`;
 })
 
 function getCurrentWidth(event) {
@@ -95,6 +96,10 @@ function vk() {
   url += '&noparse=true';
   window.open(url, '', 'toolbar=0,status=0,width=626,height=436');
 }
+
+onUnmounted(() => {
+  window.removeEventListener('resize', getCurrentWidth);
+})
 
 </script>
 

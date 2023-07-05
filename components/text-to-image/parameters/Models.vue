@@ -2,7 +2,7 @@
   <v-expansion-panel v-if="!isShowOption">
     <v-tooltip activator="parent" location="right">Изменить</v-tooltip>
     <v-expansion-panel-title @click="openDialog" readonly expand-icon="mdi-view-dashboard-edit-outline">
-      <svg class="icon-model edit-icon" version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg"
+      <svg class="icon-model edit-icon" id="Icons" xmlns="http://www.w3.org/2000/svg"
            x="0px" y="0px"
            viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
         <path class="st0" d="M9.9,19.8c-2.6-0.1-4.7,2.2-4.7,4.8l0,1c0,1.6-0.9,2.9-2.3,3.4l0,0h2.3l4.4,0c2.6,0,4.8-2.1,4.8-4.7
@@ -32,7 +32,7 @@
 import ModelsDialog from "~/components/dialogs/ModelsDialog";
 import {storeToRefs} from "pinia";
 import {personStore} from "~/store/personStore";
-import {defineProps, onMounted, toRefs, watch} from "vue";
+import {defineProps, onMounted, ref, toRefs, watch} from "vue";
 
 const store = personStore();
 const {filters} = storeToRefs(store);

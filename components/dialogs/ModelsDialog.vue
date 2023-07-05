@@ -15,7 +15,7 @@
             hide-details
         ></v-text-field>
 
-        <button @click.prevent="$emit('close', currentModel)">
+        <button @click.prevent="closeDialog()">
           <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
         </button>
       </div>
@@ -225,12 +225,15 @@ onMounted(() => {
   currentModel.value = filters._value.model;
   models.value = allModels.value;
 
-  document.addEventListener('click', (event) => {
-    if (Array.from(event.target.classList).includes('v-overlay__scrim')) {
-      emit('close', currentModel.value);
-    }
-  })
+  document.addEventListener('click', checkClickOutside);
 })
+
+function checkClickOutside(event) {
+  console.log('test click')
+  if (Array.from(event.target.classList).includes('v-overlay__scrim')) {
+    closeDialog();
+  }
+}
 
 watch(search, (newData) => {
   debounceSearch(newData)
@@ -274,6 +277,11 @@ function useAsset(path) {
 
 function selectedModel(name) {
   currentModel.value = name;
+}
+
+function closeDialog() {
+  document.removeEventListener('click', checkClickOutside);
+  emit('close', currentModel.value);
 }
 </script>
 

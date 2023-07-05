@@ -14,7 +14,9 @@
 
       <p class="details-item with-divider">
         <span class="title" v-if="image?.params?.negative_prompt">Исключения:</span>
-        <span class="content"> {{ image?.params?.negative_prompt !== 'null' ? image?.params?.negative_prompt : '' }}</span>
+        <span class="content"> {{
+            image?.params?.negative_prompt !== 'null' ? image?.params?.negative_prompt : ''
+          }}</span>
       </p>
 
       <div class="options with-divider">
@@ -26,7 +28,8 @@
         <!--          <img src="~/assets/images/text-to-image/block-images/image-details/edit.svg" alt="">-->
         <!--          <p>Открыть в редакторе</p>-->
         <!--        </NuxtLink>-->
-        <a class="download" :href="image.url" @click.prevent="downloadImage(image.url || image.share_url, image.params?.prompt)">
+        <a class="download" :href="image.url"
+           @click.prevent="downloadImage(image.url || image.share_url, image.params?.prompt)">
           <img src="~/assets/images/text-to-image/block-images/image-details/download.svg" alt="download">
           <p>Скачать</p>
         </a>
@@ -53,10 +56,10 @@
           <span class="title">Степень соответствия:</span>
           <span class="content">{{ image.params?.similarity ? image.params?.similarity : 1 }}</span>
         </p>
-<!--        <p class="details-item">-->
-<!--          <span class="title">Сид:</span>-->
-<!--          <span class="content">{{ image.params.seeds }}</span>-->
-<!--        </p>-->
+        <!--        <p class="details-item">-->
+        <!--          <span class="title">Сид:</span>-->
+        <!--          <span class="content">{{ image.params.seeds }}</span>-->
+        <!--        </p>-->
         <p class="details-item">
           <span class="title">Шагов прорисовки:</span>
           <span class="content">{{ image.params?.steps }}</span>
@@ -80,7 +83,7 @@
 
 <script setup>
 import ShareImageDialog from "~/components/dialogs/ShareImageDialog";
-import {defineEmits, defineProps, onMounted, ref, toRefs} from "vue";
+import {defineEmits, defineProps, onMounted, onUnmounted, ref, toRefs} from "vue";
 import {personStore} from "~/store/personStore";
 import shareFunctions from "~/mixins/shareFunctions";
 import {useRouter} from "nuxt/app";
@@ -91,7 +94,7 @@ const {reuseImageParameters} = shareFunctions();
 const emit = defineEmits(['reuse']);
 const props = defineProps({
   image: Object,
-  route: String
+  route: Object
 });
 const {image, route} = toRefs(props);
 const router = useRouter();
@@ -99,14 +102,17 @@ const router = useRouter();
 let isOpenShareDialog = ref(false);
 
 onMounted(() => {
-  document.addEventListener('click', (event) => {
-    if (Array.from(event.target.parentElement.classList).includes('share')) {
-      isOpenShareDialog.value = false;
-    } else if (Array.from(event.target.parentElement.classList).includes('image')) {
-      emit('reuse');
-    }
-  })
+  document.addEventListener('click', checkClickOutSide);
 })
+
+function checkClickOutSide(event) {
+  console.log('test click')
+  if (Array.from(event.target.parentElement.classList).includes('share')) {
+    isOpenShareDialog.value = false;
+  } else if (Array.from(event.target.parentElement.classList).includes('image')) {
+    closeDialog();
+  }
+}
 
 async function downloadImage(imageSrc, imageName) {
   const response = await fetch(imageSrc);
@@ -131,7 +137,7 @@ function checkRoute() {
 
 function reuseFilterParameters() {
   reuseImageParameters(image.value);
-  emit('reuse');
+  closeDialog();
   router.push({path: '/text-to-image'});
 }
 
@@ -145,6 +151,15 @@ function getDate(time) {
 function toggleShowShareDialog() {
   isOpenShareDialog.value = !isOpenShareDialog.value;
 }
+
+function closeDialog() {
+  emit('close');
+  document.removeEventListener('click', checkClickOutSide);
+}
+
+onUnmounted(() => {
+  document.removeEventListener('click', checkClickOutSide);
+})
 </script>
 
 <style scoped lang="scss">

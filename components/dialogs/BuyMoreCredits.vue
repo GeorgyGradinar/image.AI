@@ -4,7 +4,7 @@
       <div class="wrapper-close">
         <p class="warning">У вас недостаточно красок, выберите пакет</p>
         <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon"
-             @click.prevent="$emit('close')">
+             @click.prevent="closeBlock()">
       </div>
       <div class="wrapper-prices">
         <Rates></Rates>
@@ -33,7 +33,7 @@ function closeDialogClickOnAbroad(event) {
 }
 
 function closeBlock() {
-  removeEventListener('click', closeDialogClickOnAbroad);
+  document.removeEventListener('click', closeDialogClickOnAbroad);
   emit('close');
 }
 </script>

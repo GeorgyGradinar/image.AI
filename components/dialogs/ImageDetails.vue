@@ -6,7 +6,7 @@
           <img src="~/assets/images/text-to-image/block-images/image-details/close.svg" alt="close icon">
         </button>
       </div>
-      <ImageDetailsBlock :image="imageSrc" @reuse="close"></ImageDetailsBlock>
+      <ImageDetailsBlock :image="imageSrc" @close="close"></ImageDetailsBlock>
     </v-card>
   </v-dialog>
 </template>

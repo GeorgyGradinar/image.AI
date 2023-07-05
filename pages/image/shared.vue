@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {useRoute, useRouter} from "nuxt/app";
 import requests from "~/mixins/requests";
 import ImageDetailsBlock from "~/components/shared/dialogs/ImageDetailsBlock";

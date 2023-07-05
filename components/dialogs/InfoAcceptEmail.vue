@@ -18,7 +18,7 @@
 <script setup>
 import {personStore} from "~/store/personStore";
 import requests from "~/mixins/requests";
-import {defineEmits, onMounted, onUnmounted} from "vue";
+import {defineEmits, onMounted, onUnmounted, ref} from "vue";
 import shareFunctions from "../../mixins/shareFunctions";
 
 const {initStore, sendMessageToEmail} = requests();
@@ -37,7 +37,9 @@ onMounted(() => {
 function logoutFromAccount() {
   prepareLogout();
   emit('closeLoginDialog');
+  clearInterval(secondTimer);
 }
+
 let secondTimer
 function timer() {
   secondTimer = setInterval(() => {

@@ -147,7 +147,7 @@ function submit() {
 }
 
 function closeRegistrationBlock() {
-  removeEventListener('click', closeDialogClickOnAbroad);
+  document.removeEventListener('click', closeDialogClickOnAbroad);
   emit('closeRegistrationBlock');
 }
 </script>

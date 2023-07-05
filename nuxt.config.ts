@@ -1,11 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import {resolve} from "path";
 
 export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
         'nuxt-simple-robots',
         'nuxt-simple-sitemap',
+        'nuxt-schema-org',
     ],
     ssr: true,
     css: [
@@ -43,5 +43,14 @@ export default defineNuxtConfig({
             ]
         }
     },
-
+    runtimeConfig: {
+        public: {
+            siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://neuro-holst.ru',
+        }
+    },
+    schemaOrg: {
+        meta:{
+            host: 'https://neuro-holst.ru'
+        }
+    },
 })

@@ -66,12 +66,12 @@ import {modelsStore} from "~/store/models";
 import SocialsBlock from "../header/SocialsBlock";
 
 const {mapErrors} = validation();
-const {loginIn, getPersonInfo} = requests();
+const {loginIn} = requests();
 const emit = defineEmits(['openRegistrationDialog', 'closeLoginDialog']);
 const store = personStore();
 const {changePerson} = store;
 const models = modelsStore();
-const {toggleAcceptDialog, toggleRegistrationDialog, toggleForgotPassword} = models;
+const {toggleRegistrationDialog, toggleForgotPassword} = models;
 const {personMapper} = apiMapper();
 
 const initialState = ref({
@@ -140,7 +140,7 @@ function openForgotPasswordDialog() {
 
 function closeDialog() {
   changeErrorMessage('');
-  removeEventListener('click', closeDialogClickOnAbroad);
+  document.removeEventListener('click', closeDialogClickOnAbroad);
   emit('closeLoginDialog');
 }
 </script>

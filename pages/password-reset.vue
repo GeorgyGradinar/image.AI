@@ -37,7 +37,7 @@ import validation from "~/mixins/validation";
 import userSettings from "~/mixins/userSettings";
 import {minLength, required, sameAs} from "@vuelidate/validators";
 import {useVuelidate} from "@vuelidate/core/dist/index.mjs";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import {useRoute} from "nuxt/app";
 
 const {mapErrors} = validation();

@@ -34,7 +34,7 @@
 
       <section class="item">
         <h3>Контакты</h3>
-        <a :href="'mailto:neuro-holst@neuro-holst.ru'">neuro-holst@neuro-holst.ru</a>
+        <a :href="'mailto:neuro-holst@neuro-holst.ru'" title="email">neuro-holst@neuro-holst.ru</a>
         <p>ИНН: 616109874836</p>
       </section>
 

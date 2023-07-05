@@ -34,7 +34,7 @@ function closeDialogClickOnAbroad(event) {
 }
 
 function closeDialog(isAccept) {
-  removeEventListener('click', closeDialogClickOnAbroad);
+  document.removeEventListener('click', closeDialogClickOnAbroad);
   emit('closeAcceptDialog', isAccept);
 }
 

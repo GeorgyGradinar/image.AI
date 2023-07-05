@@ -25,12 +25,16 @@
 <script setup>
 
 // eslint-disable-next-line no-undef
+import {onMounted, ref} from "vue";
+
 const props = defineProps({
   frequentlyAsks: Array,
 });
+let asks = ref();
 
-// eslint-disable-next-line vue/no-setup-props-destructure
-let asks = props.frequentlyAsks
+onMounted(() => {
+  asks.value = props.frequentlyAsks
+})
 </script>
 
 <style lang="scss">
@@ -64,8 +68,8 @@ let asks = props.frequentlyAsks
 
     .frequently {
       padding: 10px 0;
-      background-color: #1f2023!important;
-      color: var(--main-light-color)!important;
+      background-color: #1f2023 !important;
+      color: var(--main-light-color) !important;
       border-bottom: 1px solid rgba(249, 246, 224, 0.1);
 
     }

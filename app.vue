@@ -39,6 +39,22 @@ function checkRoute(to) {
   isFooterVisible.value = !urlsForFooter.some((url) => to.path.includes(url));
   isHeaderVisible.value = !urlsForHeader.some((url) => to.path.includes(url))
 }
+
+// schema.org
+useSchemaOrg([
+  defineWebSite({
+    name: 'НейроХолст',
+  }),
+  defineOrganization({
+    name: 'НейроХолст',
+    logo: 'favicon.ico',
+    sameAs: [
+      'https://neuro-holst.ru',
+      'https://www.webwiki.com/neuro-holst.ru'
+    ]
+  }),
+  defineWebPage(),
+])
 </script>
 
 <style lang="scss">
