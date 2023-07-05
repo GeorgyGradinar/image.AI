@@ -93,7 +93,6 @@ function generate() {
     }
   }
 }
-
 </script>
 
 <style scoped lang="scss">
