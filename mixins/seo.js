@@ -10,7 +10,7 @@ export default function seo() {
             link:[...links],
             script: [...scripts],
             noscript:[{
-                children:'<div><img src="https://mc.yandex.ru/watch/93987528" style="position:absolute; left:-9999px;" alt="" /></div>'
+                children:'<div><img src="https://mc.yandex.ru/watch/93987528" style="position:absolute; left:-9999px;" alt="yandex" /></div>'
             }]
         })
     }
