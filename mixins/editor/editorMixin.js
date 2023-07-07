@@ -349,7 +349,6 @@ export default function mixinEditor() {
 
             // canvas.discardActiveObject();
             // canvas.defaultCursor = `url(${useAsset('grabbing.svg')})10 10, grab`;
-
             selectableImages.value = images.filter((image) => image.selectable);
 
             images.forEach(image => {
