@@ -29,6 +29,7 @@
 
 <script setup>
 import {ref} from "vue";
+
 const items = ['512x512', '768x768', '1024x1024'];
 let select = ref(items[0]);
 </script>

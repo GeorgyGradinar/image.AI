@@ -97,7 +97,7 @@
 </template>
 
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+import { onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {projectStore} from "~/store/projects";
 import {personStore} from "~/store/personStore";
@@ -143,7 +143,6 @@ onMounted(() => {
   if (person._value.id && projects.value.length) {
     const id = router.currentRoute.value.query.id;
     selectedProject.value = projects.value.find(project => project.id === id);
-    console.log(selectedProject.value)
   } else {
     router.push({path: '/'})
   }

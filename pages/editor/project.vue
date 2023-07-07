@@ -2,8 +2,6 @@
   <div class="wrapper-editor">
     <HeaderEditor></HeaderEditor>
     <div class="wrapper-main-block-edit">
-<!--      <Editor></Editor>-->
-
       <GenerateParameters></GenerateParameters>
       <ImageEditor></ImageEditor>
     </div>
@@ -16,7 +14,6 @@
 <script setup>
 import HeaderEditor from "~/components/editor/HeaderEditor"
 import GenerateParameters from "~/components/editor/GenerateParameters";
-import Editor from "~/components/editor/Editor";
 import MobileBlock from "~/components/editor/MobileBlock";
 import ImageEditor from "~/components/editor/ImageEditor";
 

@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import {ref} from "vue";
 
 export const editorStore = defineStore('editor', () => {
-    let tempImages = ref(null);
+    let uploadedImage = ref(null);
     let imageUpload = ref();
     let generateImages = ref([]);
     let hasActiveEraser = ref(false);
@@ -14,7 +14,7 @@ export const editorStore = defineStore('editor', () => {
     let isActiveGenerationLoader = ref(false);
 
     function clearEditorStore() {
-        tempImages.value = null;
+        uploadedImage.value = null;
         imageUpload.value = null;
         generateImages.value = [];
         hasActiveEraser.value = false;
@@ -33,11 +33,11 @@ export const editorStore = defineStore('editor', () => {
 
     function addNewImages(newImage) {
         takeOffAllButton();
-        tempImages.value = newImage;
+        uploadedImage.value = newImage;
     }
 
     function clearTempImages() {
-        tempImages.value = null;
+        uploadedImage.value = null;
     }
 
     function updateImageUpload(data) {
@@ -92,7 +92,7 @@ export const editorStore = defineStore('editor', () => {
 
     return {
         clearEditorStore,
-        tempImages, addNewImages, clearTempImages,
+        uploadedImage, addNewImages, clearTempImages,
         imageUpload, updateImageUpload,
         generateImages, addGeneratedImages, cleanGeneratedImages,
         hasActiveEraser, toggleActiveEraser,
