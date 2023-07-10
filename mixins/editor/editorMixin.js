@@ -13,11 +13,13 @@ export default function mixinEditor() {
         currentWidthEraser,
         isSelectedAllElement,
         currentZoom,
-
+        history,
+        images
     } = storeToRefs(editor);
     const {saveCanvas} = requestsEditor();
 
     let selectableImages = ref([]);
+    let counterSave = ref(0);
 
     function useAsset(path) {
         const assets = import.meta.glob('~/assets/**/*', {
@@ -27,6 +29,7 @@ export default function mixinEditor() {
         return assets['/assets/images/main-page/' + path];
     }
 
+    // Отрисовка круга для ластика
     function getDrawCursor() {
         const brushSize = currentWidthEraser.value * currentZoom.value;
         const circle = `
@@ -56,7 +59,8 @@ export default function mixinEditor() {
         return `data:image/svg+xml;base64,${window.btoa(circle)}`;
     }
 
-    function setParameterToCanvas(canvas, images) {
+    //установка параметров для курсора и для группы изображений
+    function setParameterToCanvas(canvas) {
         canvas.freeDrawingBrush.color = "#1f2023";
         canvas.freeDrawingBrush.width = currentWidthEraser.value;
         canvas.defaultCursor = `url(${useAsset('cursor-pointer.svg')})10 10, grab`;
@@ -73,7 +77,7 @@ export default function mixinEditor() {
             });
             opt.path.bringToFront();
 
-            images.forEach((image) => {
+            images.value.forEach((image) => {
                 if (image.selectable) {
                     image.set({
                         selectable: false,
@@ -95,16 +99,19 @@ export default function mixinEditor() {
         };
     }
 
-    function loadJsonProject(canvas, images) {
+    //получение изображений из сохраненного JSON
+    function loadJsonProject(canvas, content) {
         canvas.renderAll();
         const objects = canvas?.getObjects();
         const savedImages = objects.filter(o => o.type === 'image');
         if (savedImages) {
-            images = savedImages;
+
+            images.value = savedImages;
         }
-        handleImages(images, true, canvas);
+        handleImages( true, canvas, content.zoom);
     }
 
+    //уствнока параметров для фрейма
     function setParametersToFrame(canvas) {
         let frame = new fabric.Rect({
             _type: 'frame',
@@ -163,14 +170,15 @@ export default function mixinEditor() {
         changeFrameVisibility(false, canvas, frame);
     }
 
-    function addImageToCanvas(canvas, images, generatedImage, frame) {
+    function addImageToCanvas(canvas, generatedImage, frame) {
         if (uploadedImage.value?.length) {
+            //добавляет в канву локально загруженные изображения
             fabric.Image.fromURL(uploadedImage.value, image => {
                 image.set({
                     hoverCursor: `url(${useAsset('hand.svg')})10 10, grab`,
                     moveCursor: `url(${useAsset('grabbing.svg')})10 10, grabbing`
                 });
-                images.push(image);
+                images.value.push(image);
                 canvas.add(image);
                 autoSaveCanvas(canvas);
                 canvas.renderAll();
@@ -178,6 +186,7 @@ export default function mixinEditor() {
 
             clearTempImages();
         } else if (generatedImage) {
+            //добавляет в канву сгенерированные изображения
             const width = frame.getScaledWidth();
             const height = frame.getScaledHeight();
             fabric.Image.fromURL(generatedImage, image => {
@@ -189,16 +198,16 @@ export default function mixinEditor() {
                     hoverCursor: `url(${useAsset('hand.svg')})10 10, grab`,
                     moveCursor: `url(${useAsset('grabbing.svg')})10 10, grabbing`
                 });
-                images.push(image);
+                images.value.push(image);
                 canvas.add(image);
                 autoSaveCanvas(canvas);
                 canvas.renderAll();
             }, {
-                top: frame.top - (height / 2),
-                left: frame.left - (width / 2),
+                top: frame.top - (height / 2), //устанавливает место нахождения на экране по высоте
+                left: frame.left - (width / 2),// устанавливает место нахождения на экране по ширене
             });
 
-            frame.bringToFront();
+            frame.bringToFront(); // выносит фрейм на первый план
             cleanGeneratedImages();
         }
     }
@@ -210,9 +219,11 @@ export default function mixinEditor() {
         if (!currentDataCanvas) {
             return;
         }
-        saveCanvas(currentDataCanvas);
+        saveCanvas(currentDataCanvas); //отправляет сохраненную канву на сервер(localstorage)
+        appendHistory(currentDataCanvas);
     }
 
+    //возвращает канву в JSON формате
     function getCanvasJSON(canvas) {
         let json = canvas?.toJSON([
             'lockMovementX', 'lockMovementY', 'lockRotation', 'lockScalingX', 'lockScalingY', 'lockUniScaling',
@@ -221,18 +232,22 @@ export default function mixinEditor() {
             "b", "stroke", "fill", "opacity", "selectionBackgroundColor", "strokeWidth", "transparentCorners", "visible", "_type",
             "_task_id", "_img_id", "lockScalingFlip", "minScaleLimit", "strokeUniform"
         ]);
-        // filter lines for more optimal size
-        json.objects = json.objects.filter(o => o.type !== 'line');
-        json.objects = json.objects.filter(o => o._type !== 'frame');
-        json.objects = json.objects.filter(o => o._type !== 'frame_loader');
 
+        json.objects = json.objects.filter(o => o._type !== 'frame');//отфильтровать фрейм, так как он добавляется при загрузке страницы
+        json.zoom = currentZoom.value;
         if (json.objects.length) {
             return JSON.stringify(json);
         } else {
-            return null;
+            //проверка нужна для первого сохранения, в случае если канва пустая
+            if (counterSave.value) {
+                return null;
+            } else {
+                return JSON.stringify(json);
+            }
         }
     }
 
+    //изменяет зум, не вызывается на прямую, все изменения производятся через глобальный стор
     function changeZoom(zoom, canvas) {
         canvas.zoomToPoint({
             x: (canvas.width) / 2, y: canvas.height / 2
@@ -240,6 +255,7 @@ export default function mixinEditor() {
         canvas.setZoom(zoom);
     }
 
+    //обрабатывает нажатие на мыш, 1 = нажатие на колесо
     function handleClickDown(event, canvas) {
         if (event.button === 1) {
             toggleHasSelectElement(true);
@@ -264,11 +280,12 @@ export default function mixinEditor() {
         canvas.renderAll();
     }
 
-    function downloadImage(canvas, frame, images) {
+    //сохранение изображений из канвы
+    function downloadImage(canvas, frame) {
         hideFrame(canvas, frame);
         const fileName = `НейроХолст.png`;
         const link = document.createElement("a");
-        link.href = getDataUrl(canvas, images);
+        link.href = getDataUrl(canvas, images.value);
         link.setAttribute("download", fileName);
         document.body.appendChild(link);
         link.click();
@@ -276,9 +293,10 @@ export default function mixinEditor() {
         showFrame(canvas, frame);
     }
 
-    function getDataUrl(canvas, images, thumbnail = false, multiplier = 1) {
+    //возвращает урал с корректными координатами изображений для скачивания или сохранения
+    function getDataUrl(canvas, thumbnail = false, multiplier = 1) {
         // get outermost coordinates
-        const coords = handleImages(images);
+        const coords = handleImages();
         let left = coords.left;
         let right = coords.right;
         let top = coords.top;
@@ -301,12 +319,13 @@ export default function mixinEditor() {
         return dataURL;
     }
 
-    function handleImages(images, isLoad, canvas) {
+    //возвращает координаты изображений и при надобности загружает изображения по координатам на холст
+    function handleImages( isLoad, canvas, zoom) {
         let left;
         let right;
         let top;
         let bottom;
-        for (const image of images) {
+        for (const image of images.value) {
             let il = image.left ? image.left : 0;
             if (left === undefined || il < left) {
                 left = il;
@@ -324,7 +343,7 @@ export default function mixinEditor() {
                 bottom = ib;
             }
 
-            if(isLoad){
+            if (isLoad) {
                 // load images from html element
                 const imgHtml = document.createElement('img');
                 imgHtml.src = image.get('src');
@@ -332,26 +351,22 @@ export default function mixinEditor() {
                 imgHtml.onload = function () {
                     image.setElement(imgHtml);
                 }
-
-                // zoom to fit image
-                const zoomW = canvas.width / (right - left)
-                const zoomH = canvas.height / (bottom - top)
-                changeCurrentZoom(Math.min(zoomW, zoomH) * 0.6)
+                changeCurrentZoom(zoom)
                 canvas.renderAll()
             }
         }
         return {left, right, top, bottom}
     }
 
-    function handleHasSelectionAllElements(isSelected, canvas, images) {
-        console.log('hasSelected' , isSelected)
+    //при перетаскивании всех елементов утстанавливает selectable = false для всех изоюражений на холсте
+    function handleHasSelectionAllElements(isSelected, canvas) {
         if (isSelected) {
 
             // canvas.discardActiveObject();
             // canvas.defaultCursor = `url(${useAsset('grabbing.svg')})10 10, grab`;
-            selectableImages.value = images.filter((image) => image.selectable);
+            selectableImages.value = images.value.filter((image) => image.selectable);
 
-            images.forEach(image => {
+            images.value.forEach(image => {
                 image.set({
                     selectable: false,
                     // hoverCursor: `url(${useAsset('hand.svg')})10 10, grab`,
@@ -413,6 +428,19 @@ export default function mixinEditor() {
         })
     }
 
+    function appendHistory(currentDataCanvas, save = true) {
+        const last = history.value.undo.length > 0 ? history.value.undo[history.value.undo.length - 1] : undefined
+        if (last && (JSON.stringify(JSON.parse(currentDataCanvas).objects.filter(o => o.type === 'image' || o.type === 'path')) === JSON.stringify(JSON.parse(last).objects.filter(o => o.type === 'image' || o.type === 'path')))) {
+            return
+        }
+
+        if (history.value.undo.length === 100) {
+            history.value.undo.shift()
+        }
+        history.value.undo.push(currentDataCanvas);
+    }
+
+
     return {
         getDrawCursor,
         setParameterToCanvas,
@@ -423,6 +451,7 @@ export default function mixinEditor() {
         hideFrame,
         addImageToCanvas,
         autoSaveCanvas,
+        getCanvasJSON,
         changeZoom,
         handleClickDown,
         handleClickUp,

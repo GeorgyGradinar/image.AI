@@ -12,6 +12,13 @@ export const editorStore = defineStore('editor', () => {
     let download = ref(false);
     let setCenter = ref(false);
     let isActiveGenerationLoader = ref(false);
+    let callUndo = ref(false);
+    let callRedo = ref(false);
+    let history = ref({
+        undo: [],
+        redo: []
+    });
+    let images = ref([]);
 
     function clearEditorStore() {
         uploadedImage.value = null;
@@ -24,6 +31,11 @@ export const editorStore = defineStore('editor', () => {
         download.value = false;
         setCenter.value = false;
         isActiveGenerationLoader.value = false;
+        history.value = {
+            undo: [],
+            redo: []
+        }
+        images.value = [];
     }
 
     function takeOffAllButton() {
@@ -90,6 +102,15 @@ export const editorStore = defineStore('editor', () => {
         isActiveGenerationLoader.value = isActive;
     }
 
+    function changeCallUndo() {
+        callUndo.value = !callUndo.value;
+
+    }
+
+    function changeCallRedo() {
+        callRedo.value = !callRedo.value;
+    }
+
     return {
         clearEditorStore,
         uploadedImage, addNewImages, clearTempImages,
@@ -102,5 +123,9 @@ export const editorStore = defineStore('editor', () => {
         download, callFunctionDownload,
         setCenter, toggleCenter,
         isActiveGenerationLoader, toggleActiveGenerationLoader,
+        callUndo, changeCallUndo,
+        callRedo, changeCallRedo,
+        history,
+        images,
     }
 })

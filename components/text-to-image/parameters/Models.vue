@@ -11,7 +11,6 @@
 </svg>
       Нейросеть: {{ currentModel }}
     </v-expansion-panel-title>
-
   </v-expansion-panel>
 
   <section class="filters-options" v-else>

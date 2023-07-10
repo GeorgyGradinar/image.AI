@@ -40,10 +40,11 @@ const {
   hideFrame,
   addImageToCanvas,
   autoSaveCanvas,
+  getCanvasJSON,
   changeZoom,
   handleClickDown,
   handleClickUp,
-  imageDownload,
+  downloadImage,
   handleHasSelectionAllElements,
   handleMouseWheel,
   setCurrentWidthEraser
@@ -60,7 +61,11 @@ const {
   download,
   setCenter,
   generateImages,
-  isActiveGenerationLoader
+  isActiveGenerationLoader,
+  callUndo,
+  callRedo,
+  history,
+  images
 } = storeToRefs(editor);
 const {getCanvasData} = requestsEditor();
 
@@ -68,7 +73,7 @@ let canvas = null;
 let frame = ref();
 let frameRelLoader = ref();
 let frameControls = ref();
-let images = ref([]);
+// let images = ref([]);
 
 let widthCanvas = ref(window.innerWidth - WIDTH_BLOCK_FILTERS);
 let heightCanvas = ref(window.innerHeight);
@@ -90,13 +95,14 @@ onMounted(() => {
     freeDrawingCursor: `url(${getDrawCursor()}) ${currentWidthEraser.value / 2} ${currentWidthEraser.value / 2}, crosshair`,
   });
   frame.value = new fabric.Object(canvas);
-  setParameterToCanvas(canvas, images.value);
+  setParameterToCanvas(canvas);
   saveByHotKey();
   loadProject();
+  autoSaveCanvas(canvas);
 })
 
 watch(uploadedImage, () => {
-  addImageToCanvas(canvas, images.value);
+  addImageToCanvas(canvas);
 })
 
 watch(setCenter, () => {
@@ -105,7 +111,7 @@ watch(setCenter, () => {
 })
 
 watch(isSelectedAllElement, (isSelected) => {
-  handleHasSelectionAllElements(isSelected, canvas, images.value);
+  handleHasSelectionAllElements(isSelected, canvas);
 });
 
 watch(hasActiveEraser, (newData) => {
@@ -114,7 +120,6 @@ watch(hasActiveEraser, (newData) => {
     hideFrame(canvas, frame.value);
   } else {
     showFrame(canvas, frame.value);
-    autoSaveCanvas(canvas);
   }
 });
 
@@ -129,14 +134,62 @@ watch(currentZoom, (newData) => {
 });
 
 watch(download, () => {
-  imageDownload(canvas, frame.value, images.value);
+  downloadImage(canvas, frame.value);
 })
 
 watch(generateImages, (newData) => {
   if (newData) {
     updateMove();
   }
-});
+})
+
+watch(callUndo, () => {
+  undo();
+})
+
+watch(callRedo, () => {
+  redo();
+})
+
+function undo() {
+  if (history.value.undo.length === 0) return;
+
+  history.value.undo.pop();
+  const last = history.value.undo.pop();
+  if (last) {
+    if (history.value.redo.length === 100) {
+      history.value.redo.shift();
+    }
+    history.value.redo.push(getCanvasJSON(canvas));
+
+    canvas?.discardActiveObject();
+    canvas?.loadFromJSON(JSON.parse(last), () => {
+      loadJsonProject(canvas, JSON.parse(last));
+
+      updateMove();
+      canvas?.renderAll();
+      addFrame();
+    })
+  }
+}
+
+function redo() {
+  if (history.value.redo.length === 0) return;
+
+  const last = JSON.parse(history.value.redo.pop());
+
+  if (last) {
+    history.value.undo.push(getCanvasJSON(canvas));
+
+    canvas?.discardActiveObject();
+    canvas?.loadFromJSON(last, () => {
+      loadJsonProject(canvas, last);
+      updateMove();
+      canvas?.renderAll();
+      addFrame();
+    })
+  }
+}
 
 function loadProject() {
   let saved = getCanvasData();
@@ -149,10 +202,10 @@ function loadProject() {
   const content = JSON.parse(saved);
   if (content?.objects?.length) {
     canvas.loadFromJSON(content, () => {
-      loadJsonProject(canvas, images.value);
+      loadJsonProject(canvas, content);
       addFrame();
       updateMove();
-      addListeners();
+      addListeners()
     });
   }
 }
@@ -230,7 +283,8 @@ function focusFrame() {
 }
 
 function addGeneratedImageToCanvas(generateImage) {
-  addImageToCanvas(canvas, images.value, generateImage, frame.value);
+  addImageToCanvas(canvas, generateImage, frame.value);
+  currentIndexGeneratedImages.value = 1;
 }
 
 function addListeners() {
@@ -258,17 +312,16 @@ function addListeners() {
 }
 
 function clickDownMouse(event) {
-  console.log('down')
   canvas.defaultCursor = `url(${useAsset('grabbing.svg')})10 10, grabbing`;
   canvas.renderAll();
-  handleClickDown(event, canvas, images.value);
+  handleClickDown(event, canvas);
 }
 
 function clickUpMouse(event) {
-  console.log('up')
   canvas.defaultCursor = `url(${useAsset('hand.svg')})10 10, grabbing`
   canvas.renderAll();
-  handleClickUp(event, canvas, images.value);
+  handleClickUp(event, canvas);
+  autoSaveCanvas(canvas);
 }
 
 function saveByHotKey() {
@@ -276,9 +329,15 @@ function saveByHotKey() {
 }
 
 function handleKeyDownEvent(event) {
-  if (event.ctrlKey && event.key === 's') {
+  if (event.ctrlKey && event.key.toLowerCase() === 's') {
     event.preventDefault();
     autoSaveCanvas(canvas);
+  } else if (event.ctrlKey && event.shiftKey && event.key === 'Z') {
+    autoSaveCanvas(canvas);
+    redo();
+  } else if (event.ctrlKey && event.key.toLowerCase() === 'z') {
+    autoSaveCanvas(canvas);
+    undo();
   }
 }
 

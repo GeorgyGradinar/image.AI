@@ -53,6 +53,46 @@
             ></v-slider>
           </div>
         </v-app>
+
+        <button @click="changeCallUndo" class="undo">
+          <v-tooltip activator="parent" location="bottom">Ctrl + Z</v-tooltip>
+          <svg width="21px" height="8px" viewBox="0 0 21 8" xmlns="http://www.w3.org/2000/svg">
+            <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <g id="Rounded" transform="translate(-238.000000, -1534.000000)">
+                <g id="Content" transform="translate(100.000000, 1428.000000)">
+                  <g id="-Round-/-Content-/-undo" transform="translate(136.000000, 98.000000)">
+                    <g>
+                      <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                      <path class="path"
+                            d="M12.5,8 C9.85,8 7.45,8.99 5.6,10.6 L3.71,8.71 C3.08,8.08 2,8.52 2,9.41 L2,15 C2,15.55 2.45,16 3,16 L8.59,16 C9.48,16 9.93,14.92 9.3,14.29 L7.39,12.38 C8.78,11.22 10.55,10.5 12.51,10.5 C15.67,10.5 18.4,12.34 19.7,15 C19.97,15.56 20.61,15.84 21.2,15.64 C21.91,15.41 22.27,14.6 21.95,13.92 C20.23,10.42 16.65,8 12.5,8 Z"
+                            fill="red"></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </button>
+
+        <button @click="changeCallRedo" class="redo">
+          <v-tooltip activator="parent" location="bottom">Ctrl + Shift + Z</v-tooltip>
+          <svg width="21px" height="8px" viewBox="0 0 21 8" xmlns="http://www.w3.org/2000/svg">
+            <g id="Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <g id="Rounded" transform="translate(-713.000000, -1534.000000)">
+                <g id="Content" transform="translate(100.000000, 1428.000000)">
+                  <g id="-Round-/-Content-/-redo" transform="translate(612.000000, 98.000000)">
+                    <g>
+                      <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+                      <path class="path"
+                            d="M18.4,10.6 C16.55,8.99 14.15,8 11.5,8 C7.34,8 3.76,10.42 2.06,13.93 C1.74,14.6 2.1,15.4 2.81,15.64 C3.4,15.84 4.04,15.56 4.31,15 C5.61,12.34 8.34,10.5 11.5,10.5 C13.45,10.5 15.23,11.22 16.62,12.38 L14.71,14.29 C14.08,14.92 14.52,16 15.41,16 L21,16 C21.55,16 22,15.55 22,15 L22,9.41 C22,8.52 20.92,8.07 20.29,8.7 L18.4,10.6 Z"
+                      ></path>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </button>
       </div>
     </div>
 
@@ -63,15 +103,15 @@
     </div>
 
     <div class="editor-parameters">
-<!--      <v-select-->
-<!--          class="drop-down parameters"-->
-<!--          v-model="selectedIncreaseParameters"-->
-<!--          :items="increaseParameters"-->
-<!--          variant="outlined"-->
-<!--          return-object-->
-<!--          persistent-hint-->
-<!--          :class="'rounded-lg'"-->
-<!--      ></v-select>-->
+      <!--      <v-select-->
+      <!--          class="drop-down parameters"-->
+      <!--          v-model="selectedIncreaseParameters"-->
+      <!--          :items="increaseParameters"-->
+      <!--          variant="outlined"-->
+      <!--          return-object-->
+      <!--          persistent-hint-->
+      <!--          :class="'rounded-lg'"-->
+      <!--      ></v-select>-->
       <button class="download" @click="callFunctionDownload">
         <img src="~assets/images/editor/download.svg" alt="download">
         Скачать
@@ -97,7 +137,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {storeToRefs} from "pinia";
 import {projectStore} from "~/store/projects";
 import {personStore} from "~/store/personStore";
@@ -120,8 +160,11 @@ const {
   decreaseZoom,
   changeCurrentZoom,
   callFunctionDownload,
-  toggleCenter
+  toggleCenter,
+  changeCallUndo,
+  changeCallRedo
 } = editor;
+
 const {
   hasActiveEraser,
   currentWidthEraser,
@@ -152,11 +195,11 @@ watch(currentZoom, (newData) => {
   selectedIncreasePercent.value = `${Math.round(newData * 100)}%`;
 })
 
-watch(selectedProject, (newData) => {
+watch(selectedProject, () => {
   updateParameters({name: selectedProject.name, id: selectedProject.id});
 })
 
-function changeZoom(event) {
+function changeZoom() {
   if (selectedIncreasePercent.value === '100%') {
     changeCurrentZoom(1);
   } else if (selectedIncreasePercent.value === '10%') {
@@ -388,6 +431,28 @@ function isOpenShowName(event) {
 
         .v-slider.v-input--horizontal .v-slider-track__fill {
           height: 4px;
+        }
+      }
+
+      .redo {
+        .path {
+          fill: var(--main-light-color);
+        }
+       &:active {
+          .path {
+            fill: var(--light-blue);
+          }
+        }
+      }
+
+      .undo {
+        .path {
+          fill: var(--main-light-color);
+        }
+        &:active {
+          .path {
+            fill: var(--light-blue);
+          }
         }
       }
     }
