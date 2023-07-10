@@ -440,7 +440,6 @@ export default function mixinEditor() {
         history.value.undo.push(currentDataCanvas);
     }
 
-
     return {
         getDrawCursor,
         setParameterToCanvas,
