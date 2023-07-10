@@ -329,13 +329,13 @@ function saveByHotKey() {
 }
 
 function handleKeyDownEvent(event) {
-  if (event.ctrlKey && event.key.toLowerCase() === 's') {
+  if (event.ctrlKey && event.code === 'KeyS') {
     event.preventDefault();
     autoSaveCanvas(canvas);
-  } else if (event.ctrlKey && event.shiftKey && event.key === 'Z') {
+  } else if (event.ctrlKey && event.shiftKey && event.code === 'KeyZ') {
     autoSaveCanvas(canvas);
     redo();
-  } else if (event.ctrlKey && event.key.toLowerCase() === 'z') {
+  } else if (event.ctrlKey && event.code === 'KeyZ') {
     autoSaveCanvas(canvas);
     undo();
   }
