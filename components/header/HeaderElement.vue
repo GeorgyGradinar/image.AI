@@ -2,14 +2,14 @@
   <header :class="{'header-open': !hasHiddenDrawer}">
     <NuxtLink to="/" class="logo">НейроХолст</NuxtLink>
     <nav class="main-header" v-if="showFullHeader">
-            <NuxtLink to="/editor/" :class="{'select-page': route.path === '/editor'}">Редактор</NuxtLink>
-      <NuxtLink to="/text-to-image/" :class="{'select-page': route.path === '/text-to-image'}">Изображение по
+            <NuxtLink to="/editor/" :class="{'select-page': route.path === '/editor/'}">Редактор</NuxtLink>
+      <NuxtLink to="/text-to-image/" :class="{'select-page': route.path === '/text-to-image/'}">Изображение по
         описанию
       </NuxtLink>
       <!--      <NuxtLink to="/dream-booth" :class="{'select-page': route.path === '/dream-booth'}">ФотоМечты</NuxtLink>-->
       <!--      <NuxtLink to="/guides" :class="{'select-page': route.path === '/guides'}">Инфо</NuxtLink>-->
       <NuxtLink class="no-hover" to="https://vk.com/public221126162" target="_blank"><img src="~/assets/images/vk.svg" alt="vk icon"></NuxtLink>
-      <NuxtLink to="/pricing/" :class="{'select-page': route.path === '/pricing'}">Цены</NuxtLink>
+      <NuxtLink to="/pricing/" :class="{'select-page': route.path === '/pricing/'}">Цены</NuxtLink>
       <NuxtLink to="#" v-if="!person.name" @click="toggleLoginDialog(true)">Войти</NuxtLink>
       <NuxtLink to="#" class="create-account no-hover" v-if="!person.name" @click="toggleRegistrationDialog(true)">
         Регистрация

@@ -40,10 +40,6 @@ import {personStore} from "~/store/personStore";
 import {storeToRefs} from "pinia";
 import {navigateTo} from "nuxt/app";
 
-// definePageMeta({
-//   middleware: "auth"
-// })
-
 const store = personStore();
 const {person} = storeToRefs(store);
 const referral = ref(null);
