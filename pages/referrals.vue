@@ -4,7 +4,7 @@
       <h1>Приглашай друзей и зарабатывай краски</h1>
       <p>Каждый зарегистрировавшийся по ваше ссылке становится вашим рефералом.</p>
 
-      <h3>Получай 20% красок с каждой покупки твоего реферала</h3>
+      <h2>Получай 20% красок с каждой покупки твоего реферала</h2>
       <p>Каждый раз, когда твой реферал покупает краски, на твой баланс будет добавляться 20% от красок, которые он
         купил.</p>
       <p>Скопируйте свою реферальную ссылку и поделитесь ей с друзьями и подписчиками!</p>
@@ -85,6 +85,9 @@ function copyLink() {
   height: 100%;
   min-height: 100vh;
   padding: 150px 0 50px 0;
+  background: rgb(33, 21, 77);
+  background: linear-gradient(115deg, rgba(33, 21, 77, 1) 0%, rgba(33, 21, 77, 1) 49%, rgba(35, 0, 170, 1) 100%);
+
 
   .referrals {
     width: 100%;
@@ -96,7 +99,7 @@ function copyLink() {
       margin: 0 0 15px 0;
     }
 
-    h3 {
+    h2 {
       margin: 0 0 15px 0;
     }
 
@@ -151,6 +154,24 @@ function copyLink() {
 @media screen and (max-width: 700px) {
   .wrapper-referrals {
     padding: 100px 20px 20px 20px;
+
+    .referrals {
+      h1 {
+        font-size: 25px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      p {
+        font-size: 13px;
+
+        &:first-of-type {
+          margin: 0 0 30px 0;
+        }
+      }
+    }
   }
 }
 </style>

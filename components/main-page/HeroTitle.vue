@@ -111,7 +111,7 @@ h1,
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
   h1,
   .gradient {
     font-size: 28px;

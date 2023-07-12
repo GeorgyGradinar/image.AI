@@ -340,7 +340,7 @@ onUnmounted(() => {
   }
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1000px) {
 
   .main-content {
     flex-direction: column;
@@ -356,6 +356,7 @@ onUnmounted(() => {
 
     .image-details {
       width: 100%;
+      min-width: unset;
 
       .options {
         .refresh,
@@ -366,6 +367,16 @@ onUnmounted(() => {
         .download {
           width: unset;
         }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .main-content {
+    .image-details {
+      .short-details {
+        flex-direction: column;
       }
     }
   }

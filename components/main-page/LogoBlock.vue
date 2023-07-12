@@ -83,7 +83,7 @@ import HeroTitle from "~/components/main-page/HeroTitle";
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
   .first-block {
     height: 1300px;
     padding: 80px 30px 0;

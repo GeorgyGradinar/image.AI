@@ -6,7 +6,7 @@
         <h2>{{ description.title }}</h2>
         <p>{{ description.description }}</p>
       </section>
-      <img class="pre-show" :src="useAsset(description.url)"  alt="upload image">
+      <img class="pre-show" :src="useAsset(description.url)" alt="upload image">
     </div>
   </section>
 </template>
@@ -109,6 +109,14 @@ function useAsset(path) {
 
       section {
         width: 100%;
+
+        span {
+          margin-bottom: 10px;
+        }
+
+        h2 {
+          font-size: 25px;
+        }
       }
 
       .pre-show {

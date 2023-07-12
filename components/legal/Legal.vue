@@ -35,6 +35,7 @@ import NavigationBlock from "./NavigationBlock";
 
     section {
       flex-direction: column;
+      justify-content: flex-start;
     }
   }
 }

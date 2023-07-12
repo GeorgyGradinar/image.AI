@@ -201,6 +201,10 @@ let frequentlyAsks = [
     p {
       font-size: 16px;
     }
+
+    strong {
+      text-align: center;
+    }
   }
 }
 </style>

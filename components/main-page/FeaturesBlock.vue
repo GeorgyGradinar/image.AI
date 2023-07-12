@@ -48,7 +48,7 @@ const features = [
   background-color: #1f2023;
   padding: 100px 0 50px;
 
-  h1 {
+  h2 {
     font-size: 24px;
   }
 
@@ -72,7 +72,7 @@ const features = [
       border-radius: 50px;
       padding: 30px;
 
-      h2 {
+      h3 {
         font-size: 20px;
         font-weight: 700;
         line-height: 120%;
@@ -110,15 +110,15 @@ const features = [
     gap: 40px;
     padding: 50px 0;
 
-    h1 {
+    h2 {
       width: 90%;
-      font-size: 18px;
+      font-size: 20px;
       text-align: center;
     }
 
     .wrapper-features {
       .features {
-        h2 {
+        h3 {
           font-size: 17px;
         }
 

@@ -64,7 +64,7 @@ useSchemaOrg([
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #150d46;
+  //background-color: #150d46;
 }
 
 main {

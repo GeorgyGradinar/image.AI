@@ -155,9 +155,6 @@ function setParametersTour(condition) {
 
 .filters {
   border-radius: 0 30px 30px 0;
-
-  .wrapper-settings-block {
-  }
 }
 
 @media screen and (max-width: 700px) {
@@ -172,6 +169,10 @@ function setParametersTour(condition) {
     margin-left: 0 !important;
     margin: 10px 0 !important;
     padding: 12px;
+  }
+
+  .filters {
+    border-radius: 0;
   }
 }
 </style>

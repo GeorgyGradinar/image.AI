@@ -52,6 +52,10 @@
     .wrapper-settings-block {
       height: auto;
       border-radius: 0;
+
+      .wrapper-filters {
+        scrollbar-gutter: unset;
+      }
     }
   }
 }

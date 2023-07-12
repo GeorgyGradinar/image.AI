@@ -65,7 +65,7 @@ function close() {
   }
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1800px) {
   .dialog.image {
     .v-overlay__content {
       margin: 30px 50px;

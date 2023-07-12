@@ -171,7 +171,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 850px) {
   .photo-grid {
     overflow: hidden;
     position: relative;
